@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:job_portal/Views/skills_and_eduction.dart';
 
 class SetupProfile extends StatefulWidget {
@@ -31,7 +30,7 @@ class _SetupProfileState extends State<SetupProfile> {
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        icon: Icon(Icons.arrow_back)),
+                        icon: const Icon(Icons.arrow_back)),
                   ],
                 ),
               ),
@@ -65,7 +64,7 @@ class _SetupProfileState extends State<SetupProfile> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Form(
@@ -90,7 +89,7 @@ class _SetupProfileState extends State<SetupProfile> {
                       children: [
                         GFRadio(
                           size: 20,
-                          activeBorderColor: GFColors.SUCCESS,
+                          activeBorderColor:const Color(0xff2972ff),
                           value: 0,
                           groupValue: groupValue,
                           onChanged: (value) {
@@ -99,7 +98,7 @@ class _SetupProfileState extends State<SetupProfile> {
                             });
                           },
                           inactiveIcon: null,
-                          radioColor: GFColors.SUCCESS,
+                          radioColor:const Color(0xff2972ff),
                         ),
                         const SizedBox(
                           width: 7,
@@ -126,8 +125,8 @@ class _SetupProfileState extends State<SetupProfile> {
                             });
                           },
                           inactiveIcon: null,
-                          activeBorderColor: GFColors.SUCCESS,
-                          radioColor: GFColors.SUCCESS,
+                          activeBorderColor:const Color(0xff2972ff),
+                          radioColor: const Color(0xff2972ff),
                         ),
                         const SizedBox(
                           width: 7,
@@ -141,7 +140,6 @@ class _SetupProfileState extends State<SetupProfile> {
                             fontSize: 14.5,
                           ),
                         ),
-
                       ],
                     ),
                   ),
@@ -167,7 +165,13 @@ class _SetupProfileState extends State<SetupProfile> {
                           child: Padding(
                             padding: EdgeInsets.only(right: 10.0),
                             child: TextField(
-                              decoration: InputDecoration(hintText: "Eg: 2"),
+                              decoration: InputDecoration(hintText: "Eg: 2",hintStyle:  TextStyle(
+                                color: Colors.blueGrey,
+                                fontFamily: "Poppins",
+                                fontWeight: FontWeight.w500,
+                                letterSpacing: 1.5,
+                                fontSize: 15.5,
+                              ),),
                             ),
                           ),
                           // flex: 2,
@@ -190,7 +194,15 @@ class _SetupProfileState extends State<SetupProfile> {
                         Flexible(
                           child: TextField(
                             decoration:
-                            InputDecoration(hintText: "Eg.6"),
+                            InputDecoration(hintText: "Eg.6",
+
+                            hintStyle:  TextStyle(
+                              color: Colors.blueGrey,
+                              fontFamily: "Poppins",
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 1.5,
+                              fontSize: 15.5,
+                            ),),
                           ),
                           // flex: 2,
                         ),
@@ -212,83 +224,61 @@ class _SetupProfileState extends State<SetupProfile> {
                   const SizedBox(
                     height: 20,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20,right: 20),
-                    child: TextField(
-                      cursorColor: Colors.black,
+                  const Padding(
+                    padding: EdgeInsets.only(left: 20,right: 20),
+                    child:  TextField(
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.all(0.0),
-                        labelText: 'Job Title',
-                        hintText: 'Job Title',
+                        labelText: 'Job-Title',
                         labelStyle: TextStyle(
-                          color: Colors.black,
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        hintStyle: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14.0,
-                        ),
-                        prefixIcon: Icon(
-                          Iconsax.setting,
-                          color: Colors.black,
-                          size: 18,
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors.grey.shade200, width: 2),
-                          borderRadius: BorderRadius.circular(10.0),
+                          color: Colors.blueGrey,
+                          fontFamily: "Poppins",
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 1.5,
+                          fontSize: 15.5,
                         ),
                         floatingLabelStyle: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18.0,
+                          color: Color(0xff2972ff),
+                          fontFamily: "Poppins",
+                          fontWeight: FontWeight.bold,
+                          // letterSpacing: 1.5,
+                          fontSize: 17.5,
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide:
-                          BorderSide(color: Colors.black, width: 1.5),
-                          borderRadius: BorderRadius.circular(10.0),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0xff2972ff),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20,right: 20),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 20,right: 20),
                     child: TextField(
-                      cursorColor: Colors.black,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.all(0.0),
-                        labelText: 'Your Company Name',
-                        hintText: 'Your Company Name',
+                        labelText: 'Company-Name',
                         labelStyle: TextStyle(
-                          color: Colors.black,
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        hintStyle: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14.0,
-                        ),
-                        prefixIcon: Icon(
-                          Iconsax.setting,
-                          color: Colors.black,
-                          size: 18,
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors.grey.shade200, width: 2),
-                          borderRadius: BorderRadius.circular(10.0),
+                          color: Colors.blueGrey,
+                          fontFamily: "Poppins",
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 1.5,
+                          fontSize: 15.5,
                         ),
                         floatingLabelStyle: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18.0,
+                          color: Color(0xff2972ff),
+                          fontFamily: "Poppins",
+                          fontWeight: FontWeight.bold,
+                          // letterSpacing: 1.5,
+                          fontSize: 17.5,
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide:
-                          BorderSide(color: Colors.black, width: 1.5),
-                          borderRadius: BorderRadius.circular(10.0),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0xff2972ff),
+                          ),
                         ),
                       ),
                     ),
@@ -314,8 +304,30 @@ class _SetupProfileState extends State<SetupProfile> {
                         Flexible(
                           child: Padding(
                             padding: EdgeInsets.only(right: 10.0),
-                            child: TextField(
-                              decoration: InputDecoration(hintText: "Worked from"),
+                            child:  TextField(
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.all(0.0),
+                                labelText: 'Worked From',
+                                labelStyle: TextStyle(
+                                  color: Colors.blueGrey,
+                                  fontFamily: "Poppins",
+                                  fontWeight: FontWeight.w500,
+                                  letterSpacing: 1.5,
+                                  fontSize: 15.5,
+                                ),
+                                floatingLabelStyle: TextStyle(
+                                  color: Color(0xff2972ff),
+                                  fontFamily: "Poppins",
+                                  fontWeight: FontWeight.bold,
+                                  // letterSpacing: 1.5,
+                                  fontSize: 17.5,
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Color(0xff2972ff),
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                           // flex: 2,
@@ -325,9 +337,30 @@ class _SetupProfileState extends State<SetupProfile> {
                           width: 10,
                         ),
                         Flexible(
-                          child: TextField(
-                            decoration:
-                            InputDecoration(hintText: "Worked till"),
+                          child:  TextField(
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.all(0.0),
+                              labelText: 'Worked Till',
+                              labelStyle: TextStyle(
+                                color: Colors.blueGrey,
+                                fontFamily: "Poppins",
+                                fontWeight: FontWeight.w500,
+                                letterSpacing: 1.5,
+                                fontSize: 15.5,
+                              ),
+                              floatingLabelStyle: TextStyle(
+                                color: Color(0xff2972ff),
+                                fontFamily: "Poppins",
+                                fontWeight: FontWeight.bold,
+                                // letterSpacing: 1.5,
+                                fontSize: 17.5,
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0xff2972ff),
+                                ),
+                              ),
+                            ),
                           ),
                           // flex: 2,
                         ),
@@ -338,156 +371,42 @@ class _SetupProfileState extends State<SetupProfile> {
                   const SizedBox(
                     height: 20,
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 20),
-                    child: Text(
-                      "Are you currently employed ?",
-                      style: TextStyle(
-                        fontFamily: "Poppins",
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1.5,
-                        fontSize: 13.5,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20,top: 15),
-                    child: Row(
-                      children: [
-                        GFRadio(
-                          size: 20,
-                          activeBorderColor: GFColors.SUCCESS,
-                          value: 0,
-                          groupValue: salaryValue,
-                          onChanged: (value) {
-                            setState(() {
-                              salaryValue = value;
-                            });
-                          },
-                          inactiveIcon: null,
-                          radioColor: GFColors.SUCCESS,
-                        ),
-                        const SizedBox(
-                          width: 7,
-                        ),
-                        const Text(
-                          "Rupee",
-                          style: TextStyle(
-                            fontFamily: "Poppins",
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.5,
-                            fontSize: 14.5,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        GFRadio(
-                          size: 20,
-                          value: 1,
-                          groupValue: salaryValue,
-                          onChanged: (value) {
-                            setState(() {
-                              salaryValue = value;
-                            });
-                          },
-                          inactiveIcon: null,
-                          activeBorderColor: GFColors.SUCCESS,
-                          radioColor: GFColors.SUCCESS,
-                        ),
-                        const SizedBox(
-                          width: 7,
-                        ),
-                        const Text(
-                          "Dollar",
-                          style: TextStyle(
-                            fontFamily: "Poppins",
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.5,
-                            fontSize: 14.5,
-                          ),
-                        ),
 
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20,right: 20),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: const <Widget>[
-                        Flexible(
-                          child: Padding(
-                            padding: EdgeInsets.only(right: 30.0),
-                            child: TextField(
-                              decoration: InputDecoration(hintText: "Eg:200000"),
-                            ),
-                          ),
-                          // flex: 2,
-                        ),
-                         Padding(
-                           padding: EdgeInsets.only(top: 10),
-                           child: Text("Per year",
-                             style: TextStyle(
-                             fontFamily: "OpenSans",
-                             fontWeight: FontWeight.w500,
-                             letterSpacing: 1.5,
-                             fontSize: 17.5,
-                           ),),
-                         ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20,right: 20),
-                    child: TextField(
-                      cursorColor: Colors.black,
+                  const Padding(
+                    padding: EdgeInsets.only(left: 20,right: 20),
+                    child:  TextField(
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.all(0.0),
-                        // labelText: 'Job Title',
-                        hintText: 'Industry Type',
-                        // labelStyle: TextStyle(
-                        //   color: Colors.black,
-                        //   fontSize: 14.0,
-                        //   fontWeight: FontWeight.w400,
-                        // ),
-                        hintStyle: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14.0,
-                        ),
-                        prefixIcon: Icon(
-                          Iconsax.setting,
-                          color: Colors.black,
-                          size: 18,
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors.grey.shade200, width: 2),
-                          borderRadius: BorderRadius.circular(10.0),
+                        labelText: 'Industry-Type',
+                        labelStyle: TextStyle(
+                          color: Colors.blueGrey,
+                          fontFamily: "Poppins",
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 1.5,
+                          fontSize: 15.5,
                         ),
                         floatingLabelStyle: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18.0,
+                          color: Color(0xff2972ff),
+                          fontFamily: "Poppins",
+                          fontWeight: FontWeight.bold,
+                          // letterSpacing: 1.5,
+                          fontSize: 17.5,
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide:
-                          BorderSide(color: Colors.black, width: 1.5),
-                          borderRadius: BorderRadius.circular(10.0),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0xff2972ff),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   const Padding(
                     padding: EdgeInsets.only(left: 20),
                     child: Text(
-                      "Availability to join *",
+                      "Availability to join",
                       style: TextStyle(
                         fontFamily: "Poppins",
                         fontWeight: FontWeight.bold,
@@ -496,62 +415,53 @@ class _SetupProfileState extends State<SetupProfile> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20,right: 20),
-                    child: TextField(
-                      cursorColor: Colors.black,
+                  const Padding(
+                    padding: EdgeInsets.only(left: 20,right: 20),
+                    child:  TextField(
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.all(0.0),
-                        // labelText: 'Job Title',
-                        hintText: 'Experience',
-                        // labelStyle: TextStyle(
-                        //   color: Colors.black,
-                        //   fontSize: 14.0,
-                        //   fontWeight: FontWeight.w400,
-                        // ),
-                        hintStyle: const TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14.0,
-                        ),
-                        prefixIcon: Icon(
-                          Iconsax.setting,
-                          color: Colors.black,
-                          size: 18,
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors.grey.shade200, width: 2),
-                          borderRadius: BorderRadius.circular(10.0),
+                        labelText: 'Availability to join',
+                        labelStyle: TextStyle(
+                          color: Colors.blueGrey,
+                          fontFamily: "Poppins",
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 1.5,
+                          fontSize: 15.5,
                         ),
                         floatingLabelStyle: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18.0,
+                          color: Color(0xff2972ff),
+                          fontFamily: "Poppins",
+                          fontWeight: FontWeight.bold,
+                          // letterSpacing: 1.5,
+                          fontSize: 17.5,
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide:
-                          BorderSide(color: Colors.black, width: 1.5),
-                          borderRadius: BorderRadius.circular(10.0),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0xff2972ff),
+                          ),
                         ),
                       ),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(right: 20,top: 10),
+                    padding: const EdgeInsets.only(right: 20,top: 20,bottom: 20),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        FlatButton(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(36),
-                              side: const BorderSide(color: Colors.black),
-                            ),
-                            onPressed: () {
+                       GFButton(
+                           color: const Color(0xff2972ff),
+                           onPressed: () {
                               Navigator.push(context, MaterialPageRoute(builder: (
                                   context) => SkillsAndEducation()));
-                            }, child: const Text("Next"))
+                            }, child: const Text("Next",style:TextStyle(
+                         fontFamily: "Poppins",
+                         fontWeight: FontWeight.bold,
+                         // letterSpacing: 1.5,
+                         fontSize: 13.5,
+                       ),))
                       ],
                     ),
                   ),
