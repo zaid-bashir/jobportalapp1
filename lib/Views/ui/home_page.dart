@@ -24,7 +24,7 @@ class HomePage extends StatelessWidget {
           ),
           Spacer(),
           IconButton(
-            icon: Icon(Icons.notifications_none_rounded),
+            icon: Icon(Icons.chat,color: Colors.grey,),
             onPressed: () {},
           )
         ],

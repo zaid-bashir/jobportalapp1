@@ -127,7 +127,7 @@ class _NavlistState extends State<Navlist>
                     Icons.work,
                     size: 24.0,
                   ),
-                  text: 'Work',
+                  text: 'Jobs',
                 ),
                 Tab(
                   icon: Icon(
