@@ -13,14 +13,17 @@ class _InboxListState extends State<InboxList> {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
-       leading: Icon(Icons.arrow_back,color: Colors.black,),
-        title: Text('Messaging',style: TextStyle(color:Colors.black),),
-        actions:  [
+       leading: IconButton(onPressed: (){
+         Navigator.of(context).pop();
+       }, icon:Icon(Icons.arrow_back),color: Colors.black,),
+
+        title: Text('Messaging',style: const TextStyle(color:Colors.black),),
+        actions:  const [
           Padding(padding: EdgeInsets.symmetric(horizontal: 16.0),
            child: Icon(Icons.more_vert,color: Colors.black,),
           ),
            Padding(
-             padding: const EdgeInsets.only(right: 5.0),
+             padding: EdgeInsets.only(right: 5.0),
              child: Icon(Icons.edit,color: Colors.black,),
            ),
 
@@ -43,7 +46,7 @@ class _InboxListState extends State<InboxList> {
         shrinkWrap: true,
         physics: ScrollPhysics(),
         itemBuilder:(context,index) {
-          return  const Card(
+          return   const Card(
             //elevation: 0.0,
            // margin: const EdgeInsets.only(right: 10.0,top: 10.0),
             shape: RoundedRectangleBorder(
@@ -52,7 +55,7 @@ class _InboxListState extends State<InboxList> {
             child: ListTile(
               leading: CircleAvatar(
                 backgroundColor: Colors.grey,
-                backgroundImage: AssetImage('assets/apple-logo.png')
+                backgroundImage: AssetImage('assets/apple-logo.png',)
               ),
               // Container(
               //     width: 50.0,
