@@ -4,7 +4,6 @@ import 'package:job_portal/Views/theme/images.dart';
 
 
 
-import 'bottom_menu_bar.dart';
 import 'job_detail_page.dart';
 
 class HomePage extends StatelessWidget {
@@ -283,7 +282,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: KColors.background,
-      bottomNavigationBar: BottomMenuBar(),
+      // bottomNavigationBar: BottomMenuBar(),
       body: SafeArea(
         child: Container(
           width: MediaQuery.of(context).size.width,

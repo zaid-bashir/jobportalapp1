@@ -268,7 +268,7 @@ class _LoginPageState extends State<LoginPage> {
                       side: const BorderSide(color: Colors.black),
                     ),
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Recruiter()));
+                      // Navigator.push(context, MaterialPageRoute(builder: (context) => Recruiter()));
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 8),
