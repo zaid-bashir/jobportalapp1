@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:job_portal/Controller/menu_controller.dart';
 import 'package:job_portal/Views/theme/colors.dart';
 import 'package:job_portal/Views/theme/images.dart';
 
+import 'package:provider/provider.dart';
 
-
-import 'bottom_menu_bar.dart';
+import '../sidebar.dart';
 import 'job_detail_page.dart';
 
 class HomePage extends StatelessWidget {
@@ -15,12 +16,15 @@ class HomePage extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       child: Row(
         children: [
-          CircleAvatar(
-            backgroundImage: AssetImage(Images.user1),
+          GestureDetector(
+            onTap:context.read<MenuController>().controlMenu,
+            child: CircleAvatar(
+              backgroundImage: AssetImage(Images.user1),
+            ),
           ),
           Spacer(),
           IconButton(
-            icon: Icon(Icons.notifications_none_rounded),
+            icon: Icon(Icons.chat,color: Colors.grey,),
             onPressed: () {},
           )
         ],
@@ -283,7 +287,8 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: KColors.background,
-      bottomNavigationBar: BottomMenuBar(),
+      key: context.read<MenuController>().scaffoldKey,
+      drawer: SideMenu(),
       body: SafeArea(
         child: Container(
           width: MediaQuery.of(context).size.width,

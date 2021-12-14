@@ -1,14 +1,12 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/button/gf_button.dart';
-import 'package:job_portal/Views/inbox.dart';
 import 'package:job_portal/Views/profilechoice.dart';
 import 'package:job_portal/Views/recruiter.dart';
 
 import 'package:job_portal/Views/register.dart';
 import 'package:job_portal/Views/ui/home_page.dart';
 
-import 'joblist.dart';
 import 'otp.dart';
 
 class LoginPage extends StatefulWidget {
@@ -270,7 +268,7 @@ class _LoginPageState extends State<LoginPage> {
                       side: const BorderSide(color: Colors.black),
                     ),
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => JobList()));
+                      // Navigator.push(context, MaterialPageRoute(builder: (context) => Recruiter()));
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 8),
@@ -299,7 +297,7 @@ class _LoginPageState extends State<LoginPage> {
                       side: const BorderSide(color: Colors.black),
                     ),
                     onPressed: () {
-                     Navigator.push(context, MaterialPageRoute(builder: (context) => InboxList()));
+                     Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileChoice()));
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 8),
