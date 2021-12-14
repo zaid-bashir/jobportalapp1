@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:job_portal/Views/setup_profile.dart';
 
 class ProfileChoice extends StatefulWidget {
   const ProfileChoice({Key key}) : super(key: key);
@@ -199,7 +200,12 @@ class _ProfileChoiceState extends State<ProfileChoice> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               GFButton(
-                onPressed: (){},
+                onPressed: (){
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SetupProfile()));
+                },
                 text: "Next",
                 shape: GFButtonShape.pills,
                 type: GFButtonType.outline,

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:job_portal/Widgets/companycard.dart';
-
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class JobList extends StatefulWidget {
   @override
   _JobListState createState() => _JobListState();
@@ -15,7 +15,7 @@ class _JobListState extends State<JobList> {
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: Colors.grey.shade100,
-        leading: Padding(
+        leading: const Padding(
           padding: EdgeInsets.only(
             left: 18.0,
             top: 12.0,
@@ -27,7 +27,7 @@ class _JobListState extends State<JobList> {
             color: Colors.black,
           ),
         ),
-        actions: [
+        actions: const [
           SizedBox(
             width: 18.0,
           )
@@ -98,17 +98,17 @@ class _JobListState extends State<JobList> {
                 'Popular Company ',
                 style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w300),
               ),
-              SizedBox(height: 15.0),
+              const SizedBox(height: 15.0),
               Container(
                 width: double.infinity,
                 height: 190.0,
                 child: ListView.builder(
-                     itemCount: 6,
+                     itemCount: 3,
                     scrollDirection: Axis.horizontal,
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
-                        return CompanyCard();
+                        return const CompanyCard();
 
                     }),
               ),
@@ -125,7 +125,7 @@ class _JobListState extends State<JobList> {
                 itemBuilder:(context,index) {
                 return Card(
                   elevation: 0.0,
-                    margin: EdgeInsets.only(right: 18.0,top: 15.0),
+                    margin: const EdgeInsets.only(right: 18.0,top: 15.0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12.0)
                   ),
@@ -140,9 +140,9 @@ class _JobListState extends State<JobList> {
              //   image: AssetImage(),fit: BoxFit.cover
                         )
                       ),
-                    title: Text('Senior Flutter Developer'),
-subtitle: Text('Company name'),
-                    trailing: Icon(
+                    title: const Text('Senior Flutter Developer'),
+subtitle: const Text('Company name'),
+                    trailing: const Icon(
                       Icons.more_vert,
                       color: Colors.black,
                     ),
