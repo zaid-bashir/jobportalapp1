@@ -1,8 +1,6 @@
-// ignore_for_file: deprecated_member_use, sized_box_for_whitespace, prefer_const_constructors, duplicate_ignore
-
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
+import 'package:getwidget/components/button/gf_button.dart';
 import 'package:job_portal/Views/profilechoice.dart';
 import 'package:job_portal/Views/recruiter.dart';
 
@@ -33,93 +31,148 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      FlatButton(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(36),
-                            side: const BorderSide(color: Colors.black),
-                          ),
-                          onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (
-                                context) => Register()));
-                          }, child: const Text("JOIN"))
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: const [
+                      Text("Login to your\naccount ",style:  TextStyle(
+                        fontFamily: "OpenSans",
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1.5,
+                        fontSize: 20.5,
+                      ),),
+
                     ],
                   ),
-                  Container(
-                    height: 300,
-                    // ignore: prefer_const_constructors
-                    child: Image(
-                      image: AssetImage('assets/log.webp'), height: 300,),
-                  ),
+
                   const SizedBox(height: 20,),
-                  TextField(
-                    cursorColor: Colors.black,
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.all(0.0),
-                      labelText: 'Email',
-                      hintText: 'Username or e-mail',
-                      labelStyle: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      hintStyle: const TextStyle(
-                        color: Colors.grey,
-                        fontSize: 14.0,
-                      ),
-                      prefixIcon: const Icon(
-                        Iconsax.user, color: Colors.black, size: 18,),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Colors.grey.shade200, width: 2),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      floatingLabelStyle: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 18.0,
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                            color: Colors.black, width: 1.5),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                  ),
+                         const TextField(
+                           decoration: InputDecoration(
+                             contentPadding: EdgeInsets.all(0.0),
+                             labelText: 'Email',
+                             labelStyle: TextStyle(
+                               color: Colors.blueGrey,
+                               fontFamily: "Poppins",
+                               fontWeight: FontWeight.w500,
+                               letterSpacing: 1.5,
+                               fontSize: 15.5,
+                             ),
+                             floatingLabelStyle: TextStyle(
+                               color:  Color(0xff2972ff),
+                               fontFamily: "Poppins",
+                               fontWeight: FontWeight.bold,
+                               // letterSpacing: 1.5,
+                               fontSize: 17.5,
+                             ),
+                             focusedBorder: UnderlineInputBorder(
+                               borderSide: BorderSide(
+                                   color:  Color(0xff2972ff),),
+                             ),
+                           ),
+                         ),
+                  // TextField(
+                  //   cursorColor: Colors.blue,
+                  //   decoration: InputDecoration(
+                  //     contentPadding: const EdgeInsets.all(0.0),
+                  //     labelText: 'Email',
+                  //     hintText: 'Username or e-mail',
+                  //     labelStyle: const TextStyle(
+                  //       color: Colors.blue,
+                  //       fontFamily: "Poppins",
+                  //       fontWeight: FontWeight.w500,
+                  //       letterSpacing: 1.5,
+                  //       fontSize: 14.5,
+                  //     ),
+                  //     hintStyle: const TextStyle(
+                  //       fontFamily: "Poppins",
+                  //       fontWeight: FontWeight.w500,
+                  //       letterSpacing: 1.5,
+                  //       fontSize: 14.5,
+                  //     ),
+                  //     prefixIcon: const Icon(
+                  //       Iconsax.user, color: Colors.lightBlue, size: 18,),
+                  //     enabledBorder: OutlineInputBorder(
+                  //       borderSide: BorderSide(
+                  //           color: Colors.grey.shade200, width: 2),
+                  //       borderRadius: BorderRadius.circular(10.0),
+                  //     ),
+                  //     floatingLabelStyle: const TextStyle(
+                  //       color: Colors.blue,
+                  //       fontFamily: "Poppins",
+                  //       fontWeight: FontWeight.bold,
+                  //       letterSpacing: 1.5,
+                  //       fontSize: 14.5,
+                  //     ),
+                  //     focusedBorder: OutlineInputBorder(
+                  //       borderSide: const BorderSide(
+                  //           color: Colors.lightBlueAccent, width: 1.5),
+                  //       borderRadius: BorderRadius.circular(10.0),
+                  //     ),
+                  //   ),
+                  // ),
                   const SizedBox(height: 20,),
-                  TextField(
-                    cursorColor: Colors.black,
+                  const TextField(
                     decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.all(0.0),
+                      contentPadding: EdgeInsets.all(0.0),
                       labelText: 'Password',
-                      hintText: 'Password',
-                      hintStyle: const TextStyle(
-                        color: Colors.grey,
-                        fontSize: 14.0,
+                      labelStyle: TextStyle(
+                        color: Colors.blueGrey,
+                        fontFamily: "Poppins",
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: 1.5,
+                        fontSize: 15.5,
                       ),
-                      labelStyle: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w400,
+                      floatingLabelStyle: TextStyle(
+                        color:  Color(0xff2972ff),
+                        fontFamily: "Poppins",
+                        fontWeight: FontWeight.bold,
+                        // letterSpacing: 1.5,
+                        fontSize: 17.5,
                       ),
-                      prefixIcon: const Icon(
-                        Iconsax.key, color: Colors.black, size: 18,),
-                      enabledBorder: OutlineInputBorder(
+                      focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
-                            color: Colors.grey.shade200, width: 2),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      floatingLabelStyle: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 18.0,
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                            color: Colors.black, width: 1.5),
-                        borderRadius: BorderRadius.circular(10.0),
+                          color: Color(0xff2972ff),),
                       ),
                     ),
                   ),
+                  // TextField(
+                  //   cursorColor: Colors.black,
+                  //   decoration: InputDecoration(
+                  //     contentPadding: const EdgeInsets.all(0.0),
+                  //     labelText: 'Password',
+                  //     hintText: 'Password',
+                  //     hintStyle: const  TextStyle(
+                  //       fontFamily: "Poppins",
+                  //       fontWeight: FontWeight.w500,
+                  //       letterSpacing: 1.5,
+                  //       fontSize: 14.5,
+                  //     ),
+                  //     labelStyle:  TextStyle(
+                  //       color: Colors.blue,
+                  //       fontFamily: "Poppins",
+                  //       fontWeight: FontWeight.w500,
+                  //       letterSpacing: 1.5,
+                  //       fontSize: 14.5,
+                  //     ),
+                  //     prefixIcon: const Icon(
+                  //       Iconsax.key, color: Colors.lightBlue, size: 18,),
+                  //     enabledBorder: OutlineInputBorder(
+                  //       borderSide: BorderSide(
+                  //           color: Colors.grey.shade200, width: 2),
+                  //       borderRadius: BorderRadius.circular(10.0),
+                  //     ),
+                  //     floatingLabelStyle: const  TextStyle(
+                  //       color: Colors.blue,
+                  //       fontFamily: "Poppins",
+                  //       fontWeight: FontWeight.bold,
+                  //       letterSpacing: 1.5,
+                  //       fontSize: 14.5,
+                  //     ),
+                  //     focusedBorder: OutlineInputBorder(
+                  //       borderSide: const BorderSide(
+                  //           color: Colors.lightBlueAccent, width: 1.5),
+                  //       borderRadius: BorderRadius.circular(10.0),
+                  //     ),
+                  //   ),
+                  // ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -133,44 +186,60 @@ class _LoginPageState extends State<LoginPage> {
                     ],
                   ),
                   const SizedBox(height: 20,),
-                  FadeInDown(
-                    delay: const Duration(milliseconds: 600),
-                    child: MaterialButton(
-                      minWidth: double.infinity,
-                      onPressed: () {
-                        setState(() {
-                          _isLoading = true;
-                        });
-
-                        Future.delayed(const Duration(seconds: 2), () {
-                          setState(() {
-                            _isLoading = false;
-                          });
-                        }).then((value) =>
-                            Navigator.push(context, MaterialPageRoute(
-                                builder: (context) => Verification()))
-                        );
-                      },
-                      color: Colors.black,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5)
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 15, horizontal: 30),
-                      child: _isLoading ? const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(
-                          backgroundColor: Colors.white,
-                          color: Colors.black,
-                          strokeWidth: 2,
-                        ),
-                      ) :
-                      const Text(
-                        "Request OTP", style: TextStyle(color: Colors.white),),
-                    ),
+                  Container(
+                    width: double.infinity,
+                    child: GFButton(
+                      color: Color(0xff2972ff),
+                      onPressed: (){},text: "Login",textStyle:TextStyle(
+                      color: Colors.white,
+                      fontFamily: "Poppins",
+                      fontWeight: FontWeight.bold,
+                      // letterSpacing: 1.5,
+                      fontSize: 14.5,
+                    ),),
                   ),
-                  const SizedBox(height: 20,),
+                  // FadeInDown(
+                  //   delay: const Duration(milliseconds: 600),
+                  //   child: GFButton(
+                  //
+                  //     onPressed: () {
+                  //       setState(() {
+                  //         _isLoading = true;
+                  //       });
+                  //
+                  //       Future.delayed(const Duration(seconds: 2), () {
+                  //         setState(() {
+                  //           _isLoading = false;
+                  //         });
+                  //       }).then((value) =>
+                  //           Navigator.push(context, MaterialPageRoute(
+                  //               builder: (context) => Verification()))
+                  //       );
+                  //     },
+                  //     color: Colors.blue,
+                  //
+                  //     padding: const EdgeInsets.symmetric(
+                  //         vertical: 15, horizontal: 30),
+                  //     child: _isLoading ? const SizedBox(
+                  //       width: 20,
+                  //       height: 20,
+                  //       child: CircularProgressIndicator(
+                  //         backgroundColor: Colors.white,
+                  //         color: Colors.black,
+                  //         strokeWidth: 2,
+                  //       ),
+                  //     ) :
+                  //     const Text(
+                  //       "Request OTP", style: TextStyle(
+                  //       color: Colors.white,
+                  //       fontFamily: "Poppins",
+                  //       fontWeight: FontWeight.bold,
+                  //       letterSpacing: 1.5,
+                  //       fontSize: 14.5,
+                  //     ),),
+                  //   ),
+                  // ),
+                   SizedBox(height: 20,),
                   Row(
                     children: const [
                       Expanded(child: Divider(
@@ -247,16 +316,22 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.center,
-                  //   children: [
-                  //     Text('Don\'t have an account?', style: TextStyle(color: Colors.grey.shade600, fontSize: 14.0, fontWeight: FontWeight.w400),),
-                  //     TextButton(
-                  //       onPressed: () {},
-                  //       child: Text('Register', style: TextStyle(color: Colors.blue, fontSize: 14.0, fontWeight: FontWeight.w400),),
-                  //     )
-                  //   ],
-                  // ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Don\'t have an account?', style: TextStyle(color: Colors.grey.shade600, fontSize: 14.0, fontWeight: FontWeight.w400),),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (
+                              context) => Register()));
+                        },
+                        child: Text('Register', style: TextStyle(color:  Color(0xff2972ff), fontSize: 14.0, fontWeight: FontWeight.w400),),
+                      )
+                    ],
+                  ),
                 ],
               ),
             ),

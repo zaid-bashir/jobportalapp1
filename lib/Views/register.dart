@@ -1,18 +1,12 @@
-// ignore_for_file: unused_element, avoid_print, unused_field, prefer_const_constructors, sized_box_for_whitespace
-
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:getwidget/colors/gf_color.dart';
+import 'package:getwidget/components/button/gf_button.dart';
 import 'package:getwidget/components/radio/gf_radio.dart';
-import 'package:iconsax/iconsax.dart';
 import 'dart:io';
-
 import 'package:image_picker/image_picker.dart';
 import 'package:job_portal/Views/joblist.dart';
 import 'package:job_portal/Views/setup_profile.dart';
 
-import '../home_page.dart';
 
 class Register extends StatefulWidget {
   const Register({Key key}) : super(key: key);
@@ -24,6 +18,7 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   bool _isLoading = false;
   int groupValue = 0;
+
   void _showPicker(context) {
     showModalBottomSheet(
         context: context,
@@ -101,9 +96,13 @@ class _RegisterState extends State<Register> {
                       width: 20,
                     ),
                     Text(
-                      "Sign Up",
-                      style:
-                          TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
+                      "Register new\naccount ",
+                      style: TextStyle(
+                        fontFamily: "OpenSans",
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1.5,
+                        fontSize: 20.5,
+                      ),
                     ),
                   ],
                 ),
@@ -164,117 +163,57 @@ class _RegisterState extends State<Register> {
                 child: Form(
                   child: Column(
                     children: [
-                      TextField(
-                        cursorColor: Colors.black,
+                      const TextField(
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.all(0.0),
-                          labelText: 'Name',
-                          hintText: 'Username',
+                          labelText: 'FullName',
                           labelStyle: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          hintStyle: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 14.0,
-                          ),
-                          prefixIcon: Icon(
-                            Iconsax.user,
-                            color: Colors.black,
-                            size: 18,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.grey.shade200, width: 2),
-                            borderRadius: BorderRadius.circular(10.0),
+                            color: Colors.blueGrey,
+                            fontFamily: "Poppins",
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 1.5,
+                            fontSize: 15.5,
                           ),
                           floatingLabelStyle: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18.0,
+                            color: Color(0xff2972ff),
+                            fontFamily: "Poppins",
+                            fontWeight: FontWeight.bold,
+                            // letterSpacing: 1.5,
+                            fontSize: 17.5,
                           ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.black, width: 1.5),
-                            borderRadius: BorderRadius.circular(10.0),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color(0xff2972ff),
+                            ),
                           ),
                         ),
                       ),
+
                       const SizedBox(
                         height: 20,
                       ),
-                      TextField(
-                        cursorColor: Colors.black,
+                      const TextField(
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.all(0.0),
-                          labelText: 'Email',
-                          hintText: 'e-mail',
-                          labelStyle: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          hintStyle: const TextStyle(
-                            color: Colors.grey,
-                            fontSize: 14.0,
-                          ),
-                          prefixIcon: const Icon(
-                            Iconsax.message,
-                            color: Colors.black,
-                            size: 18,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.grey.shade200, width: 2),
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          floatingLabelStyle: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 18.0,
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Colors.black, width: 1.5),
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      TextField(
-                        cursorColor: Colors.black,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.all(0.0),
-                          labelText: 'Career',
-                          hintText: 'Job Field',
+                          labelText: 'Address',
                           labelStyle: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          hintStyle: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 14.0,
-                          ),
-                          prefixIcon: Icon(
-                            Iconsax.note,
-                            color: Colors.black,
-                            size: 18,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.grey.shade200, width: 2),
-                            borderRadius: BorderRadius.circular(10.0),
+                            color: Colors.blueGrey,
+                            fontFamily: "Poppins",
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 1.5,
+                            fontSize: 15.5,
                           ),
                           floatingLabelStyle: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18.0,
+                            color: Color(0xff2972ff),
+                            fontFamily: "Poppins",
+                            fontWeight: FontWeight.bold,
+                            // letterSpacing: 1.5,
+                            fontSize: 17.5,
                           ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                            BorderSide(color: Colors.black, width: 1.5),
-                            borderRadius: BorderRadius.circular(10.0),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color(0xff2972ff),
+                            ),
                           ),
                         ),
                       ),
@@ -283,118 +222,111 @@ class _RegisterState extends State<Register> {
                         height: 20,
                       ),
                       TextField(
-                        cursorColor: Colors.black,
                         decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.all(0.0),
+                          contentPadding: EdgeInsets.all(0.0),
                           labelText: 'Phone',
-                          hintText: 'Mobile Number',
-                          labelStyle: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.w400,
+                          labelStyle: TextStyle(
+                            color: Colors.blueGrey,
+                            fontFamily: "Poppins",
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 1.5,
+                            fontSize: 15.5,
                           ),
-                          hintStyle: const TextStyle(
-                            color: Colors.grey,
-                            fontSize: 14.0,
+                          floatingLabelStyle: TextStyle(
+                            color: Color(0xff2972ff),
+                            fontFamily: "Poppins",
+                            fontWeight: FontWeight.bold,
+                            // letterSpacing: 1.5,
+                            fontSize: 17.5,
                           ),
-                          prefixIcon: const Icon(
-                            Iconsax.mobile,
-                            color: Colors.black,
-                            size: 18,
-                          ),
-                          enabledBorder: OutlineInputBorder(
+                          focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
-                                color: Colors.grey.shade200, width: 2),
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          floatingLabelStyle: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 18.0,
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Colors.black, width: 1.5),
-                            borderRadius: BorderRadius.circular(10.0),
+                              color: Color(0xff2972ff),
+                            ),
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
-                      TextField(
-                        obscureText: true,
-                        cursorColor: Colors.black,
+                      const TextField(
                         decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.all(0.0),
+                          contentPadding: EdgeInsets.all(0.0),
+                          labelText: 'E-mail',
+                          labelStyle: TextStyle(
+                            color: Colors.blueGrey,
+                            fontFamily: "Poppins",
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 1.5,
+                            fontSize: 15.5,
+                          ),
+                          floatingLabelStyle: TextStyle(
+                            color: Color(0xff2972ff),
+                            fontFamily: "Poppins",
+                            fontWeight: FontWeight.bold,
+                            // letterSpacing: 1.5,
+                            fontSize: 17.5,
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color(0xff2972ff),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      const TextField(
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(0.0),
                           labelText: 'Password',
-                          hintText: 'Password',
-                          hintStyle: const TextStyle(
-                            color: Colors.grey,
-                            fontSize: 14.0,
+                          labelStyle: TextStyle(
+                            color: Colors.blueGrey,
+                            fontFamily: "Poppins",
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 1.5,
+                            fontSize: 15.5,
                           ),
-                          labelStyle: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.w400,
+                          floatingLabelStyle: TextStyle(
+                            color: Color(0xff2972ff),
+                            fontFamily: "Poppins",
+                            fontWeight: FontWeight.bold,
+                            // letterSpacing: 1.5,
+                            fontSize: 17.5,
                           ),
-                          prefixIcon: const Icon(
-                            Iconsax.key,
-                            color: Colors.black,
-                            size: 18,
-                          ),
-                          enabledBorder: OutlineInputBorder(
+                          focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
-                                color: Colors.grey.shade200, width: 2),
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          floatingLabelStyle: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 18.0,
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Colors.black, width: 1.5),
-                            borderRadius: BorderRadius.circular(10.0),
+                              color: Color(0xff2972ff),
+                            ),
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
-                      TextField(
-                        obscureText: true,
-                        cursorColor: Colors.black,
+                      const TextField(
                         decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.all(0.0),
-                          labelText: 'Confirm Password',
-                          hintText: 'Confirm Password',
-                          hintStyle: const TextStyle(
-                            color: Colors.grey,
-                            fontSize: 14.0,
+                          contentPadding: EdgeInsets.all(0.0),
+                          labelText: 'Confirm-Password',
+                          labelStyle: TextStyle(
+                            color: Colors.blueGrey,
+                            fontFamily: "Poppins",
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 1.5,
+                            fontSize: 15.5,
                           ),
-                          labelStyle: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.w400,
+                          floatingLabelStyle: TextStyle(
+                            color: Color(0xff2972ff),
+                            fontFamily: "Poppins",
+                            fontWeight: FontWeight.bold,
+                            // letterSpacing: 1.5,
+                            fontSize: 17.5,
                           ),
-                          prefixIcon: const Icon(
-                            Iconsax.lock,
-                            color: Colors.black,
-                            size: 18,
-                          ),
-                          enabledBorder: OutlineInputBorder(
+                          focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
-                                color: Colors.grey.shade200, width: 2),
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          floatingLabelStyle: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 18.0,
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Colors.black, width: 1.5),
-                            borderRadius: BorderRadius.circular(10.0),
+                              color: Color(0xff2972ff),
+                            ),
                           ),
                         ),
                       ),
@@ -402,13 +334,13 @@ class _RegisterState extends State<Register> {
                         height: 20,
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 20,bottom: 20),
+                        padding: const EdgeInsets.only(left: 20, bottom: 20),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             GFRadio(
                               size: 20,
-                              activeBorderColor: GFColors.SUCCESS,
+                              activeBorderColor: Color(0xff2972ff),
                               value: 0,
                               groupValue: groupValue,
                               onChanged: (value) {
@@ -417,7 +349,7 @@ class _RegisterState extends State<Register> {
                                 });
                               },
                               inactiveIcon: null,
-                              radioColor: GFColors.SUCCESS,
+                              radioColor: Color(0xff2972ff),
                             ),
                             const SizedBox(
                               width: 7,
@@ -444,8 +376,8 @@ class _RegisterState extends State<Register> {
                                 });
                               },
                               inactiveIcon: null,
-                              activeBorderColor: GFColors.SUCCESS,
-                              radioColor: GFColors.SUCCESS,
+                              activeBorderColor: Color(0xff2972ff),
+                              radioColor: Color(0xff2972ff),
                             ),
                             const SizedBox(
                               width: 7,
@@ -459,68 +391,91 @@ class _RegisterState extends State<Register> {
                                 fontSize: 14.5,
                               ),
                             ),
-
                           ],
                         ),
                       ),
-                      FadeInDown(
-                        delay: Duration(milliseconds: 600),
-                        child: MaterialButton(
-                          minWidth: double.infinity,
+                      Container(
+                        width: double.infinity,
+                        child: GFButton(
+                          color: Color(0xff2972ff),
                           onPressed: () {
-                            setState(() {
-                              _isLoading = true;
-                            });
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => SetupProfile()));
-                            Future.delayed(Duration(seconds: 2), () {
-                              setState(() {
-                                _isLoading = false;
-                              });
-                            });
                           },
-                          color: Colors.black,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5)),
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 30),
-                          child: _isLoading
-                              ? Container(
-                                  width: 20,
-                                  height: 20,
-                                  child: const CircularProgressIndicator(
-                                    backgroundColor: Colors.white,
-                                    color: Colors.black,
-                                    strokeWidth: 2,
-                                  ),
-                                )
-                              : Text(
-                                  "Request OTP",
-                                  style: TextStyle(color: Colors.white),
-                                ),
+                          text: "Register",
+                          textStyle: TextStyle(
+                            color: Colors.white,
+                            fontFamily: "Poppins",
+                            fontWeight: FontWeight.bold,
+                            // letterSpacing: 1.5,
+                            fontSize: 14.5,
+                          ),
                         ),
                       ),
-                      const SizedBox(height: 20,),
+                      // FadeInDown(
+                      //   delay: Duration(milliseconds: 600),
+                      //   child: MaterialButton(
+                      //     minWidth: double.infinity,
+                      //     onPressed: () {
+                      //       setState(() {
+                      //         _isLoading = true;
+                      //       });
+                      //       Navigator.push(
+                      //           context,
+                      //           MaterialPageRoute(
+                      //               builder: (context) => SetupProfile()));
+                      //       Future.delayed(Duration(seconds: 2), () {
+                      //         setState(() {
+                      //           _isLoading = false;
+                      //         });
+                      //       });
+                      //     },
+                      //     color: Colors.black,
+                      //     shape: RoundedRectangleBorder(
+                      //         borderRadius: BorderRadius.circular(5)),
+                      //     padding: const EdgeInsets.symmetric(
+                      //         vertical: 15, horizontal: 30),
+                      //     child: _isLoading
+                      //         ? Container(
+                      //             width: 20,
+                      //             height: 20,
+                      //             child: const CircularProgressIndicator(
+                      //               backgroundColor: Colors.white,
+                      //               color: Colors.black,
+                      //               strokeWidth: 2,
+                      //             ),
+                      //           )
+                      //         : Text(
+                      //             "Request OTP",
+                      //             style: TextStyle(color: Colors.white),
+                      //           ),
+                      //   ),
+                      // ),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       Row(
                         children: const [
-                          Expanded(child: Divider(
+                          Expanded(
+                              child: Divider(
                             endIndent: 20,
                             indent: 10,
-
                             thickness: 1.3,
                           )),
                           Text("OR"),
-                          Expanded(child: Divider(
+                          Expanded(
+                              child: Divider(
                             indent: 20,
                             endIndent: 10,
                             thickness: 1.3,
-
                           )),
                         ],
                       ),
-                      const SizedBox(height: 10,),
+                      const SizedBox(
+                        height: 10,
+                      ),
 
                       FlatButton(
                         shape: RoundedRectangleBorder(

@@ -1,8 +1,7 @@
-// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:job_portal/Views/ui/home_page.dart';
 
-import '../home_page.dart';
 
 
 class WelcomeScreen extends StatefulWidget {
@@ -41,7 +40,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               // width: 100.0,
             ),
           ),
-          Text("Ready to go !",style:TextStyle(
+          Text("Setting Up Your Profile !",style:TextStyle(
             fontFamily: "OpenSans",
             fontWeight: FontWeight.w500,
             letterSpacing: 1.5,
