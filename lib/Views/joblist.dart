@@ -103,7 +103,7 @@ class _JobListState extends State<JobList> {
                 width: double.infinity,
                 height: 190.0,
                 child: ListView.builder(
-                     itemCount: 6,
+                     itemCount: 3,
                     scrollDirection: Axis.horizontal,
                     physics: const BouncingScrollPhysics(),
                     shrinkWrap: true,
