@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Views/setup_profile.dart';
+import 'package:job_portal/Views/skills_and_eduction.dart';
 
 class ProfileChoice extends StatefulWidget {
   const ProfileChoice({Key key}) : super(key: key);
@@ -200,17 +201,16 @@ class _ProfileChoiceState extends State<ProfileChoice> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               GFButton(
-                onPressed: (){
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => SetupProfile()));
-                },
-                text: "Next",
-                shape: GFButtonShape.pills,
-                type: GFButtonType.outline,
-                color: Colors.black,
-              ),
+                  color: const Color(0xff2972ff),
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (
+                        context) => SetupProfile()));
+                  }, child: const Text("Next",style:TextStyle(
+                fontFamily: "Poppins",
+                fontWeight: FontWeight.bold,
+                // letterSpacing: 1.5,
+                fontSize: 13.5,
+              ),))
             ],
           ),
         ),
