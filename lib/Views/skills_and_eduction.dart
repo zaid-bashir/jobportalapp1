@@ -1,5 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
+import 'package:getwidget/components/button/gf_button.dart';
 import 'package:job_portal/Views/welcome_screen.dart';
 
 
@@ -65,50 +66,43 @@ class _SkillsAndEducationState extends State<SkillsAndEducation> {
                 height: 20,
               ),
 
-              Padding(
-                padding: const EdgeInsets.only(left: 20,right: 20),
+              const Padding(
+                padding: EdgeInsets.only(left: 20,right: 20),
                 child: TextField(
-                  cursorColor: Colors.black,
                   decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.all(0.0),
-                    labelText: 'Type your skills',
-                    hintText: 'Eg. Sales,Marketing,BPO<Inbound,Outbound',
-                    labelStyle: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w400,
+                    contentPadding: EdgeInsets.all(0.0),
+                    labelText: 'Skills',
+                    labelStyle: TextStyle(
+                      color: Colors.blueGrey,
+                      fontFamily: "Poppins",
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 1.5,
+                      fontSize: 15.5,
                     ),
-                    hintStyle: const TextStyle(
-                      color: Colors.grey,
-                      fontSize: 14.0,
+                    floatingLabelStyle: TextStyle(
+                      color: Color(0xff2972ff),
+                      fontFamily: "Poppins",
+                      fontWeight: FontWeight.bold,
+                      // letterSpacing: 1.5,
+                      fontSize: 17.5,
                     ),
-                    prefixIcon: const Icon(
-                      Iconsax.message,
-                      color: Colors.black,
-                      size: 18,
-                    ),
-                    enabledBorder: OutlineInputBorder(
+                    focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
-                          color: Colors.grey.shade200, width: 2),
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    floatingLabelStyle: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 18.0,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                          color: Colors.black, width: 1.5),
-                      borderRadius: BorderRadius.circular(10.0),
+                        color: Color(0xff2972ff),
+                      ),
                     ),
                   ),
                 ),
               ),
+              const SizedBox(
+                height: 10,
+              ),
               Padding(
-                padding: const EdgeInsets.only(left: 10, right: 10,top: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+
+                padding: const EdgeInsets.only(left: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
                     Text(
                       "Or select from below",
                       style: TextStyle(
@@ -118,9 +112,17 @@ class _SkillsAndEducationState extends State<SkillsAndEducation> {
                         fontSize: 15.5,
                       ),
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
                     Text("Suggested skills based on your employment ",
                       style: TextStyle(
                         fontFamily: "Poppins",
@@ -140,7 +142,7 @@ class _SkillsAndEducationState extends State<SkillsAndEducation> {
                 child: Row(
                   children: [
                  FilterChip(
-                   label: Text('Application Programming'),
+                   label: const Text('Application Programming'),
                    labelStyle: TextStyle(
                        color: widget.isSelected ? Colors.black : Colors.white),
                    selected: widget.isSelected,
@@ -152,11 +154,11 @@ class _SkillsAndEducationState extends State<SkillsAndEducation> {
                    // selectedColor: Theme.of(context).accentColor,
                    checkmarkColor: Colors.black,
                  ),
-                 SizedBox(
+                 const SizedBox(
                    width: 20,
                  ),
                  FilterChip(
-                   label: Text('Web Development'),
+                   label: const Text('Web Development'),
                    labelStyle: TextStyle(
                        color: widget.isSelected ? Colors.black : Colors.white),
                    selected: widget.isSelected,
@@ -172,6 +174,7 @@ class _SkillsAndEducationState extends State<SkillsAndEducation> {
                   ],
                 ),
               ),
+              SizedBox(height: 10,),
               Padding(
                 padding: const EdgeInsets.only(left: 20,right: 20),
                 child: Row(
@@ -193,7 +196,7 @@ class _SkillsAndEducationState extends State<SkillsAndEducation> {
                    width: 20,
                  ),
                  FilterChip(
-                   label: Text('Ios Development'),
+                   label: Text('IOS Development'),
                    labelStyle: TextStyle(
                        color: widget.isSelected ? Colors.black : Colors.white),
                    selected: widget.isSelected,
@@ -241,6 +244,34 @@ class _SkillsAndEducationState extends State<SkillsAndEducation> {
                     const SizedBox(
                       height: 15,
                     ),
+                    const TextField(
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.all(0.0),
+                        labelText: 'Qualification',
+                        labelStyle: TextStyle(
+                          color: Colors.blueGrey,
+                          fontFamily: "Poppins",
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 1.5,
+                          fontSize: 15.5,
+                        ),
+                        floatingLabelStyle: TextStyle(
+                          color: Color(0xff2972ff),
+                          fontFamily: "Poppins",
+                          fontWeight: FontWeight.bold,
+                          // letterSpacing: 1.5,
+                          fontSize: 17.5,
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0xff2972ff),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     const Text(
                       "Highest Qualification *",
                       style: TextStyle(
@@ -256,6 +287,7 @@ class _SkillsAndEducationState extends State<SkillsAndEducation> {
                       child: Row(
                         children: [
                           FilterChip(
+
                             label: Text('Doctorate'),
                             labelStyle: TextStyle(
                                 color: widget.isSelected ? Colors.black : Colors.white),
@@ -288,6 +320,7 @@ class _SkillsAndEducationState extends State<SkillsAndEducation> {
                         ],
                       ),
                     ),
+                    SizedBox(height: 10,),
                     Padding(
                       padding: const EdgeInsets.only(left: 20,right: 20),
                       child: Row(
@@ -326,19 +359,21 @@ class _SkillsAndEducationState extends State<SkillsAndEducation> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(right: 20,top: 10),
+                      padding: const EdgeInsets.only(right: 20,top: 20,bottom: 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          FlatButton(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(36),
-                                side: const BorderSide(color: Colors.black),
-                              ),
+                          GFButton(
+                              color: const Color(0xff2972ff),
                               onPressed: () {
                                 Navigator.push(context, MaterialPageRoute(builder: (
                                     context) => WelcomeScreen()));
-                              }, child: const Text("Next"))
+                              }, child: const Text("Next",style:TextStyle(
+                            fontFamily: "Poppins",
+                            fontWeight: FontWeight.bold,
+
+                            fontSize: 13.5,
+                          ),))
                         ],
                       ),
                     ),

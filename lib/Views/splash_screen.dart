@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:job_portal/Views/On_Board_Screens/screens/landing_page.dart';
 
 import 'on_board_screens.dart';
 
@@ -16,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(d, () {
       Navigator.pushAndRemoveUntil(context,
           MaterialPageRoute(builder: (context) {
-            return ShowCase();
+            return LandingPage();
           }), (route) => false);
     });
 
