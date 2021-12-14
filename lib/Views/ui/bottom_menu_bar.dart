@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:job_portal/Controller/menu_controller.dart';
+import 'package:provider/provider.dart';
 
 import '../jobs.dart';
 import '../notification.dart';
 import '../profile_page.dart';
+import '../upload_post.dart';
 import 'home_page.dart';
 
 
@@ -13,19 +16,26 @@ class Navbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return
-     MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+     MultiProvider(
+       providers: [
+         ChangeNotifierProvider(
+           create: (context) => MenuController(),
+         ),
+       ],
+       child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Demo',
 
-        theme: ThemeData(
-          // primaryColor: Color(0xFFC41A3B),
-          // primaryColorDark:  Color(0xFFC41A3B),
-          primaryColorLight: const Color(0xFFFBE0E6),
-          // accentColor: const Color(0xFFC41A3B),
-          accentColor: Colors.lightBlueAccent[700],
+          theme: ThemeData(
+            // primaryColor: Color(0xFFC41A3B),
+            // primaryColorDark:  Color(0xFFC41A3B),
+            primaryColorLight: const Color(0xFFFBE0E6),
+            // accentColor: const Color(0xFFC41A3B),
+            accentColor: Colors.lightBlueAccent[700],
+          ),
+          home: Navlist(),
         ),
-        home: Navlist(),
-      );
+     );
 
   }
 }
@@ -44,7 +54,7 @@ class _NavlistState extends State<Navlist>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this);
+    _tabController = TabController(length: 5, vsync: this);
   }
 
   @override
@@ -64,6 +74,7 @@ class _NavlistState extends State<Navlist>
         children: <Widget>[
           HomePage(),
           Notify(),
+          UploadPost(),
           JobsList(),
           ProfilePage(),
         ],
@@ -103,6 +114,13 @@ class _NavlistState extends State<Navlist>
                     size: 24.0,
                   ),
                   text: 'Notifications',
+                ),
+                Tab(
+                  icon: Icon(
+                    Icons.add,
+                    size: 24.0,
+                  ),
+                  text: 'Post',
                 ),
                 Tab(
                   icon: Icon(
