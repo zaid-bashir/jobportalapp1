@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:job_portal/Views/ui/bottom_menu_bar.dart';
 import 'package:job_portal/Views/ui/home_page.dart';
 
 
@@ -16,7 +17,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     Future.delayed(d, () {
       Navigator.pushAndRemoveUntil(context,
           MaterialPageRoute(builder: (context) {
-            return HomePage();
+            return Navbar();
           }), (route) => false);
     });
 
