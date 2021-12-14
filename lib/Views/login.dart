@@ -32,6 +32,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 children: [
                   Row(
+
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
                       Text("Login to your\naccount ",style:  TextStyle(
