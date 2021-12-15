@@ -2,11 +2,9 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:job_portal/Views/profile_page.dart';
-import 'package:job_portal/Views/saved_jobs.dart';
-import 'package:job_portal/Views/suggested_jobs.dart';
+import 'package:job_portal/Views/settings.dart';
 
 import 'On_Board_Screens/constants/constants.dart';
-import 'explore_jobs.dart';
 
 
 class SideMenu extends StatelessWidget {
@@ -20,9 +18,9 @@ class SideMenu extends StatelessWidget {
         child: ListView(
           children: <Widget>[
             FadeInDown(
-              delay: const Duration(milliseconds: 500),
-              duration: const Duration(milliseconds: 500),
-              child: SizedBox(
+              delay: Duration(milliseconds: 500),
+              duration: Duration(milliseconds: 500),
+              child: Container(
                 height: 100,
                 child: DrawerHeader(
 
@@ -37,27 +35,27 @@ class SideMenu extends StatelessWidget {
                             color: Colors.grey.shade900,size: 35,
                           ),
                         ),
-                        const SizedBox(
+                        SizedBox(
                           width: 20,
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 20),
                           child: Column(
                             children: [
-                              const Text("Vijay Niranjan",   style: TextStyle(
+                              Text("Vijay Niranjan",   style: TextStyle(
                                 fontFamily: "OpenSans",
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: 1.5,
                                 fontSize: 14.5,
                               ),),
-                              const SizedBox(
+                              SizedBox(
                                 height: 10,
                               ),
                               GestureDetector(
                                 onTap: (){
                                   Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfilePage()));
                                 },
-                                child: const Text("Update Profile",   style: TextStyle(
+                                child: Text("Update Profile",   style: TextStyle(
                                   color: Color(0xff3e61ed),
                                   fontFamily: "Poppins",
                                   fontWeight: FontWeight.bold,
@@ -105,9 +103,7 @@ class SideMenu extends StatelessWidget {
                 child: DrawerListTile(
                   title: "Explore Jobs",
                   svgSrc:  Icons.manage_search_outlined,
-                  press: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>ExploreJobs()));
-                  },
+                  press: () {},
                 ),
               ),
             ),
@@ -119,9 +115,7 @@ class SideMenu extends StatelessWidget {
                 child: DrawerListTile(
                   title: "Saved Jobs",
                   svgSrc:  Icons.bookmark_border_outlined,
-                  press: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>SavedJobs()));
-                  },
+                  press: () {},
                 ),
               ),
             ),
@@ -133,9 +127,7 @@ class SideMenu extends StatelessWidget {
                 child: DrawerListTile(
                   title: "Suggested Jobs",
                   svgSrc:  Icons.work_outline_outlined,
-                  press: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>SuggestJobs()));
-                  },
+                  press: () {},
                 ),
               ),
             ),
@@ -181,7 +173,9 @@ class SideMenu extends StatelessWidget {
                 child: DrawerListTile(
                   title: "Settings",
                   svgSrc: Icons.manage_accounts_outlined,
-                  press: () {},
+                  press: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => Settings()));
+                  },
                 ),
               ),
             ),
