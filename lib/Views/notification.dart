@@ -8,7 +8,7 @@ class Notify extends StatefulWidget {
   _NotifyState createState() => _NotifyState();
 }
 
-class _NotifyState extends State<Notify> {
+ class _NotifyState extends State<Notify> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -17,11 +17,30 @@ class _NotifyState extends State<Notify> {
           leading: Text("Notification",
           style: TextStyle(fontSize: 18, fontWeight:FontWeight.bold), ),
           trailing: CircleAvatar(
-            child: Icon(Icons.search, color: Colors.black,),
+            child: Icon(Icons.search, color: Colors.white,),
             backgroundColor: Colors.blue,
           ),
 
+
+        ),
+        SizedBox( height: 20,),
+         Row(
+           children: [
+             SizedBox(width: 15,),
+             Text("Earlier", style: TextStyle( fontSize: 18, fontWeight:FontWeight.bold),)
+             
+           ],
+         ),
+        SizedBox( height: 20,),
+        ListTile(e
+          leading: CircleAvatar(
+            backgroundImage: AssetImage("assets/show_image"),
+            backgroundColor: Colors.blue,
+          ),
+          title: Text("Tahseen abass viewed your profile "),
+          trailing: Icon(Icons.menu),
         )
+
 
       ],
 
