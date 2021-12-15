@@ -68,7 +68,7 @@ class _ProfilePageState extends State<ProfilePage> {
             height: 10,
           ),
           const Text(
-            "Software Developer, ClustTech",
+            "Senior Software Developer, ClustTech",
             style: TextStyle(
               fontFamily: "Poppins",
               fontWeight: FontWeight.w500,

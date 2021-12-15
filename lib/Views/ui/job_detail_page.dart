@@ -18,73 +18,75 @@ class JobDetailPage extends StatefulWidget {
 
 class _JobDetailPageState extends State<JobDetailPage> {
   Widget _header(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 26, vertical: 26),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Image.asset(Images.gitlab, height: 40),
-              SizedBox(
-                width: 30,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Gitlab",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: KColors.title,
+    return SingleChildScrollView(
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 26),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Image.asset(Images.gitlab, height: 40),
+                const SizedBox(
+                  width: 30,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    Text(
+                      "Gitlab",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: KColors.title,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 5),
-                  Text(
-                    "UX Designer",
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: KColors.subtitle,
-                    ),
-                  )
-                ],
-              )
-            ],
-          ),
-          SizedBox(height: 32),
-          Row(
-            children: [
-              _headerStatic("Salary", "\$85,000"),
-              _headerStatic("Applicants", "45"),
-              _headerStatic("Salary", "\$120,000"),
-            ],
-          ),
-          SizedBox(height: 40),
-          Row(
-            children: [
-              Expanded(
-                child:
-                    Image.asset(Images.doc, height: 20, color: KColors.primary),
-              ),
-              Expanded(
-                child:
-                    Image.asset(Images.museum, height: 20, color: KColors.icon),
-              ),
-              Expanded(
-                child:
-                    Image.asset(Images.clock, height: 20, color: KColors.icon),
-              ),
-              Expanded(
-                child: Image.asset(Images.map, height: 20, color: KColors.icon),
-              ),
-            ],
-          ),
-          Divider(
-            color: KColors.icon,
-            height: 25,
-          )
-        ],
+                    SizedBox(height: 5),
+                    Text(
+                      "UX Designer",
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: KColors.subtitle,
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
+            SizedBox(height: 32),
+            Row(
+              children: [
+                _headerStatic("Salary", "\$85,000"),
+                _headerStatic("Applicants", "45"),
+                _headerStatic("Salary", "\$120,000"),
+              ],
+            ),
+            SizedBox(height: 40),
+            Row(
+              children: [
+                Expanded(
+                  child:
+                      Image.asset(Images.doc, height: 20, color: KColors.primary),
+                ),
+                Expanded(
+                  child:
+                      Image.asset(Images.museum, height: 20, color: KColors.icon),
+                ),
+                Expanded(
+                  child:
+                      Image.asset(Images.clock, height: 20, color: KColors.icon),
+                ),
+                Expanded(
+                  child: Image.asset(Images.map, height: 20, color: KColors.icon),
+                ),
+              ],
+            ),
+            Divider(
+              color: KColors.icon,
+              height: 25,
+            )
+          ],
+        ),
       ),
     );
   }
