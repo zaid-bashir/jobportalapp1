@@ -23,9 +23,9 @@ class HomePage extends StatelessWidget {
               backgroundImage: AssetImage(Images.user1),
             ),
           ),
-          Spacer(),
+          const Spacer(),
           IconButton(
-            icon: Icon(Icons.chat,color: Colors.grey,),
+            icon: Icon(Icons.chat, color: Color(0xff2972ff),),
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => InboxList()));
             },

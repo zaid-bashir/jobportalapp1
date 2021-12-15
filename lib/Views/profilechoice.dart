@@ -111,6 +111,7 @@ class _ProfileChoiceState extends State<ProfileChoice> {
                         width: 140.0,
                       ),
                       Image(
+                        color: Color(0xff2972ff),
                         height: 40,
                         width: 30,
                         image: AssetImage(
@@ -138,7 +139,7 @@ class _ProfileChoiceState extends State<ProfileChoice> {
                       Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                          children: const [
                             Text(
                               'I am working / have worked before',
                               style: TextStyle(
@@ -154,10 +155,11 @@ class _ProfileChoiceState extends State<ProfileChoice> {
                                   TextStyle(fontSize: 10.0, color: Colors.grey),
                             ),
                           ]),
-                      SizedBox(
+                      const SizedBox(
                         width: 80.0,
                       ),
-                      Image(
+                      const Image(
+                        color: Color(0xff2972ff),
                         height: 40,
                         width: 30,
                         image: AssetImage(
