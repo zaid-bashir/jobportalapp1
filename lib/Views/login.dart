@@ -59,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
                                fontSize: 15.5,
                              ),
                              floatingLabelStyle: TextStyle(
-                               color:  Color(0xff2972ff),
+                               color:  Color(0xff3e61ed),
                                fontFamily: "Poppins",
                                fontWeight: FontWeight.bold,
                                // letterSpacing: 1.5,
@@ -67,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
                              ),
                              focusedBorder: UnderlineInputBorder(
                                borderSide: BorderSide(
-                                   color:  Color(0xff2972ff),),
+                                   color:  Color(0xff3e61ed),),
                              ),
                            ),
                          ),
@@ -124,7 +124,7 @@ class _LoginPageState extends State<LoginPage> {
                         fontSize: 15.5,
                       ),
                       floatingLabelStyle: TextStyle(
-                        color:  Color(0xff2972ff),
+                        color: Color(0xff3e61ed),
                         fontFamily: "Poppins",
                         fontWeight: FontWeight.bold,
                         // letterSpacing: 1.5,
@@ -192,7 +192,7 @@ class _LoginPageState extends State<LoginPage> {
                   Container(
                     width: double.infinity,
                     child: GFButton(
-                      color: Color(0xff2972ff),
+                      color: Color(0xff3e61ed),
                       onPressed: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context) => Navbar()));
                       },text: "Login",textStyle:TextStyle(
