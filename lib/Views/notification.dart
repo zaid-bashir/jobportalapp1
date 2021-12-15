@@ -32,7 +32,7 @@ class Notify extends StatefulWidget {
            ],
          ),
         SizedBox( height: 20,),
-        ListTile(e
+        ListTile(
           leading: CircleAvatar(
             backgroundImage: AssetImage("assets/show_image"),
             backgroundColor: Colors.blue,
