@@ -83,31 +83,34 @@ class _ProfilePageState extends State<ProfilePage> {
             endIndent: 10,
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 10,right: 10),
+            padding: const EdgeInsets.only(left: 10, right: 10),
             child: Card(
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0)
-              ),
+                  borderRadius: BorderRadius.circular(20.0)),
               elevation: 5,
               child: Container(
                 padding: EdgeInsets.all(10),
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 10,right: 10),
+                      padding: const EdgeInsets.only(left: 10, right: 10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Text(
                             "Basic details",
                             style: TextStyle(
+                              color: const Color(0xff3e61ed),
                               fontFamily: "OpenSans",
                               fontWeight: FontWeight.bold,
                               letterSpacing: 1.5,
                               fontSize: 16.5,
                             ),
                           ),
-                          IconButton(onPressed: (){}, icon: const Icon(Icons.edit_outlined,   color: Color(0xff2972ff)))
+                          IconButton(
+                              onPressed: () {},
+                              icon: const Icon(Icons.edit_outlined,
+                                  color: Color(0xff3e61ed)))
                         ],
                       ),
                     ),
@@ -115,7 +118,11 @@ class _ProfilePageState extends State<ProfilePage> {
                       padding: const EdgeInsets.only(left: 10),
                       child: Row(
                         children: [
-                          Icon(Icons.work_outlined,color: Colors.grey,size: 20,),
+                          Icon(
+                            Icons.work_outlined,
+                            color: const Color(0xff3e61ed),
+                            size: 20,
+                          ),
                           SizedBox(
                             width: 10,
                           ),
@@ -132,10 +139,14 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 10,top: 10),
+                      padding: const EdgeInsets.only(left: 10, top: 10),
                       child: Row(
                         children: [
-                          Icon(Icons.location_on_outlined,color: Colors.grey,size: 20,),
+                          Icon(
+                            Icons.location_on_outlined,
+                            color: const Color(0xff3e61ed),
+                            size: 20,
+                          ),
                           SizedBox(
                             width: 10,
                           ),
@@ -152,10 +163,14 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 10,top: 10),
+                      padding: const EdgeInsets.only(left: 10, top: 10),
                       child: Row(
                         children: [
-                          Icon(Icons.attach_money,color: Colors.grey,size: 20,),
+                          Icon(
+                            Icons.attach_money,
+                            color: const Color(0xff3e61ed),
+                            size: 20,
+                          ),
                           SizedBox(
                             width: 10,
                           ),
@@ -172,10 +187,14 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 10,top: 10),
+                      padding: const EdgeInsets.only(left: 10, top: 10),
                       child: Row(
                         children: [
-                          Icon(Icons.email_outlined,color: Colors.grey,size: 20,),
+                          Icon(
+                            Icons.email_outlined,
+                            color: const Color(0xff3e61ed),
+                            size: 20,
+                          ),
                           SizedBox(
                             width: 10,
                           ),
@@ -192,10 +211,14 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 10,top: 10),
+                      padding: const EdgeInsets.only(left: 10, top: 10),
                       child: Row(
                         children: [
-                          Icon(Icons.call_outlined,color: Colors.grey,size: 20,),
+                          Icon(
+                            Icons.call_outlined,
+                            color: const Color(0xff3e61ed),
+                            size: 20,
+                          ),
                           SizedBox(
                             width: 10,
                           ),
