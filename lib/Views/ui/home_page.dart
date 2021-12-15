@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:job_portal/Controller/menu_controller.dart';
+import 'package:job_portal/Views/inbox.dart';
 import 'package:job_portal/Views/theme/colors.dart';
 import 'package:job_portal/Views/theme/images.dart';
 
@@ -24,8 +25,10 @@ class HomePage extends StatelessWidget {
           ),
           Spacer(),
           IconButton(
-            icon: Icon(Icons.notifications_none_rounded),
-            onPressed: () {},
+            icon: Icon(Icons.chat,color: Colors.grey,),
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => InboxList()));
+            },
           )
         ],
       ),

@@ -5,6 +5,7 @@ import 'package:job_portal/Views/profilechoice.dart';
 import 'package:job_portal/Views/recruiter.dart';
 
 import 'package:job_portal/Views/register.dart';
+import 'package:job_portal/Views/ui/bottom_menu_bar.dart';
 import 'package:job_portal/Views/ui/home_page.dart';
 
 import 'otp.dart';
@@ -193,7 +194,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: GFButton(
                       color: Color(0xff2972ff),
                       onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => Navbar()));
                       },text: "Login",textStyle:TextStyle(
                       color: Colors.white,
                       fontFamily: "Poppins",
