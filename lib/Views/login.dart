@@ -49,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
                          const TextField(
                            decoration: InputDecoration(
                              contentPadding: EdgeInsets.all(0.0),
-                             labelText: 'Email',
+                             labelText: 'Email Or Phone',
                              labelStyle: TextStyle(
                                color: Colors.blueGrey,
                                fontFamily: "Poppins",

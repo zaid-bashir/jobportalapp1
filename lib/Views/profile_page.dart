@@ -84,133 +84,135 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 10,right: 10),
-            child: Container(
-              padding: EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(20)
-                    ),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10,right: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          "Basic details",
-                          style: TextStyle(
-                            fontFamily: "OpenSans",
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.5,
-                            fontSize: 16.5,
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0)
+              ),
+              elevation: 5,
+              child: Container(
+                padding: EdgeInsets.all(10),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10,right: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            "Basic details",
+                            style: TextStyle(
+                              fontFamily: "OpenSans",
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1.5,
+                              fontSize: 16.5,
+                            ),
                           ),
-                        ),
-                        IconButton(onPressed: (){}, icon: const Icon(Icons.edit_outlined))
-                      ],
+                          IconButton(onPressed: (){}, icon: const Icon(Icons.edit_outlined,   color: Color(0xff2972ff)))
+                        ],
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: Row(
-                      children: [
-                        Icon(Icons.work_outlined,color: Colors.grey,size: 20,),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        const Text(
-                          "2 Years 6 Months",
-                          style: TextStyle(
-                            fontFamily: "Poppins",
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 1.5,
-                            fontSize: 13.5,
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: Row(
+                        children: [
+                          Icon(Icons.work_outlined,color: Colors.grey,size: 20,),
+                          SizedBox(
+                            width: 10,
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10,top: 10),
-                    child: Row(
-                      children: [
-                        Icon(Icons.location_on_outlined,color: Colors.grey,size: 20,),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        const Text(
-                          "Ahmedabad,INDIA",
-                          style: TextStyle(
-                            fontFamily: "Poppins",
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 1.5,
-                            fontSize: 13.5,
+                          const Text(
+                            "2 Years 6 Months",
+                            style: TextStyle(
+                              fontFamily: "Poppins",
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 1.5,
+                              fontSize: 13.5,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10,top: 10),
-                    child: Row(
-                      children: [
-                        Icon(Icons.attach_money,color: Colors.grey,size: 20,),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        const Text(
-                          "2 Lacks",
-                          style: TextStyle(
-                            fontFamily: "Poppins",
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 1.5,
-                            fontSize: 13.5,
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10,top: 10),
+                      child: Row(
+                        children: [
+                          Icon(Icons.location_on_outlined,color: Colors.grey,size: 20,),
+                          SizedBox(
+                            width: 10,
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10,top: 10),
-                    child: Row(
-                      children: [
-                        Icon(Icons.email_outlined,color: Colors.grey,size: 20,),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        const Text(
-                          "ballaumer525@gmail.com",
-                          style: TextStyle(
-                            fontFamily: "Poppins",
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 1.5,
-                            fontSize: 13.5,
+                          const Text(
+                            "Ahmedabad,INDIA",
+                            style: TextStyle(
+                              fontFamily: "Poppins",
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 1.5,
+                              fontSize: 13.5,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10,top: 10),
-                    child: Row(
-                      children: [
-                        Icon(Icons.call_outlined,color: Colors.grey,size: 20,),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        const Text(
-                          "7889557837",
-                          style: TextStyle(
-                            fontFamily: "Poppins",
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 1.5,
-                            fontSize: 13.5,
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10,top: 10),
+                      child: Row(
+                        children: [
+                          Icon(Icons.attach_money,color: Colors.grey,size: 20,),
+                          SizedBox(
+                            width: 10,
                           ),
-                        ),
-                      ],
+                          const Text(
+                            "2 Lacks",
+                            style: TextStyle(
+                              fontFamily: "Poppins",
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 1.5,
+                              fontSize: 13.5,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10,top: 10),
+                      child: Row(
+                        children: [
+                          Icon(Icons.email_outlined,color: Colors.grey,size: 20,),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          const Text(
+                            "ballaumer525@gmail.com",
+                            style: TextStyle(
+                              fontFamily: "Poppins",
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 1.5,
+                              fontSize: 13.5,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10,top: 10),
+                      child: Row(
+                        children: [
+                          Icon(Icons.call_outlined,color: Colors.grey,size: 20,),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          const Text(
+                            "7889557837",
+                            style: TextStyle(
+                              fontFamily: "Poppins",
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 1.5,
+                              fontSize: 13.5,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
