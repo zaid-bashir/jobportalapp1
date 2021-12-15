@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:job_portal/Views/profile_page.dart';
+import 'package:job_portal/Views/settings.dart';
 
 import 'On_Board_Screens/constants/constants.dart';
 
@@ -172,7 +173,9 @@ class SideMenu extends StatelessWidget {
                 child: DrawerListTile(
                   title: "Settings",
                   svgSrc: Icons.manage_accounts_outlined,
-                  press: () {},
+                  press: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => Settings()));
+                  },
                 ),
               ),
             ),
