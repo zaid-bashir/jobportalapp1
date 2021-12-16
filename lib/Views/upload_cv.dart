@@ -86,7 +86,7 @@ class _UploadCvState extends State<UploadCv>
             //   'File should be jpg, png',
             //   style: TextStyle(fontSize: 15, color: Colors.grey.shade500),
             // ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             GestureDetector(
@@ -221,7 +221,7 @@ class _UploadCvState extends State<UploadCv>
                   ],
                 ))
                 : Container(),
-            SizedBox(
+            const SizedBox(
               height: 150,
             ),
           ],

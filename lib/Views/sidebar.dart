@@ -1,5 +1,4 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:job_portal/Views/profile_page.dart';
 import 'package:job_portal/Views/saved_jobs.dart';
