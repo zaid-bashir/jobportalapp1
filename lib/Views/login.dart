@@ -5,6 +5,7 @@ import 'package:job_portal/Views/profilechoice.dart';
 import 'package:job_portal/Views/recruiter.dart';
 
 import 'package:job_portal/Views/register.dart';
+import 'package:job_portal/Views/resumetest.dart';
 import 'package:job_portal/Views/ui/bottom_menu_bar.dart';
 import 'package:job_portal/Views/ui/home_page.dart';
 
@@ -299,7 +300,7 @@ class _LoginPageState extends State<LoginPage> {
                       side: const BorderSide(color: Colors.black),
                     ),
                     onPressed: () {
-                     Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileChoice()));
+                     Navigator.push(context, MaterialPageRoute(builder: (context) => UploadTest()));
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 8),

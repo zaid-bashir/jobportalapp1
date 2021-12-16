@@ -38,20 +38,19 @@ class _SavedJobsState extends State<SavedJobs> {
                         const Text(
                           "Saved Jobs.",
                           style: TextStyle(
-                            fontFamily: "Poppins",
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.5,
-                            fontSize: 18.5,
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold
                           ),
                         ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Image.asset(
-                          "assets/accent.png",
-                          width: 99,
-                          height: 4,
-                        ),
+                        // const SizedBox(
+                        //   height: 5,
+                        // ),
+                        // Image.asset(
+                        //   "assets/accent.png",
+                        //   width: 99,
+                        //   height: 4,
+                        // ),
                       ],
                     ),
                   ],

@@ -219,7 +219,8 @@ class _UploadCvState extends State<UploadCv>
                     //   child: Text('Upload', style: TextStyle(color: Colors.white),),
                     // )
                   ],
-                ))
+                )
+            )
                 : Container(),
             SizedBox(
               height: 150,

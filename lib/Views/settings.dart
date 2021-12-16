@@ -20,7 +20,7 @@ class _SettingsState extends State<Settings> {
             ListTile(
               leading: IconButton(onPressed: (){
                 Navigator.of(context).pop();
-              }, icon:Icon(Icons.arrow_back),color: Colors.black,),
+              }, icon:const Icon(Icons.arrow_back),color: Colors.black,),
               title: Text('Settings',style: const TextStyle(color:Colors.black,fontSize: 18, fontWeight:FontWeight.bold)),
 
             ),
