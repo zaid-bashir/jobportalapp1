@@ -183,7 +183,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
               const Text(
                 "Senior Software Developer, ClustTech",
                 style: TextStyle(
-                  fontFamily: "Poppins",
+                  fontFamily: "ProximaNova",
                   fontWeight: FontWeight.w500,
                   letterSpacing: 1.5,
                   fontSize: 16.5,
@@ -204,7 +204,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                     const Text(
                       "BASIC INFORMATION",
                       style: TextStyle(
-                        fontFamily: "Poppins",
+                        fontFamily: "ProximaNova",
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1.5,
                         fontSize: 16.5,
@@ -220,7 +220,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                         "Edit",
                         style: TextStyle(
                           color: Color(0xff3e61ed),
-                          fontFamily: "Poppins",
+                          fontFamily: "ProximaNova",
                           fontWeight: FontWeight.bold,
                           letterSpacing: 1.5,
                           fontSize: 16.5,
@@ -237,7 +237,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                       "Save",
                       style: TextStyle(
                         color: Color(0xff3e61ed),
-                        fontFamily: "Poppins",
+                        fontFamily: "ProximaNova",
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1.5,
                         fontSize: 16.5,
@@ -513,7 +513,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                     const Text(
                       "LOCATION",
                       style: TextStyle(
-                        fontFamily: "Poppins",
+                        fontFamily: "ProximaNova",
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1.5,
                         fontSize: 16.5,
@@ -529,7 +529,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                         "Edit",
                         style: TextStyle(
                           color: Color(0xff3e61ed),
-                          fontFamily: "Poppins",
+                          fontFamily: "ProximaNova",
                           fontWeight: FontWeight.bold,
                           letterSpacing: 1.5,
                           fontSize: 16.5,
@@ -546,7 +546,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                         "Save",
                         style: TextStyle(
                           color: Color(0xff3e61ed),
-                          fontFamily: "Poppins",
+                          fontFamily: "ProximaNova",
                           fontWeight: FontWeight.bold,
                           letterSpacing: 1.5,
                           fontSize: 16.5,
@@ -674,7 +674,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                     const Text(
                       "EDUCATION",
                       style: TextStyle(
-                        fontFamily: "Poppins",
+                        fontFamily: "ProximaNova",
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1.5,
                         fontSize: 16.5,
@@ -690,7 +690,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                         "Edit",
                         style: TextStyle(
                           color: Color(0xff3e61ed),
-                          fontFamily: "Poppins",
+                          fontFamily: "ProximaNova",
                           fontWeight: FontWeight.bold,
                           letterSpacing: 1.5,
                           fontSize: 16.5,

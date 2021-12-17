@@ -26,7 +26,9 @@ class _InboxListState extends State<InboxList> {
                 style: const TextStyle(
                     color: Colors.black,
                     fontSize: 18,
-                    fontWeight: FontWeight.bold)),
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "ProximaNova")
+            ),
           ),
       // ListTile(
       //  leading: IconButton(onPressed: (){
@@ -61,13 +63,31 @@ class _InboxListState extends State<InboxList> {
               ),
     title: Text('Username',style: TextStyle(
     color: Colors.black87,fontWeight:FontWeight.bold,
+    fontSize: 14.0,fontFamily: "ProximaNova"
+    ),),
+
+    subtitle: Padding(
+    padding: EdgeInsets.only(top: 10),
+    child: Text('Text',style:
+    TextStyle(fontSize: 11.0, color: Colors.grey,fontFamily: "ProximaNova")),
+    ),
+    ),
+    Divider(color: Colors.grey,height: 10,thickness: 0.5,indent: 70),
+    ListTile(
+
+    leading: CircleAvatar(
+        backgroundColor: Colors.grey,
+        backgroundImage: AssetImage('assets/apple-logo.png',)
+    ),
+    title: Text('Username',style: TextStyle(
+    color: Colors.black87,fontWeight:FontWeight.bold,fontFamily: "ProximaNova",
     fontSize: 14.0,
     ),),
 
     subtitle: Padding(
     padding: EdgeInsets.only(top: 10),
     child: Text('Text',style:
-    TextStyle(fontSize: 11.0, color: Colors.grey)),
+    TextStyle(fontSize: 11.0, color: Colors.grey,fontFamily: "ProximaNova")),
     ),
     ),
     Divider(color: Colors.grey,height: 10,thickness: 0.5,indent: 70),
@@ -79,13 +99,13 @@ class _InboxListState extends State<InboxList> {
     ),
     title: Text('Username',style: TextStyle(
     color: Colors.black87,fontWeight:FontWeight.bold,
-    fontSize: 14.0,
+    fontSize: 14.0,fontFamily: "ProximaNova"
     ),),
 
     subtitle: Padding(
     padding: EdgeInsets.only(top: 10),
     child: Text('Text',style:
-    TextStyle(fontSize: 11.0, color: Colors.grey)),
+    TextStyle(fontSize: 11.0, color: Colors.grey,fontFamily: "ProximaNova")),
     ),
     ),
     Divider(color: Colors.grey,height: 10,thickness: 0.5,indent: 70),
@@ -97,13 +117,13 @@ class _InboxListState extends State<InboxList> {
     ),
     title: Text('Username',style: TextStyle(
     color: Colors.black87,fontWeight:FontWeight.bold,
-    fontSize: 14.0,
+    fontSize: 14.0,fontFamily: "ProximaNova"
     ),),
 
     subtitle: Padding(
     padding: EdgeInsets.only(top: 10),
     child: Text('Text',style:
-    TextStyle(fontSize: 11.0, color: Colors.grey)),
+    TextStyle(fontSize: 11.0, color: Colors.grey,fontFamily: "ProximaNova")),
     ),
     ),
     Divider(color: Colors.grey,height: 10,thickness: 0.5,indent: 70),
@@ -115,31 +135,13 @@ class _InboxListState extends State<InboxList> {
     ),
     title: Text('Username',style: TextStyle(
     color: Colors.black87,fontWeight:FontWeight.bold,
-    fontSize: 14.0,
-    ),),
-
-    subtitle: Padding(
-    padding: EdgeInsets.only(top: 10),
-    child: Text('Text',style:
-    TextStyle(fontSize: 11.0, color: Colors.grey)),
-    ),
-    ),
-    Divider(color: Colors.grey,height: 10,thickness: 0.5,indent: 70),
-    ListTile(
-
-    leading: CircleAvatar(
-        backgroundColor: Colors.grey,
-        backgroundImage: AssetImage('assets/apple-logo.png',)
-    ),
-    title: Text('Username',style: TextStyle(
-    color: Colors.black87,fontWeight:FontWeight.bold,
-    fontSize: 14.0,
+    fontSize: 14.0,fontFamily: "ProximaNova"
     ),),
 
     subtitle: Padding(
     padding: EdgeInsets.only(top: 10),
     child: Text('Text ',style:
-    TextStyle(fontSize: 11.0, color: Colors.grey)),
+    TextStyle(fontSize: 11.0, color: Colors.grey,fontFamily: "ProximaNova")),
     ),
     ),
     Divider(color: Colors.grey,height: 10,thickness: 0.5,indent: 70),
@@ -151,13 +153,13 @@ class _InboxListState extends State<InboxList> {
     ),
     title: Text('Username',style: TextStyle(
     color: Colors.black87,fontWeight:FontWeight.bold,
-    fontSize: 14.0,
+    fontSize: 14.0,fontFamily: "ProximaNova"
     ),),
 
     subtitle: Padding(
     padding: EdgeInsets.only(top: 10),
     child: Text('Text',style:
-    TextStyle(fontSize: 11.0, color: Colors.grey)),
+    TextStyle(fontSize: 11.0, color: Colors.grey,fontFamily: "ProximaNova")),
     ),
     ),
     Divider(color: Colors.grey,height: 10,thickness: 0.5,indent: 70,),

@@ -53,7 +53,7 @@ class _SideMenuState extends State<SideMenu> {
                           child: Column(
                             children: [
                               Text("Vijay Niranjan",   style: TextStyle(
-                                fontFamily: "OpenSans",
+                                fontFamily: "ProximaNova",
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: 1.5,
                                 fontSize: 14.5,
@@ -67,7 +67,7 @@ class _SideMenuState extends State<SideMenu> {
                                 },
                                 child: Text("Update Profile",   style: TextStyle(
                                   color: Color(0xff3e61ed),
-                                  fontFamily: "Poppins",
+                                  fontFamily: "ProximaNova",
                                   fontWeight: FontWeight.bold,
                                   letterSpacing: 1.5,
                                   fontSize: 9.5,
