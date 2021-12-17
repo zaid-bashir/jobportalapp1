@@ -49,7 +49,7 @@ class _SuggestJobsState extends State<SuggestJobs> {
                         const Text(
                           "(You can select multiple jobs to apply)",
                           style: TextStyle(
-                            fontFamily: "Poppins",
+                            fontFamily: "ProximaNova",
                             fontWeight: FontWeight.w500,
                             letterSpacing: 1.5,
                             fontSize: 14.5,
@@ -105,7 +105,7 @@ class _SuggestJobsState extends State<SuggestJobs> {
                                     Text(
                                       " Java Developer - Pan India",
                                       style: TextStyle(
-                                        fontFamily: "Poppins",
+                                        fontFamily: "ProximaNova",
                                         fontWeight: FontWeight.bold,
                                         letterSpacing: 1.5,
                                         fontSize: 14.5,
@@ -118,7 +118,7 @@ class _SuggestJobsState extends State<SuggestJobs> {
                                       "Unacademy",
                                       style: TextStyle(
                                         color: Color(0xff3e61ed),
-                                        fontFamily: "Poppins",
+                                        fontFamily: "ProximaNova",
                                         fontWeight: FontWeight.bold,
                                         letterSpacing: 1.5,
                                         fontSize: 13.5,
@@ -145,7 +145,7 @@ class _SuggestJobsState extends State<SuggestJobs> {
                               Text(
                                 "remote",
                                 style: TextStyle(
-                                  fontFamily: "Poppins",
+                                  fontFamily: "ProximaNova",
                                   fontWeight: FontWeight.w500,
                                   letterSpacing: 1.5,
                                   fontSize: 13.5,
@@ -169,7 +169,7 @@ class _SuggestJobsState extends State<SuggestJobs> {
                               Text(
                                 "1-5 Yrs",
                                 style: TextStyle(
-                                  fontFamily: "Poppins",
+                                  fontFamily: "ProximaNova",
                                   fontWeight: FontWeight.w500,
                                   letterSpacing: 1.5,
                                   fontSize: 13.5,
@@ -193,7 +193,7 @@ class _SuggestJobsState extends State<SuggestJobs> {
                               Text(
                                 "4,50,000 - 9,50,000",
                                 style: TextStyle(
-                                  fontFamily: "Poppins",
+                                  fontFamily: "ProximaNova",
                                   fontWeight: FontWeight.w500,
                                   letterSpacing: 1.5,
                                   fontSize: 13.5,
@@ -217,7 +217,7 @@ class _SuggestJobsState extends State<SuggestJobs> {
                               Text(
                                 "unacadmy@godaddy.com",
                                 style: TextStyle(
-                                  fontFamily: "Poppins",
+                                  fontFamily: "ProximaNova",
                                   fontWeight: FontWeight.w500,
                                   letterSpacing: 1.5,
                                   fontSize: 13.5,
@@ -236,7 +236,7 @@ class _SuggestJobsState extends State<SuggestJobs> {
                                 "6d ago",
                                 style: TextStyle(
                                   color: Color(0xff3e61ed),
-                                  fontFamily: "Poppins",
+                                  fontFamily: "ProximaNova",
                                   fontWeight: FontWeight.bold,
                                   letterSpacing: 1.5,
                                   fontSize: 12.5,
@@ -254,7 +254,7 @@ class _SuggestJobsState extends State<SuggestJobs> {
                                   Text(
                                     "Hide",
                                     style: TextStyle(
-                                      fontFamily: "Poppins",
+                                      fontFamily: "ProximaNova",
                                       fontWeight: FontWeight.w500,
                                       letterSpacing: 1.5,
                                       fontSize: 12.5,
@@ -273,7 +273,7 @@ class _SuggestJobsState extends State<SuggestJobs> {
                                   Text(
                                     "Saved",
                                     style: TextStyle(
-                                      fontFamily: "Poppins",
+                                      fontFamily: "ProximaNova",
                                       fontWeight: FontWeight.w500,
                                       letterSpacing: 1.5,
                                       fontSize: 12.5,
@@ -326,7 +326,7 @@ class _SuggestJobsState extends State<SuggestJobs> {
                                     Text(
                                       "Django Developer - Pan India",
                                       style: TextStyle(
-                                        fontFamily: "Poppins",
+                                        fontFamily: "ProximaNova",
                                         fontWeight: FontWeight.bold,
                                         letterSpacing: 1.5,
                                         fontSize: 14.5,

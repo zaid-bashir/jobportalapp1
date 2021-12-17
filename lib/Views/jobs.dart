@@ -22,11 +22,11 @@ class _JobsListState extends State<JobsList> {
                   icon: const Icon(Icons.arrow_back),
                   color: Colors.black,
                 ),
-                title: Text('Jobs',
-                    style: const TextStyle(
+                title: const Text('Jobs',
+                    style: TextStyle(
                         color: Colors.black,
                         fontSize: 18,
-                        fontWeight: FontWeight.bold)),
+                        fontWeight: FontWeight.bold,fontFamily: "ProximaNova")),
               ),
               const SizedBox(
                 height: 20,
@@ -76,8 +76,8 @@ class _JobsListState extends State<JobsList> {
                                     color: Colors.black,
                                   ),
 
-                                  title: Text('Frontend Web Developer'),
-                                  subtitle: Text('Crediometer'),
+                                  title: Text('Frontend Web Developer',style: TextStyle(fontFamily: "ProximaNova"),),
+                                  subtitle: Text('Crediometer',style: TextStyle(fontFamily: "ProximaNova")),
                                 ));
                           },
                         )
