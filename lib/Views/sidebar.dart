@@ -10,8 +10,15 @@ import 'On_Board_Screens/constants/constants.dart';
 import 'explore_jobs.dart';
 
 
-class SideMenu extends StatelessWidget {
+class SideMenu extends StatefulWidget {
   const SideMenu({Key key,}) : super(key: key);
+
+  @override
+  State<SideMenu> createState() => _SideMenuState();
+}
+
+class _SideMenuState extends State<SideMenu> {
+  String test = "info";
 
   @override
   Widget build(BuildContext context) {
@@ -73,31 +80,93 @@ class SideMenu extends StatelessWidget {
                     )),
               ),
             ),
-            // FadeInLeftBig(
-            //   delay: Duration(milliseconds: 500),
-            //   duration: Duration(milliseconds: 500),
-            //   child: ExpansionTile(
-            //     title: DrawerListTile(
-            //       title: "Dashboard",
-            //       svgSrc: Icons.ten_k,
-            //       press: () {},
-            //     ),
-            //     children: <Widget>[
-            //       FadeInRightBig(
-            //         delay: const Duration(milliseconds: 500),
-            //         duration: const Duration(milliseconds: 500),
-            //         child: Padding(
-            //           padding: const EdgeInsets.only(left: 15),
-            //           child: DrawerListTile(
-            //             title: "Dashboard",
-            //             svgSrc: Icons.ten_k,
-            //             press: () {},
-            //           ),
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
+            FadeInRightBig(
+              delay: const Duration(milliseconds: 500),
+              duration: const Duration(milliseconds: 500),
+              child: ExpansionTile(
+                title: DrawerListTile(
+                  title: "Update Profile",
+                  svgSrc: Icons.update_outlined,
+                  press: () {},
+                ),
+                children: <Widget>[
+                  FadeInRightBig(
+                    delay: const Duration(milliseconds: 500),
+                    duration: const Duration(milliseconds: 500),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: DrawerListTile(
+                        title: "Basic Information",
+                        svgSrc: Icons.feed_outlined,
+                        press: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfilePage(basic: test,)));
+                        },
+                      ),
+                    ),
+                  ),
+                  FadeInRightBig(
+                    delay: const Duration(milliseconds: 500),
+                    duration: const Duration(milliseconds: 500),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: DrawerListTile(
+                        title: "Location",
+                        svgSrc: Icons.location_on_outlined,
+                        press: () {},
+                      ),
+                    ),
+                  ),
+                  FadeInRightBig(
+                    delay: const Duration(milliseconds: 500),
+                    duration: const Duration(milliseconds: 500),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: DrawerListTile(
+                        title: "Education",
+                        svgSrc: Icons.school_outlined,
+                        press: () {},
+                      ),
+                    ),
+                  ),
+                  FadeInRightBig(
+                    delay: const Duration(milliseconds: 500),
+                    duration: const Duration(milliseconds: 500),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: DrawerListTile(
+                        title: "Skills",
+                        svgSrc: Icons.psychology_outlined,
+                        press: () {},
+                      ),
+                    ),
+                  ),
+                  FadeInRightBig(
+                    delay: const Duration(milliseconds: 500),
+                    duration: const Duration(milliseconds: 500),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: DrawerListTile(
+                        title: "Languages",
+                        svgSrc: Icons.translate_outlined,
+                        press: () {},
+                      ),
+                    ),
+                  ),
+                  FadeInRightBig(
+                    delay: const Duration(milliseconds: 500),
+                    duration: const Duration(milliseconds: 500),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: DrawerListTile(
+                        title: "Projects",
+                        svgSrc: Icons.stacked_bar_chart_outlined,
+                        press: () {},
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             FadeInLeftBig(
               delay: const Duration(milliseconds: 500),
               duration: const Duration(milliseconds: 500),
