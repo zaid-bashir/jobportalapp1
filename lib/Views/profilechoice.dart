@@ -208,7 +208,7 @@ class _ProfileChoiceState extends State<ProfileChoice> {
                     Navigator.push(context, MaterialPageRoute(builder: (
                         context) => SetupProfile()));
                   }, child: const Text("Next",style:TextStyle(
-                fontFamily: "Poppins",
+                fontFamily: "ProximaNova",
                 fontWeight: FontWeight.bold,
                 // letterSpacing: 1.5,
                 fontSize: 13.5,

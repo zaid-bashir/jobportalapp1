@@ -41,7 +41,7 @@ class _SkillsAndEducationState extends State<SkillsAndEducation> {
                     Text(
                       "Key skills",
                       style: TextStyle(
-                        fontFamily: "Poppins",
+                        fontFamily: "ProximaNova",
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1.5,
                         fontSize: 18.5,
@@ -74,14 +74,14 @@ class _SkillsAndEducationState extends State<SkillsAndEducation> {
                     labelText: 'Skills',
                     labelStyle: TextStyle(
                       color: Colors.blueGrey,
-                      fontFamily: "Poppins",
+                      fontFamily: "ProximaNova",
                       fontWeight: FontWeight.w500,
                       letterSpacing: 1.5,
                       fontSize: 15.5,
                     ),
                     floatingLabelStyle: TextStyle(
                       color: Color(0xff2972ff),
-                      fontFamily: "Poppins",
+                      fontFamily: "ProximaNova",
                       fontWeight: FontWeight.bold,
                       // letterSpacing: 1.5,
                       fontSize: 17.5,
@@ -125,7 +125,7 @@ class _SkillsAndEducationState extends State<SkillsAndEducation> {
                   children: [
                     Text("Suggested skills based on your employment ",
                       style: TextStyle(
-                        fontFamily: "Poppins",
+                        fontFamily: "ProximaNova",
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1.5,
                         fontSize: 13.5,
@@ -223,7 +223,7 @@ class _SkillsAndEducationState extends State<SkillsAndEducation> {
                     Text(
                       "Education Details",
                       style: TextStyle(
-                        fontFamily: "Poppins",
+                        fontFamily: "ProximaNova",
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1.5,
                         fontSize: 18.5,
@@ -250,14 +250,14 @@ class _SkillsAndEducationState extends State<SkillsAndEducation> {
                         labelText: 'Qualification',
                         labelStyle: TextStyle(
                           color: Colors.blueGrey,
-                          fontFamily: "Poppins",
+                          fontFamily: "ProximaNova",
                           fontWeight: FontWeight.w500,
                           letterSpacing: 1.5,
                           fontSize: 15.5,
                         ),
                         floatingLabelStyle: TextStyle(
                           color: Color(0xff2972ff),
-                          fontFamily: "Poppins",
+                          fontFamily: "ProximaNova",
                           fontWeight: FontWeight.bold,
                           // letterSpacing: 1.5,
                           fontSize: 17.5,
@@ -275,7 +275,7 @@ class _SkillsAndEducationState extends State<SkillsAndEducation> {
                     const Text(
                       "Highest Qualification *",
                       style: TextStyle(
-                        fontFamily: "Poppins",
+                        fontFamily: "ProximaNova",
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1.5,
                         fontSize: 15.5,
@@ -369,7 +369,7 @@ class _SkillsAndEducationState extends State<SkillsAndEducation> {
                                 Navigator.push(context, MaterialPageRoute(builder: (
                                     context) => WelcomeScreen()));
                               }, child: const Text("Next",style:TextStyle(
-                            fontFamily: "Poppins",
+                            fontFamily: "ProximaNova",
                             fontWeight: FontWeight.bold,
 
                             fontSize: 13.5,

@@ -54,14 +54,14 @@ class _LoginPageState extends State<LoginPage> {
                              labelText: 'Email Or Phone',
                              labelStyle: TextStyle(
                                color: Colors.blueGrey,
-                               fontFamily: "Poppins",
+                               fontFamily: "ProximaNova",
                                fontWeight: FontWeight.w500,
                                letterSpacing: 1.5,
                                fontSize: 15.5,
                              ),
                              floatingLabelStyle: TextStyle(
                                color:  Color(0xff3e61ed),
-                               fontFamily: "Poppins",
+                               fontFamily: "ProximaNova",
                                fontWeight: FontWeight.bold,
                                // letterSpacing: 1.5,
                                fontSize: 17.5,
@@ -80,13 +80,13 @@ class _LoginPageState extends State<LoginPage> {
                   //     hintText: 'Username or e-mail',
                   //     labelStyle: const TextStyle(
                   //       color: Colors.blue,
-                  //       fontFamily: "Poppins",
+                  //       fontFamily: "ProximaNova",
                   //       fontWeight: FontWeight.w500,
                   //       letterSpacing: 1.5,
                   //       fontSize: 14.5,
                   //     ),
                   //     hintStyle: const TextStyle(
-                  //       fontFamily: "Poppins",
+                  //       fontFamily: "ProximaNova",
                   //       fontWeight: FontWeight.w500,
                   //       letterSpacing: 1.5,
                   //       fontSize: 14.5,
@@ -100,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
                   //     ),
                   //     floatingLabelStyle: const TextStyle(
                   //       color: Colors.blue,
-                  //       fontFamily: "Poppins",
+                  //       fontFamily: "ProximaNova",
                   //       fontWeight: FontWeight.bold,
                   //       letterSpacing: 1.5,
                   //       fontSize: 14.5,
@@ -119,14 +119,14 @@ class _LoginPageState extends State<LoginPage> {
                       labelText: 'Password',
                       labelStyle: TextStyle(
                         color: Colors.blueGrey,
-                        fontFamily: "Poppins",
+                        fontFamily: "ProximaNova",
                         fontWeight: FontWeight.w500,
                         letterSpacing: 1.5,
                         fontSize: 15.5,
                       ),
                       floatingLabelStyle: TextStyle(
                         color: Color(0xff3e61ed),
-                        fontFamily: "Poppins",
+                        fontFamily: "ProximaNova",
                         fontWeight: FontWeight.bold,
                         // letterSpacing: 1.5,
                         fontSize: 17.5,
@@ -144,14 +144,14 @@ class _LoginPageState extends State<LoginPage> {
                   //     labelText: 'Password',
                   //     hintText: 'Password',
                   //     hintStyle: const  TextStyle(
-                  //       fontFamily: "Poppins",
+                  //       fontFamily: "ProximaNova",
                   //       fontWeight: FontWeight.w500,
                   //       letterSpacing: 1.5,
                   //       fontSize: 14.5,
                   //     ),
                   //     labelStyle:  TextStyle(
                   //       color: Colors.blue,
-                  //       fontFamily: "Poppins",
+                  //       fontFamily: "ProximaNova",
                   //       fontWeight: FontWeight.w500,
                   //       letterSpacing: 1.5,
                   //       fontSize: 14.5,
@@ -165,7 +165,7 @@ class _LoginPageState extends State<LoginPage> {
                   //     ),
                   //     floatingLabelStyle: const  TextStyle(
                   //       color: Colors.blue,
-                  //       fontFamily: "Poppins",
+                  //       fontFamily: "ProximaNova",
                   //       fontWeight: FontWeight.bold,
                   //       letterSpacing: 1.5,
                   //       fontSize: 14.5,
@@ -198,7 +198,7 @@ class _LoginPageState extends State<LoginPage> {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => Navbar()));
                       },text: "Login",textStyle:TextStyle(
                       color: Colors.white,
-                      fontFamily: "Poppins",
+                      fontFamily: "ProximaNova",
                       fontWeight: FontWeight.bold,
                       // letterSpacing: 1.5,
                       fontSize: 14.5,
@@ -238,7 +238,7 @@ class _LoginPageState extends State<LoginPage> {
                   //     const Text(
                   //       "Request OTP", style: TextStyle(
                   //       color: Colors.white,
-                  //       fontFamily: "Poppins",
+                  //       fontFamily: "ProximaNova",
                   //       fontWeight: FontWeight.bold,
                   //       letterSpacing: 1.5,
                   //       fontSize: 14.5,

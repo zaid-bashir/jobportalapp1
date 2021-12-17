@@ -42,7 +42,7 @@ class _SetupProfileState extends State<SetupProfile> {
                     Text(
                       "Employment Details.",
                       style: TextStyle(
-                        fontFamily: "Poppins",
+                        fontFamily: "ProximaNova",
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1.5,
                         fontSize: 18.5,
@@ -76,7 +76,7 @@ class _SetupProfileState extends State<SetupProfile> {
                     child: Text(
                       "Are you currently employed ?",
                       style: TextStyle(
-                        fontFamily: "Poppins",
+                        fontFamily: "ProximaNova",
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1.5,
                         fontSize: 13.5,
@@ -106,7 +106,7 @@ class _SetupProfileState extends State<SetupProfile> {
                         const Text(
                           "Yes",
                           style: TextStyle(
-                            fontFamily: "Poppins",
+                            fontFamily: "ProximaNova",
                             fontWeight: FontWeight.bold,
                             letterSpacing: 1.5,
                             fontSize: 14.5,
@@ -134,7 +134,7 @@ class _SetupProfileState extends State<SetupProfile> {
                         const Text(
                           "No",
                           style: TextStyle(
-                            fontFamily: "Poppins",
+                            fontFamily: "ProximaNova",
                             fontWeight: FontWeight.bold,
                             letterSpacing: 1.5,
                             fontSize: 14.5,
@@ -148,7 +148,7 @@ class _SetupProfileState extends State<SetupProfile> {
                     child: Text(
                       "Total work experience *",
                       style: TextStyle(
-                        fontFamily: "Poppins",
+                        fontFamily: "ProximaNova",
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1.5,
                         fontSize: 13.5,
@@ -167,7 +167,7 @@ class _SetupProfileState extends State<SetupProfile> {
                             child: TextField(
                               decoration: InputDecoration(hintText: "Eg: 2",hintStyle:  TextStyle(
                                 color: Colors.blueGrey,
-                                fontFamily: "Poppins",
+                                fontFamily: "ProximaNova",
                                 fontWeight: FontWeight.w500,
                                 letterSpacing: 1.5,
                                 fontSize: 15.5,
@@ -181,7 +181,7 @@ class _SetupProfileState extends State<SetupProfile> {
                           child: Text(
                             'Years',
                             style: TextStyle(
-                              fontFamily: "Poppins",
+                              fontFamily: "ProximaNova",
                               fontWeight: FontWeight.w500,
                               letterSpacing: 1.5,
                               fontSize: 13.5,
@@ -198,7 +198,7 @@ class _SetupProfileState extends State<SetupProfile> {
 
                             hintStyle:  TextStyle(
                               color: Colors.blueGrey,
-                              fontFamily: "Poppins",
+                              fontFamily: "ProximaNova",
                               fontWeight: FontWeight.w500,
                               letterSpacing: 1.5,
                               fontSize: 15.5,
@@ -211,7 +211,7 @@ class _SetupProfileState extends State<SetupProfile> {
                           child: Text(
                             'Months',
                             style: TextStyle(
-                              fontFamily: "Poppins",
+                              fontFamily: "ProximaNova",
                               fontWeight: FontWeight.w500,
                               letterSpacing: 1.5,
                               fontSize: 13.5,
@@ -232,14 +232,14 @@ class _SetupProfileState extends State<SetupProfile> {
                         labelText: 'Job-Title',
                         labelStyle: TextStyle(
                           color: Colors.blueGrey,
-                          fontFamily: "Poppins",
+                          fontFamily: "ProximaNova",
                           fontWeight: FontWeight.w500,
                           letterSpacing: 1.5,
                           fontSize: 15.5,
                         ),
                         floatingLabelStyle: TextStyle(
                           color: Color(0xff2972ff),
-                          fontFamily: "Poppins",
+                          fontFamily: "ProximaNova",
                           fontWeight: FontWeight.bold,
                           // letterSpacing: 1.5,
                           fontSize: 17.5,

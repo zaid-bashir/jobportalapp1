@@ -66,14 +66,14 @@ class _ExploreJobsState extends State<ExploreJobs> {
                       labelText: 'Skills,designation,companies',
                       labelStyle: TextStyle(
                         color: Colors.blueGrey,
-                        fontFamily: "Poppins",
+                        fontFamily: "ProximaNova",
                         fontWeight: FontWeight.w500,
                         letterSpacing: 1.5,
                         fontSize: 13.5,
                       ),
                       floatingLabelStyle: TextStyle(
                         color: Color(0xff3e61ed),
-                        fontFamily: "Poppins",
+                        fontFamily: "ProximaNova",
                         fontWeight: FontWeight.bold,
                         // letterSpacing: 1.5,
                         fontSize: 17.5,
@@ -93,14 +93,14 @@ class _ExploreJobsState extends State<ExploreJobs> {
                       labelText: 'Location',
                       labelStyle: TextStyle(
                         color: Colors.blueGrey,
-                        fontFamily: "Poppins",
+                        fontFamily: "ProximaNova",
                         fontWeight: FontWeight.w500,
                         letterSpacing: 1.5,
                         fontSize: 13.5,
                       ),
                       floatingLabelStyle: TextStyle(
                         color: Color(0xff3e61ed),
-                        fontFamily: "Poppins",
+                        fontFamily: "ProximaNova",
                         fontWeight: FontWeight.bold,
                         // letterSpacing: 1.5,
                         fontSize: 17.5,
@@ -125,7 +125,7 @@ class _ExploreJobsState extends State<ExploreJobs> {
                         // Navigator.push(context, MaterialPageRoute(builder: (
                         //     context) => SkillsAndEducation()));
                       }, child: const Text("Search Jobs",style:TextStyle(
-                    fontFamily: "Poppins",
+                    fontFamily: "ProximaNova",
                     fontWeight: FontWeight.bold,
                     // letterSpacing: 1.5,
                     fontSize: 13.5,
