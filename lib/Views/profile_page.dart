@@ -13,13 +13,22 @@ import 'package:provider/provider.dart';
 import 'inbox.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key key}) : super(key: key);
+   ProfilePage({Key key,this.basic}) : super(key: key);
+  String basic ;
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderStateMixin{
+  final itemKey = GlobalKey();
+
+  // bool  get key  => widget.itemKey != null;
+  Future scrollToItem() async {
+    final context = itemKey.currentContext;
+    await Scrollable.ensureVisible(context);
+  }
+
   int groupValue = 0;
   bool _status = true;
   final FocusNode myFocusNode = FocusNode();
@@ -48,6 +57,13 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
 
   @override
   void initState() {
+    if(widget.basic != null){
+      setState(() {
+        scrollToItem();
+      });
+
+      print(widget.basic);
+       }
     loadingController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 10),
@@ -180,6 +196,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                 endIndent: 10,
               ),
               Padding(
+
                 padding: const EdgeInsets.only(left: 25, top: 10, right: 25),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -488,10 +505,11 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                 ),
               ),
               Padding(
+                key: itemKey,
                 padding: const EdgeInsets.only(left: 25, top: 10, right: 25),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children:  [
+                  children: [
                     const Text(
                       "LOCATION",
                       style: TextStyle(
@@ -1195,7 +1213,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                         color: Colors.blue,
                                         size: 40,
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 15,
                                       ),
                                       Text(
