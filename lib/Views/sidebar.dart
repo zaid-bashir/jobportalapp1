@@ -1,10 +1,13 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:job_portal/Views/explore_jobs.dart';
 import 'package:job_portal/Views/profile_page.dart';
+import 'package:job_portal/Views/saved_jobs.dart';
 import 'package:job_portal/Views/settings.dart';
+import 'package:job_portal/Views/suggested_jobs.dart';
 
 import 'On_Board_Screens/constants/constants.dart';
+import 'explore_jobs.dart';
 
 
 class SideMenu extends StatelessWidget {
@@ -103,7 +106,9 @@ class SideMenu extends StatelessWidget {
                 child: DrawerListTile(
                   title: "Explore Jobs",
                   svgSrc:  Icons.manage_search_outlined,
-                  press: () {},
+                  press: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>ExploreJobs()));
+                  },
                 ),
               ),
             ),
@@ -115,7 +120,10 @@ class SideMenu extends StatelessWidget {
                 child: DrawerListTile(
                   title: "Saved Jobs",
                   svgSrc:  Icons.bookmark_border_outlined,
-                  press: () {},
+                  press: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>SavedJobs()));
+
+                  },
                 ),
               ),
             ),
@@ -127,7 +135,10 @@ class SideMenu extends StatelessWidget {
                 child: DrawerListTile(
                   title: "Suggested Jobs",
                   svgSrc:  Icons.work_outline_outlined,
-                  press: () {},
+                  press: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>SuggestJobs()));
+
+                  },
                 ),
               ),
             ),

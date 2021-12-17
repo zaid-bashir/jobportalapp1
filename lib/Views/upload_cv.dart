@@ -86,7 +86,7 @@ class _UploadCvState extends State<UploadCv>
             //   'File should be jpg, png',
             //   style: TextStyle(fontSize: 15, color: Colors.grey.shade500),
             // ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
 
@@ -220,9 +220,10 @@ class _UploadCvState extends State<UploadCv>
                     //   child: Text('Upload', style: TextStyle(color: Colors.white),),
                     // )
                   ],
-                ))
+                )
+            )
                 : Container(),
-            SizedBox(
+            const SizedBox(
               height: 150,
             ),
           ],
