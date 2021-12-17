@@ -3,7 +3,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Notify extends StatefulWidget {
   const  Notify({Key key}) : super(key: key);
-
   @override
   _NotifyState createState() => _NotifyState();
 }
@@ -16,7 +15,7 @@ class Notify extends StatefulWidget {
         ListTile(
           leading: Text("Notification",
           style: TextStyle(fontSize: 18, fontWeight:FontWeight.bold), ),
-          trailing: CircleAvatar(
+          trailing:  CircleAvatar(
             child: Icon(Icons.search, color: Colors.white,),
             backgroundColor: Colors.blue,
           ),

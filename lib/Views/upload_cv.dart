@@ -89,6 +89,7 @@ class _UploadCvState extends State<UploadCv>
             SizedBox(
               height: 20,
             ),
+
             GestureDetector(
               onTap: selectFile,
               child: Padding(

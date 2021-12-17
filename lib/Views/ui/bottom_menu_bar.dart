@@ -31,7 +31,7 @@ class Navbar extends StatelessWidget {
             // primaryColorDark:  Color(0xFFC41A3B),
             primaryColorLight: const Color(0xFFFBE0E6),
             // accentColor: const Color(0xFFC41A3B),
-            accentColor: Colors.lightBlueAccent[700],
+            accentColor:Color(0xff3e61ed),
           ),
           home: Navlist(),
         ),
@@ -82,14 +82,13 @@ class _NavlistState extends State<Navlist>
         physics: NeverScrollableScrollPhysics(),
         controller: _tabController,
       ),
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.all(16.0),
-        child: ClipRRect(
-          // borderRadius: const BorderRadius.all(
-          //   Radius.circular(50.0),
-          // ),
-          child: Container(
-            // color: Colors.lightBlueAccent[700].withOpacity(0.4),
+      bottomNavigationBar: SizedBox(
+        height: 60,
+        // padding: const EdgeInsets.all(16.0),
+        child: Card(
+          elevation: 5,
+          child: ClipRRect(
+
             child: TabBar(
               labelColor:Theme.of(context).accentColor,
               unselectedLabelColor: Colors.grey,

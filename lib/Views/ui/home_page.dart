@@ -23,9 +23,9 @@ class HomePage extends StatelessWidget {
               backgroundImage: AssetImage(Images.user1),
             ),
           ),
-          Spacer(),
+          const Spacer(),
           IconButton(
-            icon: Icon(Icons.chat,color: Colors.grey,),
+            icon: Icon(Icons.chat, color: Color(0xff3e61ed),),
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => InboxList()));
             },
@@ -124,7 +124,26 @@ class HomePage extends StatelessWidget {
                     img: Images.dropbox,
                     title: "Reserch Assist",
                     sub: "\$45,000 Remote",
+                    isActive: false),
+                _recommendedJob(context,
+                    company: "DropBox",
+                    img: Images.dropbox,
+                    title: "Reserch Assist",
+                    sub: "\$45,000 Remote",
+                    isActive: false),
+                _recommendedJob(context,
+                    company: "DropBox",
+                    img: Images.dropbox,
+                    title: "Reserch Assist",
+                    sub: "\$45,000 Remote",
+                    isActive: false),
+                _recommendedJob(context,
+                    company: "DropBox",
+                    img: Images.dropbox,
+                    title: "Reserch Assist",
+                    sub: "\$45,000 Remote",
                     isActive: false)
+
               ],
             ),
           ),
