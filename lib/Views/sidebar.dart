@@ -1,13 +1,14 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:job_portal/Views/explore_jobs.dart';
-import 'package:job_portal/Views/profile_page.dart';
-import 'package:job_portal/Views/saved_jobs.dart';
+import 'package:job_portal/Views/profilepage.dart';
+import 'package:job_portal/Views/savedjobs.dart';
 import 'package:job_portal/Views/settings.dart';
-import 'package:job_portal/Views/suggested_jobs.dart';
+import 'package:job_portal/Views/suggestedjobs.dart';
 
-import 'On_Board_Screens/constants/constants.dart';
+
 import 'explore_jobs.dart';
+import 'onboardscreens/constants/constants.dart';
 
 
 class SideMenu extends StatefulWidget {

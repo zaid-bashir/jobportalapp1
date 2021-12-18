@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:getwidget/components/radio/gf_radio.dart';
 import 'package:iconsax/iconsax.dart';
 import 'dart:io';
-import 'package:job_portal/Controller/menu_controller.dart';
+import 'package:job_portal/Controller/menucontroller.dart';
 import 'package:job_portal/Views/sidebar.dart';
 import 'package:job_portal/Views/theme/colors.dart';
 import 'package:job_portal/Views/theme/images.dart';
@@ -1336,7 +1336,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
   }
   @override
   void dispose() {
-    // Clean up the controller when the Widget is disposed
+    // Clean up the Controller when the Widget is disposed
     myFocusNode.dispose();
     super.dispose();
   }
