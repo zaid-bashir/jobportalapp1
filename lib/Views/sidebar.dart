@@ -5,6 +5,7 @@ import 'package:job_portal/Views/profile_page.dart';
 import 'package:job_portal/Views/saved_jobs.dart';
 import 'package:job_portal/Views/settings.dart';
 import 'package:job_portal/Views/suggested_jobs.dart';
+
 import 'On_Board_Screens/constants/constants.dart';
 import 'explore_jobs.dart';
 
@@ -27,8 +28,8 @@ class _SideMenuState extends State<SideMenu> {
         child: ListView(
           children: <Widget>[
             FadeInDown(
-              delay: const Duration(milliseconds: 500),
-              duration: const Duration(milliseconds: 500),
+              delay: Duration(milliseconds: 500),
+              duration: Duration(milliseconds: 500),
               child: Container(
                 height: 100,
                 child: DrawerHeader(
@@ -44,27 +45,27 @@ class _SideMenuState extends State<SideMenu> {
                             color: Colors.grey.shade900,size: 35,
                           ),
                         ),
-                        const SizedBox(
+                        SizedBox(
                           width: 20,
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 20),
                           child: Column(
                             children: [
-                              const Text("Vijay Niranjan",   style: TextStyle(
+                              Text("Vijay Niranjan",   style: TextStyle(
                                 fontFamily: "ProximaNova",
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: 1.5,
                                 fontSize: 14.5,
                               ),),
-                              const SizedBox(
+                              SizedBox(
                                 height: 10,
                               ),
                               GestureDetector(
                                 onTap: (){
                                   Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfilePage()));
                                 },
-                                child: const Text("Update Profile",   style: TextStyle(
+                                child: Text("Update Profile",   style: TextStyle(
                                   color: Color(0xff3e61ed),
                                   fontFamily: "ProximaNova",
                                   fontWeight: FontWeight.bold,
@@ -93,13 +94,15 @@ class _SideMenuState extends State<SideMenu> {
                     delay: const Duration(milliseconds: 500),
                     duration: const Duration(milliseconds: 500),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 30),
-                      child: DrawerListTile(
-                        title: "Basic Information",
-                        svgSrc: Icons.feed_outlined,
-                        press: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfilePage(basic: test)));
-                        },
+                      padding: const EdgeInsets.only(left: 15),
+                      child: MaterialApp(
+                        home: DrawerListTile(
+                          title: "Basic Information",
+                          svgSrc: Icons.feed_outlined,
+                          press: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfilePage(basic: test,)));
+                          },
+                        ),
                       ),
                     ),
                   ),
@@ -107,7 +110,7 @@ class _SideMenuState extends State<SideMenu> {
                     delay: const Duration(milliseconds: 500),
                     duration: const Duration(milliseconds: 500),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 30),
+                      padding: const EdgeInsets.only(left: 15),
                       child: DrawerListTile(
                         title: "Location",
                         svgSrc: Icons.location_on_outlined,
@@ -119,7 +122,7 @@ class _SideMenuState extends State<SideMenu> {
                     delay: const Duration(milliseconds: 500),
                     duration: const Duration(milliseconds: 500),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 30),
+                      padding: const EdgeInsets.only(left: 15),
                       child: DrawerListTile(
                         title: "Education",
                         svgSrc: Icons.school_outlined,
@@ -131,7 +134,7 @@ class _SideMenuState extends State<SideMenu> {
                     delay: const Duration(milliseconds: 500),
                     duration: const Duration(milliseconds: 500),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 30),
+                      padding: const EdgeInsets.only(left: 15),
                       child: DrawerListTile(
                         title: "Skills",
                         svgSrc: Icons.psychology_outlined,
@@ -143,7 +146,7 @@ class _SideMenuState extends State<SideMenu> {
                     delay: const Duration(milliseconds: 500),
                     duration: const Duration(milliseconds: 500),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 30),
+                      padding: const EdgeInsets.only(left: 15),
                       child: DrawerListTile(
                         title: "Languages",
                         svgSrc: Icons.translate_outlined,
@@ -155,7 +158,7 @@ class _SideMenuState extends State<SideMenu> {
                     delay: const Duration(milliseconds: 500),
                     duration: const Duration(milliseconds: 500),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 30),
+                      padding: const EdgeInsets.only(left: 15),
                       child: DrawerListTile(
                         title: "Projects",
                         svgSrc: Icons.stacked_bar_chart_outlined,
@@ -213,7 +216,7 @@ class _SideMenuState extends State<SideMenu> {
             FadeInDownBig(
               delay: const Duration(milliseconds: 500),
               duration: const Duration(milliseconds: 500),
-              child: const Divider(
+              child: Divider(
                 color: Colors.grey,
                 thickness: 0.8,
                 indent: 8.0,
@@ -298,11 +301,11 @@ class DrawerListTile extends StatelessWidget {
       horizontalTitleGap: 0.0,
       leading:Icon(
         svgSrc,
-        color: const Color(0xff3e61ed),
+        color: Color(0xff3e61ed),
       ),
       title: Text(
         title,
-        style: const TextStyle(
+        style: TextStyle(
           fontFamily: Constants.OPEN_SANS,
           fontWeight: FontWeight.w600,
           fontSize: 14.0,
