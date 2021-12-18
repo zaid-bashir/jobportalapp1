@@ -373,6 +373,33 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.bold),
                               ),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              GFRadio(
+                                size: 20,
+                                activeBorderColor: const Color(0xff3e61ed),
+                                value: 3,
+                                // enabled: !_status,
+                                autofocus: !_status,
+                                groupValue: groupValue,
+                                onChanged: (value) {
+                                  setState(() {
+                                    groupValue = value;
+                                  });
+                                },
+                                inactiveIcon: null,
+                                radioColor: const Color(0xff3e61ed),
+                              ),
+                              const SizedBox(
+                                width: 7,
+                              ),
+                              const Text(
+                                "Others",
+                                style: TextStyle(
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ],
                           ),
                         ),

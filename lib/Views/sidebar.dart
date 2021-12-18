@@ -93,7 +93,7 @@ class _SideMenuState extends State<SideMenu> {
                     delay: const Duration(milliseconds: 500),
                     duration: const Duration(milliseconds: 500),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 25,right:20),
+                      padding: const EdgeInsets.only(left: 30),
                       child: DrawerListTile(
                         title: "Basic Information",
                         svgSrc: Icons.feed_outlined,
@@ -107,7 +107,7 @@ class _SideMenuState extends State<SideMenu> {
                     delay: const Duration(milliseconds: 500),
                     duration: const Duration(milliseconds: 500),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 15),
+                      padding: const EdgeInsets.only(left: 30),
                       child: DrawerListTile(
                         title: "Location",
                         svgSrc: Icons.location_on_outlined,
@@ -119,7 +119,7 @@ class _SideMenuState extends State<SideMenu> {
                     delay: const Duration(milliseconds: 500),
                     duration: const Duration(milliseconds: 500),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 15),
+                      padding: const EdgeInsets.only(left: 30),
                       child: DrawerListTile(
                         title: "Education",
                         svgSrc: Icons.school_outlined,
@@ -131,7 +131,7 @@ class _SideMenuState extends State<SideMenu> {
                     delay: const Duration(milliseconds: 500),
                     duration: const Duration(milliseconds: 500),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 15),
+                      padding: const EdgeInsets.only(left: 30),
                       child: DrawerListTile(
                         title: "Skills",
                         svgSrc: Icons.psychology_outlined,
@@ -143,7 +143,7 @@ class _SideMenuState extends State<SideMenu> {
                     delay: const Duration(milliseconds: 500),
                     duration: const Duration(milliseconds: 500),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 15),
+                      padding: const EdgeInsets.only(left: 30),
                       child: DrawerListTile(
                         title: "Languages",
                         svgSrc: Icons.translate_outlined,
@@ -155,7 +155,7 @@ class _SideMenuState extends State<SideMenu> {
                     delay: const Duration(milliseconds: 500),
                     duration: const Duration(milliseconds: 500),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 15),
+                      padding: const EdgeInsets.only(left: 30),
                       child: DrawerListTile(
                         title: "Projects",
                         svgSrc: Icons.stacked_bar_chart_outlined,
