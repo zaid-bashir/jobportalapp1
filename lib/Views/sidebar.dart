@@ -5,7 +5,6 @@ import 'package:job_portal/Views/profile_page.dart';
 import 'package:job_portal/Views/saved_jobs.dart';
 import 'package:job_portal/Views/settings.dart';
 import 'package:job_portal/Views/suggested_jobs.dart';
-
 import 'On_Board_Screens/constants/constants.dart';
 import 'explore_jobs.dart';
 
@@ -28,8 +27,8 @@ class _SideMenuState extends State<SideMenu> {
         child: ListView(
           children: <Widget>[
             FadeInDown(
-              delay: Duration(milliseconds: 500),
-              duration: Duration(milliseconds: 500),
+              delay: const Duration(milliseconds: 500),
+              duration: const Duration(milliseconds: 500),
               child: Container(
                 height: 100,
                 child: DrawerHeader(
@@ -45,27 +44,27 @@ class _SideMenuState extends State<SideMenu> {
                             color: Colors.grey.shade900,size: 35,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 20,
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 20),
                           child: Column(
                             children: [
-                              Text("Vijay Niranjan",   style: TextStyle(
+                              const Text("Vijay Niranjan",   style: TextStyle(
                                 fontFamily: "ProximaNova",
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: 1.5,
                                 fontSize: 14.5,
                               ),),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               GestureDetector(
                                 onTap: (){
                                   Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfilePage()));
                                 },
-                                child: Text("Update Profile",   style: TextStyle(
+                                child: const Text("Update Profile",   style: TextStyle(
                                   color: Color(0xff3e61ed),
                                   fontFamily: "ProximaNova",
                                   fontWeight: FontWeight.bold,
@@ -94,12 +93,12 @@ class _SideMenuState extends State<SideMenu> {
                     delay: const Duration(milliseconds: 500),
                     duration: const Duration(milliseconds: 500),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 15),
+                      padding: const EdgeInsets.only(left: 25,right:20),
                       child: DrawerListTile(
                         title: "Basic Information",
                         svgSrc: Icons.feed_outlined,
                         press: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfilePage(basic: test,)));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfilePage(basic: test)));
                         },
                       ),
                     ),
@@ -214,7 +213,7 @@ class _SideMenuState extends State<SideMenu> {
             FadeInDownBig(
               delay: const Duration(milliseconds: 500),
               duration: const Duration(milliseconds: 500),
-              child: Divider(
+              child: const Divider(
                 color: Colors.grey,
                 thickness: 0.8,
                 indent: 8.0,
@@ -299,11 +298,11 @@ class DrawerListTile extends StatelessWidget {
       horizontalTitleGap: 0.0,
       leading:Icon(
         svgSrc,
-        color: Color(0xff3e61ed),
+        color: const Color(0xff3e61ed),
       ),
       title: Text(
         title,
-        style: TextStyle(
+        style: const TextStyle(
           fontFamily: Constants.OPEN_SANS,
           fontWeight: FontWeight.w600,
           fontSize: 14.0,

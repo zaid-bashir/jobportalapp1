@@ -2,6 +2,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/radio/gf_radio.dart';
+import 'package:getwidget/getwidget.dart';
 import 'package:iconsax/iconsax.dart';
 import 'dart:io';
 import 'package:job_portal/Controller/menu_controller.dart';
@@ -22,10 +23,16 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderStateMixin{
   final itemKey = GlobalKey();
+  final skillKey = GlobalKey();
 
-  // bool  get key  => widget.itemKey != null;
+  // bool  get key  => widget.ite47mKey != null;
   Future scrollToItem() async {
     final context = itemKey.currentContext;
+    await Scrollable.ensureVisible(context);
+  }
+
+  Future scrollToItems() async {
+    final context = skillKey.currentContext;
     await Scrollable.ensureVisible(context);
   }
 
@@ -57,13 +64,13 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
 
   @override
   void initState() {
-    if(widget.basic != null){
-      setState(() {
-        scrollToItem();
-      });
-
-      print(widget.basic);
-       }
+    // if(widget.basic != null){
+    //   setState(() {
+    //     scrollToItem();
+    //   });
+    //
+    //   print(widget.basic);
+    //    }
     loadingController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 10),
@@ -73,7 +80,6 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
 
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -195,6 +201,17 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                 indent: 10,
                 endIndent: 10,
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                GFButton(onPressed: (){
+                  scrollToItems();
+                }, child: Text("Skills"),),
+                GFButton(onPressed: (){
+                  scrollToItem();
+                } , child: Text("Location"),),
+              ],),
+
               Padding(
 
                 padding: const EdgeInsets.only(left: 25, top: 10, right: 25),
@@ -839,6 +856,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                 ),
               ),
               Padding(
+                key: skillKey,
                 padding: const EdgeInsets.only(left: 25, top: 10, right: 25),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
