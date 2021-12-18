@@ -1,4 +1,7 @@
+<<<<<<< HEAD:lib/Views/upload_post.dart
 // ignore_for_file: prefer_const_constructors
+=======
+>>>>>>> 8288977db3a8722fdd865b9169ff41b0b9674a01:lib/Views/uploadpost.dart
 
 
 import 'package:flutter/material.dart';

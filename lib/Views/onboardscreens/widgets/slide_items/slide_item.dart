@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:job_portal/Views/On_Board_Screens/constants/constants.dart';
-import 'package:job_portal/Views/On_Board_Screens/model/slider.dart';
+
+import 'package:job_portal/Views/onboardscreens/constants/constants.dart';
+import 'package:job_portal/Views/onboardscreens/model/slider.dart';
 
 
 

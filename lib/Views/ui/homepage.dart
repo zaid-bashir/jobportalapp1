@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:job_portal/Controller/menu_controller.dart';
+import 'package:job_portal/Controller/menucontroller.dart';
 import 'package:job_portal/Views/inbox.dart';
 import 'package:job_portal/Views/theme/colors.dart';
 import 'package:job_portal/Views/theme/images.dart';
@@ -7,7 +7,7 @@ import 'package:job_portal/Views/theme/images.dart';
 import 'package:provider/provider.dart';
 
 import '../sidebar.dart';
-import 'job_detail_page.dart';
+import 'jobdetailpage.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({ Key key}) : super(key: key);

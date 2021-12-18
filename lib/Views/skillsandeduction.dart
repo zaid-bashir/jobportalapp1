@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/button/gf_button.dart';
-import 'package:job_portal/Views/welcome_screen.dart';
+import 'package:job_portal/Views/welcomescreen.dart';
 
 
 class SkillsAndEducation extends StatefulWidget {
