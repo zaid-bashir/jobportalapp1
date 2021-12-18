@@ -31,8 +31,8 @@ class _ExploreJobsState extends State<ExploreJobs> {
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
+                  children: const [
+                    Text(
                       "Search Jobs.",
                       style: TextStyle(
                         color: Colors.black,
