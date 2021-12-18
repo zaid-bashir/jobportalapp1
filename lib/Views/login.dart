@@ -6,8 +6,8 @@ import 'package:job_portal/Views/recruiter.dart';
 
 import 'package:job_portal/Views/register.dart';
 import 'package:job_portal/Views/resumetest.dart';
-import 'package:job_portal/Views/ui/bottom_menu_bar.dart';
-import 'package:job_portal/Views/ui/home_page.dart';
+import 'package:job_portal/Views/ui/bottommenubar.dart';
+import 'package:job_portal/Views/ui/homepage.dart';
 
 import 'otp.dart';
 

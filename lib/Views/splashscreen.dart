@@ -1,8 +1,9 @@
 
 import 'package:flutter/material.dart';
-import 'package:job_portal/Views/On_Board_Screens/screens/landing_page.dart';
 
-import 'on_board_screens.dart';
+
+import 'uionboardscreens.dart';
+import 'onboardscreens/screens/landingpage.dart';
 
 
 class SplashScreen extends StatefulWidget {
