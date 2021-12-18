@@ -320,7 +320,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                     fontWeight: FontWeight.bold),
                               ),
                               const SizedBox(
-                                width: 20,
+                                width: 30,
                               ),
                               GFRadio(
                                 size: 20,
