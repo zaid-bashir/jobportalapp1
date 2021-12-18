@@ -3,7 +3,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Notify extends StatefulWidget {
   const  Notify({Key key}) : super(key: key);
-
   @override
   _NotifyState createState() => _NotifyState();
 }
@@ -15,8 +14,8 @@ class Notify extends StatefulWidget {
       children: [
         ListTile(
           leading: Text("Notification",
-          style: TextStyle(fontSize: 18, fontWeight:FontWeight.bold,fontFamily: "ProximaNova"), ),
-          trailing: CircleAvatar(
+          style: TextStyle(fontSize: 18, fontWeight:FontWeight.bold), ),
+          trailing:  CircleAvatar(
             child: Icon(Icons.search, color: Colors.white,),
             backgroundColor: Colors.blue,
           ),
@@ -27,7 +26,7 @@ class Notify extends StatefulWidget {
          Row(
            children: [
              SizedBox(width: 15,),
-             Text("Earlier", style: TextStyle( fontSize: 18, fontWeight:FontWeight.bold,fontFamily: "ProximaNova"),)
+             Text("Earlier", style: TextStyle( fontSize: 18, fontWeight:FontWeight.bold),)
              
            ],
          ),
