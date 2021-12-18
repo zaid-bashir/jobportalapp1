@@ -95,15 +95,13 @@ class _SideMenuState extends State<SideMenu> {
                     duration: const Duration(milliseconds: 500),
                     child: Padding(
                       padding: const EdgeInsets.only(left: 15),
-                      child: Container(
-                        child: MaterialApp(
-                          home: DrawerListTile(
-                            title: "Basic Information",
-                            svgSrc: Icons.feed_outlined,
-                            press: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfilePage(basic: test,)));
-                            },
-                          ),
+                      child: MaterialApp(
+                        home: DrawerListTile(
+                          title: "Basic Information",
+                          svgSrc: Icons.feed_outlined,
+                          press: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfilePage(basic: test,)));
+                          },
                         ),
                       ),
                     ),
