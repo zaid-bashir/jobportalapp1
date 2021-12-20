@@ -1,6 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:job_portal/Views/Candidate/profilepage.dart';
+import 'package:job_portal/Views/Profile/profilepage.dart';
 import 'package:job_portal/Views/Candidate/savedjobs.dart';
 import 'package:job_portal/Views/Candidate/settings.dart';
 import 'package:job_portal/Views/Candidate/suggestedjobs.dart';

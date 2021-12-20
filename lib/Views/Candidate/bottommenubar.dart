@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:job_portal/Controllers/menucontroller.dart';
-import 'package:job_portal/Views/Candidate/profilepage.dart';
+import 'package:job_portal/Views/Profile/profilepage.dart';
 import 'package:provider/provider.dart';
 
 import 'uploadpost.dart';

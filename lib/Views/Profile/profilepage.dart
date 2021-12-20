@@ -11,7 +11,7 @@ import 'package:job_portal/Views/Candidate/sidebar.dart';
 import 'package:provider/src/provider.dart';
 import 'dart:io';
 
-import 'inbox.dart';
+import '../Candidate/inbox.dart';
 
 class ProfilePage extends StatefulWidget {
    ProfilePage({Key key,this.basic}) : super(key: key);
