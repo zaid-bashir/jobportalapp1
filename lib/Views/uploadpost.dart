@@ -1,7 +1,4 @@
-<<<<<<< HEAD:lib/Views/upload_post.dart
-// ignore_for_file: prefer_const_constructors
-=======
->>>>>>> 8288977db3a8722fdd865b9169ff41b0b9674a01:lib/Views/uploadpost.dart
+
 
 
 import 'package:flutter/material.dart';
@@ -21,21 +18,21 @@ class _UploadPostState extends State<UploadPost> {
     return Scaffold(
       // ignore: prefer_const_literals_to_create_immutables
       body: ListView(children: [
-        Padding(
-          padding: const EdgeInsets.all(10.0),
+        const Padding(
+          padding: EdgeInsets.all(10.0),
           child: Text(
             "Upload Post",
             style: TextStyle(fontSize: 26, fontWeight: FontWeight.w800),
           ),
         ),
-        SizedBox(height: 10,),
+        const SizedBox(height: 10,),
         Padding(
           padding: const EdgeInsets.all(10.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(20)),
                 ),
                 child: CircleAvatar(
@@ -50,7 +47,7 @@ class _UploadPostState extends State<UploadPost> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text("Zaid Bashir",style: GoogleFonts.lato(fontSize: 26),),
-                    SizedBox(height: 4,),
+                    const SizedBox(height: 4,),
                     Text("What's on your mind",style: TextStyle(fontSize: 30 ,fontWeight: FontWeight.normal,color: Colors.grey[500]),),
                   ],
                 ),
@@ -64,7 +61,7 @@ class _UploadPostState extends State<UploadPost> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextField(
+                    const TextField(
                       maxLines: 5,
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.all(0.0),
@@ -90,43 +87,43 @@ class _UploadPostState extends State<UploadPost> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 20,),
+                      const SizedBox(height: 20,),
                     Row(
                       children: [
                         Icon(Iconsax.activity,color: Colors.grey[500],),
-                        SizedBox(width: 40,),
+                        const SizedBox(width: 40,),
                         TextButton(onPressed: (){}, child: Text("Add Activity",style: TextStyle(color: Colors.grey[500],),),),
                       ],
                     ),
-                    SizedBox(height: 20,),
+                    const SizedBox(height: 20,),
                     Row(
                       children: [
                         Icon(Iconsax.location,color: Colors.grey[500],),
-                        SizedBox(width: 40,),
+                        const SizedBox(width: 40,),
                         TextButton(onPressed: (){}, child: Text("Check In",style: TextStyle(color: Colors.grey[500],),),),
                       ],
                     ),
-                     SizedBox(height: 20,),
+                     const SizedBox(height: 20,),
                     Row(
                       children: [
                         Icon(Iconsax.tag,color: Colors.grey[500],),
-                        SizedBox(width: 40,),
+                        const SizedBox(width: 40,),
                         TextButton(onPressed: (){}, child: Text("Tag Friends",style: TextStyle(color: Colors.grey[500],),),),
                       ],
                     ),
-                     SizedBox(height: 20,),
+                     const SizedBox(height: 20,),
                     Row(
                       children: [
                         Icon(Iconsax.gallery,color: Colors.grey[500],),
-                        SizedBox(width: 40,),
+                        const SizedBox(width: 40,),
                         TextButton(onPressed: (){}, child: Text("Add Photos",style: TextStyle(color: Colors.grey[500],),),),
                       ],
                     ),
-                     SizedBox(height: 20,),
+                     const SizedBox(height: 20,),
                      Row(
                       children: [
                         Icon(Icons.live_tv,color: Colors.grey[500],),
-                        SizedBox(width: 40,),
+                        const SizedBox(width: 40,),
                         TextButton(onPressed: (){}, child: Text("Go Live",style: TextStyle(color: Colors.grey[500],),),),
                       ],
                     ),

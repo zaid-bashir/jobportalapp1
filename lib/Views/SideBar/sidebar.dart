@@ -63,7 +63,7 @@ class _SideMenuState extends State<SideMenu> {
                               ),
                               GestureDetector(
                                 onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfilePage()));
+                                  // Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfilePage()));
                                 },
                                 child: Text("Update Profile",   style: TextStyle(
                                   color: Color(0xff3e61ed),
@@ -94,15 +94,13 @@ class _SideMenuState extends State<SideMenu> {
                     delay: const Duration(milliseconds: 500),
                     duration: const Duration(milliseconds: 500),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 15),
-                      child: MaterialApp(
-                        home: DrawerListTile(
-                          title: "Basic Information",
-                          svgSrc: Icons.feed_outlined,
-                          press: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfilePage(basic: test,)));
-                          },
-                        ),
+                      padding: const EdgeInsets.only(left: 30),
+                      child: DrawerListTile(
+                        title: "Basic Information",
+                        svgSrc: Icons.feed_outlined,
+                        press: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfilePage(basic: test)));
+                        },
                       ),
                     ),
                   ),
@@ -110,7 +108,7 @@ class _SideMenuState extends State<SideMenu> {
                     delay: const Duration(milliseconds: 500),
                     duration: const Duration(milliseconds: 500),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 15),
+                      padding: const EdgeInsets.only(left: 30),
                       child: DrawerListTile(
                         title: "Location",
                         svgSrc: Icons.location_on_outlined,
@@ -122,7 +120,7 @@ class _SideMenuState extends State<SideMenu> {
                     delay: const Duration(milliseconds: 500),
                     duration: const Duration(milliseconds: 500),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 15),
+                      padding: const EdgeInsets.only(left: 30),
                       child: DrawerListTile(
                         title: "Education",
                         svgSrc: Icons.school_outlined,
@@ -134,7 +132,7 @@ class _SideMenuState extends State<SideMenu> {
                     delay: const Duration(milliseconds: 500),
                     duration: const Duration(milliseconds: 500),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 15),
+                      padding: const EdgeInsets.only(left: 30),
                       child: DrawerListTile(
                         title: "Skills",
                         svgSrc: Icons.psychology_outlined,
@@ -146,7 +144,7 @@ class _SideMenuState extends State<SideMenu> {
                     delay: const Duration(milliseconds: 500),
                     duration: const Duration(milliseconds: 500),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 15),
+                      padding: const EdgeInsets.only(left: 30),
                       child: DrawerListTile(
                         title: "Languages",
                         svgSrc: Icons.translate_outlined,
@@ -158,7 +156,7 @@ class _SideMenuState extends State<SideMenu> {
                     delay: const Duration(milliseconds: 500),
                     duration: const Duration(milliseconds: 500),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 15),
+                      padding: const EdgeInsets.only(left: 30),
                       child: DrawerListTile(
                         title: "Projects",
                         svgSrc: Icons.stacked_bar_chart_outlined,
