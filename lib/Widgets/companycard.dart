@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:getwidget/components/button/gf_button.dart';
 import 'package:getwidget/shape/gf_button_shape.dart';
 import 'package:getwidget/types/gf_button_type.dart';
-import 'package:job_portal/Views/joblist.dart';
 class CompanyCard extends StatelessWidget {
 
   final Company company;

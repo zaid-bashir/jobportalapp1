@@ -6,7 +6,7 @@ import 'package:getwidget/getwidget.dart';
 import 'package:iconsax/iconsax.dart';
 import 'dart:io';
 import 'package:job_portal/Controller/menucontroller.dart';
-import 'package:job_portal/Views/sidebar.dart';
+import 'package:job_portal/Views/SideBar/sidebar.dart';
 import 'package:job_portal/Views/theme/colors.dart';
 import 'package:job_portal/Views/theme/images.dart';
 import 'package:provider/provider.dart';

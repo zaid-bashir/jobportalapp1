@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:job_portal/Controller/menucontroller.dart';
 import 'package:provider/provider.dart';
 
-import '../jobs.dart';
-import '../notification.dart';
-import '../profilepage.dart';
+import 'jobs.dart';
+import 'notification.dart';
+import 'profilepage.dart';
 import '../uploadpost.dart';
 import 'homepage.dart';
 

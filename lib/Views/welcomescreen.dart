@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'package:job_portal/Views/ui/bottommenubar.dart';
-import 'package:job_portal/Views/ui/homepage.dart';
+import 'package:job_portal/Views/BottomNavBar/bottommenubar.dart';
+import 'package:job_portal/Views/BottomNavBar/homepage.dart';
 
 
 

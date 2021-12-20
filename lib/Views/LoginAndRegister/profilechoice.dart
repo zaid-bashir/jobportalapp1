@@ -2,8 +2,8 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:job_portal/Views/setupprofile.dart';
-import 'package:job_portal/Views/skillsandeduction.dart';
+import 'package:job_portal/Views/LoginAndRegister/setupprofile.dart';
+import 'package:job_portal/Views/LoginAndRegister/skillsandeduction.dart';
 
 class ProfileChoice extends StatefulWidget {
   const ProfileChoice({Key key}) : super(key: key);

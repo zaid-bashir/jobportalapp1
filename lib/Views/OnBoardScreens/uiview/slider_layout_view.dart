@@ -8,7 +8,7 @@ import 'package:job_portal/Views/onboardscreens/model/slider.dart';
 import 'package:job_portal/Views/onboardscreens/widgets/slide_dots.dart';
 import 'package:job_portal/Views/onboardscreens/widgets/slide_items/slide_item.dart';
 
-import '../../login.dart';
+import '../../LoginAndRegister/login.dart';
 
 
 

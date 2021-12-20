@@ -1,13 +1,8 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/button/gf_button.dart';
-import 'package:job_portal/Views/profilechoice.dart';
-import 'package:job_portal/Views/recruiter.dart';
 
-import 'package:job_portal/Views/register.dart';
-import 'package:job_portal/Views/resumetest.dart';
-import 'package:job_portal/Views/ui/bottommenubar.dart';
-import 'package:job_portal/Views/ui/homepage.dart';
+import 'package:job_portal/Views/LoginAndRegister/register.dart';
+import 'package:job_portal/Views/BottomNavBar/bottommenubar.dart';
 
 import 'otp.dart';
 
@@ -300,7 +295,7 @@ class _LoginPageState extends State<LoginPage> {
                       side: const BorderSide(color: Colors.black),
                     ),
                     onPressed: () {
-                     Navigator.push(context, MaterialPageRoute(builder: (context) => UploadTest()));
+                     // Navigator.push(context, MaterialPageRoute(builder: (context) => UploadTest()));
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 8),
