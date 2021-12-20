@@ -4,8 +4,8 @@ import 'package:job_portal/Views/Profile/profilepage.dart';
 import 'package:provider/provider.dart';
 
 import 'uploadpost.dart';
-import 'homepage.dart';
-import 'jobs.dart';
+import 'home.dart';
+import 'job.dart';
 import 'notification.dart';
 
 

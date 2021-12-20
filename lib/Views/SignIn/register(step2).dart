@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:job_portal/Views/SignIn/skillsandeduction.dart';
+import 'package:job_portal/Views/SignIn/register(step3).dart';
 
 class SetupProfile extends StatefulWidget {
   const SetupProfile({Key key}) : super(key: key);

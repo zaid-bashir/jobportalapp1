@@ -4,7 +4,7 @@ import 'package:job_portal/Theme/colors.dart';
 import 'package:job_portal/Theme/images.dart';
 import 'package:job_portal/Views/Candidate/sidebar.dart';
 import 'package:provider/provider.dart';
-import 'jobdetailpage.dart';
+import 'jobdetail.dart';
 import 'inbox.dart';
 
 class HomePage extends StatelessWidget {

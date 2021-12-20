@@ -5,7 +5,7 @@ import 'package:job_portal/Views/SignIn/register.dart';
 
 
 
-import 'otp.dart';
+import 'signinotp.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({ Key key }) : super(key: key);
