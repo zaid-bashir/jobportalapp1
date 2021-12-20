@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:getwidget/components/radio/gf_radio.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:job_portal/Controllers/menucontroller.dart';
+import 'package:job_portal/Theme/colors.dart';
+import 'package:job_portal/Theme/images.dart';
+import 'package:job_portal/Views/Candidate/sidebar.dart';
+import 'package:provider/src/provider.dart';
 import 'dart:io';
-import 'package:job_portal/Controller/menucontroller.dart';
-import 'package:job_portal/Views/SideBar/sidebar.dart';
-import 'package:job_portal/Views/theme/colors.dart';
-import 'package:job_portal/Views/theme/images.dart';
-import 'package:provider/provider.dart';
 
 import 'inbox.dart';
 
@@ -621,7 +621,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Home Address',
+                                      'Candidate Address',
                                       style: TextStyle(
                                           fontSize: 16.0,
                                           fontWeight: FontWeight.bold),
@@ -1381,7 +1381,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
   }
   @override
   void dispose() {
-    // Clean up the Controller when the Widget is disposed
+    // Clean up the Controllers when the Widget is disposed
     myFocusNode.dispose();
     super.dispose();
   }

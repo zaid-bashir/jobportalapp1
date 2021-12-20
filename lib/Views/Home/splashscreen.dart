@@ -1,8 +1,8 @@
 
 import 'package:flutter/material.dart';
+import 'package:job_portal/Views/Home/screens/landingpage.dart';
 
 
-import 'screens/landingpage.dart';
 
 
 class SplashScreen extends StatefulWidget {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:job_portal/Views/theme/colors.dart';
-import 'package:job_portal/Views/theme/images.dart';
+import 'package:job_portal/Theme/colors.dart';
+import 'package:job_portal/Theme/images.dart';
+
 
 
 class JobDetailPage extends StatefulWidget {

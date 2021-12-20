@@ -4,7 +4,7 @@ import 'package:getwidget/components/button/gf_button.dart';
 import 'package:getwidget/components/radio/gf_radio.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-import 'package:job_portal/Views/LoginAndRegister/profilechoice.dart';
+import 'package:job_portal/Views/SignIn/profilechoice.dart';
 
 
 class Register extends StatefulWidget {

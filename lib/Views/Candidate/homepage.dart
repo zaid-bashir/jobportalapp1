@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:job_portal/Controller/menucontroller.dart';
-import 'package:job_portal/Views/BottomNavBar/inbox.dart';
-import 'package:job_portal/Views/theme/colors.dart';
-import 'package:job_portal/Views/theme/images.dart';
-
+import 'package:job_portal/Controllers/menucontroller.dart';
+import 'package:job_portal/Theme/colors.dart';
+import 'package:job_portal/Theme/images.dart';
+import 'package:job_portal/Views/Candidate/sidebar.dart';
 import 'package:provider/provider.dart';
-
-import '../SideBar/sidebar.dart';
 import '../jobdetailpage.dart';
+import 'inbox.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({ Key key}) : super(key: key);

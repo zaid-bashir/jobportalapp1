@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/button/gf_button.dart';
+import 'package:job_portal/Views/Candidate/bottommenubar.dart';
+import 'package:job_portal/Views/SignIn/register.dart';
 
-import 'package:job_portal/Views/LoginAndRegister/register.dart';
-import 'package:job_portal/Views/BottomNavBar/bottommenubar.dart';
+
 
 import 'otp.dart';
 

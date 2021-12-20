@@ -1,16 +1,11 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'package:job_portal/Views/onboardscreens/constants/constants.dart';
-import 'package:job_portal/Views/onboardscreens/model/slider.dart';
-import 'package:job_portal/Views/onboardscreens/widgets/slide_dots.dart';
-import 'package:job_portal/Views/onboardscreens/widgets/slide_items/slide_item.dart';
-
-import '../../LoginAndRegister/login.dart';
-
-
+import 'package:job_portal/Views/Home/constants/constants.dart';
+import 'package:job_portal/Views/Home/model/slider.dart';
+import 'package:job_portal/Views/Home/widgets/slide_dots.dart';
+import 'package:job_portal/Views/Home/widgets/slide_items/slide_item.dart';
+import 'package:job_portal/Views/SignIn/login.dart';
 
 
 

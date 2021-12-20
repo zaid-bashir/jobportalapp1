@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:job_portal/Controller/menucontroller.dart';
+import 'package:job_portal/Controllers/menucontroller.dart';
+import 'package:job_portal/Views/Candidate/profilepage.dart';
 import 'package:provider/provider.dart';
 
-import 'jobs.dart';
-import 'notification.dart';
-import 'profilepage.dart';
 import '../uploadpost.dart';
 import 'homepage.dart';
+import 'jobs.dart';
+import 'notification.dart';
+
 
 
 
 class Navbar extends StatelessWidget {
-  Navbar({Key key}) : super(key: key);
+  const Navbar({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,7 @@ class Navbar extends StatelessWidget {
             // primaryColorDark:  Color(0xFFC41A3B),
             primaryColorLight: const Color(0xFFFBE0E6),
             // accentColor: const Color(0xFFC41A3B),
-            accentColor:Color(0xff3e61ed),
+            accentColor:const Color(0xff3e61ed),
           ),
           home: Navlist(),
         ),
@@ -41,6 +42,8 @@ class Navbar extends StatelessWidget {
 }
 
 class Navlist extends StatefulWidget {
+  const Navlist({Key key}) : super(key: key);
+
   @override
   _NavlistState createState() => _NavlistState();
 }
@@ -105,7 +108,7 @@ class _NavlistState extends State<Navlist>
                     Icons.home,
                     size: 24.0,
                   ),
-                  text: 'Home',
+                  text: 'Candidate',
                 ),
                 Tab(
                   icon: Icon(

@@ -1,7 +1,8 @@
 
 import 'package:flutter/material.dart';
-import 'package:job_portal/Views/BottomNavBar/bottommenubar.dart';
-import 'package:job_portal/Views/BottomNavBar/homepage.dart';
+
+import 'Candidate/bottommenubar.dart';
+
 
 
 
