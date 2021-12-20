@@ -3,7 +3,7 @@ import 'package:job_portal/Controllers/menucontroller.dart';
 import 'package:job_portal/Views/Candidate/profilepage.dart';
 import 'package:provider/provider.dart';
 
-import '../uploadpost.dart';
+import 'uploadpost.dart';
 import 'homepage.dart';
 import 'jobs.dart';
 import 'notification.dart';

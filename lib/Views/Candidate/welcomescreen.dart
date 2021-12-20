@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 
-import 'Candidate/bottommenubar.dart';
+import 'bottommenubar.dart';
 
 
 
