@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:job_portal/Views/SignIn/setupprofile.dart';
+import 'package:job_portal/Views/SignIn/employmentdetails.dart';
 
 
 class ProfileChoice extends StatefulWidget {

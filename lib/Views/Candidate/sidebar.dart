@@ -7,7 +7,7 @@ import 'package:job_portal/Views/Candidate/suggestedjobs.dart';
 import 'package:job_portal/Views/Home/constants/constants.dart';
 
 
-import 'explore_jobs.dart';
+import 'explorejobs.dart';
 
 
 class SideMenu extends StatefulWidget {
