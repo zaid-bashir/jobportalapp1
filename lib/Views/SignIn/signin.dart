@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/button/gf_button.dart';
-import 'package:job_portal/Views/Candidate/bottommenubar.dart';
+import 'package:job_portal/Views/Candidate/bottomnavbar.dart';
 import 'package:job_portal/Views/SignIn/register.dart';
 
 
