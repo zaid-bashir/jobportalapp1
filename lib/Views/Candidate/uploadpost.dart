@@ -132,7 +132,9 @@ class _UploadPostState extends State<UploadPost> {
                   ],
                 ),
         ),
-      ]),
+      ],
+      )
+      ,
     );
   }
 }
