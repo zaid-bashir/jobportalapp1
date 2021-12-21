@@ -4,7 +4,7 @@ import 'package:getwidget/components/button/gf_button.dart';
 import 'package:getwidget/components/radio/gf_radio.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-import 'package:job_portal/Views/SignIn/register(step1).dart';
+import 'package:job_portal/Views/SignIn/register-step1.dart';
 
 
 class Register extends StatefulWidget {
@@ -17,6 +17,7 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   bool _isLoading = false;
   int groupValue = 0;
+  int groupValues = 0;
 
   void _showPicker(context) {
     showModalBottomSheet(
@@ -89,12 +90,12 @@ class _RegisterState extends State<Register> {
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      icon: Icon(Icons.arrow_back),
+                      icon: const Icon(Icons.arrow_back),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 20,
                     ),
-                    Text(
+                    const Text(
                       "Register new\naccount ",
                       style: TextStyle(
                         fontFamily: "OpenSans",
@@ -194,36 +195,7 @@ class _RegisterState extends State<Register> {
                       const TextField(
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.all(0.0),
-                          labelText: 'Address',
-                          labelStyle: TextStyle(
-                            color: Colors.blueGrey,
-                            fontFamily: "ProximaNova",
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 1.5,
-                            fontSize: 15.5,
-                          ),
-                          floatingLabelStyle: TextStyle(
-                            color: Color(0xff2972ff),
-                            fontFamily: "ProximaNova",
-                            fontWeight: FontWeight.bold,
-                            // letterSpacing: 1.5,
-                            fontSize: 17.5,
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Color(0xff2972ff),
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      TextField(
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.all(0.0),
-                          labelText: 'Phone',
+                          labelText: 'Email',
                           labelStyle: TextStyle(
                             color: Colors.blueGrey,
                             fontFamily: "ProximaNova",
@@ -251,63 +223,7 @@ class _RegisterState extends State<Register> {
                       const TextField(
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.all(0.0),
-                          labelText: 'E-mail',
-                          labelStyle: TextStyle(
-                            color: Colors.blueGrey,
-                            fontFamily: "ProximaNova",
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 1.5,
-                            fontSize: 15.5,
-                          ),
-                          floatingLabelStyle: TextStyle(
-                            color: Color(0xff2972ff),
-                            fontFamily: "ProximaNova",
-                            fontWeight: FontWeight.bold,
-                            // letterSpacing: 1.5,
-                            fontSize: 17.5,
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Color(0xff2972ff),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      const TextField(
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.all(0.0),
-                          labelText: 'Password',
-                          labelStyle: TextStyle(
-                            color: Colors.blueGrey,
-                            fontFamily: "ProximaNova",
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 1.5,
-                            fontSize: 15.5,
-                          ),
-                          floatingLabelStyle: TextStyle(
-                            color: Color(0xff2972ff),
-                            fontFamily: "ProximaNova",
-                            fontWeight: FontWeight.bold,
-                            // letterSpacing: 1.5,
-                            fontSize: 17.5,
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Color(0xff2972ff),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      const TextField(
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.all(0.0),
-                          labelText: 'Confirm-Password',
+                          labelText: 'Current Location',
                           labelStyle: TextStyle(
                             color: Colors.blueGrey,
                             fontFamily: "ProximaNova",
@@ -333,14 +249,23 @@ class _RegisterState extends State<Register> {
                         height: 20,
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 20, bottom: 20),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        padding: const EdgeInsets.only( bottom: 20),
+                        child:  Row(
                           children: [
+                            const Text(
+                              "Gender",
+                              style: TextStyle(
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            const SizedBox(
+                              width: 30,
+                            ),
                             GFRadio(
                               size: 20,
-                              activeBorderColor: Color(0xff2972ff),
+                              activeBorderColor: const Color(0xff3e61ed),
                               value: 0,
+                              // enabled: !_status
                               groupValue: groupValue,
                               onChanged: (value) {
                                 setState(() {
@@ -348,7 +273,7 @@ class _RegisterState extends State<Register> {
                                 });
                               },
                               inactiveIcon: null,
-                              radioColor: Color(0xff2972ff),
+                              radioColor: const Color(0xff3e61ed),
                             ),
                             const SizedBox(
                               width: 7,
@@ -356,16 +281,14 @@ class _RegisterState extends State<Register> {
                             const Text(
                               "Male",
                               style: TextStyle(
-                                fontFamily: "Poppins",
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 1.5,
-                                fontSize: 14.5,
-                              ),
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(
                               width: 20,
                             ),
                             GFRadio(
+                              // enabled: !_status,
                               size: 20,
                               value: 1,
                               groupValue: groupValue,
@@ -375,8 +298,8 @@ class _RegisterState extends State<Register> {
                                 });
                               },
                               inactiveIcon: null,
-                              activeBorderColor: Color(0xff2972ff),
-                              radioColor: Color(0xff2972ff),
+                              activeBorderColor: const Color(0xff3e61ed),
+                              radioColor: const Color(0xff3e61ed),
                             ),
                             const SizedBox(
                               width: 7,
@@ -384,27 +307,145 @@ class _RegisterState extends State<Register> {
                             const Text(
                               "Female",
                               style: TextStyle(
-                                fontFamily: "Poppins",
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 1.5,
-                                fontSize: 14.5,
-                              ),
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold),
                             ),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            GFRadio(
+                              size: 20,
+                              activeBorderColor: const Color(0xff3e61ed),
+                              value: 3,
+                              // enabled: !_status
+                              groupValue: groupValue,
+                              onChanged: (value) {
+                                setState(() {
+                                  groupValue = value;
+                                });
+                              },
+                              inactiveIcon: null,
+                              radioColor: const Color(0xff3e61ed),
+                            ),
+                            const SizedBox(
+                              width: 7,
+                            ),
+                            const Text(
+                              "Others",
+                              style: TextStyle(
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const TextField(
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(0.0),
+                          labelText: "Experience",
+                          labelStyle: TextStyle(
+                            color: Colors.blueGrey,
+                            fontFamily: "ProximaNova",
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 1.5,
+                            fontSize: 15.5,
+                          ),
+                          floatingLabelStyle: TextStyle(
+                            color: Color(0xff2972ff),
+                            fontFamily: "ProximaNova",
+                            fontWeight: FontWeight.bold,
+                            // letterSpacing: 1.5,
+                            fontSize: 17.5,
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color(0xff2972ff),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only( bottom: 20),
+                        child:  Row(
+                          children: [
+                            const Text(
+                              "Job Category",
+                              style: TextStyle(
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            const SizedBox(
+                              width: 30,
+                            ),
+                            GFRadio(
+                              size: 20,
+                              activeBorderColor: const Color(0xff3e61ed),
+                              value: 0,
+                              // enabled: !_status
+                              groupValue: groupValues,
+                              onChanged: (value) {
+                                setState(() {
+                                  groupValues = value;
+                                });
+                              },
+                              inactiveIcon: null,
+                              radioColor: const Color(0xff3e61ed),
+                            ),
+                            const SizedBox(
+                              width: 7,
+                            ),
+                            const Text(
+                              "Blue Collar",
+                              style: TextStyle(
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            GFRadio(
+                              // enabled: !_status,
+                              size: 20,
+                              value: 1,
+                              groupValue: groupValues,
+                              onChanged: (value) {
+                                setState(() {
+                                  groupValues = value;
+                                });
+                              },
+                              inactiveIcon: null,
+                              activeBorderColor: const Color(0xff3e61ed),
+                              radioColor: const Color(0xff3e61ed),
+                            ),
+                            const SizedBox(
+                              width: 7,
+                            ),
+                            const Text(
+                              "White Collar",
+                              style: TextStyle(
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold),
+                            ),
+
                           ],
                         ),
                       ),
                       Container(
                         width: double.infinity,
                         child: GFButton(
-                          color: Color(0xff2972ff),
+                          color: const Color(0xff2972ff),
                           onPressed: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ProfileChoice()));
+                                    builder: (context) => const ProfileChoice()));
                           },
                           text: "Register",
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                             color: Colors.white,
                             fontFamily: "Poppins",
                             fontWeight: FontWeight.bold,
