@@ -335,7 +335,7 @@ class _SavedJobsState extends State<SavedJobs> {
                               Text(
                                 "1-5 Yrs",
                                 style: TextStyle(
-                                  fontFamily: "Poppins",
+                                  fontFamily: "ProximaNova",
                                   fontWeight: FontWeight.w500,
                                   letterSpacing: 1.5,
                                   fontSize: 13.5,
@@ -359,7 +359,7 @@ class _SavedJobsState extends State<SavedJobs> {
                               Text(
                                 "clusttech@godaddy.com",
                                 style: TextStyle(
-                                  fontFamily: "Poppins",
+                                  fontFamily: "ProximaNova",
                                   fontWeight: FontWeight.w500,
                                   letterSpacing: 1.5,
                                   fontSize: 13.5,
@@ -378,7 +378,7 @@ class _SavedJobsState extends State<SavedJobs> {
                                 "2d ago",
                                 style: TextStyle(
                                   color: Color(0xff3e61ed),
-                                  fontFamily: "Poppins",
+                                  fontFamily: "ProximaNova",
                                   fontWeight: FontWeight.bold,
                                   letterSpacing: 1.5,
                                   fontSize: 12.5,
@@ -396,7 +396,7 @@ class _SavedJobsState extends State<SavedJobs> {
                                   Text(
                                     "Saved",
                                     style: TextStyle(
-                                      fontFamily: "Poppins",
+                                      fontFamily: "ProximaNova",
                                       fontWeight: FontWeight.w500,
                                       letterSpacing: 1.5,
                                       fontSize: 12.5,
