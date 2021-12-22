@@ -1115,7 +1115,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                             )),
                         Padding(
                             padding: const EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
+                                left: 25.0, right: 25.0, top: 5.0),
                             child:  Row(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -1132,7 +1132,10 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   flex: 2,
                                 ),
                                 Flexible(
-                                  child:  Text('Enter zipcode',style:TextStyle(fontSize:15,fontWeight:FontWeight.bold)),
+                                  child:  Padding(
+                                    padding: const EdgeInsets.only(left: 95),
+                                    child: Text('Enter zipcode',style:TextStyle(fontSize:15,fontWeight:FontWeight.bold)),
+                                  ),
                                   flex: 2,
                                 ),
                               ],
@@ -1336,16 +1339,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
 
 
                       )),
-                      child: const Text(
-                        "Edit",
-                        style: TextStyle(
-                          color: Color(0xff3e61ed),
-                          fontFamily: "ProximaNova",
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.5,
-                          fontSize: 16.5,
-                        ),
-                      ),
+                      child: Icon(Icons.edit,color:Color(0xff3e61ed)),
                     )
                   ],
                 ),
@@ -1372,8 +1366,8 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                     Text(
                                       'High School Education',
                                       style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold),
+                                          fontSize: 14.0,
+                                          ),
                                     ),
                                   ],
                                 ),
@@ -1386,11 +1380,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 Flexible(
-                                  child:  TextField(
-                                    decoration: const InputDecoration(
-                                        hintText: "School Name"),
-
-                                  ),
+                                  child:  Text('School name',style:TextStyle(fontSize: 15.0,fontWeight: FontWeight.bold))
                                 ),
                               ],
                             )),
@@ -1408,8 +1398,8 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                     Text(
                                       'Higher Secondary Education',
                                       style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold),
+                                          fontSize: 14.0,
+                                          ),
                                     ),
                                   ],
                                 ),
@@ -1422,11 +1412,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 Flexible(
-                                  child:  TextField(
-                                    decoration: const InputDecoration(
-                                        hintText: " School Name"),
-
-                                  ),
+                                  child:  Text('School name',style:TextStyle(fontSize: 15.0,fontWeight: FontWeight.bold))
                                 ),
                               ],
                             )),
@@ -1443,8 +1429,8 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                     Text(
                                       'Highest Degree',
                                       style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold),
+                                          fontSize: 14.0,
+                                          ),
                                     ),
                                   ],
                                 ),
@@ -1457,11 +1443,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 Flexible(
-                                  child:  TextField(
-                                    decoration: const InputDecoration(
-                                        hintText: "Highest Degree"),
-
-                                  ),
+                                  child: Text('Degree',style:TextStyle(fontSize: 15.0,fontWeight: FontWeight.bold))
                                 ),
                               ],
                             )),
@@ -1478,8 +1460,8 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                     Text(
                                       'Institute Qualified From',
                                       style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold),
+                                          fontSize: 14.0,
+                                          ),
                                     ),
                                   ],
                                 ),
@@ -1492,11 +1474,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 Flexible(
-                                  child:  TextField(
-                                    decoration: const InputDecoration(
-                                        hintText: "College Name"),
-
-                                  ),
+                                  child:  Text('Institute name',style:TextStyle(fontSize: 15.0,fontWeight: FontWeight.bold))
                                 ),
                               ],
                             )),
@@ -1697,16 +1675,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
 
                       )
                       ),
-                      child: const Text(
-                        "Add",
-                        style: TextStyle(
-                          color: Color(0xff3e61ed),
-                          fontFamily: "ProximaNova",
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.5,
-                          fontSize: 16.5,
-                        ),
-                      ),
+                      child:Icon(Icons.edit,color:Color(0xff3e61ed))
                     )
                   ],
                 ),
@@ -1733,8 +1702,8 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                     Text(
                                       'Years of experience',
                                       style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold),
+                                          fontSize: 14.0,
+                                        ),
                                     ),
                                   ],
                                 ),
@@ -1747,11 +1716,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 Flexible(
-                                  child:  TextField(
-                                    decoration: const InputDecoration(
-                                        hintText: "Add Years"),
-
-                                  ),
+                                  child: Text('Add years',style:TextStyle(fontSize: 15.0,fontWeight: FontWeight.bold))
                                 ),
                               ],
                             )), Padding(
@@ -1767,8 +1732,8 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                     Text(
                                       'Tenure of last job',
                                       style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold),
+                                          fontSize: 14.0,
+                                          ),
                                     ),
                                   ],
                                 ),
@@ -1781,11 +1746,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 Flexible(
-                                  child:  TextField(
-                                    decoration: const InputDecoration(
-                                        hintText: "Add Tenure"),
-
-                                  ),
+                                  child:  Text('Add tenure',style:TextStyle(fontSize: 15.0,fontWeight: FontWeight.bold))
                                 ),
                               ],
                             )),
@@ -1802,8 +1763,8 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                     Text(
                                       'Name of Firm',
                                       style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold),
+                                          fontSize: 14.0,
+                                         ),
                                     ),
                                   ],
                                 ),
@@ -1816,11 +1777,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 Flexible(
-                                  child:  TextField(
-                                    decoration: const InputDecoration(
-                                        hintText: "Add Name"),
-
-                                  ),
+                                  child:  Text('Add Name',style:TextStyle(fontSize: 15.0,fontWeight: FontWeight.bold))
                                 ),
                               ],
                             )),
@@ -1837,8 +1794,8 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                     Text(
                                       'Job Title',
                                       style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold),
+                                          fontSize: 14.0,
+                                          ),
                                     ),
                                   ],
                                 ),
@@ -1851,11 +1808,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 Flexible(
-                                  child:  TextField(
-                                    decoration: const InputDecoration(
-                                        hintText: "Add Title"),
-
-                                  ),
+                                  child: Text('Add title',style:TextStyle(fontSize: 15.0,fontWeight: FontWeight.bold))
                                 ),
                               ],
                             )),
@@ -1867,6 +1820,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                     ),
                   ),
                 ),
+
               ),
               Padding(
                 key: skillKey,
@@ -1989,16 +1943,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                             ),
                           )],
                       )),
-                      child: const Text(
-                        "Edit",
-                        style: TextStyle(
-                          color: Color(0xff3e61ed),
-                          fontFamily: "ProximaNova",
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.5,
-                          fontSize: 16.5,
-                        ),
-                      ),
+                      child: Icon(Icons.edit,color:Color(0xff3e61ed))
                     )
                   ],
                 ),
@@ -2025,8 +1970,8 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                     Text(
                                       'Key Skills',
                                       style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold),
+                                          fontSize: 14.0,
+                                          ),
                                     ),
                                   ],
                                 ),
@@ -2039,11 +1984,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 Flexible(
-                                  child:  TextField(
-                                    decoration: const InputDecoration(
-                                        hintText: "Add Skills"),
-
-                                  ),
+                                  child:  Text('Add Skills',style:TextStyle(fontSize: 15.0,fontWeight: FontWeight.bold))
                                 ),
                               ],
                             )),
@@ -2060,8 +2001,8 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                     Text(
                                       'IT Skills',
                                       style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold),
+                                          fontSize: 14.0,
+                                          ),
                                     ),
                                   ],
                                 ),
@@ -2074,11 +2015,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 Flexible(
-                                  child:  TextField(
-                                    decoration: const InputDecoration(
-                                        hintText: "Add Skills"),
-
-                                  ),
+                                  child: Text('Add Skills',style:TextStyle(fontSize: 15.0,fontWeight: FontWeight.bold))
                                 ),
                               ],
                             )),
