@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:getwidget/components/button/gf_button.dart';
+import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Controllers/menucontroller.dart';
 import 'package:job_portal/Theme/colors.dart';
 import 'package:job_portal/Theme/images.dart';
@@ -8,24 +11,28 @@ import 'jobdetail.dart';
 import 'inbox.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({ Key key}) : super(key: key);
+  const HomePage({Key key}) : super(key: key);
 
   Widget _appBar(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       child: Row(
         children: [
           GestureDetector(
-            onTap:context.read<MenuController>().controlMenu,
+            onTap: context.read<MenuController>().controlMenu,
             child: CircleAvatar(
               backgroundImage: AssetImage(Images.user1),
             ),
           ),
           const Spacer(),
           IconButton(
-            icon: Icon(Icons.chat, color: Color(0xff3e61ed),),
+            icon: const Icon(
+              Icons.chat,
+              color: Color(0xff3e61ed),
+            ),
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => InboxList()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => InboxList()));
             },
           )
         ],
@@ -33,45 +40,151 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _header(BuildContext context) {
+  Widget _carosel(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 12),
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      // margin: EdgeInsets.symmetric(vertical: 12),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 16,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Hello Vijay",
+          const Text("Your profile needs attention !",
+              style: TextStyle(
+                  fontSize: 20,
+                  fontFamily: "ProximaNova",
+                  fontWeight: FontWeight.bold)),
+          const SizedBox(
+            height: 20,
+          ),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.redAccent.withOpacity(0.2),
+            ),
+            padding: const EdgeInsets.all(10),
+            width: double.infinity,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Text("What are you missing out?",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: "ProximaNova",
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold)),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(
+                      Icons.check_circle,
+                      color: Colors.red,
+                      size: 20,
+                    ),
+                    SizedBox(
+                      width: 6,
+                    ),
+                    Text("Recruiters reach candidates directly for job roles",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontFamily: "ProximaNova",
+                            fontWeight: FontWeight.w500)),
+                  ],
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(
+                      Icons.check_circle,
+                      color: Colors.red,
+                      size: 20,
+                    ),
+                    SizedBox(
+                      width: 6,
+                    ),
+                    Text("Recruiters reach candidates directly for job roles",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontFamily: "ProximaNova",
+                            fontWeight: FontWeight.w500)),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                GFButton(
+                  color: const Color(0xff3e61ed),
+                  onPressed: () {},
+                  shape: GFButtonShape.pills,
+                  child: const Text(
+                    "Complete profile",
+                    style: TextStyle(
+                      fontFamily: "ProximaNova",
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _header(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text("Hello Isra",
               style: TextStyle(
                 fontSize: 15,
+                fontFamily: "ProximaNova",
                 color: KColors.subtitle,
                 fontWeight: FontWeight.w500,
               )),
-          SizedBox(
+          const SizedBox(
             height: 6,
           ),
-          Text("Find your perfect job",
+          const Text("Find your perfect job",
               style: TextStyle(
                   fontSize: 20,
+                  fontFamily: "ProximaNova",
                   color: KColors.title,
                   fontWeight: FontWeight.bold)),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Row(
             children: [
               Expanded(
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   decoration: BoxDecoration(
                       color: KColors.lightGrey,
                       borderRadius: BorderRadius.circular(5)),
-                  child: Text(
+                  child: const Text(
                     "What are you looking for?",
-                    style: TextStyle(fontSize: 15, color: KColors.subtitle),
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontFamily: "ProximaNova",
+                        color: KColors.subtitle),
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 16,
               ),
               Container(
@@ -82,7 +195,7 @@ class HomePage extends StatelessWidget {
                 height: 40,
                 child: IconButton(
                   color: KColors.primary,
-                  icon: Icon(Icons.search, color: Colors.white),
+                  icon: const Icon(Icons.search, color: Colors.white),
                   onPressed: () {},
                 ),
               )
@@ -93,20 +206,344 @@ class HomePage extends StatelessWidget {
     );
   }
 
+  Widget _recommendedCourses(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 12),
+      height: 210,
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            "Suggestions for your career ",
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontFamily: "ProximaNova",
+                color: KColors.title),
+          ),
+          const SizedBox(height: 10),
+          Expanded(
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: [
+                Card(
+                  elevation: 5,
+                  child: AspectRatio(
+                    aspectRatio: 1.6,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        // color: isActive ? KColors.primary : Colors.white,
+                        borderRadius: BorderRadius.circular(7),
+                      ),
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                height: 40,
+                                width: 40,
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey),
+                                  // color: isActive ? Colors.white : KColors.lightGrey,
+                                  borderRadius: BorderRadius.circular(7),
+                                ),
+                                child: const Icon(
+                                  Icons.block,
+                                  color: Color(0xff3e61ed),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 13,
+                              ),
+                              const Text(
+                                "Flutter complete\ncourse(Dart)",
+                                style: TextStyle(
+                                    color: Color(0xff3e61ed),
+                                    fontFamily: "ProximaNova",
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold
+                                    // color: isActive ? Colors.white38 : KColors.subtitle,
+                                    ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+                          const Text(
+                            "By ClustTech",
+                            style: TextStyle(
+                              color: Color(0xff3e61ed),
+
+                              fontFamily: "ProximaNova",
+                              fontSize: 12,
+                              // color: isActive ? Colors.white38 : KColors.subtitle,
+                            ),
+                          ),
+                          const SizedBox(height: 9),
+                          Row(
+                            children: const [
+                              Text(
+                                "Duration :",
+                                style: TextStyle(
+                                  fontFamily: "ProximaNova",
+
+                                  fontSize: 12,
+                                  // color: isActive ? Colors.white38 : KColors.subtitle,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 4,
+                              ),
+                              Text(
+                                "120 Hrs",
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    fontFamily: "ProximaNova",
+                                    color: Color(0xff3e61ed),
+                                    fontWeight: FontWeight.bold
+                                    // color: isActive ? Colors.white38 : KColors.subtitle,
+                                    ),
+                              ),
+                              SizedBox(width: 5),
+                              Text(
+                                "|",
+                                style: TextStyle(
+                                    fontSize: 12, fontWeight: FontWeight.bold
+                                    // color: isActive ? Colors.white38 : KColors.subtitle,
+                                    ),
+                              ),
+                              SizedBox(width: 5),
+                              Text(
+                                "Mode:",
+                                style: TextStyle(
+                                  fontFamily: "ProximaNova",
+
+                                  fontSize: 12,
+                                  // color: isActive ? Colors.white38 : KColors.subtitle,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 4,
+                              ),
+                              Text(
+                                "Online",
+                                style: TextStyle(
+                                    fontFamily: "ProximaNova",
+                                    color: Color(0xff3e61ed),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold
+                                    // color: isActive ? Colors.white38 : KColors.subtitle,
+                                    ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 9,
+                          ),
+                          Row(
+                            children: const [
+                              Text(
+                                "RS :",
+                                style: TextStyle(
+                                  fontFamily: "ProximaNova",
+
+                                  fontSize: 12,
+                                  // color: isActive ? Colors.white38 : KColors.subtitle,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 4,
+                              ),
+                              Text(
+                                "3500",
+                                style: TextStyle(
+                                    fontFamily: "ProximaNova",
+                                    color: Color(0xff3e61ed),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold
+                                    // color: isActive ? Colors.white38 : KColors.subtitle,
+                                    ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Card(
+                  elevation: 5,
+                  child: AspectRatio(
+                    aspectRatio: 1.6,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        // color: isActive ? KColors.primary : Colors.white,
+                        borderRadius: BorderRadius.circular(7),
+                      ),
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                height: 40,
+                                width: 40,
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey),
+                                  // color: isActive ? Colors.white : KColors.lightGrey,
+                                  borderRadius: BorderRadius.circular(7),
+                                ),
+                                child: const Icon(
+                                  Icons.block,
+                                  color: Color(0xff3e61ed),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 13,
+                              ),
+                              const Text(
+                                "Java complete\ncourse",
+                                style: TextStyle(
+                                    color: Color(0xff3e61ed),
+                                    fontFamily: "ProximaNova",
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold
+                                    // color: isActive ? Colors.white38 : KColors.subtitle,
+                                    ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+                          const Text(
+                            "By Oracle",
+                            style: TextStyle(
+                              color: Color(0xff3e61ed),
+
+                              fontFamily: "ProximaNova",
+                              fontSize: 12,
+                              // color: isActive ? Colors.white38 : KColors.subtitle,
+                            ),
+                          ),
+                          const SizedBox(height: 9),
+                          Row(
+                            children: const [
+                              Text(
+                                "Duration :",
+                                style: TextStyle(
+                                  fontFamily: "ProximaNova",
+
+                                  fontSize: 12,
+                                  // color: isActive ? Colors.white38 : KColors.subtitle,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 4,
+                              ),
+                              Text(
+                                "150 Hrs",
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    fontFamily: "ProximaNova",
+                                    color: Color(0xff3e61ed),
+                                    fontWeight: FontWeight.bold
+                                    // color: isActive ? Colors.white38 : KColors.subtitle,
+                                    ),
+                              ),
+                              SizedBox(width: 5),
+                              Text(
+                                "|",
+                                style: TextStyle(
+                                    fontSize: 12, fontWeight: FontWeight.bold
+                                    // color: isActive ? Colors.white38 : KColors.subtitle,
+                                    ),
+                              ),
+                              SizedBox(width: 5),
+                              Text(
+                                "Mode:",
+                                style: TextStyle(
+                                  fontFamily: "ProximaNova",
+
+                                  fontSize: 12,
+                                  // color: isActive ? Colors.white38 : KColors.subtitle,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 4,
+                              ),
+                              Text(
+                                "Online",
+                                style: TextStyle(
+                                    fontFamily: "ProximaNova",
+                                    color: Color(0xff3e61ed),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold
+                                    // color: isActive ? Colors.white38 : KColors.subtitle,
+                                    ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 9,
+                          ),
+                          Row(
+                            children: const [
+                              Text(
+                                "RS :",
+                                style: TextStyle(
+                                  fontFamily: "ProximaNova",
+
+                                  fontSize: 12,
+                                  // color: isActive ? Colors.white38 : KColors.subtitle,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 4,
+                              ),
+                              Text(
+                                "6500",
+                                style: TextStyle(
+                                    fontFamily: "ProximaNova",
+                                    color: Color(0xff3e61ed),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold
+                                    // color: isActive ? Colors.white38 : KColors.subtitle,
+                                    ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _recommendedSection(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      margin: EdgeInsets.symmetric(vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 12),
       height: 200,
       width: MediaQuery.of(context).size.width,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Recommended",
-            style: TextStyle(fontWeight: FontWeight.bold, color: KColors.title),
+          const Text(
+            "Suggestions for you",
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontFamily: "ProximaNova",
+                color: KColors.title),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Expanded(
             child: ListView(
               scrollDirection: Axis.horizontal,
@@ -141,7 +578,6 @@ class HomePage extends StatelessWidget {
                     title: "Reserch Assist",
                     sub: "\$45,000 Remote",
                     isActive: false)
-
               ],
             ),
           ),
@@ -152,10 +588,10 @@ class HomePage extends StatelessWidget {
 
   Widget _recommendedJob(
     BuildContext context, {
-     String img,
-     String company,
-     String title,
-     String sub,
+    String img,
+    String company,
+    String title,
+    String sub,
     bool isActive = false,
   }) {
     return Padding(
@@ -171,21 +607,21 @@ class HomePage extends StatelessWidget {
               color: isActive ? KColors.primary : Colors.white,
               borderRadius: BorderRadius.circular(7),
             ),
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   height: 40,
                   width: 40,
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: isActive ? Colors.white : KColors.lightGrey,
                     borderRadius: BorderRadius.circular(7),
                   ),
                   child: Image.asset(img),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 Text(
                   company,
                   style: TextStyle(
@@ -193,7 +629,7 @@ class HomePage extends StatelessWidget {
                     color: isActive ? Colors.white38 : KColors.subtitle,
                   ),
                 ),
-                SizedBox(height: 6),
+                const SizedBox(height: 6),
                 Text(
                   title,
                   style: TextStyle(
@@ -202,7 +638,7 @@ class HomePage extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 6),
+                const SizedBox(height: 6),
                 Text(
                   sub,
                   style: TextStyle(
@@ -220,11 +656,11 @@ class HomePage extends StatelessWidget {
 
   Widget _recentPostedJob(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+      margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             "Recent posted",
             style: TextStyle(fontWeight: FontWeight.bold, color: KColors.title),
           ),
@@ -255,42 +691,42 @@ class HomePage extends StatelessWidget {
 
   Widget _jobCard(
     BuildContext context, {
-     String img,
-     String title,
-     String subtitle,
-     String salery,
+    String img,
+    String title,
+    String subtitle,
+    String salery,
   }) {
     return GestureDetector(
       onTap: () {
         Navigator.push(context, JobDetailPage.getJobDetail());
       },
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        margin: EdgeInsets.symmetric(vertical: 6),
-        decoration: BoxDecoration(color: Colors.white),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        margin: const EdgeInsets.symmetric(vertical: 6),
+        decoration: const BoxDecoration(color: Colors.white),
         child: Row(
           children: [
             Container(
               height: 40,
               width: 40,
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                 color: KColors.lightGrey,
                 borderRadius: BorderRadius.circular(4),
               ),
               child: Image.asset(img),
             ),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
-                  style: TextStyle(fontSize: 12, color: KColors.subtitle),
+                  style: const TextStyle(fontSize: 12, color: KColors.subtitle),
                 ),
                 Text(
                   subtitle,
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontSize: 14,
                       color: KColors.title,
                       fontWeight: FontWeight.bold),
@@ -308,7 +744,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: KColors.background,
       key: context.read<MenuController>().scaffoldKey,
-      drawer: SideMenu(),
+      drawer: const SideMenu(),
       body: SafeArea(
         child: Container(
           width: MediaQuery.of(context).size.width,
@@ -319,7 +755,122 @@ class HomePage extends StatelessWidget {
                 _appBar(context),
                 _header(context),
                 _recommendedSection(context),
-                _recentPostedJob(context)
+                _carosel(context),
+                Padding(
+                  padding: const EdgeInsets.only(left: 5,right: 5,top: 20,bottom: 10),
+                  child: Container(
+                    // padding:EdgeInsets.all(20),
+                    width: double.infinity,
+                    child: Card(
+                      elevation: 5,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 25,top: 15,bottom: 15),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Recruiter activity",
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontFamily: "ProximaNova",
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "2 Recruiters express interest in your profile in pst 60days",
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontFamily: "ProximaNova",
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 20,),
+                            Row(
+                              children: [
+                                Container(
+                                  height: 30,
+                                  width: 30,
+                                  decoration: BoxDecoration(
+                                    color:Color(0xff3e61ed),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+
+                                ),
+                                const SizedBox(
+                                  width: 13,
+                                ),
+                                const Text(
+                                  "1",
+                                  style: TextStyle(
+                                      // color: Color(0xff3e61ed),
+                                      fontFamily: "ProximaNova",
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold
+                                    // color: isActive ? Colors.white38 : KColors.subtitle,
+                                  ),
+                                ),
+                                SizedBox(width: 5,),
+                                const Text(
+                                  " Profile Views",
+                                  style: TextStyle(
+                                    // color: Color(0xff3e61ed),
+                                      fontFamily: "ProximaNova",
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500
+                                    // color: isActive ? Colors.white38 : KColors.subtitle,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height:10
+                            ),
+                            Row(
+                              children: [
+                                Container(
+                                  height: 30,
+                                  width: 30,
+                                  decoration: BoxDecoration(
+                                    color:Colors.blueGrey,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+
+                                ),
+                                const SizedBox(
+                                  width: 13,
+                                ),
+                                const Text(
+                                  "1",
+                                  style: TextStyle(
+                                      // color: Color(0xff3e61ed),
+                                      fontFamily: "ProximaNova",
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold
+                                    // color: isActive ? Colors.white38 : KColors.subtitle,
+                                  ),
+                                ),
+                                SizedBox(width: 5,),
+                                const Text(
+                                  "Recruiters Contacted",
+                                  style: TextStyle(
+                                    // color: Color(0xff3e61ed),
+                                      fontFamily: "ProximaNova",
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500
+                                    // color: isActive ? Colors.white38 : KColors.subtitle,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                _recommendedCourses(context),
+                // _recentPostedJob(context)
               ],
             ),
           ),
