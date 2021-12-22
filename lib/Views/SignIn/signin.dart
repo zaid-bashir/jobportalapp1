@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/button/gf_button.dart';
+import 'package:job_portal/Views/Candidate/bluecollar.dart';
 import 'package:job_portal/Views/Candidate/bottomnavbar.dart';
 import 'package:job_portal/Views/Candidate/fresherBcollar.dart';
 import 'package:job_portal/Views/SignIn/register.dart';
@@ -297,7 +298,7 @@ class _LoginPageState extends State<LoginPage> {
                       side: const BorderSide(color: Colors.black),
                     ),
                     onPressed: () {
-                     // Navigator.push(context, MaterialPageRoute(builder: (context) => UploadTest()));
+                     Navigator.push(context, MaterialPageRoute(builder: (context) => BlueCollar()));
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 8),

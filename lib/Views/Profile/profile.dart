@@ -8,9 +8,8 @@ import 'package:job_portal/Controllers/menucontroller.dart';
 import 'package:job_portal/Theme/colors.dart';
 import 'package:job_portal/Theme/images.dart';
 import 'package:job_portal/Views/Candidate/sidebar.dart';
-import 'package:provider/src/provider.dart';
+import 'package:provider/provider.dart';
 import 'dart:io';
-
 import '../Candidate/inbox.dart';
 
 class ProfilePage extends StatefulWidget {
