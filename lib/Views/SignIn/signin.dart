@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/button/gf_button.dart';
-import 'package:job_portal/Views/Candidate/bluecollar.dart';
 import 'package:job_portal/Views/Candidate/bottomnavbar.dart';
-import 'package:job_portal/Views/Candidate/fresherBcollar.dart';
-import 'package:job_portal/Views/SignIn/register-step4.dart';
 import 'package:job_portal/Views/SignIn/register.dart';
 
 
@@ -245,82 +242,82 @@ class _LoginPageState extends State<LoginPage> {
                   //   ),
                   // ),
                    SizedBox(height: 20,),
-                  Row(
-                    children: const [
-                      Expanded(child: Divider(
-                        endIndent: 20,
-                        indent: 10,
-
-                        thickness: 1.3,
-                      )),
-                      Text("OR"),
-                      Expanded(child: Divider(
-                        indent: 20,
-                        endIndent: 10,
-                        thickness: 1.3,
-
-                      )),
-                    ],
-                  ),
-                  const SizedBox(height: 10,),
-
-                  FlatButton(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(36),
-                      side: const BorderSide(color: Colors.black),
-                    ),
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => FresherWC()));
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const <Widget>[
-                          Image(
-                            height: 30,
-                            width: 20,
-                            image: AssetImage(
-                              'assets/google.png',
-                            ),
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Text('Join with Google')
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 15),
-                  FlatButton(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(36),
-                      side: const BorderSide(color: Colors.black),
-                    ),
-                    onPressed: () {
-                     Navigator.push(context, MaterialPageRoute(builder: (context) => BlueCollar()));
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const <Widget>[
-                          Image(
-                            height: 30,
-                            width: 30,
-                            image: AssetImage(
-                              'assets/apple-logo.png',
-                            ),
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Text('Join with Apple')
-                        ],
-                      ),
-                    ),
-                  ),
+                  // Row(
+                  //   children: const [
+                  //     Expanded(child: Divider(
+                  //       endIndent: 20,
+                  //       indent: 10,
+                  //
+                  //       thickness: 1.3,
+                  //     )),
+                  //     Text("OR"),
+                  //     Expanded(child: Divider(
+                  //       indent: 20,
+                  //       endIndent: 10,
+                  //       thickness: 1.3,
+                  //
+                  //     )),
+                  //   ],
+                  // ),
+                  // const SizedBox(height: 10,),
+                  //
+                  // FlatButton(
+                  //   shape: RoundedRectangleBorder(
+                  //     borderRadius: BorderRadius.circular(36),
+                  //     side: const BorderSide(color: Colors.black),
+                  //   ),
+                  //   onPressed: () {
+                  //     // Navigator.push(context, MaterialPageRoute(builder: (context) => Recruiter()));
+                  //   },
+                  //   child: Container(
+                  //     padding: const EdgeInsets.symmetric(vertical: 8),
+                  //     child: Row(
+                  //       mainAxisAlignment: MainAxisAlignment.center,
+                  //       children: const <Widget>[
+                  //         Image(
+                  //           height: 30,
+                  //           width: 20,
+                  //           image: AssetImage(
+                  //             'assets/google.png',
+                  //           ),
+                  //         ),
+                  //         SizedBox(
+                  //           width: 20,
+                  //         ),
+                  //         Text('Join with Google')
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+                  // const SizedBox(height: 15),
+                  // FlatButton(
+                  //   shape: RoundedRectangleBorder(
+                  //     borderRadius: BorderRadius.circular(36),
+                  //     side: const BorderSide(color: Colors.black),
+                  //   ),
+                  //   onPressed: () {
+                  //    // Navigator.push(context, MaterialPageRoute(builder: (context) => UploadTest()));
+                  //   },
+                  //   child: Container(
+                  //     padding: const EdgeInsets.symmetric(vertical: 8),
+                  //     child: Row(
+                  //       mainAxisAlignment: MainAxisAlignment.center,
+                  //       children: const <Widget>[
+                  //         Image(
+                  //           height: 30,
+                  //           width: 30,
+                  //           image: AssetImage(
+                  //             'assets/apple-logo.png',
+                  //           ),
+                  //         ),
+                  //         SizedBox(
+                  //           width: 20,
+                  //         ),
+                  //         Text('Join with Apple')
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
                   const SizedBox(
                     height: 20,
                   ),
@@ -331,7 +328,7 @@ class _LoginPageState extends State<LoginPage> {
                       TextButton(
                         onPressed: () {
                           Navigator.push(context, MaterialPageRoute(builder: (
-                              context) => Registerstep4()));
+                              context) => Register()));
                         },
                         child: Text('Register', style: TextStyle(color:  Color(0xff2972ff), fontSize: 14.0, fontWeight: FontWeight.w400),),
                       )
