@@ -180,9 +180,10 @@ class _NotifyState extends State<Notify> {
                     radius: 20,
                     backgroundColor: Colors.blue,
                   ),
-                  title: Text("isra riaz viewed your profile "),
+                  title: Text("isra riaz viewed your profile"),
                   trailing: Icon(Icons.menu),
                 ),
+
                 SizedBox(
                   height: 20,
                 ),
