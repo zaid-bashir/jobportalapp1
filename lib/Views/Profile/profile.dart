@@ -559,90 +559,24 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                     fontSize: 14.0,
                                     ),
                               ),
-                              const SizedBox(
-                                width: 30,
-                              ),
-                              GFRadio(
-                                size: 20,
-                                activeBorderColor: const Color(0xff3e61ed),
-                                value: 0,
-                                // enabled: !_status,
-                                autofocus: !_status,
-                                groupValue: groupValue,
-                                onChanged: (value) {
-                                  setState(() {
-                                    groupValue = value;
-                                  });
-                                },
-                                inactiveIcon: null,
-                                radioColor: const Color(0xff3e61ed),
-                              ),
-                              const SizedBox(
-                                width: 7,
-                              ),
-                              const Text(
-                                "Male",
-                                style: TextStyle(
-                                    fontSize: 15.0,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              // const SizedBox(
-                              //   width: 20,
-                              // ),
-                              // GFRadio(
-                              //   // enabled: !_status,
-                              //   autofocus: !_status,
-                              //   size: 20,
-                              //   value: 1,
-                              //   groupValue: groupValue,
-                              //   onChanged: (value) {
-                              //     setState(() {
-                              //       groupValue = value;
-                              //     });
-                              //   },
-                              //   inactiveIcon: null,
-                              //   activeBorderColor: const Color(0xff3e61ed),
-                              //   radioColor: const Color(0xff3e61ed),
-                              // ),
-                              // const SizedBox(
-                              //   width: 7,
-                              // ),
-                              // const Text(
-                              //   "Female",
-                              //   style: TextStyle(
-                              //       fontSize: 16.0,
-                              //       fontWeight: FontWeight.bold),
-                              // ),
-                              // const SizedBox(
-                              //   width: 20,
-                              // ),
-                              // GFRadio(
-                              //   size: 20,
-                              //   activeBorderColor: const Color(0xff3e61ed),
-                              //   value: 3,
-                              //   // enabled: !_status,
-                              //   autofocus: !_status,
-                              //   groupValue: groupValue,
-                              //   onChanged: (value) {
-                              //     setState(() {
-                              //       groupValue = value;
-                              //     });
-                              //   },
-                              //   inactiveIcon: null,
-                              //   radioColor: const Color(0xff3e61ed),
-                              // ),
-                              // const SizedBox(
-                              //   width: 7,
-                              // ),
-                              // const Text(
-                              //   "Others",
-                              //   style: TextStyle(
-                              //       fontSize: 16.0,
-                              //       fontWeight: FontWeight.bold),
-                              // ),
                             ],
                           ),
                         ),
+                        Padding(
+                            padding: const EdgeInsets.only(
+                                left: 28.0, right: 28.0, top: 5.0),
+                            child:  Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: <Widget>[
+                                Flexible(
+                                  child:  Text('Male',style: TextStyle(fontSize:15, fontWeight: FontWeight.bold)
+                                    // decoration: const InputDecoration(
+                                    //     hintText: "Full Name"),
+
+                                  ),
+                                ),
+                              ],
+                            )),
                         Padding(
                             padding: const EdgeInsets.only(
                                 left: 25.0, right: 25.0, top: 25.0),
@@ -798,6 +732,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                       children: <Widget>[
                                         Flexible(
                                           child:  TextField(
+                                            maxLines: 4,
                                             decoration: const InputDecoration(
                                                 hintText: "Summary"),
 
@@ -1374,7 +1309,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                             )),
                         Padding(
                             padding: const EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
+                                left: 25.0, right: 25.0, top: 5.0),
                             child:  Row(
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
@@ -1406,7 +1341,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                             )),
                         Padding(
                             padding: const EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
+                                left: 25.0, right: 25.0, top: 5.0),
                             child:  Row(
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
@@ -1437,7 +1372,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                             )),
                         Padding(
                             padding: const EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
+                                left: 25.0, right: 25.0, top: 5.0),
                             child:  Row(
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
@@ -1468,7 +1403,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                             )),
                         Padding(
                             padding: const EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
+                                left: 25.0, right: 25.0, top: 5.0),
                             child:  Row(
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
@@ -1710,7 +1645,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                             )),
                         Padding(
                             padding: const EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
+                                left: 25.0, right: 25.0, top: 5.0),
                             child:  Row(
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
@@ -1740,7 +1675,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                             )),
                         Padding(
                             padding: const EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
+                                left: 25.0, right: 25.0, top: 5.0),
                             child:  Row(
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
@@ -1771,7 +1706,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                             )),
                         Padding(
                             padding: const EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
+                                left: 25.0, right: 25.0, top: 5.0),
                             child:  Row(
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
@@ -1802,7 +1737,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                             )),
                         Padding(
                             padding: const EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
+                                left: 25.0, right: 25.0, top: 5.0),
                             child:  Row(
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
@@ -1978,7 +1913,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                             )),
                         Padding(
                             padding: const EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
+                                left: 25.0, right: 25.0, top: 5.0),
                             child:  Row(
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
@@ -2009,7 +1944,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                             )),
                         Padding(
                             padding: const EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
+                                left: 25.0, right: 25.0, top: 5.0),
                             child:  Row(
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
@@ -2217,16 +2152,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                           )],
                       )),
 
-                      child: const Text(
-                        "Add",
-                        style: TextStyle(
-                          color: Color(0xff3e61ed),
-                          fontFamily: "ProximaNova",
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.5,
-                          fontSize: 16.5,
-                        ),
-                      ),
+                      child: Icon(Icons.edit,color:Color(0xff3e61ed))
                     )
                   ],
                 ),
@@ -2253,8 +2179,8 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                     Text(
                                       'Add Projects',
                                       style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold),
+                                          fontSize: 14.0,
+                                          ),
                                     ),
                                   ],
                                 ),
@@ -2262,16 +2188,12 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                             )),
                         Padding(
                             padding: const EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
+                                left: 25.0, right: 25.0, top: 5.0),
                             child:  Row(
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 Flexible(
-                                  child:  TextField(
-                                    decoration: const InputDecoration(
-                                        hintText: "Add Projects"),
-
-                                  ),
+                                  child:  Text('Project name',style:TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0))
                                 ),
                               ],
                             )), Padding(
@@ -2287,8 +2209,8 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                     Text(
                                       'Add Patents',
                                       style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold),
+                                          fontSize: 14.0,
+                                         ),
                                     ),
                                   ],
                                 ),
@@ -2296,16 +2218,12 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                             )),
                         Padding(
                             padding: const EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
+                                left: 25.0, right: 25.0, top: 5.0),
                             child:  Row(
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 Flexible(
-                                  child:  TextField(
-                                    decoration: const InputDecoration(
-                                        hintText: "Add Patents"),
-
-                                  ),
+                                  child:  Text('Patents ',style:TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0))
                                 ),
                               ],
                             )),
@@ -2322,8 +2240,8 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                     Text(
                                       'Add Publications',
                                       style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold),
+                                          fontSize: 14.0,
+                                          ),
                                     ),
                                   ],
                                 ),
@@ -2331,16 +2249,12 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                             )),
                         Padding(
                             padding: const EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
+                                left: 25.0, right: 25.0, top: 5.0),
                             child:  Row(
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 Flexible(
-                                  child:  TextField(
-                                    decoration: const InputDecoration(
-                                        hintText: "Add Publications"),
-
-                                  ),
+                                  child:  Text('Publications ',style:TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0))
                                 ),
                               ],
                             )),
@@ -2357,8 +2271,8 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                     Text(
                                       'Add Volunteer Experience',
                                       style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold),
+                                          fontSize: 14.0,
+                                          ),
                                     ),
                                   ],
                                 ),
@@ -2366,16 +2280,12 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                             )),
                         Padding(
                             padding: const EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
+                                left: 25.0, right: 25.0, top: 5.0),
                             child:  Row(
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 Flexible(
-                                  child:  TextField(
-                                    decoration: const InputDecoration(
-                                        hintText: "Add experience"),
-
-                                  ),
+                                  child: Text('Volunteer work',style:TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0))
                                 ),
                               ],
                             )),
@@ -2475,16 +2385,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                       )),
 
 
-                      child: const Text(
-                        "Add",
-                        style: TextStyle(
-                          color: Color(0xff3e61ed),
-                          fontFamily: "PoroximaNova",
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.5,
-                          fontSize: 16.5,
-                        ),
-                      ),
+                      child: Icon(Icons.edit,color: Color(0xff3e61ed),)
                     )
                   ],
                 ),
@@ -2511,8 +2412,8 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                     Text(
                                       'Add Languages',
                                       style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold),
+                                          fontSize: 14.0,
+                                         ),
                                     ),
                                   ],
                                 ),
@@ -2520,16 +2421,12 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                             )),
                         Padding(
                             padding: const EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
+                                left: 25.0, right: 25.0, top: 5.0),
                             child:  Row(
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 Flexible(
-                                  child:  TextField(
-                                    decoration: const InputDecoration(
-                                        hintText: "Add Language"),
-
-                                  ),
+                                  child:  Text('Add languages',style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),)
                                 ),
                               ],
                             )),
@@ -2560,16 +2457,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                       onTap: () {
 
                       },
-                      child: const Text(
-                        "Edit",
-                        style: TextStyle(
-                          color: Color(0xff3e61ed),
-                          fontFamily: "ProximaNova",
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.5,
-                          fontSize: 16.5,
-                        ),
-                      ),
+                       child: Icon(Icons.edit,color:Color(0xff3e61ed))
                     ),
                   ],
                 ),
