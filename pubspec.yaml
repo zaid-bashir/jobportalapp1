@@ -40,6 +40,7 @@ dependencies:
   dotted_border: ^2.0.0+1
   file_picker: ^4.1.6
   dio: ^4.0.0
+  fl_chart: ^0.40.6
 
 
 
