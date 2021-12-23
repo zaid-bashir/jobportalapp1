@@ -28,6 +28,9 @@ class _BlueCollarState extends State<BlueCollar> {
     "Delhi University",
     "Mumbai University"
   ];
+
+  bool isFresher = true;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -61,7 +64,7 @@ class _BlueCollarState extends State<BlueCollar> {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                        children: const [
                           Text(
                             "Attach File From Phone",
                             style: TextStyle(
@@ -86,11 +89,10 @@ class _BlueCollarState extends State<BlueCollar> {
                   ),
                 ),
               ),
-
               Padding(
-                  padding: const EdgeInsets.only(
-                      left: 25.0, right: 25.0, top: 20.0),
-                  child:  Row(
+                  padding:
+                      const EdgeInsets.only(left: 25.0, right: 25.0, top: 20.0),
+                  child: Row(
                     mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
                       Column(
@@ -110,7 +112,8 @@ class _BlueCollarState extends State<BlueCollar> {
                   )),
               Padding(
                 padding: const EdgeInsets.only(
-                  top: 10, ),
+                  top: 10,
+                ),
                 child: Card(
                   elevation: 5,
                   child: Padding(
@@ -120,7 +123,7 @@ class _BlueCollarState extends State<BlueCollar> {
                         Padding(
                             padding: const EdgeInsets.only(
                                 left: 25.0, right: 25.0, top: 20.0),
-                            child:  Row(
+                            child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 Column(
@@ -139,36 +142,29 @@ class _BlueCollarState extends State<BlueCollar> {
                               ],
                             )),
                         Padding(
-                            padding: const EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
-                            child:  Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                Flexible(
-                                  child:  TextField(
-                                    decoration: const InputDecoration(
-                                        hintText: "Profile Summary"),
-                                  ),
+                          padding: const EdgeInsets.only(
+                              left: 25.0, right: 25.0, top: 2.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: const <Widget>[
+                              Flexible(
+                                child: TextField(
+                                  decoration: InputDecoration(
+                                      hintText: "Profile Summary"),
                                 ),
-                              ],
-                            )),
-
-
-
-
-
-
-
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),
                 ),
               ),
-
               Padding(
                   padding: const EdgeInsets.only(
-                      left: 25.0, right: 25.0, top: 20.0,bottom: 10),
-                  child:  Row(
+                      left: 25.0, right: 25.0, top: 20.0, bottom: 10),
+                  child: Row(
                     mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
                       Column(
@@ -193,7 +189,9 @@ class _BlueCollarState extends State<BlueCollar> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(left: 20,),
+                        padding: const EdgeInsets.only(
+                          left: 20,
+                        ),
                         child: Text(
                           "Preferred Industry",
                           style: TextStyle(
@@ -231,16 +229,22 @@ class _BlueCollarState extends State<BlueCollar> {
                 ),
               ),
               Padding(
-                  padding: const EdgeInsets.only(
-                      left: 25.0, right: 25.0, top: 20.0),
-                  child:  Row(
+                  padding:
+                      const EdgeInsets.only(left: 25.0, right: 25.0, top: 20.0),
+                  child: Row(
                     mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
                       Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
-                        children: const <Widget>[
-                          Text(
+                        children:  <Widget>[
+                          isFresher ?  Text(
+                            'Education',
+                            style: TextStyle(
+                                fontSize: 18.0,
+                                fontFamily: "ProximaNova",
+                                fontWeight: FontWeight.bold),
+                          ) : Text(
                             'Experience',
                             style: TextStyle(
                                 fontSize: 18.0,
@@ -253,8 +257,136 @@ class _BlueCollarState extends State<BlueCollar> {
                   )),
               Padding(
                 padding: const EdgeInsets.only(
-                  top: 10, ),
-                child: Card(
+                  top: 10,
+                ),
+                child: isFresher ? Padding(
+                  padding: const EdgeInsets.only(
+                    top: 10,
+                  ),
+                  child: Card(
+                    elevation: 5,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 15),
+                      child: Column(
+                        children: [
+                          Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 25.0, right: 25.0, top: 20.0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: <Widget>[
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: const <Widget>[
+                                      Text(
+                                        'Highest Education',
+                                        style: TextStyle(
+                                            fontSize: 16.0,
+                                            fontFamily: "ProximaNova",
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              )),
+                          Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 10.0, right: 10.0, top: 2.0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: <Widget>[
+                                  Flexible(
+                                    child: GFSearchBar(
+                                      searchList: lists,
+                                      searchQueryBuilder: (query, lists) {
+                                        return lists
+                                            .where((item) => item
+                                            .toLowerCase()
+                                            .contains(query.toLowerCase()))
+                                            .toList();
+                                      },
+                                      overlaySearchListItemBuilder: (item) {
+                                        return Container(
+                                          padding: EdgeInsets.all(8),
+                                          child: Text(
+                                            item,
+                                            style: TextStyle(fontSize: 18),
+                                          ),
+                                        );
+                                      },
+                                      onItemSelected: (item) {
+                                        setState(() {
+                                          print("$item");
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              )),
+                          Padding(
+                              padding: const EdgeInsets.only(
+                                left: 25.0,
+                                right: 25.0,
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: <Widget>[
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: const <Widget>[
+                                      Text(
+                                        'Institute qualified from',
+                                        style: TextStyle(
+                                            fontSize: 16.0,
+                                            fontFamily: "ProximaNova",
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              )),
+                          Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 10.0, right: 10.0, top: 2.0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: <Widget>[
+                                  Flexible(
+                                    child: GFSearchBar(
+                                      searchList: insti,
+                                      searchQueryBuilder: (query, insti) {
+                                        return insti
+                                            .where((item) => item
+                                            .toLowerCase()
+                                            .contains(query.toLowerCase()))
+                                            .toList();
+                                      },
+                                      overlaySearchListItemBuilder: (item) {
+                                        return Container(
+                                          padding: EdgeInsets.all(8),
+                                          child: Text(
+                                            item,
+                                            style: TextStyle(fontSize: 18),
+                                          ),
+                                        );
+                                      },
+                                      onItemSelected: (item) {
+                                        setState(() {
+                                          print("$item");
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              )),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+                : Card(
                   elevation: 5,
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 15),
@@ -263,7 +395,7 @@ class _BlueCollarState extends State<BlueCollar> {
                         Padding(
                             padding: const EdgeInsets.only(
                                 left: 25.0, right: 25.0, top: 20.0),
-                            child:  Row(
+                            child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 Column(
@@ -284,22 +416,21 @@ class _BlueCollarState extends State<BlueCollar> {
                         Padding(
                             padding: const EdgeInsets.only(
                                 left: 25.0, right: 25.0, top: 2.0),
-                            child:  Row(
+                            child: Row(
                               mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
+                              children: const <Widget>[
                                 Flexible(
-                                  child:  TextField(
-                                    decoration: const InputDecoration(
+                                  child: TextField(
+                                    decoration: InputDecoration(
                                         hintText: "Previous Job Title"),
                                   ),
                                 ),
                               ],
                             )),
-
                         Padding(
                             padding: const EdgeInsets.only(
                                 left: 25.0, right: 25.0, top: 25.0),
-                            child:  Row(
+                            child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 Column(
@@ -320,12 +451,12 @@ class _BlueCollarState extends State<BlueCollar> {
                         Padding(
                             padding: const EdgeInsets.only(
                                 left: 25.0, right: 25.0, top: 2.0),
-                            child:  Row(
+                            child: Row(
                               mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
+                              children: const <Widget>[
                                 Flexible(
-                                  child:  TextField(
-                                    decoration: const InputDecoration(
+                                  child: TextField(
+                                    decoration: InputDecoration(
                                         hintText: "Previous Job Title"),
                                   ),
                                 ),
@@ -334,7 +465,7 @@ class _BlueCollarState extends State<BlueCollar> {
                         Padding(
                             padding: const EdgeInsets.only(
                                 left: 25.0, right: 25.0, top: 25.0),
-                            child:  Row(
+                            child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 Column(
@@ -346,8 +477,7 @@ class _BlueCollarState extends State<BlueCollar> {
                                       style: TextStyle(
                                           fontSize: 16.0,
                                           fontWeight: FontWeight.bold,
-                                          fontFamily: "ProximaNova"
-                                      ),
+                                          fontFamily: "ProximaNova"),
                                     ),
                                   ],
                                 ),
@@ -356,12 +486,12 @@ class _BlueCollarState extends State<BlueCollar> {
                         Padding(
                             padding: const EdgeInsets.only(
                                 left: 25.0, right: 25.0, top: 2.0),
-                            child:  Row(
+                            child: Row(
                               mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
+                              children: const <Widget>[
                                 Flexible(
-                                  child:  TextField(
-                                    decoration: const InputDecoration(
+                                  child: TextField(
+                                    decoration: InputDecoration(
                                         hintText: "Tenure of last job"),
                                   ),
                                 ),
@@ -370,7 +500,7 @@ class _BlueCollarState extends State<BlueCollar> {
                         Padding(
                             padding: const EdgeInsets.only(
                                 left: 25.0, right: 25.0, top: 25.0),
-                            child:  Row(
+                            child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 Column(
@@ -391,22 +521,21 @@ class _BlueCollarState extends State<BlueCollar> {
                         Padding(
                             padding: const EdgeInsets.only(
                                 left: 25.0, right: 25.0, top: 2.0),
-                            child:  Row(
+                            child: Row(
                               mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
+                              children: const <Widget>[
                                 Flexible(
-                                  child:  TextField(
-                                    decoration: const InputDecoration(
+                                  child: TextField(
+                                    decoration: InputDecoration(
                                         hintText: "Job Experience"),
                                   ),
                                 ),
                               ],
                             )),
-
                         Padding(
                             padding: const EdgeInsets.only(
                                 left: 25.0, right: 25.0, top: 25.0),
-                            child:  Row(
+                            child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 Column(
@@ -427,170 +556,170 @@ class _BlueCollarState extends State<BlueCollar> {
                         Padding(
                             padding: const EdgeInsets.only(
                                 left: 25.0, right: 25.0, top: 2.0),
-                            child:  Row(
+                            child: Row(
                               mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
+                              children: const <Widget>[
                                 Flexible(
-                                  child:  TextField(
-                                    decoration: const InputDecoration(
+                                  child: TextField(
+                                    decoration: InputDecoration(
                                         hintText: "Previous Salary"),
                                   ),
                                 ),
                               ],
                             )),
-
-
                       ],
                     ),
                   ),
                 ),
               ),
-              Padding(
-                  padding: const EdgeInsets.only(
-                      left: 25.0, right: 25.0, top: 20.0),
-                  child:  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: const <Widget>[
-                          Text(
-                            'Education',
-                            style: TextStyle(
-                                fontSize: 18.0,
-                                fontFamily: "ProximaNova",
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    ],
-                  )),
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 10, ),
-                child: Card(
-                  elevation: 5,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 15),
-                    child: Column(
-                      children: [
-                        Padding(
-                            padding: const EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 20.0),
-                            child:  Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: const <Widget>[
-                                    Text(
-                                      'Highest Education',
-                                      style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontFamily: "ProximaNova",
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            )),
-                        Padding(
-                            padding: const EdgeInsets.only(
-                                left: 10.0, right: 10.0, top: 2.0),
-                            child:  Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                Flexible(
-                                  child:  GFSearchBar(
-                                    searchList: lists,
-                                    searchQueryBuilder: (query, lists) {
-                                      return lists
-                                          .where((item) => item
-                                          .toLowerCase()
-                                          .contains(query.toLowerCase()))
-                                          .toList();
-                                    },
-                                    overlaySearchListItemBuilder: (item) {
-                                      return Container(
-                                        padding: EdgeInsets.all(8),
-                                        child: Text(
-                                          item,
-                                          style: TextStyle(fontSize: 18),
-                                        ),
-                                      );
-                                    },
-                                    onItemSelected: (item) {
-                                      setState(() {
-                                        print("$item");
-                                      });
-                                    },
-                                  ),
-                                ),
-                              ],
-                            )),
-
-                        Padding(
-                            padding: const EdgeInsets.only(
-                                left: 25.0, right: 25.0, ),
-                            child:  Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: const <Widget>[
-                                    Text(
-                                      'Institute qualified from',
-                                      style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontFamily: "ProximaNova",
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            )),
-                        Padding(
-                            padding: const EdgeInsets.only(
-                                left: 10.0, right: 10.0, top: 2.0),
-                            child:  Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                Flexible(
-                                  child:  GFSearchBar(
-                                    searchList: insti,
-                                    searchQueryBuilder: (query, insti) {
-                                      return insti
-                                          .where((item) => item
-                                          .toLowerCase()
-                                          .contains(query.toLowerCase()))
-                                          .toList();
-                                    },
-                                    overlaySearchListItemBuilder: (item) {
-                                      return Container(
-                                        padding: EdgeInsets.all(8),
-                                        child: Text(
-                                          item,
-                                          style: TextStyle(fontSize: 18),
-                                        ),
-                                      );
-                                    },
-                                    onItemSelected: (item) {
-                                      setState(() {
-                                        print("$item");
-                                      });
-                                    },
-                                  ),
-                                ),
-                              ],
-                            )),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+              // Padding(
+              //     padding:
+              //         const EdgeInsets.only(left: 25.0, right: 25.0, top: 20.0),
+              //     child: Row(
+              //       mainAxisSize: MainAxisSize.max,
+              //       children: <Widget>[
+              //         Column(
+              //           mainAxisAlignment: MainAxisAlignment.start,
+              //           mainAxisSize: MainAxisSize.min,
+              //           children: const <Widget>[
+              //             Text(
+              //               'Education',
+              //               style: TextStyle(
+              //                   fontSize: 18.0,
+              //                   fontFamily: "ProximaNova",
+              //                   fontWeight: FontWeight.bold),
+              //             ),
+              //           ],
+              //         ),
+              //       ],
+              //     )),
+              // Padding(
+              //   padding: const EdgeInsets.only(
+              //     top: 10,
+              //   ),
+              //   child: Card(
+              //     elevation: 5,
+              //     child: Padding(
+              //       padding: const EdgeInsets.only(bottom: 15),
+              //       child: Column(
+              //         children: [
+              //           Padding(
+              //               padding: const EdgeInsets.only(
+              //                   left: 25.0, right: 25.0, top: 20.0),
+              //               child: Row(
+              //                 mainAxisSize: MainAxisSize.max,
+              //                 children: <Widget>[
+              //                   Column(
+              //                     mainAxisAlignment: MainAxisAlignment.start,
+              //                     mainAxisSize: MainAxisSize.min,
+              //                     children: const <Widget>[
+              //                       Text(
+              //                         'Highest Education',
+              //                         style: TextStyle(
+              //                             fontSize: 16.0,
+              //                             fontFamily: "ProximaNova",
+              //                             fontWeight: FontWeight.bold),
+              //                       ),
+              //                     ],
+              //                   ),
+              //                 ],
+              //               )),
+              //           Padding(
+              //               padding: const EdgeInsets.only(
+              //                   left: 10.0, right: 10.0, top: 2.0),
+              //               child: Row(
+              //                 mainAxisSize: MainAxisSize.max,
+              //                 children: <Widget>[
+              //                   Flexible(
+              //                     child: GFSearchBar(
+              //                       searchList: lists,
+              //                       searchQueryBuilder: (query, lists) {
+              //                         return lists
+              //                             .where((item) => item
+              //                                 .toLowerCase()
+              //                                 .contains(query.toLowerCase()))
+              //                             .toList();
+              //                       },
+              //                       overlaySearchListItemBuilder: (item) {
+              //                         return Container(
+              //                           padding: EdgeInsets.all(8),
+              //                           child: Text(
+              //                             item,
+              //                             style: TextStyle(fontSize: 18),
+              //                           ),
+              //                         );
+              //                       },
+              //                       onItemSelected: (item) {
+              //                         setState(() {
+              //                           print("$item");
+              //                         });
+              //                       },
+              //                     ),
+              //                   ),
+              //                 ],
+              //               )),
+              //           Padding(
+              //               padding: const EdgeInsets.only(
+              //                 left: 25.0,
+              //                 right: 25.0,
+              //               ),
+              //               child: Row(
+              //                 mainAxisSize: MainAxisSize.max,
+              //                 children: <Widget>[
+              //                   Column(
+              //                     mainAxisAlignment: MainAxisAlignment.start,
+              //                     mainAxisSize: MainAxisSize.min,
+              //                     children: const <Widget>[
+              //                       Text(
+              //                         'Institute qualified from',
+              //                         style: TextStyle(
+              //                             fontSize: 16.0,
+              //                             fontFamily: "ProximaNova",
+              //                             fontWeight: FontWeight.bold),
+              //                       ),
+              //                     ],
+              //                   ),
+              //                 ],
+              //               )),
+              //           Padding(
+              //               padding: const EdgeInsets.only(
+              //                   left: 10.0, right: 10.0, top: 2.0),
+              //               child: Row(
+              //                 mainAxisSize: MainAxisSize.max,
+              //                 children: <Widget>[
+              //                   Flexible(
+              //                     child: GFSearchBar(
+              //                       searchList: insti,
+              //                       searchQueryBuilder: (query, insti) {
+              //                         return insti
+              //                             .where((item) => item
+              //                                 .toLowerCase()
+              //                                 .contains(query.toLowerCase()))
+              //                             .toList();
+              //                       },
+              //                       overlaySearchListItemBuilder: (item) {
+              //                         return Container(
+              //                           padding: EdgeInsets.all(8),
+              //                           child: Text(
+              //                             item,
+              //                             style: TextStyle(fontSize: 18),
+              //                           ),
+              //                         );
+              //                       },
+              //                       onItemSelected: (item) {
+              //                         setState(() {
+              //                           print("$item");
+              //                         });
+              //                       },
+              //                     ),
+              //                   ),
+              //                 ],
+              //               )),
+              //         ],
+              //       ),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),

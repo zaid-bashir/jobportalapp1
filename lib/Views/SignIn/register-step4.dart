@@ -22,7 +22,7 @@ class _Registerstep4State extends State<Registerstep4> {
     "Central University",
   ];
 
-  bool isFresher = false;
+  bool isFresher = true;
 
   List<String> list1 = [
     "M.Tech",
@@ -64,15 +64,65 @@ class _Registerstep4State extends State<Registerstep4> {
         children: [
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Card(
-              child: ListTile(
-                leading: GestureDetector(child: Icon(Iconsax.document_upload,size: 40,),onTap: (){
-                  selectFile();
-                },),
-                title: Text("Upload Your Resume"),
-                subtitle: Text("pdf,docx,jpg,png"),
+            child:  Card(
+              elevation: 5,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 10, left: 20, bottom: 10),
+                child: Row(
+                  // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey, width: 2.5),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Icon(
+                        Icons.add,
+                        color: Colors.grey,
+                        size: 25,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 30,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        Text(
+                          "Attach File From Phone",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "ProximaNova",
+                              fontSize: 15),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          "pdf,doc,png accepted",
+                          style: TextStyle(
+                              color: Colors.grey,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: "ProximaNova",
+                              fontSize: 15),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
+            // Card(
+            //   child:
+            //   ListTile(
+            //     leading: GestureDetector(child: Icon(Iconsax.document_upload,size: 40,),onTap: (){
+            //       selectFile();
+            //     },),
+            //     title: Text("Upload Your Resume"),
+            //     subtitle: Text("pdf,docx,jpg,png"),
+            //   ),
+            // ),
           ),
           const SizedBox(
             height: 10,
@@ -98,7 +148,7 @@ class _Registerstep4State extends State<Registerstep4> {
           ),
           isFresher ?  Padding(
             padding: const EdgeInsets.all(10.0),
-            child: const Text("Highest Degree",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+            child: const Text("Education",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
           ) :  Padding(
             padding: const EdgeInsets.all(10.0),
             child: const Text("Experience",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
@@ -106,23 +156,7 @@ class _Registerstep4State extends State<Registerstep4> {
           const SizedBox(
             height: 3,
           ),
-          isFresher ? GFSearchBar(
-            searchList: list1,
-            searchQueryBuilder: (query,list){
-              return list.where((item) => item.toLowerCase().contains(query.toLowerCase())).toList();
-            },
-            overlaySearchListItemBuilder: (item){
-              return Container(
-                padding: EdgeInsets.all(8),
-                child: Text(item,style: TextStyle(fontSize: 18),),
-              );
-            },
-            onItemSelected: (item){
-              setState(() {
-                print(item);
-              });
-            },
-          ) : Card(
+          isFresher ? Column() : Card(
             elevation: 5,
             child: Padding(
               padding: const EdgeInsets.only(bottom: 15),
@@ -395,18 +429,18 @@ class _Registerstep4State extends State<Registerstep4> {
           const SizedBox(
             height: 10,
           ),
-          Padding(
+          isFresher ? Container() : Padding(
             padding: const EdgeInsets.all(10.0),
             child: const Text("Accomplishments",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
           ),
-          Card(
+          isFresher ? Container() : Card(
             elevation: 5,
             child: Padding(
               padding: const EdgeInsets.only(bottom: 15),
               child: Column(
                 children: [
 
-                 Padding(
+                  Padding(
                       padding: const EdgeInsets.only(
                           left: 25.0, right: 25.0, top: 25.0),
                       child:  Row(
@@ -519,6 +553,7 @@ class _Registerstep4State extends State<Registerstep4> {
               ),
             ),
           ),
+
           const SizedBox(
             height: 10,
           ),
