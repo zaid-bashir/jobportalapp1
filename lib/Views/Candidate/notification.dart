@@ -144,7 +144,7 @@ class _NotifyState extends State<Notify> {
                     backgroundColor: Colors.blue,
                   ),
                   title:
-                      Text("zaid bashir accepted your request for connection "),
+                      Text("zaid bashir accepted your connection request"),
                   trailing: Icon(Icons.menu),
                 ),
                 SizedBox(
