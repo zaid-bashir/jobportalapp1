@@ -41,6 +41,9 @@ dependencies:
   file_picker: ^4.1.6
   dio: ^4.0.0
   fl_chart: ^0.40.6
+  dropdown_search: ^2.0.0
+  date_field: ^2.1.2
+
 
 
 
