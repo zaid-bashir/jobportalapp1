@@ -8,6 +8,7 @@ import 'package:job_portal/Theme/images.dart';
 import 'package:job_portal/Views/Candidate/sidebar.dart';
 import 'package:job_portal/Views/SignIn/register-step4.dart';
 import 'package:provider/provider.dart';
+import 'bluecollar.dart';
 import 'jobdetail.dart';
 import 'inbox.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -127,7 +128,7 @@ class HomePage extends StatelessWidget {
                   color: const Color(0xff3e61ed),
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(builder: (
-                        context) => Registerstep4()));
+                        context) => BlueCollar()));
                   },
                   shape: GFButtonShape.pills,
                   child: const Text(
@@ -516,7 +517,7 @@ class HomePage extends StatelessWidget {
                                     fontWeight: FontWeight.bold
                                     // color: isActive ? Colors.white38 : KColors.subtitle,
                                     ),
-                              ),
+                             ),
                             ],
                           ),
                         ],
