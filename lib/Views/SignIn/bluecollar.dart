@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/search_bar/gf_search_bar.dart';
 
@@ -30,7 +29,7 @@ class _BlueCollarState extends State<BlueCollar> {
     "Mumbai University"
   ];
 
-  bool isFresher = true;
+  bool isFresher = false;
 
   @override
   Widget build(BuildContext context) {
