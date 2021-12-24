@@ -30,7 +30,7 @@ class _BlueCollarState extends State<BlueCollar> {
     "Mumbai University"
   ];
 
-  bool isFresher = true;
+  bool isFresher = false;
 
   @override
   Widget build(BuildContext context) {
@@ -573,154 +573,154 @@ class _BlueCollarState extends State<BlueCollar> {
                   ),
                 ),
               ),
-              // Padding(
-              //     padding:
-              //         const EdgeInsets.only(left: 25.0, right: 25.0, top: 20.0),
-              //     child: Row(
-              //       mainAxisSize: MainAxisSize.max,
-              //       children: <Widget>[
-              //         Column(
-              //           mainAxisAlignment: MainAxisAlignment.start,
-              //           mainAxisSize: MainAxisSize.min,
-              //           children: const <Widget>[
-              //             Text(
-              //               'Education',
-              //               style: TextStyle(
-              //                   fontSize: 18.0,
-              //                   fontFamily: "ProximaNova",
-              //                   fontWeight: FontWeight.bold),
-              //             ),
-              //           ],
-              //         ),
-              //       ],
-              //     )),
-              // Padding(
-              //   padding: const EdgeInsets.only(
-              //     top: 10,
-              //   ),
-              //   child: Card(
-              //     elevation: 5,
-              //     child: Padding(
-              //       padding: const EdgeInsets.only(bottom: 15),
-              //       child: Column(
-              //         children: [
-              //           Padding(
-              //               padding: const EdgeInsets.only(
-              //                   left: 25.0, right: 25.0, top: 20.0),
-              //               child: Row(
-              //                 mainAxisSize: MainAxisSize.max,
-              //                 children: <Widget>[
-              //                   Column(
-              //                     mainAxisAlignment: MainAxisAlignment.start,
-              //                     mainAxisSize: MainAxisSize.min,
-              //                     children: const <Widget>[
-              //                       Text(
-              //                         'Highest Education',
-              //                         style: TextStyle(
-              //                             fontSize: 16.0,
-              //                             fontFamily: "ProximaNova",
-              //                             fontWeight: FontWeight.bold),
-              //                       ),
-              //                     ],
-              //                   ),
-              //                 ],
-              //               )),
-              //           Padding(
-              //               padding: const EdgeInsets.only(
-              //                   left: 10.0, right: 10.0, top: 2.0),
-              //               child: Row(
-              //                 mainAxisSize: MainAxisSize.max,
-              //                 children: <Widget>[
-              //                   Flexible(
-              //                     child: GFSearchBar(
-              //                       searchList: lists,
-              //                       searchQueryBuilder: (query, lists) {
-              //                         return lists
-              //                             .where((item) => item
-              //                                 .toLowerCase()
-              //                                 .contains(query.toLowerCase()))
-              //                             .toList();
-              //                       },
-              //                       overlaySearchListItemBuilder: (item) {
-              //                         return Container(
-              //                           padding: EdgeInsets.all(8),
-              //                           child: Text(
-              //                             item,
-              //                             style: TextStyle(fontSize: 18),
-              //                           ),
-              //                         );
-              //                       },
-              //                       onItemSelected: (item) {
-              //                         setState(() {
-              //                           print("$item");
-              //                         });
-              //                       },
-              //                     ),
-              //                   ),
-              //                 ],
-              //               )),
-              //           Padding(
-              //               padding: const EdgeInsets.only(
-              //                 left: 25.0,
-              //                 right: 25.0,
-              //               ),
-              //               child: Row(
-              //                 mainAxisSize: MainAxisSize.max,
-              //                 children: <Widget>[
-              //                   Column(
-              //                     mainAxisAlignment: MainAxisAlignment.start,
-              //                     mainAxisSize: MainAxisSize.min,
-              //                     children: const <Widget>[
-              //                       Text(
-              //                         'Institute qualified from',
-              //                         style: TextStyle(
-              //                             fontSize: 16.0,
-              //                             fontFamily: "ProximaNova",
-              //                             fontWeight: FontWeight.bold),
-              //                       ),
-              //                     ],
-              //                   ),
-              //                 ],
-              //               )),
-              //           Padding(
-              //               padding: const EdgeInsets.only(
-              //                   left: 10.0, right: 10.0, top: 2.0),
-              //               child: Row(
-              //                 mainAxisSize: MainAxisSize.max,
-              //                 children: <Widget>[
-              //                   Flexible(
-              //                     child: GFSearchBar(
-              //                       searchList: insti,
-              //                       searchQueryBuilder: (query, insti) {
-              //                         return insti
-              //                             .where((item) => item
-              //                                 .toLowerCase()
-              //                                 .contains(query.toLowerCase()))
-              //                             .toList();
-              //                       },
-              //                       overlaySearchListItemBuilder: (item) {
-              //                         return Container(
-              //                           padding: EdgeInsets.all(8),
-              //                           child: Text(
-              //                             item,
-              //                             style: TextStyle(fontSize: 18),
-              //                           ),
-              //                         );
-              //                       },
-              //                       onItemSelected: (item) {
-              //                         setState(() {
-              //                           print("$item");
-              //                         });
-              //                       },
-              //                     ),
-              //                   ),
-              //                 ],
-              //               )),
-              //         ],
-              //       ),
-              //     ),
-              //   ),
-              // ),
+              Padding(
+                  padding:
+                      const EdgeInsets.only(left: 25.0, right: 25.0, top: 20.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: const <Widget>[
+                          Text(
+                            'Education',
+                            style: TextStyle(
+                                fontSize: 18.0,
+                                fontFamily: "ProximaNova",
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ],
+                  )),
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 10,
+                ),
+                child: Card(
+                  elevation: 5,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 15),
+                    child: Column(
+                      children: [
+                        Padding(
+                            padding: const EdgeInsets.only(
+                                left: 25.0, right: 25.0, top: 20.0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: <Widget>[
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: const <Widget>[
+                                    Text(
+                                      'Highest Education',
+                                      style: TextStyle(
+                                          fontSize: 16.0,
+                                          fontFamily: "ProximaNova",
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            )),
+                        Padding(
+                            padding: const EdgeInsets.only(
+                                left: 10.0, right: 10.0, top: 2.0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: <Widget>[
+                                Flexible(
+                                  child: GFSearchBar(
+                                    searchList: lists,
+                                    searchQueryBuilder: (query, lists) {
+                                      return lists
+                                          .where((item) => item
+                                              .toLowerCase()
+                                              .contains(query.toLowerCase()))
+                                          .toList();
+                                    },
+                                    overlaySearchListItemBuilder: (item) {
+                                      return Container(
+                                        padding: EdgeInsets.all(8),
+                                        child: Text(
+                                          item,
+                                          style: TextStyle(fontSize: 18),
+                                        ),
+                                      );
+                                    },
+                                    onItemSelected: (item) {
+                                      setState(() {
+                                        print("$item");
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ],
+                            )),
+                        Padding(
+                            padding: const EdgeInsets.only(
+                              left: 25.0,
+                              right: 25.0,
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: <Widget>[
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: const <Widget>[
+                                    Text(
+                                      'Institute qualified from',
+                                      style: TextStyle(
+                                          fontSize: 16.0,
+                                          fontFamily: "ProximaNova",
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            )),
+                        Padding(
+                            padding: const EdgeInsets.only(
+                                left: 10.0, right: 10.0, top: 2.0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: <Widget>[
+                                Flexible(
+                                  child: GFSearchBar(
+                                    searchList: insti,
+                                    searchQueryBuilder: (query, insti) {
+                                      return insti
+                                          .where((item) => item
+                                              .toLowerCase()
+                                              .contains(query.toLowerCase()))
+                                          .toList();
+                                    },
+                                    overlaySearchListItemBuilder: (item) {
+                                      return Container(
+                                        padding: EdgeInsets.all(8),
+                                        child: Text(
+                                          item,
+                                          style: TextStyle(fontSize: 18),
+                                        ),
+                                      );
+                                    },
+                                    onItemSelected: (item) {
+                                      setState(() {
+                                        print("$item");
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ],
+                            )),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
