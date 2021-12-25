@@ -7,7 +7,4 @@ void main() => runApp(
       debugShowCheckedModeBanner: false,
       home: SplashScreen(),
     ),
-
-
-
 );

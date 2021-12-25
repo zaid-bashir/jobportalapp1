@@ -14,8 +14,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
   DateTime selectedDate;
   int groupValue = 1;
   int groupValue2 = 1;
-
-
+ YearPicker selectedDate2;
 
   List lists = [
     "delhi",
@@ -29,25 +28,27 @@ class _PersonalDetailsState extends State<PersonalDetails> {
     "Budgam",
     "Ganderbal"
   ];
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(child: Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(left: 20,right: 20,bottom: 10,top: 10),
+          padding: const EdgeInsets.only(
+              left: 20, right: 20, bottom: 10, top: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
-                  IconButton(onPressed: (){
+                  IconButton(onPressed: () {
                     Navigator.pop(context);
                   }, icon: const Icon(Icons.arrow_back)),
                   const SizedBox(width: 10,),
-                  const Text("Personal Details",style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: "ProximaNova"
+                  const Text("Personal Details", style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "ProximaNova"
                   ),),
                 ],
               ),
@@ -96,13 +97,16 @@ class _PersonalDetailsState extends State<PersonalDetails> {
 
               Card(
 
-                child:Padding(
-                  padding: const EdgeInsets.only(top: 10,bottom: 10,left: 10,right: 10,),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    top: 10, bottom: 10, left: 10, right: 10,),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Padding(
-                        padding: EdgeInsets.only(left: 10, bottom: 10, right: 25),
+                        padding: EdgeInsets.only(left: 10,
+                            bottom: 10,
+                            right: 25),
                         child: Text(
                           "Permanent Address",
                           style: TextStyle(
@@ -114,26 +118,27 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                         ),
                       ),
                       Text('Address',
-                          style: TextStyle(fontSize:15, fontWeight: FontWeight.bold,
+                          style: TextStyle(fontSize: 15,
+                              fontWeight: FontWeight.bold,
                               fontFamily: "ProximaNova")),
 
                       TextField(
                         decoration: InputDecoration(
-                            hintText: "Address",
-                        hintStyle: TextStyle(
-                          color: Colors.blueGrey,
-                          fontFamily: "ProximaNova",
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 1.5,
-                          fontSize: 14.5,
-                        ),),
+                          hintText: "Address",
+                          hintStyle: TextStyle(
+                            color: Colors.blueGrey,
+                            fontFamily: "ProximaNova",
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 1.5,
+                            fontSize: 14.5,
+                          ),),
 
                       ),
 
 
                       const SizedBox(height: 15,),
                       const Text('City',
-                          style: TextStyle(fontSize:15,
+                          style: TextStyle(fontSize: 15,
                               fontWeight: FontWeight.bold,
                               fontFamily: "ProximaNova")),
                       const SizedBox(
@@ -147,20 +152,21 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                             ),
                           ),
                         ),
-                          mode: Mode.DIALOG,
-                          showSelectedItems: true,
-                          showSearchBox: true,
-                          items: ["Srinagar",
-                            "Pulwama",
-                            "Budgam",
-                            "Ganderbal"],
-                          // popupItemDisabled: (String s) => s.startsWith('I'),
-                          onChanged: print,
-                         hint: "Select City",
+                        mode: Mode.DIALOG,
+                        showSelectedItems: true,
+                        showSearchBox: true,
+                        items: ["Srinagar",
+                          "Pulwama",
+                          "Budgam",
+                          "Ganderbal"],
+                        // popupItemDisabled: (String s) => s.startsWith('I'),
+                        onChanged: print,
+                        hint: "Select City",
                       ),
                       const SizedBox(height: 15,),
                       Text('Pin Code',
-                          style: TextStyle(fontSize:15, fontWeight: FontWeight.bold,
+                          style: TextStyle(fontSize: 15,
+                              fontWeight: FontWeight.bold,
                               fontFamily: "ProximaNova")),
 
                       TextField(
@@ -179,34 +185,38 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                         height: 10,
                       ),
                       const Text('State',
-                          style: TextStyle(fontSize:15, fontWeight: FontWeight.bold,fontFamily: "ProximaNova")),
+                          style: TextStyle(fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "ProximaNova")),
                       const SizedBox(
                         height: 5,
                       ),
                       DropdownSearch<String>(
-                          dropdownSearchDecoration: const InputDecoration(
-                            border: const UnderlineInputBorder(
-                              borderSide: const BorderSide(
-                                color: Colors.grey,
-                              ),
+                        dropdownSearchDecoration: const InputDecoration(
+                          border: const UnderlineInputBorder(
+                            borderSide: const BorderSide(
+                              color: Colors.grey,
                             ),
                           ),
-                          mode: Mode.DIALOG,
-                          showSelectedItems: true,
-                          showSearchBox: true,
-                          items: ["delhi",
-                            "mumbai",
-                            "chennai",
-                            "kashmir"],
-                          // popupItemDisabled: (String s) => s.startsWith('I'),
-                          onChanged: print,
-                         hint: "Select State",
+                        ),
+                        mode: Mode.DIALOG,
+                        showSelectedItems: true,
+                        showSearchBox: true,
+                        items: ["delhi",
+                          "mumbai",
+                          "chennai",
+                          "kashmir"],
+                        // popupItemDisabled: (String s) => s.startsWith('I'),
+                        onChanged: print,
+                        hint: "Select State",
                       ),
                       const Padding(
-                        padding: EdgeInsets.only( top: 15, right: 25),
+                        padding: EdgeInsets.only(top: 15, right: 25),
                         child: Text(
-                          "Date of birth",
-                            style: TextStyle(fontSize:15, fontWeight: FontWeight.bold,fontFamily: "ProximaNova")
+                            "Date of birth",
+                            style: TextStyle(fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "ProximaNova")
                         ),
                       ),
 
@@ -228,7 +238,8 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                         // initialValue: date,
                         mode: DateTimeFieldPickerMode.date,
                         autovalidateMode: AutovalidateMode.always,
-                        validator: (e) => (e?.day ?? 0) == 1
+                        validator: (e) =>
+                        (e?.day ?? 0) == 1
                             ? 'Please not the first day'
                             : null,
 
@@ -239,70 +250,76 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                         },
                       ),
                       const Padding(
-                        padding: EdgeInsets.only( top: 15, right: 25),
+                        padding: EdgeInsets.only(top: 15, right: 25),
                         child: Text(
-                          "Marital Status",
-                            style: TextStyle(fontSize:15, fontWeight: FontWeight.bold,fontFamily: "ProximaNova")
+                            "Marital Status",
+                            style: TextStyle(fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "ProximaNova")
                         ),
                       ),
                       const SizedBox(
                         height: 10,
                       ),
                       DropdownSearch<String>(
-                          dropdownSearchDecoration: const InputDecoration(
-                            border: const UnderlineInputBorder(
-                              borderSide: const BorderSide(
-                                color: Colors.grey,
-                              ),
+                        dropdownSearchDecoration: const InputDecoration(
+                          border: const UnderlineInputBorder(
+                            borderSide: const BorderSide(
+                              color: Colors.grey,
                             ),
                           ),
-                          mode: Mode.DIALOG,
-                          showSelectedItems: true,
-                          showSearchBox: true,
-                          items: ["Married",
-                            "Unmarried",
-                            "Separated",
-                            "Divorced",
-                            "Widowed"],
-                          // popupItemDisabled: (String s) => s.startsWith('I'),
-                          onChanged: print,
+                        ),
+                        mode: Mode.DIALOG,
+                        showSelectedItems: true,
+                        showSearchBox: true,
+                        items: ["Married",
+                          "Unmarried",
+                          "Separated",
+                          "Divorced",
+                          "Widowed"],
+                        // popupItemDisabled: (String s) => s.startsWith('I'),
+                        onChanged: print,
                         hint: "Select Marital Status",
                       ),
                       const Padding(
-                        padding: EdgeInsets.only( top: 15, right: 25),
+                        padding: EdgeInsets.only(top: 15, right: 25),
                         child: Text(
-                          "Category",
-                            style: TextStyle(fontSize:15, fontWeight: FontWeight.bold,fontFamily: "ProximaNova")
+                            "Category",
+                            style: TextStyle(fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "ProximaNova")
                         ),
                       ),
                       const SizedBox(
                         height: 10,
                       ),
                       DropdownSearch<String>(
-                          dropdownSearchDecoration: const InputDecoration(
-                            border: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.grey,
-                              ),
+                        dropdownSearchDecoration: const InputDecoration(
+                          border: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.grey,
                             ),
                           ),
-                          mode: Mode.DIALOG,
-                          showSelectedItems: true,
-                          showSearchBox: true,
-                          items: ["OM",
-                            "SC",
-                            "ST",
-                            "RBC",
-                            "OBC"],
-                          // popupItemDisabled: (String s) => s.startsWith('I'),
-                          onChanged: print,
-                         hint: "Select Category",
+                        ),
+                        mode: Mode.DIALOG,
+                        showSelectedItems: true,
+                        showSearchBox: true,
+                        items: ["OM",
+                          "SC",
+                          "ST",
+                          "RBC",
+                          "OBC"],
+                        // popupItemDisabled: (String s) => s.startsWith('I'),
+                        onChanged: print,
+                        hint: "Select Category",
                       ),
                       const Padding(
-                        padding: EdgeInsets.only( top: 15, ),
+                        padding: EdgeInsets.only(top: 15,),
                         child: Text(
-                          "Disability",
-                            style: TextStyle(fontSize:15, fontWeight: FontWeight.bold,fontFamily: "ProximaNova")
+                            "Disability",
+                            style: TextStyle(fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "ProximaNova")
                         ),
                       ),
                       const SizedBox(
@@ -363,38 +380,42 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                           ],
                         ),
                       ),
-                      groupValue == 0 ?  Padding(
-                        padding: EdgeInsets.only( top: 15, ),
-                        child: Text(
-                          "Disability Type",
-                            style: TextStyle(fontSize:15, fontWeight: FontWeight.bold,fontFamily: "ProximaNova")
-                        ),
-                      ): Container(),
-                      groupValue == 0 ?  SizedBox(
-                         height: 5,
-                       ): Container(),
-                      groupValue == 0 ?   TextField(
-                         decoration: InputDecoration(
-                           hintText: "Disability Type",
-                           hintStyle: TextStyle(
-                             color: Colors.blueGrey,
-                             fontFamily: "ProximaNova",
-                             fontWeight: FontWeight.w500,
-                             letterSpacing: 1.5,
-                             fontSize: 14.5,
-                           ),),
-                       ): Container(),
                       groupValue == 0 ? Padding(
-                        padding: EdgeInsets.only( top: 15, ),
+                        padding: EdgeInsets.only(top: 15,),
+                        child: Text(
+                            "Disability Type",
+                            style: TextStyle(fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "ProximaNova")
+                        ),
+                      ) : Container(),
+                      groupValue == 0 ? SizedBox(
+                        height: 5,
+                      ) : Container(),
+                      groupValue == 0 ? TextField(
+                        decoration: InputDecoration(
+                          hintText: "Disability Type",
+                          hintStyle: TextStyle(
+                            color: Colors.blueGrey,
+                            fontFamily: "ProximaNova",
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 1.5,
+                            fontSize: 14.5,
+                          ),),
+                      ) : Container(),
+                      groupValue == 0 ? Padding(
+                        padding: EdgeInsets.only(top: 15,),
                         child: Text(
                             "Is Assistance Required",
-                            style: TextStyle(fontSize:15, fontWeight: FontWeight.bold,fontFamily: "ProximaNova")
+                            style: TextStyle(fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "ProximaNova")
                         ),
-                      ):Container(),
-                      groupValue == 0 ?   SizedBox(
+                      ) : Container(),
+                      groupValue == 0 ? SizedBox(
                         height: 5,
-                      ): Container(),
-                      groupValue == 0 ?   TextField(
+                      ) : Container(),
+                      groupValue == 0 ? TextField(
                         decoration: InputDecoration(
                           hintText: "Is Assistance Required",
                           hintStyle: TextStyle(
@@ -404,15 +425,17 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                             letterSpacing: 1.5,
                             fontSize: 14.5,
                           ),),
-                      ): Container(),
-                    Padding(
-                        padding: EdgeInsets.only( top: 15, ),
+                      ) : Container(),
+                      Padding(
+                        padding: EdgeInsets.only(top: 15,),
                         child: Text(
-                          "PAN Number",
-                            style: TextStyle(fontSize:15, fontWeight: FontWeight.bold,fontFamily: "ProximaNova")
+                            "PAN Number",
+                            style: TextStyle(fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "ProximaNova")
                         ),
                       ),
-                    TextField(
+                      TextField(
                         decoration: InputDecoration(
                           hintText: "PAN Number",
                           hintStyle: TextStyle(
@@ -422,47 +445,49 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                             letterSpacing: 1.5,
                             fontSize: 14.5,
                           ),),
-                      ) ,
+                      ),
                       SizedBox(
                         height: 10,
                       ),
                       const Text('Nationality',
-                          style: TextStyle(fontSize:15,
+                          style: TextStyle(fontSize: 15,
                               fontWeight: FontWeight.bold,
                               fontFamily: "ProximaNova")),
                       const SizedBox(
                         height: 8,
                       ),
                       DropdownSearch<String>(
-                          dropdownSearchDecoration: const InputDecoration(
-                            border: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.grey,
-                              ),
+                        dropdownSearchDecoration: const InputDecoration(
+                          border: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.grey,
                             ),
                           ),
-                          mode: Mode.DIALOG,
-                          showSelectedItems: true,
-                          showSearchBox: true,
-                          items: ["Indian",
-                            "Chinies",
-                            "Indonasian",
-                            "Austrailia"],
-                          // popupItemDisabled: (String s) => s.startsWith('I'),
-                          onChanged: print,
-                          hint: "Select Nationality",
-                          // selectedItem: "Indian"
+                        ),
+                        mode: Mode.DIALOG,
+                        showSelectedItems: true,
+                        showSearchBox: true,
+                        items: ["Indian",
+                          "Chinies",
+                          "Indonasian",
+                          "Austrailia"],
+                        // popupItemDisabled: (String s) => s.startsWith('I'),
+                        onChanged: print,
+                        hint: "Select Nationality",
+                        // selectedItem: "Indian"
                       ),
 
 
-               Padding(
-                        padding: EdgeInsets.only( top: 15, ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 15,),
                         child: Text(
-                          "Passport Number",
-                            style: TextStyle(fontSize:15, fontWeight: FontWeight.bold,fontFamily: "ProximaNova")
+                            "Passport Number",
+                            style: TextStyle(fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "ProximaNova")
                         ),
                       ),
-                       TextField(
+                      TextField(
                         decoration: InputDecoration(
                           hintText: "Passport Number",
                           hintStyle: TextStyle(
@@ -474,10 +499,12 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                           ),),
                       ),
                       const Padding(
-                        padding: EdgeInsets.only( top: 15, ),
+                        padding: EdgeInsets.only(top: 15,),
                         child: Text(
-                          "Work Permits",
-                            style: TextStyle(fontSize:15, fontWeight: FontWeight.bold,fontFamily: "ProximaNova")
+                            "Work Permits",
+                            style: TextStyle(fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "ProximaNova")
                         ),
                       ),
                       const SizedBox(
@@ -539,7 +566,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
 
                         ),
                       ),
-                      groupValue2 == 0 ?   DropdownSearch<String>(
+                      groupValue2 == 0 ? DropdownSearch<String>(
                         dropdownSearchDecoration: const InputDecoration(
                           border: UnderlineInputBorder(
                             borderSide: BorderSide(
@@ -557,7 +584,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                         // popupItemDisabled: (String s) => s.startsWith('I'),
                         onChanged: print,
                         hint: "Select Country",
-                      ): Container(),
+                      ) : Container(),
                     ],
                   ),
                 ),

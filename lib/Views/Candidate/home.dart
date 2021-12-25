@@ -6,9 +6,8 @@ import 'package:job_portal/Controllers/menucontroller.dart';
 import 'package:job_portal/Theme/colors.dart';
 import 'package:job_portal/Theme/images.dart';
 import 'package:job_portal/Views/Candidate/sidebar.dart';
-import 'package:job_portal/Views/SignIn/register-step4.dart';
+import 'package:job_portal/Views/SignIn/bluecollar.dart';
 import 'package:provider/provider.dart';
-import 'bluecollar.dart';
 import 'jobdetail.dart';
 import 'inbox.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -984,7 +983,8 @@ class HomePage extends StatelessWidget {
                 _carosel(context),
                 _warning(context),
                 _strenght(context),
-                Chart(),
+
+
                 _recommendedCourses(context),
                 // _recentPostedJob(context)
               ],
