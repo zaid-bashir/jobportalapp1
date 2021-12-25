@@ -38,7 +38,7 @@ class _ExploreJobsState extends State<ExploreJobs> {
                         color: Colors.black,
                         fontSize: 18,
                         fontWeight: FontWeight.bold
-                       // fontFamily: "Poppins",
+                       // fontFamily: "ProximaNova",
 
                         // letterSpacing: 1.5,
                         // fontSize: 18.5,
