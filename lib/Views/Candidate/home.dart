@@ -51,8 +51,7 @@ class HomePage extends StatelessWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text("Your profile needs attention !",
+        children: [          const Text("Your profile needs attention !",
               style: TextStyle(
                   fontSize: 20,
                   fontFamily: "ProximaNova",

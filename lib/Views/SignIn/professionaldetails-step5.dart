@@ -346,6 +346,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                                   mode: Mode.DIALOG,
                                                   showSelectedItems: true,
                                                   showSearchBox: true,
+
                                                   items: [
                                                     "OM",
                                                     "SC",
