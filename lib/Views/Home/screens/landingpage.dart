@@ -1,10 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:job_portal/Views/Home/uiview/slider_layout_view.dart';
 
 class LandingPage extends StatefulWidget {
+  const LandingPage({Key key}) : super(key: key);
+
   @override
-  State<StatefulWidget> createState() => _LandingPageState();
+  _LandingPageState createState() => _LandingPageState();
 }
 
 class _LandingPageState extends State<LandingPage> {
@@ -15,8 +16,7 @@ class _LandingPageState extends State<LandingPage> {
       body: onBordingBody(),
     );
   }
-
-  Widget onBordingBody() => Container(
-        child: SliderLayoutView(),
-      );
+Widget  onBordingBody() => Container(
+  child: SliderLayoutView(),
+);
 }

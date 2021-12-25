@@ -1,0 +1,464 @@
+import 'package:dropdown_search/dropdown_search.dart';
+import 'package:flutter/material.dart';
+import 'package:getwidget/components/search_bar/gf_search_bar.dart';
+class CareerPreference extends StatefulWidget {
+  const CareerPreference({Key key}) : super(key: key);
+
+  @override
+  _CareerPreferenceState createState() => _CareerPreferenceState();
+}
+
+class _CareerPreferenceState extends State<CareerPreference> {
+
+
+
+  List<String> lists = [
+    "TextTile Industry",
+    "Automobile Industry",
+    "IT Industry",
+    "Aviation Industry",
+  ];
+  List<String> lists2 = [
+    "Software Engineer" // job role
+    "Data Scientist",
+    "Flutter Developer",
+   "Content Writer"
+    "Nurse"
+  ];
+
+  List<String> lists3 = [
+    "Intern ", // job type
+    "Full Time",
+    "Part Time",
+  ];
+
+
+
+  List<String> lists4 = [
+    "Temporary", // employ type
+    "Household",
+    "Freelance",
+    "Permanent",
+  ];
+  List<String> lists5 = [
+    "Srinagar",  // job location
+    "Bangalore",
+    "Mumbai",
+    "Delhi"
+
+  ];
+  List<String> lists6 = [
+   "First Shift",
+    "Second Shift",
+    "Night Shift",
+    "Fixed Shift"
+
+  ];
+
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+        child: Scaffold(
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10,right: 10,bottom: 10,top: 20),
+              child: Column(
+                children:
+                [
+                  Row
+                  (
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: Icon(Icons.arrow_back,color: Colors.black,),
+                    ),
+                    SizedBox(width: 10,),
+                    Text('Career Preferences',style: const TextStyle(color:Colors.black,fontSize: 20, fontWeight:FontWeight.bold,fontFamily: "ProximaNova")),
+                  ],
+
+
+                ),
+
+
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 20,
+                    ),
+                    child: Card(
+                      elevation: 5,
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 15),
+                        child: Column(
+                          children: [
+                            Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 25.0, right: 25.0, top: 20.0),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: const <Widget>[
+                                        Text(
+                                          'Preferred Industry',
+                                          style: TextStyle(
+                                              fontSize: 16.0,
+                                              fontFamily: "ProximaNova",
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                )),
+                            Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 10.0, right: 10.0, top: 2.0),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    Flexible(
+                                      child:  Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: DropdownSearch<String>(
+                                          // dropdownSearchDecoration:,
+                                            mode: Mode.DIALOG,
+                                            showSelectedItems: true,
+                                            showSearchBox: true,
+                                            items:lists,
+                                            // popupItemDisabled: (String s) => s.startsWith('I'),
+                                            onChanged: print,
+                                            selectedItem: "IT Industry",),
+                                      ),
+                                    ),
+                                  ],
+                                )),
+                            Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 25.0, right: 25.0, top: 20.0),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: const <Widget>[
+                                        Text(
+                                          'Preferred Job Role',
+                                          style: TextStyle(
+                                              fontSize: 16.0,
+                                              fontFamily: "ProximaNova",
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                )),
+
+
+
+                            Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 10.0, right: 10.0, top: 2.0),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    Flexible(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: DropdownSearch<String>(
+                                          // dropdownSearchDecoration:,
+                                            mode: Mode.DIALOG,
+                                            showSelectedItems: true,
+                                            showSearchBox: true,
+                                            items:lists2,
+                                            // popupItemDisabled: (String s) => s.startsWith('I'),
+                                            onChanged: print,
+                                            selectedItem: "Data Scientist"),
+                                      ),
+                                    ),
+                                  ],
+                                )),
+                            Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 25.0, right: 25.0, top: 20.0),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: const <Widget>[
+                                        Text(
+                                          'Preferred Job Type',
+                                          style: TextStyle(
+                                              fontSize: 16.0,
+                                              fontFamily: "ProximaNova",
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                )),
+                            Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 10.0, right: 10.0, top: 2.0),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    Flexible(
+                                      child:  Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: DropdownSearch<String>(
+                                          // dropdownSearchDecoration:,
+                                            mode: Mode.DIALOG,
+                                            showSelectedItems: true,
+                                            showSearchBox: true,
+                                            items: lists3,
+                                            // popupItemDisabled: (String s) => s.startsWith('I'),
+                                            onChanged: print,
+                                            selectedItem: "Intern"),
+                                      ),
+                                    ),
+                                  ],
+                                )),
+                            Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 25.0, right: 25.0, top: 20.0),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: const <Widget>[
+                                        Text(
+                                          'Preferred Employment Type',
+                                          style: TextStyle(
+                                              fontSize: 16.0,
+                                              fontFamily: "ProximaNova",
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                )),
+                            Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 10.0, right: 10.0, top: 2.0),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    Flexible(
+                                      child:  Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: DropdownSearch<String>(
+                                          // dropdownSearchDecoration:,
+                                            mode: Mode.DIALOG,
+                                            showSelectedItems: true,
+                                            showSearchBox: true,
+                                            items: lists4,
+                                            // popupItemDisabled: (String s) => s.startsWith('I'),
+                                            onChanged: print,
+                                            selectedItem: "Household"),
+                                      ),
+                                    ),
+                                  ],
+                                )),
+                            Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 25.0, right: 25.0, top: 20.0),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: const <Widget>[
+                                        Text(
+                                          'Preferred Job Location',
+                                          style: TextStyle(
+                                              fontSize: 16.0,
+                                              fontFamily: "ProximaNova",
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                )),
+                            Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 10.0, right: 10.0, top: 2.0),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    Flexible(
+                                      child:   Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: DropdownSearch<String>(
+                                          // dropdownSearchDecoration:,
+                                            mode: Mode.DIALOG,
+                                            showSelectedItems: true,
+                                            showSearchBox: true,
+                                            items:lists5,
+                                            // popupItemDisabled: (String s) => s.startsWith('I'),
+                                            onChanged: print,
+                                            selectedItem: "Srinagar"),
+                                      ),
+                                    ),
+                                  ],
+                                )),
+                            Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 25.0, right: 25.0, top: 20.0),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: const <Widget>[
+                                        Text(
+                                          'Salary Expectation',
+                                          style: TextStyle(
+                                              fontSize: 16.0,
+                                              fontFamily: "ProximaNova",
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                )),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 25.0, right: 25.0, top: 2.0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: const <Widget>[
+                                  Expanded(
+                                    flex: 1,
+                                    child: TextField(
+
+                                      decoration: InputDecoration(
+                                          hintText: "Salary expectation"),
+                                    ),
+
+                                  ),
+                                  SizedBox(width: 10,),
+                                  Expanded(
+                                    flex: 1,
+                                    child: TextField(
+                                      decoration: InputDecoration(
+                                          hintText: "Lakh"),
+                                    ),
+
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 25.0, right: 25.0, top: 20.0),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: const <Widget>[
+                                        Text(
+                                          'Preferred Shift',
+                                          style: TextStyle(
+                                              fontSize: 16.0,
+                                              fontFamily: "ProximaNova",
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                )),
+                            Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 10.0, right: 10.0, top: 2.0),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    Flexible(
+                                      child:   Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: DropdownSearch<String>(
+                                          // dropdownSearchDecoration:,
+                                            mode: Mode.DIALOG,
+                                            showSelectedItems: true,
+                                            showSearchBox: true,
+                                            items:lists6,
+                                            // popupItemDisabled: (String s) => s.startsWith('I'),
+                                            onChanged: print,
+                                            selectedItem: "First Shift"),
+                                      ),
+                                    ),
+                                  ],
+                                )),
+                            Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 25.0, right: 25.0, top: 20.0),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: const <Widget>[
+                                        Text(
+                                          'Availibility to Join',
+                                          style: TextStyle(
+                                              fontSize: 16.0,
+                                              fontFamily: "ProximaNova",
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                )),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 25.0, right: 25.0, top: 2.0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: const <Widget>[
+                                  Flexible(
+                                    child: TextField(
+                                      decoration: InputDecoration(
+                                          hintText: ""),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+
+
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+
+
+
+
+
+                ],
+
+
+              ),
+            )
+          ),
+
+
+
+
+    )
+    );
+  }
+}

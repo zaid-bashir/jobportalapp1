@@ -5,6 +5,7 @@ import 'package:job_portal/Views/Candidate/jobsaved.dart';
 import 'package:job_portal/Views/Candidate/settings.dart';
 import 'package:job_portal/Views/Candidate/jobsuggested.dart';
 import 'package:job_portal/Views/Home/constants/constants.dart';
+import 'package:job_portal/Views/SignIn/personaldetails.dart';
 
 
 import 'jobexplore.dart';
@@ -241,7 +242,9 @@ class _SideMenuState extends State<SideMenu> {
                 child: DrawerListTile(
                   title: "Chat for help",
                   svgSrc: Icons.question_answer_outlined,
-                  press: () {},
+                  press: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>PersonalDetails()));
+                  },
                 ),
               ),
             ),

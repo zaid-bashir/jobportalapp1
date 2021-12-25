@@ -7,6 +7,10 @@ import 'package:getwidget/components/radio/gf_radio.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
+import 'package:job_portal/Views/SignIn/personaldetails.dart';
+import 'package:job_portal/Views/SignIn/register-step1.dart';
+
+
 
 class Register extends StatefulWidget {
   const Register({Key key}) : super(key: key);
@@ -521,7 +525,7 @@ class _RegisterState extends State<Register> {
                           side: const BorderSide(color: Colors.black),
                         ),
                         onPressed: () {
-
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>PersonalDetails()));
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 8),
