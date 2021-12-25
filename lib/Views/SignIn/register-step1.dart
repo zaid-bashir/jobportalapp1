@@ -78,8 +78,7 @@ class _RegisterStep1State extends State<RegisterStep1> {
                     width: 50,
                     margin: const EdgeInsets.fromLTRB(0, 10, 3, 30),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(4),
-                      border: Border.all(color: Colors.grey),
+                      border: Border(bottom: BorderSide(color: Colors.grey),),
                     ),
                     child: Center(
                       child: Text(
@@ -103,9 +102,6 @@ class _RegisterStep1State extends State<RegisterStep1> {
                       decoration: const InputDecoration(
                         contentPadding: const EdgeInsetsDirectional.all(10),
                         hintText: "Enter Your Mobile Number",
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey, width: 1),
-                        ),
                       ),
                       keyboardType: TextInputType.number,
                       autocorrect: true,
@@ -121,7 +117,6 @@ class _RegisterStep1State extends State<RegisterStep1> {
                     ),
                   ),
                 ),
-               
               ],
             ),
           ),

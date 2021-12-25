@@ -449,7 +449,7 @@ class _RegisterState extends State<Register> {
                           text: "Register",
                           textStyle: const TextStyle(
                             color: Colors.white,
-                            fontFamily: "Poppins",
+                            fontFamily: "ProximaNova",
                             fontWeight: FontWeight.bold,
                             // letterSpacing: 1.5,
                             fontSize: 14.5,

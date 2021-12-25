@@ -43,6 +43,7 @@ dependencies:
   fl_chart: ^0.40.6
   dropdown_search: ^2.0.0
   date_field: ^2.1.2
+  multi_select_flutter: ^4.0.0
 
 
 

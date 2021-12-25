@@ -5,6 +5,7 @@ import 'package:getwidget/components/button/gf_button.dart';
 import 'package:job_portal/Views/Candidate/bottomnavbar.dart';
 
 import 'package:job_portal/Views/Candidate/fresherBcollar.dart';
+import 'package:job_portal/Views/SignIn/keyskills.dart';
 import 'package:job_portal/Views/SignIn/register-step1.dart';
 
 import 'package:job_portal/Views/SignIn/register.dart';
@@ -183,7 +184,9 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>KeySkills()));
+                        },
                         child: const Text('Forgot Password?', style: TextStyle(
                             color: Colors.black,
                             fontSize: 14.0,

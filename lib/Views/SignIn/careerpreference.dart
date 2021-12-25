@@ -71,7 +71,13 @@ class _CareerPreferenceState extends State<CareerPreference> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
-                      child: Icon(Icons.arrow_back,color: Colors.black,),
+                      child: Row(
+                        children: [
+                          IconButton(onPressed: (){
+                            Navigator.pop(context);
+                          }, icon: const Icon(Icons.arrow_back)),
+                        ],
+                      ),
                     ),
                     SizedBox(width: 10,),
                     Text('Career Preferences',style: const TextStyle(color:Colors.black,fontSize: 20, fontWeight:FontWeight.bold,fontFamily: "ProximaNova")),
@@ -93,7 +99,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
                           children: [
                             Padding(
                                 padding: const EdgeInsets.only(
-                                    left: 25.0, right: 25.0, top: 20.0),
+                                    left: 20.0, right: 25.0, top: 20.0),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
                                   children: <Widget>[
@@ -104,7 +110,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                         Text(
                                           'Preferred Industry',
                                           style: TextStyle(
-                                              fontSize: 16.0,
+                                              fontSize: 15.0,
                                               fontFamily: "ProximaNova",
                                               fontWeight: FontWeight.bold),
                                         ),
@@ -121,22 +127,29 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                     Flexible(
                                       child:  Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: DropdownSearch<String>(
-                                          // dropdownSearchDecoration:,
-                                            mode: Mode.DIALOG,
-                                            showSelectedItems: true,
-                                            showSearchBox: true,
-                                            items:lists,
-                                            // popupItemDisabled: (String s) => s.startsWith('I'),
-                                            onChanged: print,
-                                            selectedItem: "IT Industry",),
+                                        child:DropdownSearch<String>(
+                                          dropdownSearchDecoration: const InputDecoration(
+                                            border: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                          mode: Mode.DIALOG,
+                                          showSelectedItems: true,
+                                          showSearchBox: true,
+                                          items: lists,
+                                          // popupItemDisabled: (String s) => s.startsWith('I'),
+                                          onChanged: print,
+                                          hint: "Select Industry",
+                                        ),
                                       ),
                                     ),
                                   ],
                                 )),
                             Padding(
                                 padding: const EdgeInsets.only(
-                                    left: 25.0, right: 25.0, top: 20.0),
+                                    left: 20.0, right: 25.0, top: 20.0),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
                                   children: <Widget>[
@@ -147,7 +160,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                         Text(
                                           'Preferred Job Role',
                                           style: TextStyle(
-                                              fontSize: 16.0,
+                                              fontSize: 15.0,
                                               fontFamily: "ProximaNova",
                                               fontWeight: FontWeight.bold),
                                         ),
@@ -167,22 +180,29 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                     Flexible(
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: DropdownSearch<String>(
-                                          // dropdownSearchDecoration:,
-                                            mode: Mode.DIALOG,
-                                            showSelectedItems: true,
-                                            showSearchBox: true,
-                                            items:lists2,
-                                            // popupItemDisabled: (String s) => s.startsWith('I'),
-                                            onChanged: print,
-                                            selectedItem: "Data Scientist"),
+                                        child:DropdownSearch<String>(
+                                          dropdownSearchDecoration: const InputDecoration(
+                                            border: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                          mode: Mode.DIALOG,
+                                          showSelectedItems: true,
+                                          showSearchBox: true,
+                                          items:lists2,
+                                          // popupItemDisabled: (String s) => s.startsWith('I'),
+                                          onChanged: print,
+                                          hint: "Select Role",
+                                        ),
                                       ),
                                     ),
                                   ],
                                 )),
                             Padding(
                                 padding: const EdgeInsets.only(
-                                    left: 25.0, right: 25.0, top: 20.0),
+                                    left: 20.0, right: 25.0, top: 20.0),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
                                   children: <Widget>[
@@ -193,7 +213,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                         Text(
                                           'Preferred Job Type',
                                           style: TextStyle(
-                                              fontSize: 16.0,
+                                              fontSize: 15.0,
                                               fontFamily: "ProximaNova",
                                               fontWeight: FontWeight.bold),
                                         ),
@@ -211,21 +231,28 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                       child:  Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: DropdownSearch<String>(
-                                          // dropdownSearchDecoration:,
-                                            mode: Mode.DIALOG,
-                                            showSelectedItems: true,
-                                            showSearchBox: true,
-                                            items: lists3,
-                                            // popupItemDisabled: (String s) => s.startsWith('I'),
-                                            onChanged: print,
-                                            selectedItem: "Intern"),
+                                          dropdownSearchDecoration: const InputDecoration(
+                                            border: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                          mode: Mode.DIALOG,
+                                          showSelectedItems: true,
+                                          showSearchBox: true,
+                                          items:lists3,
+                                          // popupItemDisabled: (String s) => s.startsWith('I'),
+                                          onChanged: print,
+                                          hint: "Select Type",
+                                        ),
                                       ),
                                     ),
                                   ],
                                 )),
                             Padding(
                                 padding: const EdgeInsets.only(
-                                    left: 25.0, right: 25.0, top: 20.0),
+                                    left: 20.0, right: 25.0, top: 20.0),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
                                   children: <Widget>[
@@ -236,7 +263,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                         Text(
                                           'Preferred Employment Type',
                                           style: TextStyle(
-                                              fontSize: 16.0,
+                                              fontSize: 15.0,
                                               fontFamily: "ProximaNova",
                                               fontWeight: FontWeight.bold),
                                         ),
@@ -254,21 +281,28 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                       child:  Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: DropdownSearch<String>(
-                                          // dropdownSearchDecoration:,
-                                            mode: Mode.DIALOG,
-                                            showSelectedItems: true,
-                                            showSearchBox: true,
-                                            items: lists4,
-                                            // popupItemDisabled: (String s) => s.startsWith('I'),
-                                            onChanged: print,
-                                            selectedItem: "Household"),
+                                          dropdownSearchDecoration: const InputDecoration(
+                                            border: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                          mode: Mode.DIALOG,
+                                          showSelectedItems: true,
+                                          showSearchBox: true,
+                                          items:lists4,
+                                          // popupItemDisabled: (String s) => s.startsWith('I'),
+                                          onChanged: print,
+                                          hint: "Select Employment",
+                                        ),
                                       ),
                                     ),
                                   ],
                                 )),
                             Padding(
                                 padding: const EdgeInsets.only(
-                                    left: 25.0, right: 25.0, top: 20.0),
+                                    left: 20.0, right: 25.0, top: 20.0),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
                                   children: <Widget>[
@@ -279,7 +313,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                         Text(
                                           'Preferred Job Location',
                                           style: TextStyle(
-                                              fontSize: 16.0,
+                                              fontSize: 15.0,
                                               fontFamily: "ProximaNova",
                                               fontWeight: FontWeight.bold),
                                         ),
@@ -297,21 +331,28 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                       child:   Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: DropdownSearch<String>(
-                                          // dropdownSearchDecoration:,
-                                            mode: Mode.DIALOG,
-                                            showSelectedItems: true,
-                                            showSearchBox: true,
-                                            items:lists5,
-                                            // popupItemDisabled: (String s) => s.startsWith('I'),
-                                            onChanged: print,
-                                            selectedItem: "Srinagar"),
+                                          dropdownSearchDecoration: const InputDecoration(
+                                            border: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                          mode: Mode.DIALOG,
+                                          showSelectedItems: true,
+                                          showSearchBox: true,
+                                          items: lists5,
+                                          // popupItemDisabled: (String s) => s.startsWith('I'),
+                                          onChanged: print,
+                                          hint: "Select Location",
+                                        ),
                                       ),
                                     ),
                                   ],
                                 )),
                             Padding(
                                 padding: const EdgeInsets.only(
-                                    left: 25.0, right: 25.0, top: 20.0),
+                                    left: 22.0, right: 25.0, top: 20.0),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
                                   children: <Widget>[
@@ -322,7 +363,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                         Text(
                                           'Salary Expectation',
                                           style: TextStyle(
-                                              fontSize: 16.0,
+                                              fontSize: 15.0,
                                               fontFamily: "ProximaNova",
                                               fontWeight: FontWeight.bold),
                                         ),
@@ -335,22 +376,23 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                   left: 25.0, right: 25.0, top: 2.0),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
-                                children: const <Widget>[
-                                  Expanded(
-                                    flex: 1,
-                                    child: TextField(
+                                children:  <Widget>[
+                                   Icon(Icons.attach_money),
 
+
+                                  SizedBox(width: 10,),
+                                  Expanded(
+                                    child: TextField(
                                       decoration: InputDecoration(
-                                          hintText: "Salary expectation"),
+                                          hintText: "Lakh"),
                                     ),
 
                                   ),
                                   SizedBox(width: 10,),
                                   Expanded(
-                                    flex: 1,
                                     child: TextField(
                                       decoration: InputDecoration(
-                                          hintText: "Lakh"),
+                                          hintText: "Thousand"),
                                     ),
 
                                   ),
@@ -359,7 +401,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
                             ),
                             Padding(
                                 padding: const EdgeInsets.only(
-                                    left: 25.0, right: 25.0, top: 20.0),
+                                    left: 20.0, right: 25.0, top: 20.0),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
                                   children: <Widget>[
@@ -370,7 +412,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                         Text(
                                           'Preferred Shift',
                                           style: TextStyle(
-                                              fontSize: 16.0,
+                                              fontSize: 15.0,
                                               fontFamily: "ProximaNova",
                                               fontWeight: FontWeight.bold),
                                         ),
@@ -388,21 +430,28 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                       child:   Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: DropdownSearch<String>(
-                                          // dropdownSearchDecoration:,
-                                            mode: Mode.DIALOG,
-                                            showSelectedItems: true,
-                                            showSearchBox: true,
-                                            items:lists6,
-                                            // popupItemDisabled: (String s) => s.startsWith('I'),
-                                            onChanged: print,
-                                            selectedItem: "First Shift"),
+                                          dropdownSearchDecoration: const InputDecoration(
+                                            border: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                          mode: Mode.DIALOG,
+                                          showSelectedItems: true,
+                                          showSearchBox: true,
+                                          items: lists6,
+                                          // popupItemDisabled: (String s) => s.startsWith('I'),
+                                          onChanged: print,
+                                          hint: "Select Shift",
+                                        ),
                                       ),
                                     ),
                                   ],
                                 )),
                             Padding(
                                 padding: const EdgeInsets.only(
-                                    left: 25.0, right: 25.0, top: 20.0),
+                                    left: 22.0, right: 25.0, top: 20.0),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
                                   children: <Widget>[
@@ -413,7 +462,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                         Text(
                                           'Availibility to Join',
                                           style: TextStyle(
-                                              fontSize: 16.0,
+                                              fontSize: 15.0,
                                               fontFamily: "ProximaNova",
                                               fontWeight: FontWeight.bold),
                                         ),
