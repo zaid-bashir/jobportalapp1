@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:iconsax/iconsax.dart';
 
 class Registerstep4 extends StatefulWidget {
   const Registerstep4({Key key}) : super(key: key);

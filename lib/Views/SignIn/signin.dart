@@ -6,13 +6,13 @@ import 'package:job_portal/Views/Candidate/bottomnavbar.dart';
 
 import 'package:job_portal/Views/Candidate/fresherBcollar.dart';
 import 'package:job_portal/Views/SignIn/keyskills.dart';
-import 'package:job_portal/Views/SignIn/register-step1.dart';
+import 'package:job_portal/Views/SignIn/register-step1_otp.dart';
 
 import 'package:job_portal/Views/SignIn/register.dart';
 
 
 
-import 'signinotp.dart';
+import 'verifyOtp.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({ Key key }) : super(key: key);

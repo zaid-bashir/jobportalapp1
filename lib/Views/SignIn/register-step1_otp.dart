@@ -1,15 +1,8 @@
 // ignore_for_file: prefer_const_constructors, unnecessary_const, unused_field, unnecessary_new, curly_braces_in_flow_control_structures, sized_box_for_whitespace
-
-import 'dart:async';
-
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_verification_code/flutter_verification_code.dart';
-import 'package:getwidget/components/button/gf_button.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:job_portal/Views/SignIn/register-step2.dart';
-import 'package:job_portal/Views/SignIn/signinotp.dart';
+import 'package:job_portal/Views/SignIn/verifyOtp.dart';
 
 class RegisterStep1 extends StatefulWidget {
   const RegisterStep1({Key key}) : super(key: key);

@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:job_portal/Views/SignIn/qualification_blue_collar.dart';
+import 'package:job_portal/Views/SignIn/register_step3_collars.dart';
 
 class RegisterStep2 extends StatefulWidget {
   const RegisterStep2({Key key}) : super(key: key);
@@ -130,10 +130,9 @@ class _RegisterStep2State extends State<RegisterStep2> {
                 Text(
                   "Register new\naccount ",
                   style: TextStyle(
-                    fontFamily: "OpenSans",
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.5,
-                    fontSize: 20.5,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "ProximaNova"
                   ),
                 ),
               ],
