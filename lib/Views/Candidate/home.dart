@@ -6,10 +6,11 @@ import 'package:job_portal/Controllers/menucontroller.dart';
 import 'package:job_portal/Theme/colors.dart';
 import 'package:job_portal/Theme/images.dart';
 import 'package:job_portal/Views/Candidate/sidebar.dart';
+import 'package:job_portal/Views/SignIn/bluecollar.dart';
 import 'package:job_portal/Views/SignIn/professionaldetails-step5.dart';
 import 'package:job_portal/Views/SignIn/register-step4.dart';
 import 'package:provider/provider.dart';
-import 'bluecollar.dart';
+
 import 'jobdetail.dart';
 import 'inbox.dart';
 
