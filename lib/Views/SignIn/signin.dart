@@ -1,6 +1,13 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/button/gf_button.dart';
 import 'package:job_portal/Views/Candidate/bottomnavbar.dart';
+
+import 'package:job_portal/Views/Candidate/fresherBcollar.dart';
+import 'package:job_portal/Views/SignIn/keyskills.dart';
+import 'package:job_portal/Views/SignIn/register-step1.dart';
+
 import 'package:job_portal/Views/SignIn/register.dart';
 
 
@@ -177,7 +184,9 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>KeySkills()));
+                        },
                         child: const Text('Forgot Password?', style: TextStyle(
                             color: Colors.black,
                             fontSize: 14.0,
@@ -328,7 +337,7 @@ class _LoginPageState extends State<LoginPage> {
                       TextButton(
                         onPressed: () {
                           Navigator.push(context, MaterialPageRoute(builder: (
-                              context) => Register()));
+                              context) => RegisterStep1()));
                         },
                         child: Text('Register', style: TextStyle(color:  Color(0xff2972ff), fontSize: 14.0, fontWeight: FontWeight.w400),),
                       )

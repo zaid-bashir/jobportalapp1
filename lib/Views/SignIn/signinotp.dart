@@ -1,9 +1,12 @@
 
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace
+
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter_verification_code/flutter_verification_code.dart';
+import 'package:job_portal/Views/SignIn/register-step2.dart';
 
 class Verification extends StatefulWidget {
   const Verification({ Key key }) : super(key: key);
@@ -185,7 +188,10 @@ class _VerificationState extends State<Verification> {
                     duration: Duration(milliseconds: 500),
                     child: MaterialButton(
                       elevation: 0,
-                      onPressed: _code.length < 4 ? () => {} : () { verify(); },
+                      onPressed: (){
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>RegisterStep2()));
+                      },
+                      // _code.length < 4 ? () => {} : () { verify(); },
                       color: Colors.orange.shade400,
                       minWidth: MediaQuery.of(context).size.width * 0.8,
                       height: 50,

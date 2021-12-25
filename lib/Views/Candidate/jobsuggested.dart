@@ -339,7 +339,7 @@ class _SuggestJobsState extends State<SuggestJobs> {
                                       "ClustTech",
                                       style: TextStyle(
                                         color: Color(0xff3e61ed),
-                                        fontFamily: "Poppins",
+                                        fontFamily: "ProximaNova",
                                         fontWeight: FontWeight.bold,
                                         letterSpacing: 1.5,
                                         fontSize: 13.5,
@@ -366,7 +366,7 @@ class _SuggestJobsState extends State<SuggestJobs> {
                               Text(
                                 "Kashmir",
                                 style: TextStyle(
-                                  fontFamily: "Poppins",
+                                  fontFamily: "ProximaNova",
                                   fontWeight: FontWeight.w500,
                                   letterSpacing: 1.5,
                                   fontSize: 13.5,
@@ -390,7 +390,7 @@ class _SuggestJobsState extends State<SuggestJobs> {
                               Text(
                                 "1-5 Yrs",
                                 style: TextStyle(
-                                  fontFamily: "Poppins",
+                                  fontFamily: "ProximaNova",
                                   fontWeight: FontWeight.w500,
                                   letterSpacing: 1.5,
                                   fontSize: 13.5,
@@ -414,7 +414,7 @@ class _SuggestJobsState extends State<SuggestJobs> {
                               Text(
                                 "4,50,000 - 9,50,000",
                                 style: TextStyle(
-                                  fontFamily: "Poppins",
+                                  fontFamily: "ProximaNova",
                                   fontWeight: FontWeight.w500,
                                   letterSpacing: 1.5,
                                   fontSize: 13.5,
@@ -438,7 +438,7 @@ class _SuggestJobsState extends State<SuggestJobs> {
                               Text(
                                 "clusttech@godaddy.com",
                                 style: TextStyle(
-                                  fontFamily: "Poppins",
+                                  fontFamily: "ProximaNova",
                                   fontWeight: FontWeight.w500,
                                   letterSpacing: 1.5,
                                   fontSize: 13.5,
@@ -457,7 +457,7 @@ class _SuggestJobsState extends State<SuggestJobs> {
                                 "2d ago",
                                 style: TextStyle(
                                   color: Color(0xff3e61ed),
-                                  fontFamily: "Poppins",
+                                  fontFamily: "ProximaNova",
                                   fontWeight: FontWeight.bold,
                                   letterSpacing: 1.5,
                                   fontSize: 12.5,
@@ -475,7 +475,7 @@ class _SuggestJobsState extends State<SuggestJobs> {
                                   Text(
                                     "Hide",
                                     style: TextStyle(
-                                      fontFamily: "Poppins",
+                                      fontFamily: "ProximaNova",
                                       fontWeight: FontWeight.w500,
                                       letterSpacing: 1.5,
                                       fontSize: 12.5,
@@ -494,7 +494,7 @@ class _SuggestJobsState extends State<SuggestJobs> {
                                   Text(
                                     "Saved",
                                     style: TextStyle(
-                                      fontFamily: "Poppins",
+                                      fontFamily: "ProximaNova",
                                       fontWeight: FontWeight.w500,
                                       letterSpacing: 1.5,
                                       fontSize: 12.5,
