@@ -194,6 +194,8 @@ class _RegisterStep2State extends State<RegisterStep2> {
             padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
             child: Form(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Card(
                     child: Row(
@@ -353,7 +355,7 @@ class _RegisterStep2State extends State<RegisterStep2> {
                   ),
                   Padding(
                     padding:
-                        const EdgeInsets.only(left: 20, bottom: 20, top: 10),
+                        const EdgeInsets.all(10),
                     child: Text(
                       "Gender",
                       textAlign: TextAlign.left,
