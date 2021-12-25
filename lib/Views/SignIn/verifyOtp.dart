@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter_verification_code/flutter_verification_code.dart';
-import 'package:job_portal/Views/SignIn/register-step2.dart';
+import 'package:job_portal/Views/SignIn/register-step2_basic_details.dart';
 
 class Verification extends StatefulWidget {
   const Verification({ Key key }) : super(key: key);

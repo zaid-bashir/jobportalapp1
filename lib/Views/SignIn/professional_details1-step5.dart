@@ -17,7 +17,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
     "Zumr Pvt Ltd",
     "Accenture",
     "Microsoft"
-        "Google"
+    "Google"
   ];
   List list = [
     "IT-software",

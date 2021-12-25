@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:job_portal/Views/SignIn/qualification_blue_collar.dart';
+import 'package:job_portal/Views/SignIn/register_step3_collars.dart';
 
 class RegisterStep2 extends StatefulWidget {
   const RegisterStep2({Key key}) : super(key: key);

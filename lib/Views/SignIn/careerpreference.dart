@@ -19,7 +19,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
     "Aviation Industry",
   ];
   List<String> lists2 = [
-    "Software Engineer" // job role
+    "Software Engineer",
     "Data Scientist",
     "Flutter Developer",
    "Content Writer"
