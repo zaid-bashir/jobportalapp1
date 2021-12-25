@@ -440,8 +440,21 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                                   ),
                                                 )
                                               : Container(),
-                                          groupValue == 0
-                                              ? Padding(
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                              top: 15,
+                                            ),
+                                            child: Text(
+                                                "Currency",
+                                                style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight:
+                                                    FontWeight.bold,
+                                                    fontFamily:
+                                                    "ProximaNova")),
+                                          ),
+
+                                         Padding(
                                             padding: EdgeInsets.only(
                                               top: 15,
                                             ),
@@ -453,15 +466,11 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                                     FontWeight.bold,
                                                     fontFamily:
                                                     "ProximaNova")),
-                                          )
-                                              : Container(),
-                                          groupValue == 0
-                                              ? SizedBox(
+                                          ),
+                                          SizedBox(
                                             height: 5,
-                                          )
-                                              : Container(),
-                                          groupValue == 0
-                                              ? DropdownSearch<String>(
+                                          ),
+                                          DropdownSearch<String>(
                                             dropdownSearchDecoration:
                                             const InputDecoration(
                                               border:
@@ -485,7 +494,49 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                             onChanged: print,
                                             hint: "Select Industry",
                                           )
+                                            ,
+                                          groupValue == 0
+                                              ? Padding(
+                                            padding: EdgeInsets.only(
+                                              top: 15,
+                                            ),
+                                            child: Text(
+                                                "Working since",
+                                                style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight:
+                                                    FontWeight.bold,
+                                                    fontFamily:
+                                                    "ProximaNova")),
+                                          )
                                               : Container(),
+
+                                      groupValue == 0?    Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 25.0, right: 25.0, top: 2.0),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children:  <Widget>[
+
+                                                SizedBox(width: 10,),
+                                                Expanded(
+                                                  child: TextField(
+                                                    decoration: InputDecoration(
+                                                        hintText: "Years"),
+                                                  ),
+
+                                                ),
+                                                SizedBox(width: 10,),
+                                                Expanded(
+                                                  child: TextField(
+                                                    decoration: InputDecoration(
+                                                        hintText: "Months"),
+                                                  ),
+
+                                                ),
+                                              ],
+                                            ),
+                                          ):Container(),
 
                                           groupValue == 0
                                               ? Container()
@@ -576,6 +627,48 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                               : SizedBox(
                                                   height: 10,
                                                 ),
+                                          groupValue == 0
+                                              ?    Container(): Padding(
+                                            padding: EdgeInsets.only(
+                                              top: 15,
+                                            ),
+                                            child: Text(
+                                                "Tenure of last job",
+                                                style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight:
+                                                    FontWeight.bold,
+                                                    fontFamily:
+                                                    "ProximaNova")),
+                                          )
+                                           ,
+
+                                          groupValue == 0? Container()  :  Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 25.0, right: 25.0, top: 2.0),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children:  <Widget>[
+
+                                                SizedBox(width: 10,),
+                                                Expanded(
+                                                  child: TextField(
+                                                    decoration: InputDecoration(
+                                                        hintText: "Years"),
+                                                  ),
+
+                                                ),
+                                                SizedBox(width: 10,),
+                                                Expanded(
+                                                  child: TextField(
+                                                    decoration: InputDecoration(
+                                                        hintText: "Months"),
+                                                  ),
+
+                                                ),
+                                              ],
+                                            ),
+                                          ),
                                           // const Text('Previous Designation',
                                           //     style: TextStyle(fontSize:15,
                                           //         fontWeight: FontWeight.bold,
