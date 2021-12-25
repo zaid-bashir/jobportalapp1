@@ -7,12 +7,11 @@ import 'package:job_portal/Theme/colors.dart';
 import 'package:job_portal/Theme/images.dart';
 import 'package:job_portal/Views/Candidate/sidebar.dart';
 import 'package:job_portal/Views/SignIn/bluecollar.dart';
-import 'package:job_portal/Views/SignIn/professionaldetails-step5.dart';
-import 'package:job_portal/Views/SignIn/register-step4.dart';
 import 'package:provider/provider.dart';
 
 import 'jobdetail.dart';
 import 'inbox.dart';
+import 'package:fl_chart/fl_chart.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key key}) : super(key: key);
@@ -129,7 +128,7 @@ class HomePage extends StatelessWidget {
                   color: const Color(0xff3e61ed),
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(builder: (
-                        context) =>  BlueCollar()));
+                        context) => BlueCollar()));
                   },
                   shape: GFButtonShape.pills,
                   child: const Text(
@@ -203,10 +202,7 @@ class HomePage extends StatelessWidget {
                 child: IconButton(
                   color: KColors.primary,
                   icon: const Icon(Icons.search, color: Colors.white),
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (
-                        context) => WorkingProfession()));
-                  },
+                  onPressed: () {},
                 ),
               )
             ],
@@ -521,7 +517,7 @@ class HomePage extends StatelessWidget {
                                     fontWeight: FontWeight.bold
                                     // color: isActive ? Colors.white38 : KColors.subtitle,
                                     ),
-                              ),
+                             ),
                             ],
                           ),
                         ],
@@ -664,6 +660,226 @@ class HomePage extends StatelessWidget {
     );
   }
 
+  Widget _strenght(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 5, right: 5, top: 20, bottom: 10),
+      child: SizedBox(
+        width: double.infinity,
+        child: Card(
+          elevation: 5,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 25,right: 25, top: 15, bottom: 15),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "Isra Riaz",
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: "ProximaNova",
+                          fontWeight: FontWeight.bold),
+                    ),
+                     Container(
+                       padding: const EdgeInsets.only(left: 6,right: 6),
+                       decoration: BoxDecoration(
+                         borderRadius: BorderRadius.circular(20),
+                         color: Colors.green
+                       ),
+                       child: Row(
+                         children: [
+                           const Icon(Icons.done,color: Colors.white,),
+                           const Text("Active",
+                             style: TextStyle(
+                               color: Colors.white,
+                                 fontSize: 14,
+                                 fontFamily: "ProximaNova",
+                                 fontWeight: FontWeight.bold),),
+                         ],
+                       ),
+                     ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                const Text("Profile Strength",
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontFamily: "ProximaNova",
+                    fontWeight: FontWeight.w500),),
+                const SizedBox(height: 10,),
+                const SizedBox(
+                  width: 220,
+                  child: ProgressLine(
+                    color: Color(0xff3e61ed),
+                    percentage: 75,
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                const Text("Activity",
+                  style: TextStyle(
+                      fontSize: 17,
+                      fontFamily: "ProximaNova",
+                      fontWeight: FontWeight.w500),),
+                const SizedBox(height: 10,),
+                const SizedBox(
+                  width: 220,
+                  child: ProgressLine(
+                    color: Colors.blueGrey,
+                    percentage: 35,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _warning(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 5, right: 5, top: 20, bottom: 10),
+      child: SizedBox(
+        // padding:EdgeInsets.all(20),
+        width: double.infinity,
+        child: Card(
+          elevation: 5,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 25, top: 15, bottom: 15),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  "Recruiter activity",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontFamily: "ProximaNova",
+                      fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                const Text(
+                  "2 Recruiters express interest in your profile in pst 60days",
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontFamily: "ProximaNova",
+                      fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  children: [
+                    Container(
+                      height: 30,
+                      width: 30,
+                      decoration: BoxDecoration(
+                        color: const Color(0xff3e61ed),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 13,
+                    ),
+                    const Text(
+                      "1",
+                      style: TextStyle(
+                          // color: Color(0xff3e61ed),
+                          fontFamily: "ProximaNova",
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold
+                          // color: isActive ? Colors.white38 : KColors.subtitle,
+                          ),
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    const Text(
+                      " Profile Views",
+                      style: TextStyle(
+                          // color: Color(0xff3e61ed),
+                          fontFamily: "ProximaNova",
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500
+                          // color: isActive ? Colors.white38 : KColors.subtitle,
+                          ),
+                    ),
+                    const SizedBox(
+                      width: 70,
+                    ),
+                    const SizedBox(
+                      width: 220,
+                      child: ProgressLine(
+                        color: Color(0xff3e61ed),
+                        percentage: 75,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    Container(
+                      height: 30,
+                      width: 30,
+                      decoration: BoxDecoration(
+                        color: Colors.blueGrey,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 13,
+                    ),
+                    const Text(
+                      "1",
+                      style: TextStyle(
+                          // color: Color(0xff3e61ed),
+                          fontFamily: "ProximaNova",
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold
+                          // color: isActive ? Colors.white38 : KColors.subtitle,
+                          ),
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    const Text(
+                      "Recruiters Contacted",
+                      style: TextStyle(
+                          // color: Color(0xff3e61ed),
+                          fontFamily: "ProximaNova",
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500
+                          // color: isActive ? Colors.white38 : KColors.subtitle,
+                          ),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    const SizedBox(
+                      width: 220,
+                      child: ProgressLine(
+                        color: Colors.blueGrey,
+                        percentage: 45,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _recentPostedJob(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
@@ -756,7 +972,7 @@ class HomePage extends StatelessWidget {
       key: context.read<MenuController>().scaffoldKey,
       drawer: const SideMenu(),
       body: SafeArea(
-        child: Container(
+        child: SizedBox(
           width: MediaQuery.of(context).size.width,
           child: SingleChildScrollView(
             child: Column(
@@ -766,119 +982,10 @@ class HomePage extends StatelessWidget {
                 _header(context),
                 _recommendedSection(context),
                 _carosel(context),
-                Padding(
-                  padding: const EdgeInsets.only(left: 5,right: 5,top: 20,bottom: 10),
-                  child: Container(
-                    // padding:EdgeInsets.all(20),
-                    width: double.infinity,
-                    child: Card(
-                      elevation: 5,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 25,top: 15,bottom: 15),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Recruiter activity",
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  fontFamily: "ProximaNova",
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              "2 Recruiters express interest in your profile in pst 60days",
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontFamily: "ProximaNova",
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(height: 20,),
-                            Row(
-                              children: [
-                                Container(
-                                  height: 30,
-                                  width: 30,
-                                  decoration: BoxDecoration(
-                                    color:Color(0xff3e61ed),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
+                _warning(context),
+                _strenght(context),
 
-                                ),
-                                const SizedBox(
-                                  width: 13,
-                                ),
-                                const Text(
-                                  "1",
-                                  style: TextStyle(
-                                      // color: Color(0xff3e61ed),
-                                      fontFamily: "ProximaNova",
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold
-                                    // color: isActive ? Colors.white38 : KColors.subtitle,
-                                  ),
-                                ),
-                                SizedBox(width: 5,),
-                                const Text(
-                                  " Profile Views",
-                                  style: TextStyle(
-                                    // color: Color(0xff3e61ed),
-                                      fontFamily: "ProximaNova",
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500
-                                    // color: isActive ? Colors.white38 : KColors.subtitle,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height:10
-                            ),
-                            Row(
-                              children: [
-                                Container(
-                                  height: 30,
-                                  width: 30,
-                                  decoration: BoxDecoration(
-                                    color:Colors.blueGrey,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
 
-                                ),
-                                const SizedBox(
-                                  width: 13,
-                                ),
-                                const Text(
-                                  "1",
-                                  style: TextStyle(
-                                      // color: Color(0xff3e61ed),
-                                      fontFamily: "ProximaNova",
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold
-                                    // color: isActive ? Colors.white38 : KColors.subtitle,
-                                  ),
-                                ),
-                                SizedBox(width: 5,),
-                                const Text(
-                                  "Recruiters Contacted",
-                                  style: TextStyle(
-                                    // color: Color(0xff3e61ed),
-                                      fontFamily: "ProximaNova",
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500
-                                    // color: isActive ? Colors.white38 : KColors.subtitle,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
                 _recommendedCourses(context),
                 // _recentPostedJob(context)
               ],
@@ -889,3 +996,114 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+
+class ProgressLine extends StatelessWidget {
+  const ProgressLine({
+    Key key,
+    this.color = primaryColor,
+    this.percentage,
+  }) : super(key: key);
+
+  final Color color;
+  final int percentage;
+  static const primaryColor = Color(0xFF2697FF);
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Container(
+          width: double.infinity,
+          height: 5,
+          decoration: BoxDecoration(
+            color: color.withOpacity(0.1),
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
+          ),
+        ),
+        LayoutBuilder(
+          builder: (context, constraints) => Container(
+            width: constraints.maxWidth * (percentage / 100),
+            height: 5,
+            decoration: BoxDecoration(
+              color: color,
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+class Chart extends StatelessWidget {
+  const Chart({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 200,
+      child: Stack(
+        children: [
+          PieChart(
+            PieChartData(
+              sectionsSpace: 0,
+              centerSpaceRadius: 70,
+              startDegreeOffset: -90,
+              sections: paiChartSelectionDatas,
+            ),
+          ),
+          Positioned.fill(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // SizedBox(height: defaultPadding),
+                Text(
+                  "29.1",
+                  style: Theme.of(context).textTheme.headline4.copyWith(color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    height: 0.5,
+                  ),
+                ),
+                Text("of 128GB")
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+List<PieChartSectionData> paiChartSelectionDatas = [
+  PieChartSectionData(
+    // color: primaryColor,
+    value: 25,
+    showTitle: false,
+    radius: 25,
+  ),
+  PieChartSectionData(
+    color: Color(0xFF26E5FF),
+    value: 20,
+    showTitle: false,
+    radius: 22,
+  ),
+  PieChartSectionData(
+    color: Color(0xFFFFCF26),
+    value: 10,
+    showTitle: false,
+    radius: 19,
+  ),
+  PieChartSectionData(
+    color: Color(0xFFEE2727),
+    value: 15,
+    showTitle: false,
+    radius: 16,
+  ),
+  PieChartSectionData(
+    // color: primaryColor.withOpacity(0.1),
+    value: 25,
+    showTitle: false,
+    radius: 13,
+  ),
+];
