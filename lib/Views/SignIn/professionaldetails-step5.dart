@@ -440,19 +440,6 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                                   ),
                                                 )
                                               : Container(),
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                              top: 15,
-                                            ),
-                                            child: Text(
-                                                "Currency",
-                                                style: TextStyle(
-                                                    fontSize: 15,
-                                                    fontWeight:
-                                                    FontWeight.bold,
-                                                    fontFamily:
-                                                    "ProximaNova")),
-                                          ),
 
                                          Padding(
                                             padding: EdgeInsets.only(
