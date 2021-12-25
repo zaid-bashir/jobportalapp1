@@ -5,6 +5,7 @@ import 'package:job_portal/Views/Candidate/jobsaved.dart';
 import 'package:job_portal/Views/Candidate/settings.dart';
 import 'package:job_portal/Views/Candidate/jobsuggested.dart';
 import 'package:job_portal/Views/Home/constants/constants.dart';
+import 'package:job_portal/Views/SignIn/it_skills.dart';
 import 'package:job_portal/Views/SignIn/personaldetails.dart';
 
 
@@ -270,7 +271,9 @@ class _SideMenuState extends State<SideMenu> {
                 child: DrawerListTile(
                   title: "Sign out",
                   svgSrc: Icons.logout_outlined,
-                  press: () {},
+                  press: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>ItSkills()));
+                  },
                 ),
               ),
             ),
