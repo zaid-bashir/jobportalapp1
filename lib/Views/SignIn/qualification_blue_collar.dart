@@ -15,16 +15,16 @@ class QualificationBlueCollar extends StatefulWidget {
       _QualificationBlueCollarState();
 }
 
-class _QualificationBlueCollarState extends State<QualificationBlueCollar> with SingleTickerProviderStateMixin{
-
+class _QualificationBlueCollarState extends State<QualificationBlueCollar>
+    with SingleTickerProviderStateMixin {
   AnimationController loadingController;
 
   File _file;
   PlatformFile _platformFile;
 
   selectFile() async {
-    final file = await FilePicker.platform.pickFiles(
-        type: FileType.custom, allowedExtensions: ['pdf','docx']);
+    final file = await FilePicker.platform
+        .pickFiles(type: FileType.custom, allowedExtensions: ['pdf', 'docx']);
 
     if (file != null) {
       setState(() {
@@ -42,8 +42,8 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar> with 
       vsync: this,
       duration: const Duration(seconds: 10),
     )..addListener(() {
-      setState(() {});
-    });
+        setState(() {});
+      });
 
     super.initState();
   }
@@ -111,8 +111,6 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar> with 
     "1980"
   ];
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -127,9 +125,12 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar> with 
             child: Row(
               // ignore: prefer_const_literals_to_create_immutables
               children: [
-                IconButton(onPressed: (){
-                  Navigator.of(context).pop();
-                }, icon: Icon(Icons.arrow_back),),
+                IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  icon: Icon(Icons.arrow_back),
+                ),
                 const SizedBox(
                   width: 30,
                 ),
@@ -156,7 +157,7 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar> with 
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: GestureDetector(
-              onTap: (){
+              onTap: () {
                 selectFile();
               },
               child: Card(
@@ -240,8 +241,10 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar> with 
                       maxLines: 5,
                       decoration: InputDecoration(
                         labelText: "Profile Summary",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
+                        border: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.grey,
+                          ),
                         ),
                       ),
                     ),
@@ -266,6 +269,13 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar> with 
                     padding:
                         const EdgeInsets.only(top: 10, left: 20, bottom: 10),
                     child: DropdownSearch<String>(
+                      dropdownSearchDecoration: const InputDecoration(
+                        border: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
                       mode: Mode.DIALOG,
                       showSearchBox: true,
                       showSelectedItems: true,
@@ -284,8 +294,8 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar> with 
                 const SizedBox(
                   height: 10,
                 ),
-                !(highestQualificationSelect == "" || highestQualificationSelect == "Below 10th")
-                    
+                !(highestQualificationSelect == "" ||
+                        highestQualificationSelect == "Below 10th")
                     ? Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -307,6 +317,13 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar> with 
                               padding: const EdgeInsets.only(
                                   top: 10, left: 20, bottom: 10),
                               child: DropdownSearch<String>(
+                                dropdownSearchDecoration: const InputDecoration(
+                                  border: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ),
                                 mode: Mode.DIALOG,
                                 showSearchBox: true,
                                 showSelectedItems: true,
@@ -343,6 +360,13 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar> with 
                               padding: const EdgeInsets.only(
                                   top: 10, left: 20, bottom: 10),
                               child: DropdownSearch<String>(
+                                dropdownSearchDecoration: const InputDecoration(
+                                  border: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ),
                                 mode: Mode.DIALOG,
                                 showSearchBox: true,
                                 showSelectedItems: true,
@@ -402,7 +426,7 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar> with 
                                       const Text(
                                         "Full Time",
                                         style: TextStyle(
-                                          fontFamily: "Poppins",
+                                          fontFamily: "ProximaNova",
                                           fontWeight: FontWeight.bold,
                                           letterSpacing: 1.5,
                                           fontSize: 14.5,
@@ -434,7 +458,7 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar> with 
                                       const Text(
                                         "Correspondance",
                                         style: TextStyle(
-                                          fontFamily: "Poppins",
+                                          fontFamily: "ProximaNova",
                                           fontWeight: FontWeight.bold,
                                           letterSpacing: 1.5,
                                           fontSize: 14.5,
@@ -466,7 +490,7 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar> with 
                                       const Text(
                                         "Distance",
                                         style: TextStyle(
-                                          fontFamily: "Poppins",
+                                          fontFamily: "ProximaNova",
                                           fontWeight: FontWeight.bold,
                                           letterSpacing: 1.5,
                                           fontSize: 14.5,
@@ -498,7 +522,7 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar> with 
                                       const Text(
                                         "Online",
                                         style: TextStyle(
-                                          fontFamily: "Poppins",
+                                          fontFamily: "ProximaNova",
                                           fontWeight: FontWeight.bold,
                                           letterSpacing: 1.5,
                                           fontSize: 14.5,
@@ -530,6 +554,13 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar> with 
                               padding: const EdgeInsets.only(
                                   top: 10, left: 20, bottom: 10),
                               child: DropdownSearch<String>(
+                                dropdownSearchDecoration: const InputDecoration(
+                                  border: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ),
                                 mode: Mode.DIALOG,
                                 showSearchBox: true,
                                 showSelectedItems: true,
@@ -565,24 +596,27 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar> with 
                             child: Padding(
                               padding: const EdgeInsets.only(
                                   top: 10, left: 20, bottom: 10),
-                              child: DropdownButtonHideUnderline(
-                                child: GFDropdown(
-                                  border: const BorderSide(
-                                    color: Colors.black12,
-                                    width: 1,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(color: Colors.grey),
                                   ),
-                                  value: myPassingYear,
-                                  onChanged: (newValue) {
-                                    setState(() {
-                                      myGradingSystem = newValue;
-                                    });
-                                  },
-                                  items: myPassingYearList
-                                      .map(
-                                        (value) => DropdownMenuItem(
-                                            value: value, child: Text(value)),
-                                      )
-                                      .toList(),
+                                ),
+                                child: DropdownButtonHideUnderline(
+                                  child: GFDropdown(
+                                    value: myPassingYear,
+                                    onChanged: (newValue) {
+                                      setState(() {
+                                        myGradingSystem = newValue;
+                                      });
+                                    },
+                                    items: myPassingYearList
+                                        .map(
+                                          (value) => DropdownMenuItem(
+                                              value: value, child: Text(value)),
+                                        )
+                                        .toList(),
+                                  ),
                                 ),
                               ),
                             ),
@@ -606,24 +640,27 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar> with 
                             child: Padding(
                               padding: const EdgeInsets.only(
                                   top: 10, left: 20, bottom: 10),
-                              child: DropdownButtonHideUnderline(
-                                child: GFDropdown(
-                                  border: const BorderSide(
-                                    color: Colors.black12,
-                                    width: 1,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(color: Colors.grey),
                                   ),
-                                  value: myGradingSystem,
-                                  onChanged: (newValue) {
-                                    setState(() {
-                                      myGradingSystem = newValue;
-                                    });
-                                  },
-                                  items: gradingSystem
-                                      .map(
-                                        (value) => DropdownMenuItem(
-                                            value: value, child: Text(value)),
-                                      )
-                                      .toList(),
+                                ),
+                                child: DropdownButtonHideUnderline(
+                                  child: GFDropdown(
+                                    value: myGradingSystem,
+                                    onChanged: (newValue) {
+                                      setState(() {
+                                        myGradingSystem = newValue;
+                                      });
+                                    },
+                                    items: gradingSystem
+                                        .map(
+                                          (value) => DropdownMenuItem(
+                                              value: value, child: Text(value)),
+                                        )
+                                        .toList(),
+                                  ),
                                 ),
                               ),
                             ),
@@ -650,10 +687,12 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar> with 
                               child: TextFormField(
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
                                   labelText: "Grade Value",
+                                  border: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
@@ -662,8 +701,8 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar> with 
                             height: 10,
                           ),
                         ],
-                      ) :  Container(),
-                    
+                      )
+                    : Container(),
               ],
             ),
           ),
