@@ -133,7 +133,11 @@ class _VerificationState extends State<Verification> {
                   SizedBox(height: 30,),
                   FadeInDown(
                       duration: Duration(milliseconds: 500),
-                      child: Text("Verification", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),)),
+                      child: Text("Verification", style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "ProximaNova"
+                  ),),),
                   SizedBox(height: 30,),
                   FadeInDown(
                     delay: Duration(milliseconds: 500),

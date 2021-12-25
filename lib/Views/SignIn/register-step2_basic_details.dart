@@ -130,10 +130,9 @@ class _RegisterStep2State extends State<RegisterStep2> {
                 Text(
                   "Register new\naccount ",
                   style: TextStyle(
-                    fontFamily: "OpenSans",
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.5,
-                    fontSize: 20.5,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "ProximaNova"
                   ),
                 ),
               ],

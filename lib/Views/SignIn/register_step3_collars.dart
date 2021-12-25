@@ -6,6 +6,7 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:job_portal/Views/SignIn/professional_details1-step5.dart';
 
 class QualificationBlueCollar extends StatefulWidget {
   const QualificationBlueCollar({Key key}) : super(key: key);
@@ -136,7 +137,7 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                 ),
                 Text(
                   "Qualification Details",
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w900),
+                  style: TextStyle(fontSize: 20,fontFamily: "ProximaNova" ,fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -148,7 +149,9 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
             padding: EdgeInsets.all(10),
             child: Text(
               "Upload Resume",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+              style: TextStyle(fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "ProximaNova"),
             ),
           ),
           const SizedBox(
@@ -226,7 +229,9 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                   padding: EdgeInsets.all(10),
                   child: Text(
                     "Profile Summary",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                    style: TextStyle(fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "ProximaNova"),
                   ),
                 ),
                 const SizedBox(
@@ -257,7 +262,9 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                   padding: EdgeInsets.all(10),
                   child: Text(
                     "Highest Qualification",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                    style:TextStyle(fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "ProximaNova"),
                   ),
                 ),
                 const SizedBox(
@@ -304,8 +311,9 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                             padding: EdgeInsets.all(10),
                             child: Text(
                               "Course",
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w700),
+                              style: TextStyle(fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "ProximaNova"),
                             ),
                           ),
                           const SizedBox(
@@ -347,8 +355,9 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                             padding: EdgeInsets.all(10),
                             child: Text(
                               "Stream",
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w700),
+                              style: TextStyle(fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "ProximaNova"),
                             ),
                           ),
                           const SizedBox(
@@ -390,8 +399,9 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                             padding: EdgeInsets.all(10),
                             child: Text(
                               "Course Type",
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w700),
+                              style: TextStyle(fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "ProximaNova"),
                             ),
                           ),
                           const SizedBox(
@@ -425,12 +435,9 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                                       ),
                                       const Text(
                                         "Full Time",
-                                        style: TextStyle(
-                                          fontFamily: "ProximaNova",
-                                          fontWeight: FontWeight.bold,
-                                          letterSpacing: 1.5,
-                                          fontSize: 14.5,
-                                        ),
+                                        style: TextStyle(fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "ProximaNova"),
                                       ),
                                     ],
                                   ),
@@ -461,7 +468,7 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                                           fontFamily: "ProximaNova",
                                           fontWeight: FontWeight.bold,
                                           letterSpacing: 1.5,
-                                          fontSize: 14.5,
+                                          fontSize: 15,
                                         ),
                                       ),
                                     ],
@@ -493,7 +500,7 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                                           fontFamily: "ProximaNova",
                                           fontWeight: FontWeight.bold,
                                           letterSpacing: 1.5,
-                                          fontSize: 14.5,
+                                          fontSize: 15,
                                         ),
                                       ),
                                     ],
@@ -525,7 +532,7 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                                           fontFamily: "ProximaNova",
                                           fontWeight: FontWeight.bold,
                                           letterSpacing: 1.5,
-                                          fontSize: 14.5,
+                                          fontSize: 15,
                                         ),
                                       ),
                                     ],
@@ -541,8 +548,9 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                             padding: EdgeInsets.all(10),
                             child: Text(
                               "Institute Qualified From",
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w700),
+                              style: TextStyle(fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "ProximaNova"),
                             ),
                           ),
                           const SizedBox(
@@ -584,8 +592,9 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                             padding: EdgeInsets.all(10),
                             child: Text(
                               "Passing Year",
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w700),
+                              style: TextStyle(fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "ProximaNova"),
                             ),
                           ),
                           const SizedBox(
@@ -628,8 +637,9 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                             padding: EdgeInsets.all(10),
                             child: Text(
                               "Grading System",
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w700),
+                              style: TextStyle(fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "ProximaNova"),
                             ),
                           ),
                           const SizedBox(
@@ -672,8 +682,9 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                             padding: EdgeInsets.all(10),
                             child: Text(
                               "Grade Value",
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w700),
+                              style: TextStyle(fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "ProximaNova"),
                             ),
                           ),
                           const SizedBox(
@@ -711,7 +722,9 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
             child: Align(
                 alignment: Alignment.centerRight,
                 child: GFButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>WorkingProfession(),),);
+                  },
                   text: "Next",
                   type: GFButtonType.solid,
                 )),
