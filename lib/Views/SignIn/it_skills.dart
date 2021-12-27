@@ -95,29 +95,16 @@ class _ItSkillsState extends State<ItSkills> {
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
                               fontFamily: "ProximaNova")),
-                      Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 10.0, right: 10.0, top: 2.0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: <Widget>[
-                                    Flexible(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: MultiSelectDialogField(
-                                          items: _skills
-                                              .map((e) =>
-                                                  MultiSelectItem(e, e.name))
-                                              .toList(),
-                                          listType: MultiSelectListType.CHIP,
-                                          onConfirm: (values) {
-                                            _skills = values;
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                )),
+                      MultiSelectDialogField(
+                        items: _skills
+                            .map((e) =>
+                                MultiSelectItem(e, e.name))
+                            .toList(),
+                        listType: MultiSelectListType.CHIP,
+                        onConfirm: (values) {
+                          _skills = values;
+                        },
+                      ),
                           
                       const SizedBox(
                         height: 15,
@@ -127,9 +114,7 @@ class _ItSkillsState extends State<ItSkills> {
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
                               fontFamily: "ProximaNova")),
-                      const SizedBox(
-                        height: 8,
-                      ),
+
                       TextField(
                         decoration: InputDecoration(
                           hintText: "Version",
@@ -153,63 +138,34 @@ class _ItSkillsState extends State<ItSkills> {
                       Row(
                         children:  [
                           Expanded(
-                            child:    DropdownButtonFormField(
-                              // disabledHint: ,
-                                decoration:const InputDecoration(
-                                    border: UnderlineInputBorder(
-
-                                    )
-                                ),
-                                hint: Text("Select year",     style: TextStyle(
+                            child:TextField(
+                              decoration: InputDecoration(
+                                hintText: "Type Year",
+                                hintStyle: TextStyle(
                                   color: Colors.blueGrey,
                                   fontFamily: "ProximaNova",
                                   fontWeight: FontWeight.w500,
                                   letterSpacing: 1.5,
                                   fontSize: 14.5,
-                                ),),
-                                value: mySelection1,
-                                onChanged: (String Value) {
-                                  setState(() {
-                                    mySelection1 = Value;
-                                  });
-                                },
-                                items: lists1.map((listsC)=> DropdownMenuItem(
-                                  child: Text(listsC),
-                                  value: listsC,)).toList()
-
-
-
+                                ),
+                              ),
                             ),
                           ),
                           SizedBox(
                             width: 10,
                           ),
                           Expanded(
-                            child:    DropdownButtonFormField(
-                              // disabledHint: ,
-                                decoration:const InputDecoration(
-                                    border: UnderlineInputBorder(
-                                    )
-                                ),
-                                hint: Text("Select Month",     style: TextStyle(
+                            child:                TextField(
+                              decoration: InputDecoration(
+                                hintText: "Type Month",
+                                hintStyle: TextStyle(
                                   color: Colors.blueGrey,
                                   fontFamily: "ProximaNova",
                                   fontWeight: FontWeight.w500,
                                   letterSpacing: 1.5,
                                   fontSize: 14.5,
-                                ),),
-                                value: mySelection2,
-                                onChanged: (String Value) {
-                                  setState(() {
-                                    mySelection2 = Value;
-                                  });
-                                },
-                                items: lists2.map((listsC)=> DropdownMenuItem(
-                                  child: Text(listsC),
-                                  value: listsC,)).toList()
-
-
-
+                                ),
+                              ),
                             ),
                           ),
                         ],
@@ -260,9 +216,35 @@ class _ItSkillsState extends State<ItSkills> {
             child: Align(
                 alignment: Alignment.centerRight,
                 child: GFButton(
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const CareerPreference(),),);
-                  },
+                  onPressed: () => showDialog(context: context, builder: (BuildContext context) => AlertDialog(
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(Icons.check_circle_outline,
+                        color: Colors.green,
+                        size: 60,),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text("Skill added, Click add option to add more else click next ",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                                fontFamily: "ProximaNova")),
+                      ],
+                    ) ,
+                    actions: [
+                      GFButton(onPressed: (){
+                        Navigator.of(context).pop();
+                      },text: "Add",),
+                      GFButton(onPressed: (){
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const CareerPreference(),),);
+
+                      },text: "Next",),
+                    ],
+
+                  )),
                   text: "Next",
                   type: GFButtonType.solid,
                 )),
