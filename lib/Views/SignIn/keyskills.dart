@@ -1,11 +1,6 @@
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
-import 'package:getwidget/colors/gf_color.dart';
 import 'package:getwidget/components/button/gf_button.dart';
-import 'package:getwidget/components/dropdown/gf_multiselect.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:getwidget/types/gf_checkbox_type.dart';
-import 'package:job_portal/Views/SignIn/careerpreference.dart';
 import 'package:job_portal/Views/SignIn/it_skills.dart';
 import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
@@ -64,7 +59,7 @@ class _KeySkillsState extends State<KeySkills> {
         body: SingleChildScrollView(
           child: Padding(
             padding:
-                const EdgeInsets.only(left: 10, right: 10, bottom: 10, top: 20),
+                const EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
             child: Column(children: [
               Row(
                 children: [
