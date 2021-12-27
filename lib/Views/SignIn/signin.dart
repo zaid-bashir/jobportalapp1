@@ -3,17 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/button/gf_button.dart';
 import 'package:job_portal/Views/Candidate/bottomnavbar.dart';
-
-import 'package:job_portal/Views/Candidate/fresherBcollar.dart';
 import 'package:job_portal/Views/SignIn/keyskills.dart';
 import 'package:job_portal/Views/SignIn/register-step1_otp.dart';
-
-import 'package:job_portal/Views/SignIn/register.dart';
-
-
-
-import 'verifyOtp.dart';
-
 class LoginPage extends StatefulWidget {
   const LoginPage({ Key key }) : super(key: key);
 
