@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:date_field/date_field.dart';
 import 'package:getwidget/components/radio/gf_radio.dart';
+import 'package:getwidget/getwidget.dart';
 
 class PersonalDetails extends StatefulWidget {
   const PersonalDetails({Key key}) : super(key: key);
@@ -120,7 +121,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                       Text('Address',
                           style: TextStyle(fontSize: 15,
                               fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova")),
+                              fontFamily: "ProximaNova"),),
 
                       TextField(
                         decoration: InputDecoration(
@@ -589,6 +590,20 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                   ),
                 ),
               ),
+
+               const SizedBox(height: 20,),
+                  Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Align(
+                alignment: Alignment.centerRight,
+                child: GFButton(
+                  onPressed: () {
+                    // Navigator.of(context).push(MaterialPageRoute(builder: (context)=>KeySkills(),),);
+                  },
+                  text: "Next",
+                  type: GFButtonType.solid,
+                )),
+          ),
 
             ],
           ),

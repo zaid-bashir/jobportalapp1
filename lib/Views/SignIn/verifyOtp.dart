@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter_verification_code/flutter_verification_code.dart';
-import 'package:job_portal/Views/SignIn/register-step2.dart';
+import 'package:job_portal/Views/SignIn/register-step2_basic_details.dart';
 
 class Verification extends StatefulWidget {
   const Verification({ Key key }) : super(key: key);
@@ -133,7 +133,11 @@ class _VerificationState extends State<Verification> {
                   SizedBox(height: 30,),
                   FadeInDown(
                       duration: Duration(milliseconds: 500),
-                      child: Text("Verification", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),)),
+                      child: Text("Verification", style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "ProximaNova"
+                  ),),),
                   SizedBox(height: 30,),
                   FadeInDown(
                     delay: Duration(milliseconds: 500),

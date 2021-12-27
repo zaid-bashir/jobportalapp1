@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:date_field/date_field.dart';
 import 'package:getwidget/components/radio/gf_radio.dart';
+import 'package:getwidget/getwidget.dart';
+import 'package:job_portal/Views/SignIn/careerpreference.dart';
+import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
+import 'package:multi_select_flutter/util/multi_select_item.dart';
+import 'package:multi_select_flutter/util/multi_select_list_type.dart';
 
 class ItSkills extends StatefulWidget {
   const ItSkills({Key key}) : super(key: key);
@@ -9,6 +14,16 @@ class ItSkills extends StatefulWidget {
   @override
   _ItSkillsState createState() => _ItSkillsState();
 }
+class Skills {
+  final int id;
+  final String name;
+
+  Skills({
+    this.id,
+    this.name,
+  });
+}
+
 
 class _ItSkillsState extends State<ItSkills> {
 
@@ -20,11 +35,18 @@ class _ItSkillsState extends State<ItSkills> {
   List<String> lists = ["2015", "2016", "2017", "2018","2019","2020"];
   List<String> lists1 = ["2015", "2016", "2017", "2018","2019","2020"];
   List<String> lists2 = ["1", "2", "3","4","5","6","7","8","9","10","11","12"];
-  List list = [
-    "Web Development",
-    "Mobile App Development",
-    "Full Stack Developer",
-    "Back-end Developer"
+  // List list = [
+  //   "Web Development",
+  //   "Mobile App Development",
+  //   "Full Stack Developer",
+  //   "Back-end Developer"
+  // ];
+
+    static List<Skills> _skills = [
+    Skills(id: 1, name: "Web Development"),
+    Skills(id: 2, name: "Mobile App Development"),
+    Skills(id: 3, name: "Full Stack Developer"),
+    Skills(id: 4, name: "Back-end Developer"),
   ];
 
   @override
@@ -73,26 +95,30 @@ class _ItSkillsState extends State<ItSkills> {
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
                               fontFamily: "ProximaNova")),
-                      DropdownSearch<String>(
-                        dropdownSearchDecoration: const InputDecoration(
-                          border: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ),
-                        mode: Mode.DIALOG,
-                        showSelectedItems: true,
-                        showSearchBox: true,
-                        items: const [
-                          "Web Development",
-                          "Mobile App Development",
-                          "Full Stack Developer",
-                          "Back-end Developer"],
-                        // popupItemDisabled: (String s) => s.startsWith('I'),
-                        onChanged: print,
-                        hint: "Select Skill",
-                      ),
+                      Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 10.0, right: 10.0, top: 2.0),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    Flexible(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: MultiSelectDialogField(
+                                          items: _skills
+                                              .map((e) =>
+                                                  MultiSelectItem(e, e.name))
+                                              .toList(),
+                                          listType: MultiSelectListType.CHIP,
+                                          onConfirm: (values) {
+                                            _skills = values;
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )),
+                          
                       const SizedBox(
                         height: 15,
                       ),
@@ -227,6 +253,21 @@ class _ItSkillsState extends State<ItSkills> {
                   ),
                 ),
               ),
+
+ const SizedBox(height: 20,),
+                  Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Align(
+                alignment: Alignment.centerRight,
+                child: GFButton(
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const CareerPreference(),),);
+                  },
+                  text: "Next",
+                  type: GFButtonType.solid,
+                )),
+          ),
+
             ],
           ),
         ),

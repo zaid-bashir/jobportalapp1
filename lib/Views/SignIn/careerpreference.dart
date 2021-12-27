@@ -1,6 +1,9 @@
+
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/search_bar/gf_search_bar.dart';
+import 'package:getwidget/getwidget.dart';
+import 'package:job_portal/Views/SignIn/personaldetails.dart';
 class CareerPreference extends StatefulWidget {
   const CareerPreference({Key key}) : super(key: key);
 
@@ -19,7 +22,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
     "Aviation Industry",
   ];
   List<String> lists2 = [
-    "Software Engineer" // job role
+    "Software Engineer",
     "Data Scientist",
     "Flutter Developer",
    "Content Writer"
@@ -494,7 +497,19 @@ class _CareerPreferenceState extends State<CareerPreference> {
                   ),
 
 
-
+ const SizedBox(height: 20,),
+                  Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Align(
+                alignment: Alignment.centerRight,
+                child: GFButton(
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const PersonalDetails(),),);
+                  },
+                  text: "Next",
+                  type: GFButtonType.solid,
+                )),
+          ),
 
 
                 ],

@@ -8,7 +8,7 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:job_portal/Views/SignIn/personaldetails.dart';
-import 'package:job_portal/Views/SignIn/register-step1.dart';
+import 'package:job_portal/Views/SignIn/register-step1_otp.dart';
 
 
 
