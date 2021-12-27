@@ -56,7 +56,7 @@ class _ItSkillsState extends State<ItSkills> {
       body: SingleChildScrollView(
         child: Padding(
           padding:
-              const EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
+              const EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
