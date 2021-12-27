@@ -82,50 +82,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Text('Salary',
-                        //     style: TextStyle(fontSize:15, fontWeight: FontWeight.bold,
-                        //         fontFamily: "ProximaNova")),
-                        //
-                        // TextField(
-                        //   decoration: InputDecoration(
-                        //     hintText: "Current Salary",
-                        //     hintStyle: TextStyle(
-                        //       color: Colors.blueGrey,
-                        //       fontFamily: "ProximaNova",
-                        //       fontWeight: FontWeight.w500,
-                        //       letterSpacing: 1.5,
-                        //       fontSize: 14.5,
-                        //     ),),
-                        //
-                        // ),
 
-                        // const SizedBox(height: 15,),
-                        // const Text('',
-                        //     style: TextStyle(fontSize:15,
-                        //         fontWeight: FontWeight.bold,
-                        //         fontFamily: "ProximaNova")),
-                        // const SizedBox(
-                        //   height: 8,
-                        // ),
-                        // DropdownSearch<String>(
-                        //   dropdownSearchDecoration: const InputDecoration(
-                        //     border: UnderlineInputBorder(
-                        //       borderSide: BorderSide(
-                        //         color: Colors.grey,
-                        //       ),
-                        //     ),
-                        //   ),
-                        //   mode: Mode.DIALOG,
-                        //   showSelectedItems: true,
-                        //   showSearchBox: true,
-                        //   items: ["Srinagar",
-                        //     "Pulwama",
-                        //     "Budgam",
-                        //     "Ganderbal"],
-                        //   // popupItemDisabled: (String s) => s.startsWith('I'),
-                        //   onChanged: print,
-                        //   hint: "Select Currency",
-                        // ),
 
                         const SizedBox(
                           height: 15,
@@ -140,105 +97,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // const SizedBox(
-                              //   height: 10,
-                              // ),
-                              // const Text('industry',
-                              //     style: TextStyle(
-                              //         fontSize: 15,
-                              //         fontWeight: FontWeight.bold,
-                              //         fontFamily: "ProximaNova")),
-                              // const SizedBox(
-                              //   height: 5,
-                              // ),
-                              // DropdownSearch<String>(
-                              //   dropdownSearchDecoration:
-                              //       const InputDecoration(
-                              //     border: const UnderlineInputBorder(
-                              //       borderSide: const BorderSide(
-                              //         color: Colors.grey,
-                              //       ),
-                              //     ),
-                              //   ),
-                              //   mode: Mode.DIALOG,
-                              //   showSelectedItems: true,
-                              //   showSearchBox: true,
-                              //   items: [
-                              //     "IT- Software",
-                              //     "Networking",
-                              //     "E-Commerce",
-                              //   ],
-                              //   // popupItemDisabled: (String s) => s.startsWith('I'),
-                              //   onChanged: print,
-                              //   hint: "Select Industry",
-                              // ),
-                              // const Padding(
-                              //   padding: EdgeInsets.only(top: 15, right: 25),
-                              //   child: Text("Date of birth",
-                              //       style: TextStyle(
-                              //           fontSize: 15,
-                              //           fontWeight: FontWeight.bold,
-                              //           fontFamily: "ProximaNova")),
-                              // ),
 
-                              // const SizedBox(
-                              //   height: 10,
-                              // ),
-                              // DateTimeFormField(
-                              //   decoration: const InputDecoration(
-                              //     border: const UnderlineInputBorder(
-                              //       borderSide: const BorderSide(
-                              //         color: Colors.grey,
-                              //       ),
-                              //     ),
-                              //     hintText: 'D.O.B',
-                              //     // hintStyle: heading6.copyWith(color: textGrey),
-                              //     // errorStyle: TextStyle(color: Colors.redAccent),
-                              //     suffixIcon: Icon(Icons.event_note),
-                              //   ),
-                              //   // initialValue: date,
-                              //   mode: DateTimeFieldPickerMode.date,
-                              //   autovalidateMode: AutovalidateMode.always,
-                              //   validator: (e) => (e?.day ?? 0) == 1
-                              //       ? 'Please not the first day'
-                              //       : null,
-
-                              //   onDateSelected: (date) {
-                              //     setState(() {
-                              //       selectedDate = date;
-                              //     });
-                              //   },
-                              // ),
-
-                              // const Padding(
-                              //   padding: EdgeInsets.only(top: 15, right: 25),
-                              //   child: Text("Currency",
-                              //       style: TextStyle(
-                              //           fontSize: 15,
-                              //           fontWeight: FontWeight.bold,
-                              //           fontFamily: "ProximaNova")),
-                              // ),
-                              // const SizedBox(
-                              //   height: 10,
-                              // ),
-                              // DropdownSearch<String>(
-                              //   dropdownSearchDecoration:
-                              //       const InputDecoration(
-                              //     border: UnderlineInputBorder(
-                              //       borderSide: BorderSide(
-                              //         color: Colors.grey,
-                              //       ),
-                              //     ),
-                              //   ),
-                              //   mode: Mode.DIALOG,
-                              //   showSelectedItems: true,
-                              //   showSearchBox: true,
-                              //   items: ["OM", "SC", "ST", "RBC", "OBC"],
-                              //   // popupItemDisabled: (String s) => s.startsWith('I'),
-                              //   onChanged: print,
-                              //   hint: "Select Currency",
-                              // ),
-                              
                               const Padding(
                                 padding: EdgeInsets.only(
                                   top: 5,
@@ -623,6 +482,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                           SizedBox(
                                             width: 10,
                                           ),
+
                                           Expanded(
                                             child: TextField(
                                               decoration: InputDecoration(
@@ -632,6 +492,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                         ],
                                       ),
                                     ),
+
 
                                     Padding(
                                 padding: EdgeInsets.only(
@@ -663,7 +524,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                 onChanged: print,
                                 hint: "Select Industry",
                               ),
-                              
+
                             ],
                           ),
                         ),

@@ -144,7 +144,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                           items: lists,
                                           // popupItemDisabled: (String s) => s.startsWith('I'),
                                           onChanged: print,
-                                          hint: "Select Industry",
+                                          hint:"Select Industry",
                                         ),
                                       ),
                                     ),
