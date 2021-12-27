@@ -65,7 +65,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
         child: Scaffold(
           body: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.only(left: 10,right: 10,bottom: 10,top: 20),
+              padding: const EdgeInsets.only(left: 20,right: 20,bottom: 10,top: 10),
               child: Column(
                 children:
                 [

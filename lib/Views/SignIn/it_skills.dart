@@ -82,8 +82,8 @@ class _ItSkillsState extends State<ItSkills> {
               Card(
                 child: Padding(
                   padding: const EdgeInsets.only(
-                    top: 10,
-                    bottom: 10,
+                    top: 20,
+                    bottom: 20,
                     left: 10,
                     right: 10,
                   ),
