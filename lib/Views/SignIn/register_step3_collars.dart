@@ -49,10 +49,10 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
     super.initState();
   }
 
-  var highestQualificationSelect = "";
-  var courseSelect = "";
-  var streamSelect = "";
-  var instituteQualifiedFromSelect = "";
+  var highestQualificationSelect;
+  var courseSelect;
+  var streamSelect;
+  var instituteQualifiedFromSelect;
 
   List<String> highestQualification = [
     "PG",
@@ -88,7 +88,7 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
     "IUST",
   ];
 
-  String myGradingSystem = "CGPA";
+  String myGradingSystem;
 
   List<String> gradingSystem = [
     "CGPA",
@@ -97,7 +97,7 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
     "Score",
   ];
 
-  String myPassingYear = "1971";
+  String myPassingYear;
 
   List<String> myPassingYearList = [
     "1971",
@@ -122,7 +122,7 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
             height: 10,
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Row(
               // ignore: prefer_const_literals_to_create_immutables
               children: [
@@ -137,7 +137,10 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                 ),
                 Text(
                   "Qualification Details",
-                  style: TextStyle(fontSize: 20,fontFamily: "ProximaNova" ,fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontFamily: "ProximaNova",
+                      fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -146,29 +149,32 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
             height: 10,
           ),
           Padding(
-            padding: EdgeInsets.all(10),
-            child: Text(
-              "Upload Resume",
-              style: TextStyle(fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: GestureDetector(
-              onTap: () {
-                selectFile();
-              },
-              child: Card(
-                elevation: 5,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 10, left: 20, bottom: 10),
+            padding: const EdgeInsets.all(20.0),
+            child: Card(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Text(
+                      "Upload Resume",
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "ProximaNova"),
+                    ),
+                  ),
+                  const SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 10,right: 10,left: 10,bottom: 10),
+                child: GestureDetector(
+                  onTap: () {
+                    selectFile();
+                  },
                   child: Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Container(
                         padding: EdgeInsets.all(10),
@@ -212,38 +218,39 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                   ),
                 ),
               ),
+              
+                ],
+              ),
             ),
           ),
+          
           const SizedBox(
             height: 10,
           ),
-          Card(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Text(
-                    "Profile Summary",
-                    style: TextStyle(fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Card(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const SizedBox(
+                    height: 10,
                   ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(top: 10, left: 20, bottom: 10),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Text(
+                      "Profile Summary",
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "ProximaNova"),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: TextFormField(
-                      maxLines: 5,
+                      maxLines: 2,
                       decoration: InputDecoration(
                         labelText: "Profile Summary",
                         border: UnderlineInputBorder(
@@ -254,28 +261,26 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Text(
-                    "Highest Qualification",
-                    style:TextStyle(fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),
+                  const SizedBox(
+                    height: 10,
                   ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(top: 10, left: 20, bottom: 10),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Text(
+                      "Highest Qualification",
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "ProximaNova"),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: DropdownSearch<String>(
+                      hint: "Select Qualification",
                       dropdownSearchDecoration: const InputDecoration(
                         border: UnderlineInputBorder(
                           borderSide: BorderSide(
@@ -297,35 +302,34 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                       selectedItem: highestQualificationSelect,
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                !(highestQualificationSelect == "" ||
-                        highestQualificationSelect == "Below 10th")
-                    ? Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Text(
-                              "Course",
-                              style: TextStyle(fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  !(highestQualificationSelect == "" ||
+                          highestQualificationSelect == "Below 10th")
+                      ? Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Text(
+                                "Course",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: "ProximaNova"),
+                              ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 10, left: 20, bottom: 10),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 10),
                               child: DropdownSearch<String>(
-                                dropdownSearchDecoration: const InputDecoration(
+                                hint: "Select Course",
+                                dropdownSearchDecoration:
+                                    const InputDecoration(
                                   border: UnderlineInputBorder(
                                     borderSide: BorderSide(
                                       color: Colors.grey,
@@ -347,29 +351,28 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                                 selectedItem: courseSelect,
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Text(
-                              "Stream",
-                              style: TextStyle(fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),
+                            const SizedBox(
+                              height: 10,
                             ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 10, left: 20, bottom: 10),
+                            Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Text(
+                                "Stream",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: "ProximaNova"),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 10),
                               child: DropdownSearch<String>(
-                                dropdownSearchDecoration: const InputDecoration(
+                                hint: "Select Stream",
+                                dropdownSearchDecoration:
+                                    const InputDecoration(
                                   border: UnderlineInputBorder(
                                     borderSide: BorderSide(
                                       color: Colors.grey,
@@ -391,27 +394,24 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                                 selectedItem: streamSelect,
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Text(
-                              "Course Type",
-                              style: TextStyle(fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),
+                            const SizedBox(
+                              height: 10,
                             ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 10, left: 20, bottom: 10),
+                            Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Text(
+                                "Course Type",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: "ProximaNova"),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 10),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -435,9 +435,10 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                                       ),
                                       const Text(
                                         "Full Time",
-                                        style: TextStyle(fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: "ProximaNova"),
                                       ),
                                     ],
                                   ),
@@ -540,29 +541,28 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                                 ],
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Text(
-                              "Institute Qualified From",
-                              style: TextStyle(fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),
+                            const SizedBox(
+                              height: 10,
                             ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 10, left: 20, bottom: 10),
+                            Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Text(
+                                "Institute Qualified From",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: "ProximaNova"),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 10),
                               child: DropdownSearch<String>(
-                                dropdownSearchDecoration: const InputDecoration(
+                                hint: "Select Institute",
+                                dropdownSearchDecoration:
+                                    const InputDecoration(
                                   border: UnderlineInputBorder(
                                     borderSide: BorderSide(
                                       color: Colors.grey,
@@ -584,27 +584,24 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                                 selectedItem: instituteQualifiedFromSelect,
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Text(
-                              "Passing Year",
-                              style: TextStyle(fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),
+                            const SizedBox(
+                              height: 10,
                             ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 10, left: 20, bottom: 10),
+                            Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Text(
+                                "Passing Year",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: "ProximaNova"),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 6),
                               child: Container(
                                 decoration: BoxDecoration(
                                   border: Border(
@@ -613,6 +610,7 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                                 ),
                                 child: DropdownButtonHideUnderline(
                                   child: GFDropdown(
+                                    hint: Text("Select Year"),
                                     value: myPassingYear,
                                     onChanged: (newValue) {
                                       setState(() {
@@ -622,34 +620,32 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                                     items: myPassingYearList
                                         .map(
                                           (value) => DropdownMenuItem(
-                                              value: value, child: Text(value)),
+                                              value: value,
+                                              child: Text(value)),
                                         )
                                         .toList(),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Text(
-                              "Grading System",
-                              style: TextStyle(fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),
+                            const SizedBox(
+                              height: 10,
                             ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 10, left: 20, bottom: 10),
+                            Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Text(
+                                "Grading System",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: "ProximaNova"),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 6),
                               child: Container(
                                 decoration: BoxDecoration(
                                   border: Border(
@@ -658,6 +654,7 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                                 ),
                                 child: DropdownButtonHideUnderline(
                                   child: GFDropdown(
+                                    hint: Text("Select Grading System"),
                                     value: myGradingSystem,
                                     onChanged: (newValue) {
                                       setState(() {
@@ -667,34 +664,32 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                                     items: gradingSystem
                                         .map(
                                           (value) => DropdownMenuItem(
-                                              value: value, child: Text(value)),
+                                              value: value,
+                                              child: Text(value)),
                                         )
                                         .toList(),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Text(
-                              "Grade Value",
-                              style: TextStyle(fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),
+                            const SizedBox(
+                              height: 10,
                             ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 10, left: 20, bottom: 10),
+                            Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Text(
+                                "Grade Value",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: "ProximaNova"),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 10),
                               child: TextFormField(
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
@@ -707,14 +702,14 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                                 ),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                        ],
-                      )
-                    : Container(),
-              ],
+                            const SizedBox(
+                              height: 10,
+                            ),
+                          ],
+                        )
+                      : Container(),
+                ],
+              ),
             ),
           ),
           Padding(
@@ -723,7 +718,11 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                 alignment: Alignment.centerRight,
                 child: GFButton(
                   onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>WorkingProfession(),),);
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => WorkingProfession(),
+                      ),
+                    );
                   },
                   text: "Next",
                   type: GFButtonType.solid,
