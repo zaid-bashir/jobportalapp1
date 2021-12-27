@@ -1,4 +1,5 @@
 
+import 'package:date_field/date_field.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/search_bar/gf_search_bar.dart';
@@ -13,7 +14,10 @@ class CareerPreference extends StatefulWidget {
 
 class _CareerPreferenceState extends State<CareerPreference> {
 
-
+  DateTime selectedDate;
+  int groupValue = 1;
+  int groupValue2 = 1;
+  YearPicker selectedDate2;
 
   List<String> lists = [
     "TextTile Industry",
@@ -150,59 +154,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                     ),
                                   ],
                                 )),
-                            Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 20.0, right: 25.0, top: 20.0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: <Widget>[
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: const <Widget>[
-                                        Text(
-                                          'Preferred Job Role',
-                                          style: TextStyle(
-                                              fontSize: 15.0,
-                                              fontFamily: "ProximaNova",
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                )),
 
-
-
-                            Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 10.0, right: 10.0, top: 2.0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: <Widget>[
-                                    Flexible(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child:DropdownSearch<String>(
-                                          dropdownSearchDecoration: const InputDecoration(
-                                            border: UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: Colors.grey,
-                                              ),
-                                            ),
-                                          ),
-                                          mode: Mode.DIALOG,
-                                          showSelectedItems: true,
-                                          showSearchBox: true,
-                                          items:lists2,
-                                          // popupItemDisabled: (String s) => s.startsWith('I'),
-                                          onChanged: print,
-                                          hint: "Select Role",
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                )),
                             Padding(
                                 padding: const EdgeInsets.only(
                                     left: 20.0, right: 25.0, top: 20.0),
@@ -454,7 +406,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                 )),
                             Padding(
                                 padding: const EdgeInsets.only(
-                                    left: 22.0, right: 25.0, top: 20.0),
+                                    left: 20.0, right: 25.0, top: 20.0),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
                                   children: <Widget>[
@@ -463,7 +415,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                       mainAxisSize: MainAxisSize.min,
                                       children: const <Widget>[
                                         Text(
-                                          'Availibility to Join',
+                                          'Availability to Join',
                                           style: TextStyle(
                                               fontSize: 15.0,
                                               fontFamily: "ProximaNova",
@@ -473,21 +425,97 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                     ),
                                   ],
                                 )),
+
                             Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 25.0, right: 25.0, top: 2.0),
+                              padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 2.0),
                               child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: const <Widget>[
-                                  Flexible(
-                                    child: TextField(
-                                      decoration: InputDecoration(
-                                          hintText: ""),
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: GFRadio(
+                                      size: 20,
+                                      activeBorderColor: const Color(0xff3e61ed),
+                                      value: 0,
+                                      groupValue: groupValue2,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          groupValue2 = value;
+                                        });
+                                      },
+                                      inactiveIcon: null,
+                                      radioColor: const Color(0xff3e61ed),
                                     ),
                                   ),
+                                  const SizedBox(
+                                    width: 7,
+                                  ),
+                                  const Text(
+                                    "Immediate",
+                                    style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: GFRadio(
+                                      size: 20,
+                                      value: 1,
+                                      groupValue: groupValue2,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          groupValue2 = value;
+                                        });
+                                      },
+                                      inactiveIcon: null,
+                                      activeBorderColor: const Color(0xff3e61ed),
+                                      radioColor: const Color(0xff3e61ed),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 7,
+                                  ),
+                                  const Text(
+                                    "No",
+                                    style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+
                                 ],
+
                               ),
                             ),
+                            groupValue2 == 1 ?  Padding(
+                              padding: const EdgeInsets.only( left: 22.0, right: 25.0, top: 20.0 ),
+                              child: DateTimeFormField(
+                                decoration: const InputDecoration(
+                                  border: const UnderlineInputBorder(
+                                    borderSide: const BorderSide(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  hintText: 'Joining Date',
+                                  // hintStyle: heading6.copyWith(color: textGrey),
+                                  // errorStyle: TextStyle(color: Colors.redAccent),
+                                  suffixIcon: Icon(Icons.event_note),
+                                ),
+                                // initialValue: date,
+                                mode: DateTimeFieldPickerMode.date,
+                                autovalidateMode: AutovalidateMode.always,
+                                validator: (e) =>
+                                (e?.day ?? 0) == 1
+                                    ? 'Please not the first day'
+                                    : null,
+
+                                onDateSelected: (date) {
+                                  setState(() {
+                                    selectedDate = date;
+                                  });
+                                },
+                              ),
+                            ): Container(),
+
 
 
                           ],
