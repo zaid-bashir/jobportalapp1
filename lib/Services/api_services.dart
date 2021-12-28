@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/get_otp.dart';
+import 'package:job_portal/Models/title.dart';
 import 'package:job_portal/consts/apiurls.dart';
 
 class ApiServices {
@@ -23,4 +24,26 @@ class ApiServices {
     }
     return ApiResponse<bool>(error: true, errorMessage: "An Error Occurred");
   }
+
+  //SERVICE FOR TITLE STARTS HERE
+
+    Future<ApiResponse<Map<String,String>>> getTitle() async {
+      final url = Uri.parse(ApiUrls.kgetTitle);
+      final headers = {
+        "Content-Type": "application/json",
+      };
+
+      final response = await http.get(url, headers: headers);
+      Map<String,String> titles = {};
+      if (response.statusCode == 200 ) {
+        titles = jsonDecode(response.body);
+        print(titles);
+        print(titles.runtimeType);
+        return ApiResponse<Map<String,String>>(data: titles);
+      }
+      return ApiResponse<Map<String,String>>(error: true, errorMessage: "An Error Occurred");
+    }
+
+//SERVICE FOR TITLE ENDS HERE
+
 }
