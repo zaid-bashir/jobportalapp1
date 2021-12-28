@@ -153,7 +153,7 @@ class _VerificationState extends State<Verification> {
                     delay: Duration(milliseconds: 600),
                     duration: Duration(milliseconds: 500),
                     child: VerificationCode(
-                      length: 4,
+                      length: 6,
                       textStyle: TextStyle(fontSize: 20, color: Colors.black),
                       underlineColor: Colors.black,
                       keyboardType: TextInputType.number,
