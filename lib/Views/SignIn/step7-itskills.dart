@@ -3,7 +3,7 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:date_field/date_field.dart';
 import 'package:getwidget/components/radio/gf_radio.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:job_portal/Views/SignIn/careerpreference.dart';
+import 'package:job_portal/Views/SignIn/step8-careerpreference.dart';
 import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
 import 'package:multi_select_flutter/util/multi_select_list_type.dart';
@@ -71,7 +71,7 @@ class _ItSkillsState extends State<ItSkills> {
                     width: 10,
                   ),
                   const Text(
-                    "Additional Details",
+                    "IT Skills",
                     style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,

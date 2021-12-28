@@ -1,22 +1,18 @@
-// ignore_for_file: prefer_final_fields, unused_field, avoid_print, prefer_const_constructors, missing_required_param, deprecated_member_use
-
-import 'dart:io';
+// ignore_for_file: prefer_final_fields, unused_field, prefer_const_constructors
 
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:job_portal/Views/SignIn/register_step3_collars.dart';
+import 'package:job_portal/Views/SignIn/step3-qualificationdetails.dart';
 
-class RegisterStep2 extends StatefulWidget {
-  const RegisterStep2({Key key}) : super(key: key);
+class BasicDetails extends StatefulWidget {
+  const BasicDetails({Key key}) : super(key: key);
 
   @override
-  _RegisterStep2State createState() => _RegisterStep2State();
+  _BasicDetailsState createState() => _BasicDetailsState();
 }
 
-class _RegisterStep2State extends State<RegisterStep2> {
+class _BasicDetailsState extends State<BasicDetails> {
 
 
 

@@ -1,8 +1,12 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:date_field/date_field.dart';
 import 'package:getwidget/components/radio/gf_radio.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:job_portal/Views/Candidate/bottomnavbar.dart';
+import 'package:job_portal/Views/Candidate/home.dart';
 
 class PersonalDetails extends StatefulWidget {
   const PersonalDetails({Key key}) : super(key: key);
@@ -581,7 +585,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                     alignment: Alignment.centerRight,
                     child: GFButton(
                       onPressed: () {
-                        // Navigator.of(context).push(MaterialPageRoute(builder: (context)=>KeySkills(),),);
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Navbar(),),);
                       },
                       text: "Next",
                       type: GFButtonType.solid,

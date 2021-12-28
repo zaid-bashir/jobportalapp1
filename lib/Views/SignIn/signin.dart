@@ -1,10 +1,10 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_final_fields, unused_field
 
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/button/gf_button.dart';
 import 'package:job_portal/Views/Candidate/bottomnavbar.dart';
-import 'package:job_portal/Views/SignIn/keyskills.dart';
-import 'package:job_portal/Views/SignIn/register-step1_otp.dart';
+import 'package:job_portal/Views/SignIn/step6-keyskills.dart';
+import 'package:job_portal/Views/SignIn/step1-otp.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({ Key key }) : super(key: key);
 
@@ -328,7 +328,7 @@ class _LoginPageState extends State<LoginPage> {
                       TextButton(
                         onPressed: () {
                           Navigator.push(context, MaterialPageRoute(builder: (
-                              context) => RegisterStep1()));
+                              context) => OTP()));
                         },
                         child: Text('Register', style: TextStyle(color:  Color(0xff2972ff), fontSize: 14.0, fontWeight: FontWeight.w400),),
                       )

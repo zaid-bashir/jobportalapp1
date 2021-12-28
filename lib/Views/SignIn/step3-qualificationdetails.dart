@@ -6,7 +6,7 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:job_portal/Views/SignIn/professional_details1-step5.dart';
+import 'package:job_portal/Views/SignIn/step5-professionaldetails.dart';
 
 class QualificationBlueCollar extends StatefulWidget {
   const QualificationBlueCollar({Key key}) : super(key: key);
