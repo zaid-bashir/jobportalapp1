@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:job_portal/Services/api_services.dart';
 import 'package:job_portal/Views/SignIn/register_step3_collars.dart';
 
 class RegisterStep2 extends StatefulWidget {
@@ -106,9 +107,13 @@ class _RegisterStep2State extends State<RegisterStep2> {
   //     print("Failed to pick image :$e");
   //   }
   // }
-
-
-
+  ApiServices obj = ApiServices();
+var data;
+@override
+  void initState() {
+  super.initState();
+  data = obj.getTitle();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -128,7 +133,7 @@ class _RegisterStep2State extends State<RegisterStep2> {
                   width: 10,
                 ),
                 Text(
-                  "Register new\naccount ",
+                  "$data",
                   style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
