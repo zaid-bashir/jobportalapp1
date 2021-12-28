@@ -34,7 +34,7 @@ class  Qualification {
         passingId: item["passingId"],
         passingName: item["passingName"],
         gradingId: item["gradingId"],
-        gradingName: item["gradingName"],
+        gradingName: item["gradingName"],-
         value: item["value"],
         courseId: item["courseId"],
         courseName: item["courseName"]);
