@@ -352,7 +352,7 @@ class _RegisterStep2State extends State<RegisterStep2> {
                       ),
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 15,
                     ),
                     Padding(
                       padding:
@@ -365,6 +365,7 @@ class _RegisterStep2State extends State<RegisterStep2> {
                               fontFamily: "ProximaNova"),
                       ),
                     ),
+                    const SizedBox(height: 3,),
                     Padding(
                       padding: const EdgeInsets.all(8),
                       child: Row(
@@ -457,6 +458,7 @@ class _RegisterStep2State extends State<RegisterStep2> {
                               fontFamily: "ProximaNova"),
                       ),
                     ),
+                      const SizedBox(height: 3,),
                     Padding(
                       padding: const EdgeInsets.all(8),
                       child: Row(
@@ -513,7 +515,7 @@ class _RegisterStep2State extends State<RegisterStep2> {
                       ),
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
             
                     experienceGroupValue == 0

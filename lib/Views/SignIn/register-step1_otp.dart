@@ -1,7 +1,8 @@
-// ignore_for_file: prefer_const_constructors, unnecessary_const, unused_field, unnecessary_new, curly_braces_in_flow_control_structures, sized_box_for_whitespace
+// ignore_for_file: prefer_const_constructors, unnecessary_const, unused_field, unnecessary_new, curly_braces_in_flow_control_structures, sized_box_for_whitespace, unused_local_variable
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:job_portal/Models/get_otp.dart';
+import 'package:job_portal/Services/api_services.dart';
 import 'package:job_portal/Views/SignIn/verifyOtp.dart';
 
 class RegisterStep1 extends StatefulWidget {
@@ -12,24 +13,14 @@ class RegisterStep1 extends StatefulWidget {
 }
 
 class _RegisterStep1State extends State<RegisterStep1> {
-  int currentStep = 0;
   var formKey = GlobalKey<FormState>();
   var mobileController = TextEditingController();
+  ApiServices apiServices = ApiServices();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 40, bottom: 40, left: 10),
-            child: Text(
-              "Let\'s Create Your Account - Step 1",
-              textAlign: TextAlign.left,
-              style: GoogleFonts.lato(
-                textStyle: TextStyle(fontSize: 28, fontWeight: FontWeight.w900),
-              ),
-            ),
-          ),
           Image.asset(
             "assets/illustration_one.png",
             height: 180,
@@ -43,7 +34,10 @@ class _RegisterStep1State extends State<RegisterStep1> {
             child: Text(
               "Register with a Mobile Number",
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
+              style: TextStyle(
+                  fontSize: 20,
+                  fontFamily: "ProximaNova",
+                  fontWeight: FontWeight.w900),
             ),
           ),
           SizedBox(
@@ -52,7 +46,10 @@ class _RegisterStep1State extends State<RegisterStep1> {
           Center(
             child: Text(
               "Enter Your Mobile Number we will send you OTP to Verify",
-              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+              style: TextStyle(
+                  fontSize: 12,
+                  fontFamily: "ProximaNova",
+                  fontWeight: FontWeight.w600),
             ),
           ),
           SizedBox(
@@ -71,7 +68,9 @@ class _RegisterStep1State extends State<RegisterStep1> {
                     width: 50,
                     margin: const EdgeInsets.fromLTRB(0, 10, 3, 30),
                     decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: Colors.grey),),
+                      border: Border(
+                        bottom: BorderSide(color: Colors.grey),
+                      ),
                     ),
                     child: Center(
                       child: Text(
@@ -90,6 +89,7 @@ class _RegisterStep1State extends State<RegisterStep1> {
                     key: formKey,
                     child: TextFormField(
                       controller: mobileController,
+                      
                       maxLines: 1,
                       maxLength: 10,
                       decoration: const InputDecoration(
@@ -116,17 +116,34 @@ class _RegisterStep1State extends State<RegisterStep1> {
           SizedBox(
             height: 20,
           ),
-           Padding(
-             padding: const EdgeInsets.all(10.0),
-             child: GFButton(
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Verification(),),);
-                    },
-                    text: "Get OTP",
-                    type: GFButtonType.solid,
-                    blockButton: true,
-                  ),
-           ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: GFButton(
+              onPressed: () {
+                if(formKey.currentState.validate()){
+                  bool flag = false;
+                  ApiServices().getOTP(GetOTP(mobileNo: mobileController.text),).then((value){
+                    flag = value.data;
+                  });
+                  !flag ? Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Verification(),),) : showDialog(context: context, builder: (context){
+                    return AlertDialog(
+                      title: Text("Something went wrong while Receiving OTP"),
+                      actions: [
+                        IconButton(onPressed: (){
+                          Navigator.of(context).pop();
+                        }, icon: Icon(Icons.close),),
+                      ],
+                    );
+                  });
+                }else{
+
+                }
+              },
+              text: "Get OTP",
+              type: GFButtonType.solid,
+              blockButton: true,
+            ),
+          ),
         ],
       ),
     );
