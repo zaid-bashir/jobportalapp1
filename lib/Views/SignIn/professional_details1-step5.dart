@@ -36,6 +36,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
     "E-Learning"
   ];
   DateTime selectedDate;
+
   // int groupValue = 1;
   // int groupValue2 = 1;
   // List lists = ["delhi", "mumbai", "chennai", "kashmir"];
@@ -82,8 +83,6 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-
-
                         const SizedBox(
                           height: 15,
                         ),
@@ -97,7 +96,6 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-
                               const Padding(
                                 padding: EdgeInsets.only(
                                   top: 5,
@@ -180,6 +178,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                               fontWeight: FontWeight.bold,
                                               fontFamily: "ProximaNova")),
                                     )
+                              // logic for the gfbutton  Goes here
                                   : Container(),
                               groupValue == 0
                                   ? SizedBox(
@@ -392,7 +391,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                   : SizedBox(
                                       height: 10,
                                     ),
-                             
+
                               // const Text('Previous Designation',
                               //     style: TextStyle(fontSize:15,
                               //         fontWeight: FontWeight.bold,
@@ -437,8 +436,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                   ? Container()
                                   : TextField(
                                       decoration: InputDecoration(
-                                        hintText:
-                                            "Previous Salary('Annually')",
+                                        hintText: "Previous Salary('Annually')",
                                         hintStyle: TextStyle(
                                           color: Colors.blueGrey,
                                           fontFamily: "ProximaNova",
@@ -449,7 +447,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                       ),
                                     ),
 
- groupValue == 0
+                              groupValue == 0
                                   ? Container()
                                   : Padding(
                                       padding: EdgeInsets.only(
@@ -482,7 +480,6 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                           SizedBox(
                                             width: 10,
                                           ),
-
                                           Expanded(
                                             child: TextField(
                                               decoration: InputDecoration(
@@ -493,8 +490,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                       ),
                                     ),
 
-
-                                    Padding(
+                              Padding(
                                 padding: EdgeInsets.only(
                                   top: 10,
                                 ),
@@ -508,8 +504,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                 height: 5,
                               ),
                               DropdownSearch<String>(
-                                dropdownSearchDecoration:
-                                    const InputDecoration(
+                                dropdownSearchDecoration: const InputDecoration(
                                   border: UnderlineInputBorder(
                                     borderSide: BorderSide(
                                       color: Colors.grey,
@@ -524,7 +519,6 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                 onChanged: print,
                                 hint: "Select Industry",
                               ),
-
                             ],
                           ),
                         ),
@@ -532,19 +526,25 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                     ),
                   ),
                 ),
-                 const SizedBox(height: 20,),
-                  Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Align(
-                alignment: Alignment.centerRight,
-                child: GFButton(
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>KeySkills(),),);
-                  },
-                  text: "Next",
-                  type: GFButtonType.solid,
-                )),
-          ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Align(
+                      alignment: Alignment.centerRight,
+                      child: GFButton(
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => KeySkills(),
+                            ),
+                          );
+                        },
+                        text: "Next",
+                        type: GFButtonType.solid,
+                      )),
+                ),
               ],
             ),
           ),
