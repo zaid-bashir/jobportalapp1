@@ -95,15 +95,27 @@ class _ItSkillsState extends State<ItSkills> {
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
                               fontFamily: "ProximaNova")),
-                      MultiSelectDialogField(
-                        items: _skills
-                            .map((e) =>
-                                MultiSelectItem(e, e.name))
-                            .toList(),
-                        listType: MultiSelectListType.CHIP,
-                        onConfirm: (values) {
-                          _skills = values;
-                        },
+                      DropdownSearch<String>(
+                        dropdownSearchDecoration: const InputDecoration(
+                          border: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                        mode: Mode.DIALOG,
+                        showSelectedItems: true,
+                        showSearchBox: true,
+                        items: [
+                          "Web Development",
+                          "Mobile App Development",
+                          "Back-end Developer",
+                          "Full-Stack Developer"
+                        ],
+                        // popupItemDisabled: (String s) => s.startsWith('I'),
+                        onChanged: print,
+                        hint: "Select Skills",
+                        // selectedItem: "Indian"
                       ),
                           
                       const SizedBox(
@@ -211,44 +223,26 @@ class _ItSkillsState extends State<ItSkills> {
               ),
 
  const SizedBox(height: 20,),
-                  Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Align(
-                alignment: Alignment.centerRight,
-                child: GFButton(
-                  onPressed: () => showDialog(context: context, builder: (BuildContext context) => AlertDialog(
-                    title: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Icon(Icons.check_circle_outline,
-                        color: Colors.green,
-                        size: 60,),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text("Skill added, Click add option to add more else click next ",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: "ProximaNova")),
-                      ],
-                    ) ,
-                    actions: [
-                      GFButton(onPressed: (){
-                        Navigator.of(context).pop();
-                      },text: "Add",),
-                      GFButton(onPressed: (){
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const CareerPreference(),),);
-
-                      },text: "Next",),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      GFButton(
+                        onPressed: () {},
+                        text: "Add",
+                        type: GFButtonType.solid,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      GFButton(
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>CareerPreference()));
+                     },
+                        text: "Next",
+                        type: GFButtonType.solid,
+                      ),
                     ],
-
-                  )),
-                  text: "Next",
-                  type: GFButtonType.solid,
-                )),
-          ),
+                  ),
 
             ],
           ),
