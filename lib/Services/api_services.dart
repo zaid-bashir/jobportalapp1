@@ -9,9 +9,7 @@ import 'package:job_portal/Models/gettitle.dart';
 import 'package:job_portal/Models/verify_otp.dart';
 
 class ApiServices {
-  static String OTP = "";
-
-  Future<ApiResponse<String>> getOTP(GetOTP objGetOtp) async {
+  Future<ApiResponse<int>> getOTP(GetOTP objGetOtp) async {
     final url = Uri.parse(ApiUrls.kgetOTP);
     final headers = {
       "Content-Type": "application/json",
@@ -19,14 +17,18 @@ class ApiServices {
     final jsonData = jsonEncode({"registerMobile": objGetOtp.registerMobile});
     final response = await http.post(url, headers: headers, body: jsonData);
     if (response.statusCode == 200 || response.statusCode == 201) {
-      print(response.body);
-      return ApiResponse<String>(data: response.body);
+      final jsonData = jsonDecode(response.body);
+      final int data = jsonData;
+      print(data);
+      return ApiResponse<int>(data: data);
     }
-    return ApiResponse<String>(error: true, errorMessage: "An Error Occurred");
+    return ApiResponse<int>(
+        error: true,
+        errorMessage: "Failed to Receive the OTP, Please try Again");
   }
 
-  Future<ApiResponse<String>> verifyOTP(OTPVerify objOtpVerify) async {
-    final url = Uri.parse(ApiUrls.kverifyOTP + "/${objOtpVerify.otp}");
+  Future<ApiResponse<String>> otpVerify(OTPVerify objOtpVerify) async {
+    final url = Uri.parse(ApiUrls.kverifyOTP+"/"+"${objOtpVerify.otp}");
     final headers = {
       "Content-Type": "application/json",
     };
@@ -36,8 +38,9 @@ class ApiServices {
     }));
     final response = await http.post(url, headers: headers, body: jsonData);
     if (response.statusCode == 200 || response.statusCode == 201) {
-      print(response.body);
-      return ApiResponse<String>(data: response.body);
+      final jsonData = jsonDecode(response.body);
+      final String data = jsonData;
+      return ApiResponse<String>(data: data);
     }
     return ApiResponse<String>(error: true, errorMessage: "An Error Occurred");
   }

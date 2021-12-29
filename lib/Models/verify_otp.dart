@@ -6,7 +6,7 @@ class OTPVerify{
 
   OTPVerify.fromJson(Map<String,dynamic> json){
     registerMobile= json["registerMobile"];
-
+    otp = json["otp"];
   }
 
   Map<String,dynamic> toJson(){

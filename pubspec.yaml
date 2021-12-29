@@ -27,48 +27,41 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  font_awesome_flutter: ^9.2.0
   animate_do: ^2.0.0
-  iconsax: ^0.0.8
-  flutter_svg: ^0.22.0
-  flutter_verification_code: ^1.1.0
-  image_picker: ^0.8.4+3
-  getwidget:
-  google_fonts: ^2.1.0
-  provider:
-  loading_indicator: ^3.0.2
-  dotted_border: ^2.0.0+1
-  file_picker: ^4.1.6
-  dio: ^4.0.0
-  fl_chart: ^0.40.6
-  dropdown_search: ^2.0.0
-  date_field: ^2.1.2
-  multi_select_flutter: ^4.0.0
-
-  flutter:
-    sdk: flutter
-
+  autocomplete_textfield: ^1.7.3
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  autocomplete_textfield: ^1.7.3
+  date_field: ^2.1.2
+  dio: ^4.0.0
+  dotted_border: ^2.0.0+1
+  dropdown_search: ^2.0.0
+  file_picker: ^4.1.6
+  fl_chart: ^0.40.6
+
+  flutter:
+    sdk: flutter
+  flutter_svg: ^0.22.0
+  flutter_verification_code: ^1.1.0
+  font_awesome_flutter: ^9.2.0
+  getwidget: null
+  google_fonts: ^2.1.0
+  iconsax: ^0.0.8
+  image_picker: ^0.8.4+3
+  loading_indicator: ^3.0.2
+  multi_select_flutter: ^4.0.0
+  provider: null
 
 dev_dependencies:
-  flutter_test:
-
-    sdk: flutter
-
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
+  awesome_dialog: ^2.1.2
   flutter_lints: ^1.0.0
+  flutter_test:
+    sdk: flutter
+  fluttertoast: ^8.0.8
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-
 # The following section is specific to Flutter.
 flutter:
 
@@ -84,13 +77,10 @@ flutter:
     - assets/user/
     - assets/icon/
 
-
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
-
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
-
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a
