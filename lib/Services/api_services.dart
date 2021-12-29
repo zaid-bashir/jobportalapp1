@@ -2,11 +2,11 @@
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:job_portal/Consts/apiurls.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/get_otp.dart';
 import 'package:job_portal/Models/gettitle.dart';
 import 'package:job_portal/Models/verify_otp.dart';
-import 'package:job_portal/consts/apiurls.dart';
 
 class ApiServices {
   static String OTP = "";
