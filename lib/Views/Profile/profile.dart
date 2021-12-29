@@ -929,7 +929,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                               mainAxisSize: MainAxisSize.min,
                                               children: const <Widget>[
                                                 Text(
-                                                  ' Profile Summary',
+                                                  ' Profile Headline',
                                                   style: TextStyle(
                                                       fontSize: 16.0,
                                                       fontWeight: FontWeight.bold),
@@ -1285,7 +1285,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      ' Profile Summary',
+                                      ' Profile Headline',
                                       style: TextStyle(
                                         fontSize: 14.0,
                                       ),
