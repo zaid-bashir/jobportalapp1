@@ -32,7 +32,6 @@ class Professional {
       this.compId,
       this.compName,
       this.designId,
-
       this.designName,
       this.sal,
       this.tenureYears,

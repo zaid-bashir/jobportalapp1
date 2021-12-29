@@ -2,9 +2,10 @@
 import 'package:date_field/date_field.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:getwidget/components/search_bar/gf_search_bar.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:job_portal/Views/SignIn/personaldetails.dart';
+import 'package:job_portal/Views/SignIn/step9-personaldetails.dart';
 class CareerPreference extends StatefulWidget {
   const CareerPreference({Key key}) : super(key: key);
 
@@ -332,8 +333,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 children:  <Widget>[
-                                   Icon(Icons.attach_money),
-
+                                  Icon(FontAwesomeIcons.rupeeSign,),
 
                                   SizedBox(width: 10,),
                                   Expanded(

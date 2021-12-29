@@ -1,15 +1,15 @@
 class GetOTP{
-  String mobileNo;
+  String registerMobile;
 
-  GetOTP({this.mobileNo});
+  GetOTP({this.registerMobile});
 
   GetOTP.fromJson(Map<String,dynamic> json){
-    mobileNo = json["mobileNo"];
+    registerMobile = json["registerMobile"];
   }
 
   Map<String,dynamic> toJson(){
     final Map<String,dynamic> data = <String,dynamic>{};
-    data["mobileNo"] = mobileNo;
+    data["registerMobile"] = registerMobile;
     return data;
   }
 
