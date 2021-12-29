@@ -240,7 +240,7 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                   Padding(
                     padding: EdgeInsets.all(10),
                     child: Text(
-                      "Profile Summary",
+                      "Profile Headline",
                       style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
@@ -252,7 +252,7 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                     child: TextFormField(
                       maxLines: 2,
                       decoration: InputDecoration(
-                        labelText: "Profile Summary",
+                        labelText: "Profile Headline",
                         border: UnderlineInputBorder(
                           borderSide: BorderSide(
                             color: Colors.grey,

@@ -7,6 +7,7 @@ import 'dart:async';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
 import 'package:job_portal/Models/verify_otp.dart';
 import 'package:job_portal/Services/api_services.dart';
+import 'package:job_portal/Views/SignIn/step2-basicdetails.dart';
 
 class VerifyOTP extends StatefulWidget {
   VerifyOTP({Key key, this.registerMobile, this.otp}) : super(key: key);
@@ -247,7 +248,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
                         //   );
                         // });
                         print(flag);
-                        // Navigator.of(context).push(MaterialPageRoute(builder: (context)=>BasicDetails()));
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>BasicDetails()));
                       },
                       // _code.length < 4 ? () => {} : () { verify(); },
                       color: Colors.orange.shade400,
