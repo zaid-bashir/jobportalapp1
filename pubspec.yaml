@@ -3,7 +3,7 @@ description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -28,28 +28,24 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   animate_do: ^2.0.0
-  autocomplete_textfield: ^1.7.3
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
   date_field: ^2.1.2
   dio: ^4.0.0
   dotted_border: ^2.0.0+1
   dropdown_search: ^2.0.0
   file_picker: ^4.1.6
   fl_chart: ^0.40.6
+  font_awesome_flutter: ^9.2.0
 
   flutter:
     sdk: flutter
   flutter_svg: ^0.22.0
   flutter_verification_code: ^1.1.0
-  font_awesome_flutter: ^9.2.0
   getwidget: null
   google_fonts: ^2.1.0
   iconsax: ^0.0.8
   image_picker: ^0.8.4+3
   loading_indicator: ^3.0.2
+  logger: ^1.1.0
   multi_select_flutter: ^4.0.0
   provider: null
 
@@ -59,12 +55,12 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   fluttertoast: ^8.0.8
+  logger: ^1.1.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
