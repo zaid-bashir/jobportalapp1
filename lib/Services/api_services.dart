@@ -1,16 +1,17 @@
-// ignore_for_file: avoid_print, non_constant_identifier_names, unused_local_variable, unnecessary_string_interpolations
-
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:job_portal/Consts/apiurls.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/get_otp.dart';
-import 'package:job_portal/Models/getgender.dart';
-
 import 'package:job_portal/Models/gettitle.dart';
+import 'package:job_portal/Models/grading-system.dart';
+import 'package:job_portal/Models/passing-year.dart';
+import 'package:job_portal/Models/qualification-details.dart';
 import 'package:job_portal/Models/verify_otp.dart';
-import 'package:job_portal/consts/apiurls.dart';
+import 'package:logger/logger.dart';
 
 class ApiServices {
+  var log = Logger();
   static String OTP = "";
 
   Future<ApiResponse<String>> getOTP(GetOTP objGetOtp) async {
@@ -21,7 +22,8 @@ class ApiServices {
     final jsonData = jsonEncode({"registerMobile": objGetOtp.registerMobile});
     final response = await http.post(url, headers: headers, body: jsonData);
     if (response.statusCode == 200 || response.statusCode == 201) {
-      print(response.body);
+      log.i(response.body);
+      log.i(response.statusCode);
       return ApiResponse<String>(data: response.body);
     }
     return ApiResponse<String>(error: true, errorMessage: "An Error Occurred");
@@ -38,7 +40,8 @@ class ApiServices {
     }));
     final response = await http.post(url, headers: headers, body: jsonData);
     if (response.statusCode == 200 || response.statusCode == 201) {
-      print(response.body);
+      log.i(response.body);
+      log.i(response.statusCode);
       return ApiResponse<String>(data: response.body);
     }
     return ApiResponse<String>(error: true, errorMessage: "An Error Occurred");
@@ -59,6 +62,8 @@ class ApiServices {
       for (var item in jsonData) {
         list.add(GetTitle.fromJson(item));
       }
+      log.i(response.body);
+      log.i(response.statusCode);
       print(list);
       return ApiResponse<List<GetTitle>>(data: list);
     }
@@ -66,8 +71,10 @@ class ApiServices {
         error: true, errorMessage: "An error occurred");
   }
 
-  Future<ApiResponse<List<GetGender>>> getGender() async {
-    final url = Uri.parse(ApiUrls.kgender);
+
+  // PASSING YEAR DROPDOWN IN QUALIFICATION PAGE
+  Future<ApiResponse<List<PassingYear>>> getPassingYear() async {
+    final url = Uri.parse(ApiUrls.kPassingYear);
     final header = {
       "Content-Type": "application/json",
     };
@@ -77,14 +84,43 @@ class ApiServices {
     );
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body);
-      final list = <GetGender>[];
+      final list = <PassingYear>[];
       for (var item in jsonData) {
-        list.add(GetGender.fromJson(item));
+        list.add(PassingYear.fromJson(item));
       }
-      print(response.statusCode);
-      return ApiResponse<List<GetGender>>(data: list);
+      log.i(response.body);
+      log.i(response.statusCode);
+      print(list);
+      return ApiResponse<List<PassingYear>>(data: list);
     }
-    return ApiResponse<List<GetGender>>(
+    return ApiResponse<List<PassingYear>>(
         error: true, errorMessage: "An error occurred");
   }
+  // GRADING DROPDOWN IN QUALIFICATION PAGE
+  Future<ApiResponse<List<GradingSystem>>> getGradingSystem() async {
+    final url = Uri.parse(ApiUrls.kGradingSystem);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <GradingSystem>[];
+      for (var item in jsonData) {
+        list.add(GradingSystem.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      print(list);
+      return ApiResponse<List<GradingSystem>>(data: list);
+    }
+    return ApiResponse<List<GradingSystem>>(
+        error: true, errorMessage: "An error occurred");
+  }
+  // update
+
+
 }
