@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:getwidget/components/search_bar/gf_search_bar.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:job_portal/Data_Controller/apiresponse.dart';
+import 'package:job_portal/Models/getshift.dart';
+import 'package:job_portal/Services/api_services.dart';
 import 'package:job_portal/Views/SignIn/step9-personaldetails.dart';
 class CareerPreference extends StatefulWidget {
   const CareerPreference({Key key}) : super(key: key);
@@ -55,14 +58,35 @@ class _CareerPreferenceState extends State<CareerPreference> {
     "Delhi"
 
   ];
-  List<String> lists6 = [
-   "First Shift",
-    "Second Shift",
-    "Night Shift",
-    "Fixed Shift"
+  // List<String> lists6 = [
+  //  "First Shift",
+  //   "Second Shift",
+  //   "Night Shift",
+  //   "Fixed Shift"
+  //
+  // ];
+  String myShift;
+  bool isLoading = false;
 
-  ];
+  ApiServices apiServices = ApiServices();
 
+  ApiResponse<List<PreferredShift>> _apiResponse;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchShift();
+  }
+
+  fetchShift() async {
+    setState(() {
+      isLoading = true;
+    });
+    _apiResponse = await apiServices.getShift();
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -384,22 +408,57 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                     Flexible(
                                       child:   Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: DropdownSearch<String>(
-                                          dropdownSearchDecoration: const InputDecoration(
-                                            border: UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: Colors.grey,
-                                              ),
+                                        child: DropdownButtonFormField(
+                                          // disabledHint: ,
+                                            decoration:const InputDecoration(
+                                                border: UnderlineInputBorder(
+
+                                                )
                                             ),
-                                          ),
-                                          mode: Mode.DIALOG,
-                                          showSelectedItems: true,
-                                          showSearchBox: true,
-                                          items: lists6,
-                                          // popupItemDisabled: (String s) => s.startsWith('I'),
-                                          onChanged: print,
-                                          hint: "Select Shift",
-                                        ),
+                                            hint: Text("Select shift"),
+                                            value: myShift,
+                                            onChanged: (newValue) {
+                                              setState(() {
+                                                myShift = newValue;
+                                              });
+                                            },
+                                            items: isLoading
+                                            ? ["Please Wait"]
+                                                .map(
+                                                  (value) => DropdownMenuItem(
+                                                  value: value,
+                                                  child: Text(
+                                                    value,
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                        FontWeight.normal,
+                                                        fontFamily:
+                                                        "ProximaNova"),
+                                                  )),
+                                            )
+                                                .toList()
+                                                : _apiResponse.data
+                                            .map(
+                                            (data) => DropdownMenuItem(
+                              value: data.shiftId,
+                              child: Text(
+                                "${data.shiftName}",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight:
+                                    FontWeight.normal,
+                                    fontFamily:
+                                    "ProximaNova"),
+                              ),
+                            ),
+                    )
+                        .toList(),
+
+
+
+
+                  ),
                                       ),
                                     ),
                                   ],

@@ -5,6 +5,7 @@ import 'package:getwidget/components/radio/gf_radio.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/it-skills.dart';
+import 'package:job_portal/Models/passing-year.dart';
 import 'package:job_portal/Services/api_services.dart';
 import 'package:job_portal/Views/SignIn/step8-careerpreference.dart';
 import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
@@ -60,7 +61,7 @@ class _ItSkillsState extends State<ItSkills> {
 
   ApiServices apiServices = ApiServices();
 
-  ApiResponse<List<ITSkills>> _apiResponse;
+  ApiResponse<List<PassingYear>> _apiResponse;
   @override
   void initState() {
     super.initState();
@@ -70,7 +71,7 @@ class _ItSkillsState extends State<ItSkills> {
     setState(() {
       isLoading = true;
     });
-    _apiResponse = await apiServices.getItSkills();
+    _apiResponse = await apiServices.getPassingYear();
     setState(() {
       isLoading = false;
     });
