@@ -39,11 +39,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
   int groupValue = 0;
   bool _status = true;
   final FocusNode myFocusNode = FocusNode();
-  bool _status2 = true;
-  bool _status3 = true;
-  bool _status4 = true;
-  bool _status5 = true;
-  bool _status6 = true;
+
   AnimationController loadingController;
 
   File _file;

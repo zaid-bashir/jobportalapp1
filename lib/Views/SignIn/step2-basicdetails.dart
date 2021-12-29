@@ -166,7 +166,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                                               ),
                                             )
                                             .toList(),
-                                  value: mySelection,
+                                    value: mySelection,
                                   ),
                                 ),
                               ),
