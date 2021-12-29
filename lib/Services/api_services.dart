@@ -1,4 +1,3 @@
-// ignore_for_file: avoid_print, non_constant_identifier_names
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -27,23 +26,20 @@ class ApiServices {
 
   //SERVICE FOR TITLE STARTS HERE
 
-    Future<ApiResponse<Map<String,String>>> getTitle() async {
+    Future<ApiResponse<String>> getTitle() async {
       final url = Uri.parse(ApiUrls.kgetTitle);
       final headers = {
         "Content-Type": "application/json",
       };
-
       final response = await http.get(url, headers: headers);
-      Map<String,String> titles = {};
+      String titles;
       if (response.statusCode == 200 ) {
-        titles = jsonDecode(response.body);
+        titles = response.body;
         print(titles);
-        print(titles.runtimeType);
-        return ApiResponse<Map<String,String>>(data: titles);
+        return ApiResponse<String>(data: titles);
       }
-      return ApiResponse<Map<String,String>>(error: true, errorMessage: "An Error Occurred");
+      return ApiResponse<String>(error: true, errorMessage: "An Error Occurred");
     }
 
-//SERVICE FOR TITLE ENDS HERE
 
 }

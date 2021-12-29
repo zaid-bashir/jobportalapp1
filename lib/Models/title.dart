@@ -1,10 +1,16 @@
-class Title  {
+class TitleModel  {
   int titleId;
   String titleName;
 
-  Title ({
+  TitleModel ({
    this.titleId,
    this.titleName,
 });
+
+  factory TitleModel.fromJson(Map<String, dynamic> item) {
+    return TitleModel(
+        titleId: item["titleId"], titleName: item["titleName"]);
+  }
+
 
 }

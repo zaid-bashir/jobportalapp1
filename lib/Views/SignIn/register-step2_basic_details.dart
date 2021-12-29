@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_final_fields, unused_field, avoid_print, prefer_const_constructors, missing_required_param, deprecated_member_use
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dropdown_search/dropdown_search.dart';
@@ -7,8 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:job_portal/Models/title.dart';
+import 'package:http/http.dart' as http;
 import 'package:job_portal/Services/api_services.dart';
 import 'package:job_portal/Views/SignIn/register_step3_collars.dart';
+import 'package:job_portal/consts/apiurls.dart';
 
 class RegisterStep2 extends StatefulWidget {
   const RegisterStep2({Key key}) : super(key: key);
@@ -108,9 +112,38 @@ class _RegisterStep2State extends State<RegisterStep2> {
   //   }
   // }
   ApiServices obj = ApiServices();
+
+  var courseList = <TitleModel>[];
+
+  Future<List<TitleModel>> fetchCourses() async {
+    final url = Uri.parse(ApiUrls.kgetTitle);
+    final headers = {
+      "Content-Type": "application/json",
+    };
+    final response = await  http.get(
+        url,
+        headers: headers
+    );
+
+    var courses = <TitleModel>[];
+    if (response.statusCode == 200) {
+      var coursesJson = jsonDecode(response.body);
+      print(response.body);
+      for (var data in coursesJson) {
+        courses.add(TitleModel.fromJson(data));
+      }
+    } else {
+      throw Exception('Failed to Fetch Courses');
+    }
+    setState(() {
+      courseList = courses;
+    });
+    return courses;
+  }
 var data;
 @override
   void initState() {
+  fetchCourses();
   super.initState();
   data = obj.getTitle();
   }
@@ -133,7 +166,7 @@ var data;
                   width: 10,
                 ),
                 Text(
-                  "$data",
+                  "Register",
                   style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -216,26 +249,28 @@ var data;
                                     ),
                               child: Padding(
                                 padding: const EdgeInsets.all(5.0),
-                                child: DropdownButtonHideUnderline(
-                                  child: GFDropdown(
-                                    hint: Text("Title",style: TextStyle(fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),),
-                                    value: mySelection,
-                                    onChanged: (newValue) {
-                                      setState(() {
-                                        mySelection = newValue;
-                                      });
-                                    },
-                                    items: salutation
-                                        .map(
-                                          (value) => DropdownMenuItem(
-                                              value: value, child: Text(value,style: TextStyle(fontSize: 15,
-                              fontWeight: FontWeight.normal,
-                              fontFamily: "ProximaNova"),)),
-                                        )
-                                        .toList(),
+                                child:  DropdownButtonFormField(
+                                  // disabledHint: ,
+                                  decoration:const InputDecoration(
+                                    border: OutlineInputBorder(
+                                      borderSide: BorderSide.none,
+                                    ),
                                   ),
+                                  hint: Text(courseList[0].titleName ??"hello"),
+                                  items: courseList.map((item) {
+                                    return DropdownMenuItem(
+
+                                      child: Text(item.titleName ??"hello"),
+                                      value: item.titleId.toString(),
+                                    );
+                                  }).toList(),
+
+                                  onChanged: (newVal) {
+                                    setState(() {
+                                      mySelection = newVal;
+                                    });
+                                  },
+                                  value: mySelection,
                                 ),
                               ),
                             ),
