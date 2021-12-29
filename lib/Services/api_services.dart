@@ -2,11 +2,13 @@
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:job_portal/Consts/apiurls.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/get_otp.dart';
+import 'package:job_portal/Models/getgender.dart';
+
 import 'package:job_portal/Models/gettitle.dart';
 import 'package:job_portal/Models/verify_otp.dart';
+import 'package:job_portal/consts/apiurls.dart';
 
 class ApiServices {
   static String OTP = "";
@@ -61,6 +63,28 @@ class ApiServices {
       return ApiResponse<List<GetTitle>>(data: list);
     }
     return ApiResponse<List<GetTitle>>(
+        error: true, errorMessage: "An error occurred");
+  }
+
+  Future<ApiResponse<List<GetGender>>> getGender() async {
+    final url = Uri.parse(ApiUrls.kgender);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <GetGender>[];
+      for (var item in jsonData) {
+        list.add(GetGender.fromJson(item));
+      }
+      print(response.statusCode);
+      return ApiResponse<List<GetGender>>(data: list);
+    }
+    return ApiResponse<List<GetGender>>(
         error: true, errorMessage: "An error occurred");
   }
 }

@@ -328,19 +328,23 @@ class _BasicDetailsState extends State<BasicDetails> {
                                 genderGroupValue = value;
                               });
                             },
+
                             inactiveIcon: null,
                             radioColor: Color(0xff2972ff),
                           ),
+
                           const SizedBox(
                             width: 7,
                           ),
                           const Text(
                             "Male",
+
                             style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: "ProximaNova"),
                           ),
+
                           const SizedBox(
                             width: 20,
                           ),
