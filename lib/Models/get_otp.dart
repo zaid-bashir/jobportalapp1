@@ -12,5 +12,4 @@ class GetOTP{
     data["registerMobile"] = registerMobile;
     return data;
   }
-
 }

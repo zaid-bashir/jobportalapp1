@@ -17,3 +17,27 @@ class GetTitle{
   }
 
 }
+
+// class TitleNew {
+//  String titleId;
+//  String titleDesc;
+//
+//  TitleNew({
+//   this.titleId,
+//   this.titleDesc,
+// });
+//  TitleNew.fromJson(Map<String, dynamic>json) {
+//   titleId =json["titleId"];
+//   titleDesc = json["titleId"];
+//
+//   Map<String,dynamic> toJson() {
+//    // final Map<String,dynamic> data = <String,dynamic>{};
+//    final Map<String, dynamic> data = <String
+//     data["titleId"] = titleId;
+//     data["titleDesc"] = titleDesc;
+// //     return data;
+//   }
+//
+//   }
+//
+// }

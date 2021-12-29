@@ -1,8 +1,11 @@
-// ignore_for_file: prefer_const_constructors, unnecessary_const, unused_field, unnecessary_new, curly_braces_in_flow_control_structures, sized_box_for_whitespace, unused_local_variable, avoid_print
+// ignore_for_file: prefer_const_constructors, unnecessary_const, unused_field, unnecessary_new, curly_braces_in_flow_control_structures, sized_box_for_whitespace, unused_local_variable, avoid_print, unnecessary_string_interpolations, avoid_single_cascade_in_expression_statements
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/get_otp.dart';
 import 'package:job_portal/Services/api_services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:job_portal/Views/SignIn/step1-verifyotp.dart';
 
 class OTP extends StatefulWidget {
@@ -13,9 +16,24 @@ class OTP extends StatefulWidget {
 }
 
 class _OTPState extends State<OTP> {
+  bool isLoading = false;
+  ApiServices apiServices = ApiServices();
+
+  ApiResponse<int> _apiResponse;
+
+  fetchOTP(String mobileNumber) async {
+    setState(() {
+      isLoading = true;
+    });
+    _apiResponse =
+        await apiServices.getOTP(GetOTP(registerMobile: mobileNumber));
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   var formKey = GlobalKey<FormState>();
   var mobileController = TextEditingController();
-  ApiServices apiServices = ApiServices();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -123,26 +141,49 @@ class _OTPState extends State<OTP> {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: GFButton(
-              onPressed: () {
+              onPressed: () async {
+                await fetchOTP(mobileController.text);
                 if (formKey.currentState.validate()) {
-                  int flag = 0;
-                  ApiServices()
-                      .getOTP(
-                    GetOTP(registerMobile: mobileController.text),
-                  )
-                      .then((value) {
-                    flag = int.parse(value.data);
-                    print("===========================");
-                    print(flag);
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => VerifyOTP(
-                          registerMobile: mobileController.text,
-                          otp: flag,
-                        ),
-                      ),
-                    );
-                  });
+                  if (isLoading) {
+                    AwesomeDialog(
+                      context: context,
+                      animType: AnimType.SCALE,
+                      dialogType: DialogType.ERROR,
+                      title: 'JobPortalApp',
+                      desc: '${_apiResponse.errorMessage}',
+                      btnOkOnPress: () {
+                        Navigator.of(context).pop();
+                      },
+                    )..show();
+                  } else {
+                    AwesomeDialog(
+                      context: context,
+                      animType: AnimType.SCALE,
+                      dialogType: DialogType.SUCCES,
+                      title: 'JobPortalApp',
+                      desc:
+                          'OTP Successfully Sent to Mobile Number +91-${mobileController.text}',
+                      btnOkOnPress: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => VerifyOTP(
+                              registerMobile: mobileController.text,
+                              otp: _apiResponse.data,
+                            ),
+                          ),
+                        );
+                      },
+                    )..show();
+                  }
+                } else {
+                  Fluttertoast.showToast(
+                      msg: "Phone Number Not Valid",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.red,
+                      textColor: Colors.white,
+                      fontSize: 16.0);
                 }
               },
               text: "Get OTP",
