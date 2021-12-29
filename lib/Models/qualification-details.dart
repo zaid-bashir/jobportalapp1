@@ -9,15 +9,15 @@ class  Qualification {
   String courseType;
   int instituteId;
   String instituteName;
-  int passingId;
-  String passingName;
-  int gradingId;
-  String gradingName;
+  int  yearId;
+  int  yearName;
+  String gradingsystemId;
+  String gradingsystemName;
   String value;
 
 
   Qualification({this.summary,this.qualificationId,this.qualificationName,this.streamId,this.streamName,this.courseType,
-    this.instituteId,this.instituteName, this.passingId,this.passingName,this.gradingId,this.gradingName,this.value,this.courseId,
+    this.instituteId,this.instituteName, this.yearId,this.yearName,this.gradingsystemId,this.gradingsystemName,this.value,this.courseId,
     this.courseName});
 
 
@@ -31,10 +31,10 @@ class  Qualification {
         courseType: item["courseType"],
         instituteId: item["instituteId"],
         instituteName: item["instituteName"],
-        passingId: item["passingId"],
-        passingName: item["passingName"],
-        gradingId: item["gradingId"],
-        gradingName: item["gradingName"],
+        yearId: item["yearId"],
+        yearName: item["yearName"],
+        gradingsystemId: item["gradingsystemId"],
+        gradingsystemName: item["gradingsystemName"],
         value: item["value"],
         courseId: item["courseId"],
         courseName: item["courseName"]);
@@ -50,10 +50,10 @@ class  Qualification {
       "courseType": courseType,
       "instituteId": instituteId,
       "instituteName": instituteName,
-      "passingId": passingId,
-      "passingName": passingName,
-      "gradingId": gradingId,
-      "gradingName": gradingName,
+      "yearId": yearId,
+      "yearName": yearName,
+      "gradingsystemId": gradingsystemId,
+      "gradingsystemName": gradingsystemName,
       "value": value,
       "courseName": courseName,
       "courseId" : courseId

@@ -1,4 +1,3 @@
-// ignore_for_file: prefer_const_constructors, avoid_print, missing_required_param, avoid_unnecessary_containers
 
 import 'dart:io';
 
@@ -6,6 +5,10 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:job_portal/Data_Controller/apiresponse.dart';
+import 'package:job_portal/Models/grading-system.dart';
+import 'package:job_portal/Models/passing-year.dart';
+import 'package:job_portal/Services/api_services.dart';
 import 'package:job_portal/Views/SignIn/step5-professionaldetails.dart';
 
 class QualificationBlueCollar extends StatefulWidget {
@@ -37,17 +40,6 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
     loadingController.forward();
   }
 
-  @override
-  void initState() {
-    loadingController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 10),
-    )..addListener(() {
-        setState(() {});
-      });
-
-    super.initState();
-  }
 
   var highestQualificationSelect;
   var courseSelect;
@@ -111,6 +103,44 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
     "1979",
     "1980"
   ];
+  ApiServices apiServices = ApiServices();
+
+  ApiResponse<List<GradingSystem>> _apiResponse;
+  ApiResponse<List<PassingYear>> _apiResponse2;
+  @override
+  void initState() {
+    fetchPassingYear();
+    fetchGradingSystem();
+    loadingController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 10),
+    )..addListener(() {
+      setState(() {});
+    });
+
+    super.initState();
+  }
+
+  bool isLoading = false;
+  fetchGradingSystem() async {
+    setState(() {
+      isLoading = true;
+    });
+    _apiResponse = await apiServices.getGradingSystem();
+    setState(() {
+      isLoading = false;
+    });
+  }
+  fetchPassingYear() async {
+    setState(() {
+      isLoading = true;
+    });
+    _apiResponse2 = await apiServices.getPassingYear();
+    setState(() {
+      isLoading = false;
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -614,14 +644,30 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                                     value: myPassingYear,
                                     onChanged: (newValue) {
                                       setState(() {
-                                        myGradingSystem = newValue;
+                                        myPassingYear = newValue;
                                       });
                                     },
-                                    items: myPassingYearList
+                                      items: isLoading
+                                      ? ["Please Wait"]
+                                          .map(
+                                            (value) => DropdownMenuItem(
+                                            value: value,
+                                            child: Text(
+                                              value,
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight:
+                                                  FontWeight.normal,
+                                                  fontFamily:
+                                                  "ProximaNova"),
+                                            )),
+                                      )
+                                          .toList():
+                                      _apiResponse2.data
                                         .map(
-                                          (value) => DropdownMenuItem(
-                                              value: value,
-                                              child: Text(value)),
+                                          (data) => DropdownMenuItem(
+                                              value: data.yearId,
+                                              child: Text(data.yearName)),
                                         )
                                         .toList(),
                                   ),
@@ -661,11 +707,28 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                                         myGradingSystem = newValue;
                                       });
                                     },
-                                    items: gradingSystem
-                                        .map(
-                                          (value) => DropdownMenuItem(
+                                            items: isLoading
+                                        ? ["Please Wait"]
+                                            .map(
+                                              (value) => DropdownMenuItem(
                                               value: value,
-                                              child: Text(value)),
+                                              child: Text(
+                                                value,
+                                                style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight:
+                                                    FontWeight.normal,
+                                                    fontFamily:
+                                                    "ProximaNova"),
+                                              )),
+                                        )
+                                            .toList()
+                                            :
+                                    _apiResponse.data
+                                        .map(
+                                          (data) => DropdownMenuItem(
+                                              value: data.gradingsystemId,
+                                              child: Text(data.gradingsystemName)),
                                         )
                                         .toList(),
                                   ),
