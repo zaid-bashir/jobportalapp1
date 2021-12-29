@@ -6,7 +6,7 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:job_portal/Views/SignIn/professional_details1-step5.dart';
+import 'package:job_portal/Views/SignIn/step5-professionaldetails.dart';
 
 class QualificationBlueCollar extends StatefulWidget {
   const QualificationBlueCollar({Key key}) : super(key: key);
@@ -240,7 +240,7 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                   Padding(
                     padding: EdgeInsets.all(10),
                     child: Text(
-                      "Profile Summary",
+                      "Profile Headline",
                       style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
@@ -252,7 +252,7 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                     child: TextFormField(
                       maxLines: 2,
                       decoration: InputDecoration(
-                        labelText: "Profile Summary",
+                        labelText: "Profile Headline",
                         border: UnderlineInputBorder(
                           borderSide: BorderSide(
                             color: Colors.grey,
