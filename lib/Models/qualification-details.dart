@@ -1,4 +1,4 @@
-class Qualification {
+class  Qualification {
   String summary;
   int qualificationId;
   String qualificationName;
@@ -15,22 +15,11 @@ class Qualification {
   String gradingName;
   String value;
 
-  Qualification(
-      {this.summary,
-      this.qualificationId,
-      this.qualificationName,
-      this.streamId,
-      this.streamName,
-      this.courseType,
-      this.instituteId,
-      this.instituteName,
-      this.passingId,
-      this.passingName,
-      this.gradingId,
-      this.gradingName,
-      this.value,
-      this.courseId,
-      this.courseName});
+
+  Qualification({this.summary,this.qualificationId,this.qualificationName,this.streamId,this.streamName,this.courseType,
+    this.instituteId,this.instituteName, this.passingId,this.passingName,this.gradingId,this.gradingName,this.value,this.courseId,
+    this.courseName});
+
 
   factory Qualification.fromJson(Map<String, dynamic> item) {
     return Qualification(
@@ -67,7 +56,8 @@ class Qualification {
       "gradingName": gradingName,
       "value": value,
       "courseName": courseName,
-      "courseId": courseId
+      "courseId" : courseId
     };
   }
+
 }

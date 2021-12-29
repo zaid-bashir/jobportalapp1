@@ -17,7 +17,7 @@ class Professional {
   String tenureYears;
   String tenureMonths;
 
-// constructor
+// changes
   Professional(
       {this.working,
       this.companyId,
@@ -32,7 +32,6 @@ class Professional {
       this.compId,
       this.compName,
       this.designId,
-
       this.designName,
       this.sal,
       this.tenureYears,

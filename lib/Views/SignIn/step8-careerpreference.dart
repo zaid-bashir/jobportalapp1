@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:getwidget/components/search_bar/gf_search_bar.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:job_portal/Views/SignIn/personaldetails.dart';
+import 'package:job_portal/Views/SignIn/step9-personaldetails.dart';
 class CareerPreference extends StatefulWidget {
   const CareerPreference({Key key}) : super(key: key);
 
