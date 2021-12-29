@@ -18,9 +18,6 @@ class RegisterStep2 extends StatefulWidget {
 }
 
 class _RegisterStep2State extends State<RegisterStep2> {
-
-
-
   List<String> jobCategoryList = [
     "Software Engineer",
     "Network Engineer",
@@ -35,11 +32,11 @@ class _RegisterStep2State extends State<RegisterStep2> {
   String myLocation;
 
   List<String> salutation = [
-    "Mr",
-    "Ms",
-    "Shri",
-    "Mrs",
-    "Mx",
+    "a",
+    "b",
+    "c",
+    "f",
+    "v",
   ];
 
   String mySelection;
@@ -108,12 +105,14 @@ class _RegisterStep2State extends State<RegisterStep2> {
   //   }
   // }
   ApiServices obj = ApiServices();
-var data;
-@override
+  var data;
+
+  @override
   void initState() {
-  super.initState();
-  data = obj.getTitle();
+    super.initState();
+    data = obj.getTitle();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -133,12 +132,11 @@ var data;
                   width: 10,
                 ),
                 Text(
-                  "$data",
+                  "Register new\naccount ",
                   style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      fontFamily: "ProximaNova"
-                  ),
+                      fontFamily: "ProximaNova"),
                 ),
               ],
             ),
@@ -194,7 +192,7 @@ var data;
           //         )),
           //   ]),
           // ),
-          
+
           Padding(
             padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
             child: Card(
@@ -203,7 +201,9 @@ var data;
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 10,),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     Row(
                       children: [
                         Expanded(
@@ -211,16 +211,21 @@ var data;
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
-                               decoration: BoxDecoration(
-                                      border: Border(bottom: BorderSide(color: Colors.grey)),
-                                    ),
+                              decoration: BoxDecoration(
+                                border: Border(
+                                    bottom: BorderSide(color: Colors.grey)),
+                              ),
                               child: Padding(
                                 padding: const EdgeInsets.all(5.0),
                                 child: DropdownButtonHideUnderline(
                                   child: GFDropdown(
-                                    hint: Text("Title",style: TextStyle(fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),),
+                                    hint: Text(
+                                      "Title",
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: "ProximaNova"),
+                                    ),
                                     value: mySelection,
                                     onChanged: (newValue) {
                                       setState(() {
@@ -230,9 +235,15 @@ var data;
                                     items: salutation
                                         .map(
                                           (value) => DropdownMenuItem(
-                                              value: value, child: Text(value,style: TextStyle(fontSize: 15,
-                              fontWeight: FontWeight.normal,
-                              fontFamily: "ProximaNova"),)),
+                                              value: value,
+                                              child: Text(
+                                                value,
+                                                style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    fontFamily: "ProximaNova"),
+                                              )),
                                         )
                                         .toList(),
                                   ),
@@ -250,9 +261,10 @@ var data;
                             decoration: InputDecoration(
                               contentPadding: EdgeInsets.all(8.0),
                               labelText: 'First Name',
-                              labelStyle: TextStyle(fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),
+                              labelStyle: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: "ProximaNova"),
                               floatingLabelStyle: TextStyle(
                                 color: Color(0xff2972ff),
                                 fontFamily: "ProximaNova",
@@ -268,14 +280,14 @@ var data;
                             ),
                           ),
                         ),
-                        const SizedBox(width: 10,),
+                        const SizedBox(
+                          width: 10,
+                        ),
                       ],
                     ),
-            
                     const SizedBox(
                       height: 10,
                     ),
-            
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
@@ -286,9 +298,10 @@ var data;
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(8.0),
                                 labelText: 'Middle Name',
-                                labelStyle: TextStyle(fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),
+                                labelStyle: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: "ProximaNova"),
                                 floatingLabelStyle: TextStyle(
                                   color: Color(0xff2972ff),
                                   fontFamily: "ProximaNova",
@@ -304,15 +317,18 @@ var data;
                               ),
                             ),
                           ),
-                          SizedBox(width: 10,),
+                          SizedBox(
+                            width: 10,
+                          ),
                           Expanded(
                             child: const TextField(
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(8.0),
                                 labelText: 'Last Name',
-                                labelStyle: TextStyle(fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),
+                                labelStyle: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: "ProximaNova"),
                                 floatingLabelStyle: TextStyle(
                                   color: Color(0xff2972ff),
                                   fontFamily: "ProximaNova",
@@ -331,14 +347,17 @@ var data;
                         ],
                       ),
                     ),
-                    const SizedBox(height: 10,),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: const TextField(
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.all(8.0),
                           labelText: 'E-mail',
-                          labelStyle: TextStyle(fontSize: 15,
+                          labelStyle: TextStyle(
+                              fontSize: 15,
                               fontWeight: FontWeight.bold,
                               fontFamily: "ProximaNova"),
                           floatingLabelStyle: TextStyle(
@@ -360,17 +379,19 @@ var data;
                       height: 15,
                     ),
                     Padding(
-                      padding:
-                          const EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(8),
                       child: Text(
                         "Gender",
                         textAlign: TextAlign.left,
-                        style: TextStyle(fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "ProximaNova"),
                       ),
                     ),
-                    const SizedBox(height: 3,),
+                    const SizedBox(
+                      height: 3,
+                    ),
                     Padding(
                       padding: const EdgeInsets.all(8),
                       child: Row(
@@ -394,9 +415,10 @@ var data;
                           ),
                           const Text(
                             "Male",
-                            style: TextStyle(fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "ProximaNova"),
                           ),
                           const SizedBox(
                             width: 20,
@@ -419,9 +441,10 @@ var data;
                           ),
                           const Text(
                             "Female",
-                            style: TextStyle(fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "ProximaNova"),
                           ),
                           const SizedBox(
                             width: 7,
@@ -444,26 +467,28 @@ var data;
                           ),
                           const Text(
                             "Others",
-                           style: TextStyle(fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "ProximaNova"),
                           ),
                         ],
                       ),
-                    
                     ),
-            
                     Padding(
                       padding: const EdgeInsets.all(8),
                       child: Text(
                         "Experience",
                         textAlign: TextAlign.left,
-                       style: TextStyle(fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "ProximaNova"),
                       ),
                     ),
-                      const SizedBox(height: 3,),
+                    const SizedBox(
+                      height: 3,
+                    ),
                     Padding(
                       padding: const EdgeInsets.all(8),
                       child: Row(
@@ -487,9 +512,10 @@ var data;
                           ),
                           const Text(
                             "Yes",
-                            style: TextStyle(fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "ProximaNova"),
                           ),
                           const SizedBox(
                             width: 20,
@@ -512,9 +538,10 @@ var data;
                           ),
                           const Text(
                             "No",
-                           style: TextStyle(fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "ProximaNova"),
                           ),
                         ],
                       ),
@@ -522,24 +549,22 @@ var data;
                     const SizedBox(
                       height: 10,
                     ),
-            
                     experienceGroupValue == 0
                         ? Padding(
                             padding: const EdgeInsets.all(8),
                             child: Text(
                               "Experience Tenure",
                               textAlign: TextAlign.left,
-                              style: TextStyle(fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: "ProximaNova"),
                             ),
                           )
                         : Container(),
-            
                     const SizedBox(
                       height: 3,
                     ),
-            
                     experienceGroupValue == 0
                         ? Row(
                             children: [
@@ -549,26 +574,58 @@ var data;
                                   padding: const EdgeInsets.all(8.0),
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      border: Border(bottom: BorderSide(color: Colors.grey)),
+                                      border: Border(
+                                          bottom:
+                                              BorderSide(color: Colors.grey)),
                                     ),
                                     child: DropdownButtonHideUnderline(
                                       child: GFDropdown(
-                                        hint: Text("Years",style: TextStyle(fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),),
-                                        borderRadius: BorderRadius.horizontal(left: Radius.zero,right: Radius.zero),
+                                        hint: Text(
+                                          "Years",
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "ProximaNova"),
+                                        ),
+                                        borderRadius: BorderRadius.horizontal(
+                                            left: Radius.zero,
+                                            right: Radius.zero),
                                         value: mySelectionYear,
                                         onChanged: (newValue) {
                                           setState(() {
                                             mySelectionYear = newValue;
                                           });
                                         },
-                                        items: ["0", "1", "2", "3","4","5","6","7","8","9","10","11","12","13","14","15"]
+                                        items: [
+                                          "0",
+                                          "1",
+                                          "2",
+                                          "3",
+                                          "4",
+                                          "5",
+                                          "6",
+                                          "7",
+                                          "8",
+                                          "9",
+                                          "10",
+                                          "11",
+                                          "12",
+                                          "13",
+                                          "14",
+                                          "15"
+                                        ]
                                             .map(
                                               (value) => DropdownMenuItem(
-                                                  value: value, child: Text(value,style: TextStyle(fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),)),
+                                                  value: value,
+                                                  child: Text(
+                                                    value,
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontFamily:
+                                                            "ProximaNova"),
+                                                  )),
                                             )
                                             .toList(),
                                       ),
@@ -581,14 +638,20 @@ var data;
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Container(
-                                     decoration: BoxDecoration(
-                                      border: Border(bottom: BorderSide(color: Colors.grey)),
+                                    decoration: BoxDecoration(
+                                      border: Border(
+                                          bottom:
+                                              BorderSide(color: Colors.grey)),
                                     ),
                                     child: DropdownButtonHideUnderline(
                                       child: GFDropdown(
-                                        hint: Text("Months",style: TextStyle(fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),),
+                                        hint: Text(
+                                          "Months",
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "ProximaNova"),
+                                        ),
                                         value: mySelectionMonth,
                                         onChanged: (newValue) {
                                           setState(() {
@@ -598,9 +661,16 @@ var data;
                                         items: ["0", "1", "2", "3", "4", "5"]
                                             .map(
                                               (value) => DropdownMenuItem(
-                                                  value: value, child: Text(value,style: TextStyle(fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),)),
+                                                  value: value,
+                                                  child: Text(
+                                                    value,
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontFamily:
+                                                            "ProximaNova"),
+                                                  )),
                                             )
                                             .toList(),
                                       ),
@@ -611,7 +681,7 @@ var data;
                             ],
                           )
                         : Container(),
-                        const SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Padding(
@@ -619,9 +689,10 @@ var data;
                       child: Text(
                         "Job Category",
                         textAlign: TextAlign.left,
-                        style: TextStyle(fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "ProximaNova"),
                       ),
                     ),
                     Center(
@@ -629,28 +700,30 @@ var data;
                         padding: const EdgeInsets.all(8.0),
                         child: DropdownSearch<String>(
                           hint: "Job Category",
-                          dropdownSearchBaseStyle: TextStyle(fontSize: 15,
+                          dropdownSearchBaseStyle: TextStyle(
+                              fontSize: 15,
                               fontWeight: FontWeight.bold,
                               fontFamily: "ProximaNova"),
                           dropdownSearchDecoration: const InputDecoration(
-                          border: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.grey,
+                            border: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.grey,
+                              ),
                             ),
                           ),
+                          mode: Mode.DIALOG,
+                          showSearchBox: true,
+                          showSelectedItems: true,
+                          items: jobCategoryList,
+                          // label: "Menu mode",
+                          popupItemDisabled: (String s) => s.startsWith('I'),
+                          onChanged: (item) {
+                            setState(() {
+                              myjobCategory = item;
+                            });
+                          },
+                          selectedItem: myjobCategory,
                         ),
-                            mode: Mode.DIALOG,
-                            showSearchBox: true,
-                            showSelectedItems: true,
-                            items: jobCategoryList,
-                            // label: "Menu mode",
-                            popupItemDisabled: (String s) => s.startsWith('I'),
-                            onChanged: (item){
-                              setState(() {
-                                myjobCategory = item;
-                              });
-                            },
-                            selectedItem: myjobCategory,),
                       ),
                     ),
                     const SizedBox(
@@ -661,34 +734,35 @@ var data;
                       child: Text(
                         "Current Location",
                         textAlign: TextAlign.left,
-                        style: TextStyle(fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "ProximaNova"),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: DropdownSearch<String>(
-                         hint: "Current Location",
-                          dropdownSearchBaseStyle: TextStyle(fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),
-                          dropdownSearchDecoration: const InputDecoration(
-                        ),
-                          mode: Mode.DIALOG,
-                          showSearchBox: true,
-                          showSelectedItems: true,
-                          items: locationList,
-                          // label: "Menu mode",
-                          popupItemDisabled: (String s) => s.startsWith('I'),
-                          onChanged: (item){
-                            setState(() {
-                              myLocation = item;
-                            });
-                          },
-                          selectedItem: myLocation,),
+                        hint: "Current Location",
+                        dropdownSearchBaseStyle: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "ProximaNova"),
+                        dropdownSearchDecoration: const InputDecoration(),
+                        mode: Mode.DIALOG,
+                        showSearchBox: true,
+                        showSelectedItems: true,
+                        items: locationList,
+                        // label: "Menu mode",
+                        popupItemDisabled: (String s) => s.startsWith('I'),
+                        onChanged: (item) {
+                          setState(() {
+                            myLocation = item;
+                          });
+                        },
+                        selectedItem: myLocation,
+                      ),
                     ),
-            
                     const SizedBox(
                       height: 40,
                     ),
@@ -700,21 +774,25 @@ var data;
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: Align(
-                        alignment: Alignment.centerRight,
-                        child: GFButton(
-                          text: "Next",
-                          type: GFButtonType.solid,
-                          blockButton: false,
-                          onPressed: (){
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>QualificationBlueCollar(),),);
-                          },
-                        ),
-                      ),
-          ),
-            
-                    const SizedBox(
-                      height: 40,
+              alignment: Alignment.centerRight,
+              child: GFButton(
+                text: "Next",
+                type: GFButtonType.solid,
+                blockButton: false,
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => QualificationBlueCollar(),
                     ),
+                  );
+                },
+              ),
+            ),
+          ),
+
+          const SizedBox(
+            height: 40,
+          ),
         ],
       ),
     );
