@@ -1,13 +1,7 @@
-// ignore_for_file: prefer_final_fields, unused_field, avoid_print, prefer_const_constructors, missing_required_param, deprecated_member_use
-
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:job_portal/Models/title.dart';
 import 'package:http/http.dart' as http;
 import 'package:job_portal/Services/api_services.dart';
