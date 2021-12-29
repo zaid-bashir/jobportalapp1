@@ -110,7 +110,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                     Row(
                       children: [
                         Expanded(
-                          flex: 2,
+                          flex: 3,
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
@@ -166,7 +166,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                                               ),
                                             )
                                             .toList(),
-                                  value: mySelection,
+                                    value: mySelection,
                                   ),
                                 ),
                               ),

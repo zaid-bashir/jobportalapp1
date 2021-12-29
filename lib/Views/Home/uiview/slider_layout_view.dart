@@ -69,7 +69,7 @@ class _SliderLayoutViewState extends State<SliderLayoutView> {
                           onTap:(){
                             Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
                           },
-                          child: Text(
+                          child: const Text(
                             Constants.NEXT,
                             style: TextStyle(
                               fontFamily: Constants.OPEN_SANS,
@@ -80,7 +80,7 @@ class _SliderLayoutViewState extends State<SliderLayoutView> {
                         ),
                       ),
                     ),
-                    Align(
+                    const Align(
                       alignment: Alignment.bottomLeft,
                       child: Padding(
                         padding: EdgeInsets.only(left: 15.0, bottom: 15.0),
@@ -96,7 +96,7 @@ class _SliderLayoutViewState extends State<SliderLayoutView> {
                     ),
                     Container(
                       alignment: AlignmentDirectional.bottomCenter,
-                      margin: EdgeInsets.only(bottom: 20.0),
+                      margin: const EdgeInsets.only(bottom: 20.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[

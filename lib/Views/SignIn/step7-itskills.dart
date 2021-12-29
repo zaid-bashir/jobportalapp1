@@ -3,6 +3,10 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:date_field/date_field.dart';
 import 'package:getwidget/components/radio/gf_radio.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:job_portal/Data_Controller/apiresponse.dart';
+import 'package:job_portal/Models/it-skills.dart';
+import 'package:job_portal/Models/passing-year.dart';
+import 'package:job_portal/Services/api_services.dart';
 import 'package:job_portal/Views/SignIn/step8-careerpreference.dart';
 import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
@@ -26,7 +30,7 @@ class Skills {
 
 
 class _ItSkillsState extends State<ItSkills> {
-
+  String myYear;
   String mySelection;
   String mySelection1;
   String mySelection2;
@@ -48,6 +52,30 @@ class _ItSkillsState extends State<ItSkills> {
     Skills(id: 3, name: "Full Stack Developer"),
     Skills(id: 4, name: "Back-end Developer"),
   ];
+
+
+
+
+
+  bool isLoading = false;
+
+  ApiServices apiServices = ApiServices();
+
+  ApiResponse<List<PassingYear>> _apiResponse;
+  @override
+  void initState() {
+    super.initState();
+    fetchYear();
+  }
+  fetchYear() async {
+    setState(() {
+      isLoading = true;
+    });
+    _apiResponse = await apiServices.getPassingYear();
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -202,15 +230,45 @@ class _ItSkillsState extends State<ItSkills> {
                           )
                         ),
                         hint: Text("Select year"),
-                        value: mySelection,
-                        onChanged: (String Value) {
-                          setState(() {
-                            mySelection = Value;
-                          });
-                        },
-                        items: lists.map((listsC)=> DropdownMenuItem(
-                            child: Text(listsC),
-                        value: listsC,)).toList()
+                        value: myYear,
+                          onChanged: (newValue) {
+                            setState(() {
+                              myYear = newValue;
+                            });
+                          },
+                          items: isLoading
+                          ? ["Please Wait"]
+                              .map(
+                                (value) => DropdownMenuItem(
+                                value: value,
+                                child: Text(
+                                  value,
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight:
+                                      FontWeight.normal,
+                                      fontFamily:
+                                      "ProximaNova"),
+                                )),
+                          )
+                              .toList()
+                              : _apiResponse.data
+                          .map(
+                          (data) => DropdownMenuItem(
+                  value: data.yearId,
+                  child: Text(
+                    "${data.yearName}",
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontWeight:
+                        FontWeight.normal,
+                        fontFamily:
+                        "ProximaNova"),
+                  ),
+                ),
+              )
+                  .toList(),
+
 
 
 

@@ -1,12 +1,13 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, unused_field, curly_braces_in_flow_control_structures, must_be_immutable, avoid_print
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, unused_field, curly_braces_in_flow_control_structures, must_be_immutable, avoid_print, avoid_single_cascade_in_expression_statements, unnecessary_string_interpolations
 
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-
 import 'package:flutter_verification_code/flutter_verification_code.dart';
+import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/verify_otp.dart';
 import 'package:job_portal/Services/api_services.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:job_portal/Views/SignIn/step2-basicdetails.dart';
 
 class VerifyOTP extends StatefulWidget {
@@ -14,68 +15,25 @@ class VerifyOTP extends StatefulWidget {
 
   String registerMobile;
   int otp;
-
   @override
   _VerifyOTPState createState() => _VerifyOTPState();
 }
 
 class _VerifyOTPState extends State<VerifyOTP> {
-  bool _isResendAgain = false;
-  bool _isVerified = false;
-  bool _isLoading = false;
+  bool isLoading = false;
+  ApiServices apiServices = ApiServices();
 
-  String _code = '';
+  ApiResponse<String> _apiResponse;
 
-  Timer _timer;
-  int _start = 60;
-  int _currentIndex = 0;
-
-  void resend() {
+  verifyOTP() async {
     setState(() {
-      _isResendAgain = true;
+      isLoading = true;
     });
-
-    const oneSec = Duration(seconds: 1);
-    _timer = Timer.periodic(oneSec, (timer) {
-      setState(() {
-        if (_start == 0) {
-          _start = 60;
-          _isResendAgain = false;
-          timer.cancel();
-        } else {
-          _start--;
-        }
-      });
-    });
-  }
-
-  verify() {
+    _apiResponse = await apiServices.otpVerify(
+        OTPVerify(registerMobile: widget.registerMobile, otp: widget.otp));
     setState(() {
-      _isLoading = true;
+      isLoading = false;
     });
-
-    const oneSec = Duration(milliseconds: 2000);
-    _timer = Timer.periodic(oneSec, (timer) {
-      setState(() {
-        _isLoading = false;
-        _isVerified = true;
-      });
-    });
-  }
-
-  @override
-  void initState() {
-    print(widget.registerMobile);
-    print(widget.otp);
-    Timer.periodic(Duration(seconds: 5), (timer) {
-      setState(() {
-        _currentIndex++;
-
-        if (_currentIndex == 3) _currentIndex = 0;
-      });
-    });
-
-    super.initState();
   }
 
   @override
@@ -93,53 +51,10 @@ class _VerifyOTPState extends State<VerifyOTP> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    height: 250,
-                    child: Stack(children: [
-                      Positioned(
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        child: AnimatedOpacity(
-                          opacity: _currentIndex == 0 ? 1 : 0,
-                          duration: Duration(
-                            seconds: 1,
-                          ),
-                          curve: Curves.linear,
-                          child: Image.network(
-                            'https://ouch-cdn2.icons8.com/eza3-Rq5rqbcGs4EkHTolm43ZXQPGH_R4GugNLGJzuo/rs:fit:784:784/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9zdmcvNjk3/L2YzMDAzMWUzLTcz/MjYtNDg0ZS05MzA3/LTNkYmQ0ZGQ0ODhj/MS5zdmc.png',
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        child: AnimatedOpacity(
-                          opacity: _currentIndex == 1 ? 1 : 0,
-                          duration: Duration(seconds: 1),
-                          curve: Curves.linear,
-                          child: Image.network(
-                            'https://ouch-cdn2.icons8.com/pi1hTsTcrgVklEBNOJe2TLKO2LhU6OlMoub6FCRCQ5M/rs:fit:784:666/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9zdmcvMzAv/MzA3NzBlMGUtZTgx/YS00MTZkLWI0ZTYt/NDU1MWEzNjk4MTlh/LnN2Zw.png',
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        child: AnimatedOpacity(
-                          opacity: _currentIndex == 2 ? 1 : 0,
-                          duration: Duration(seconds: 1),
-                          curve: Curves.linear,
-                          child: Image.network(
-                            'https://ouch-cdn2.icons8.com/ElwUPINwMmnzk4s2_9O31AWJhH-eRHnP9z8rHUSS5JQ/rs:fit:784:784/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9zdmcvNzkw/Lzg2NDVlNDllLTcx/ZDItNDM1NC04YjM5/LWI0MjZkZWI4M2Zk/MS5zdmc.png',
-                          ),
-                        ),
-                      )
-                    ]),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Image.asset("assets/19873.jpg"),
                   ),
                   SizedBox(
                     height: 30,
@@ -175,8 +90,6 @@ class _VerifyOTPState extends State<VerifyOTP> {
 
                   // Verification Code Input
                   FadeInDown(
-                    delay: Duration(milliseconds: 600),
-                    duration: Duration(milliseconds: 500),
                     child: VerificationCode(
                       length: 6,
                       textStyle: TextStyle(fontSize: 20, color: Colors.black),
@@ -185,10 +98,12 @@ class _VerifyOTPState extends State<VerifyOTP> {
                       underlineUnfocusedColor: Colors.black,
                       onCompleted: (value) {
                         setState(() {
-                          _code = value;
+                          print(value);
                         });
                       },
-                      onEditing: (value) {},
+                      onEditing: (value) {
+                        print(value);
+                      },
                     ),
                   ),
 
@@ -202,21 +117,18 @@ class _VerifyOTPState extends State<VerifyOTP> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Don't resive the OTP?",
+                          "Don't receive the OTP?",
                           style: TextStyle(
                               fontSize: 14, color: Colors.grey.shade500),
                         ),
-                        TextButton(
-                            onPressed: () {
-                              if (_isResendAgain) return;
-                              resend();
-                            },
-                            child: Text(
-                              _isResendAgain
-                                  ? "Try again in " + _start.toString()
-                                  : "Resend",
-                              style: TextStyle(color: Colors.blueAccent),
-                            ))
+                        SizedBox(
+                          width: 10,
+                        ),
+                        TextButton.icon(
+                          onPressed: () {},
+                          icon: Icon(Icons.reset_tv),
+                          label: Text("Resend"),
+                        ),
                       ],
                     ),
                   ),
@@ -229,53 +141,41 @@ class _VerifyOTPState extends State<VerifyOTP> {
                     child: MaterialButton(
                       elevation: 0,
                       onPressed: () {
-                        String flag;
-                        ApiServices()
-                            .verifyOTP(OTPVerify(
-                                registerMobile: widget.registerMobile,
-                                otp: widget.otp))
-                            .then((value) {
-                          flag = value.data;
-                        });
-                        // flag ? Navigator.of(context).push(MaterialPageRoute(builder: (context)=>VerifyOTP(registerMobile: mobileController.text,),),) : showDialog(context: context, builder: (context){
-                        //   return AlertDialog(
-                        //     title: Text("Something went wrong while Receiving OTP"),
-                        //     actions: [
-                        //       IconButton(onPressed: (){
-                        //         Navigator.of(context).pop();
-                        //       }, icon: Icon(Icons.close),),
-                        //     ],
-                        //   );
-                        // });
-                        print(flag);
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>BasicDetails()));
+                          if (isLoading) {
+                            AwesomeDialog(
+                              context: context,
+                              animType: AnimType.SCALE,
+                              dialogType: DialogType.ERROR,
+                              title: 'JobPortalApp',
+                              desc: '${_apiResponse.errorMessage}',
+                              btnOkOnPress: () {
+                                Navigator.of(context).pop();
+                              },
+                            )..show();
+                          } else {
+                            AwesomeDialog(
+                              context: context,
+                              animType: AnimType.SCALE,
+                              dialogType: DialogType.SUCCES,
+                              title: 'JobPortalApp',
+                              desc:
+                                  'Mobile Number +91-${widget.registerMobile} Successfully Verified',
+                              btnOkOnPress: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => BasicDetails(),
+                                  ),
+                                );
+                              },
+                            )..show();
+                          }
                       },
-                      // _code.length < 4 ? () => {} : () { verify(); },
                       color: Colors.orange.shade400,
                       minWidth: MediaQuery.of(context).size.width * 0.8,
                       height: 50,
-                      child: _isLoading
-                          ? Container(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(
-                                backgroundColor: Colors.white,
-                                strokeWidth: 3,
-                                color: Colors.black,
-                              ),
-                            )
-                          : _isVerified
-                              ? Icon(
-                                  Icons.check_circle,
-                                  color: Colors.white,
-                                  size: 30,
-                                )
-                              : Text(
-                                  "Verify",
-                                  style: TextStyle(color: Colors.white),
-                                ),
+                      child: Text("Verify OTP"),
                     ),
-                  )
+                  ),
                 ],
               )),
         ));

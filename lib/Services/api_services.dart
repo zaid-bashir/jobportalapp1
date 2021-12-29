@@ -1,21 +1,23 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:job_portal/Consts/apiurls.dart';
 
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/get_otp.dart';
+import 'package:job_portal/Models/getshift.dart';
 import 'package:job_portal/Models/gettitle.dart';
 import 'package:job_portal/Models/grading-system.dart';
 import 'package:job_portal/Models/passing-year.dart';
-import 'package:job_portal/Models/qualification-details.dart';
 import 'package:job_portal/Models/verify_otp.dart';
 import 'package:logger/logger.dart';
 
 class ApiServices {
-  var log = Logger();
-  static String OTP = "";
 
-  Future<ApiResponse<String>> getOTP(GetOTP objGetOtp) async {
+  var log = Logger();
+
+  Future<ApiResponse<int>> getOTP(GetOTP objGetOtp) async {
     final url = Uri.parse(ApiUrls.kgetOTP);
     final headers = {
       "Content-Type": "application/json",
@@ -23,15 +25,18 @@ class ApiServices {
     final jsonData = jsonEncode({"registerMobile": objGetOtp.registerMobile});
     final response = await http.post(url, headers: headers, body: jsonData);
     if (response.statusCode == 200 || response.statusCode == 201) {
-      log.i(response.body);
-      log.i(response.statusCode);
-      return ApiResponse<String>(data: response.body);
+      final jsonData = jsonDecode(response.body);
+      final int data = jsonData;
+      print(data);
+      return ApiResponse<int>(data: data);
     }
-    return ApiResponse<String>(error: true, errorMessage: "An Error Occurred");
+    return ApiResponse<int>(
+        error: true,
+        errorMessage: "Failed to Receive the OTP, Please try Again");
   }
 
-  Future<ApiResponse<String>> verifyOTP(OTPVerify objOtpVerify) async {
-    final url = Uri.parse(ApiUrls.kverifyOTP + "/${objOtpVerify.otp}");
+  Future<ApiResponse<String>> otpVerify(OTPVerify objOtpVerify) async {
+    final url = Uri.parse(ApiUrls.kverifyOTP+"/"+"${objOtpVerify.otp}");
     final headers = {
       "Content-Type": "application/json",
     };
@@ -41,9 +46,9 @@ class ApiServices {
     }));
     final response = await http.post(url, headers: headers, body: jsonData);
     if (response.statusCode == 200 || response.statusCode == 201) {
-      log.i(response.body);
-      log.i(response.statusCode);
-      return ApiResponse<String>(data: response.body);
+      final jsonData = jsonDecode(response.body);
+      final String data = jsonData;
+      return ApiResponse<String>(data: data);
     }
     return ApiResponse<String>(error: true, errorMessage: "An Error Occurred");
   }
@@ -123,5 +128,29 @@ class ApiServices {
   }
   // update
 
+  // PREFERRED SHIFT IN CAREER PREFERENCES//
+  Future<ApiResponse<List<PreferredShift>>> getShift() async {
+    final url = Uri.parse(ApiUrls.kShift);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <PreferredShift>[];
+      for (var item in jsonData) {
+        list.add(PreferredShift.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      print(list);
+      return ApiResponse<List<PreferredShift>>(data: list);
+    }
+    return ApiResponse<List<PreferredShift>>(
+        error: true, errorMessage: "An error occurred");
+  }
 
 }
