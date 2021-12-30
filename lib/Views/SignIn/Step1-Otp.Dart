@@ -6,7 +6,7 @@ import 'package:job_portal/Models/get_otp.dart';
 import 'package:job_portal/Services/api_services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:job_portal/Views/SignIn/step1-verifyotp.dart';
+import 'package:job_portal/Views/SignIn/Step1-VerifyOtp.dart';
 
 class OTP extends StatefulWidget {
   const OTP({Key key}) : super(key: key);

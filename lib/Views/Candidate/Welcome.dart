@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 
-import 'bottomnavbar.dart';
+import 'BottomNavbar.dart';
 
 
 

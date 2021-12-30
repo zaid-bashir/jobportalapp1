@@ -5,8 +5,8 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:date_field/date_field.dart';
 import 'package:getwidget/components/radio/gf_radio.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:job_portal/Views/Candidate/bottomnavbar.dart';
-import 'package:job_portal/Views/Candidate/home.dart';
+import 'package:job_portal/Views/Candidate/BottomNavbar.dart';
+import 'package:job_portal/Views/Candidate/Home.dart';
 
 class PersonalDetails extends StatefulWidget {
   const PersonalDetails({Key key}) : super(key: key);

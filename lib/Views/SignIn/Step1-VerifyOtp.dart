@@ -8,7 +8,7 @@ import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/verify_otp.dart';
 import 'package:job_portal/Services/api_services.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:job_portal/Views/SignIn/step2-basicdetails.dart';
+import 'package:job_portal/Views/SignIn/Step2-BasicDetails.dart';
 
 class VerifyOTP extends StatefulWidget {
   VerifyOTP({Key key, this.registerMobile, this.otp}) : super(key: key);

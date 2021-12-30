@@ -5,7 +5,7 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/radio/gf_radio.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:job_portal/Views/SignIn/step6-keyskills.dart';
+import 'package:job_portal/Views/SignIn/Step6-KeySkills.dart';
 
 class WorkingProfession extends StatefulWidget {
   const WorkingProfession({Key key}) : super(key: key);

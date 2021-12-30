@@ -6,7 +6,7 @@ import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/gettitle.dart';
 import 'package:job_portal/Services/api_services.dart';
-import 'package:job_portal/Views/SignIn/step3-qualificationdetails.dart';
+import 'package:job_portal/Views/SignIn/Step3-QualificationDetails.dart';
 
 class BasicDetails extends StatefulWidget {
   const BasicDetails({Key key}) : super(key: key);

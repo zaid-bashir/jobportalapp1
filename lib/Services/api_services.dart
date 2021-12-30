@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print
-
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:job_portal/Consts/apiurls.dart';
@@ -125,7 +123,7 @@ class ApiServices {
     return ApiResponse<List<GradingSystem>>(
         error: true, errorMessage: "An error occurred");
   }
-  // update
+
 
   // PREFERRED SHIFT IN CAREER PREFERENCES//
   Future<ApiResponse<List<PreferredShift>>> getShift() async {

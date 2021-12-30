@@ -30,6 +30,7 @@ dependencies:
   animate_do: ^2.0.0
   date_field: ^2.1.2
   dio: ^4.0.0
+  http:
   dotted_border: ^2.0.0+1
   dropdown_search: ^2.0.0
   file_picker: ^4.1.6
@@ -55,11 +56,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   fluttertoast: ^8.0.8
-  logger: ^1.1.0
 
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
-# The following section is specific to Flutter.
+
 flutter:
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

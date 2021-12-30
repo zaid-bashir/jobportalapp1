@@ -9,7 +9,7 @@ import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/getshift.dart';
 import 'package:job_portal/Services/api_services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:job_portal/Views/SignIn/step9-personaldetails.dart';
+import 'package:job_portal/Views/SignIn/Step9-PersonalDetails.dart';
 class CareerPreference extends StatefulWidget {
   const CareerPreference({Key key}) : super(key: key);
 
