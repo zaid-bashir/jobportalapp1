@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, unnecessary_string_interpolations
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -12,9 +12,7 @@ import 'package:job_portal/Models/verify_otp.dart';
 import 'package:logger/logger.dart';
 
 class ApiServices {
-
   var log = Logger();
-
   Future<ApiResponse<int>> getOTP(GetOTP objGetOtp) async {
     final url = Uri.parse(ApiUrls.kgetOTP);
     final headers = {
@@ -125,6 +123,4 @@ class ApiServices {
         error: true, errorMessage: "An error occurred");
   }
   // update
-
-
 }

@@ -41,8 +41,9 @@ class _VerifyOTPState extends State<VerifyOTP> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
-        body: SingleChildScrollView(
-          child: Container(
+        body: ListView(
+          children: [
+            Container(
               padding: EdgeInsets.symmetric(horizontal: 20),
               height: MediaQuery.of(context).size.height,
               width: double.infinity,
@@ -178,6 +179,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
                   ),
                 ],
               )),
-        ));
+          ],
+        ),);
   }
 }
