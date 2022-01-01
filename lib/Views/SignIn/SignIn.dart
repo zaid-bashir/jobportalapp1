@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/button/gf_button.dart';
 import 'package:job_portal/Views/Candidate/BottomNavbar.dart';
+import 'package:job_portal/Views/Candidate/Home.dart';
+import 'package:job_portal/Views/SignIn/Step2-BasicDetails.dart';
 import 'package:job_portal/Views/SignIn/Step6-KeySkills.dart';
 import 'package:job_portal/Views/SignIn/Step1-Otp.Dart';
 class LoginPage extends StatefulWidget {
@@ -328,7 +330,7 @@ class _LoginPageState extends State<LoginPage> {
                       TextButton(
                         onPressed: () {
                           Navigator.push(context, MaterialPageRoute(builder: (
-                              context) => OTP()));
+                              context) => BasicDetails()));
                         },
                         child: Text('Register', style: TextStyle(color:  Color(0xff2972ff), fontSize: 14.0, fontWeight: FontWeight.w400),),
                       )

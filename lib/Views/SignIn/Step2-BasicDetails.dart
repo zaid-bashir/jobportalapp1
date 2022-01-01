@@ -1,12 +1,16 @@
-// ignore_for_file: prefer_final_fields, unused_field, prefer_const_constructors, avoid_print
+// ignore_for_file: prefer_final_fields, unused_field, prefer_const_constructors, avoid_print, deprecated_member_use, prefer_const_literals_to_create_immutables, unnecessary_string_interpolations, duplicate_ignore
 
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:find_dropdown/find_dropdown.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/GetTitle.dart';
+import 'package:job_portal/Models/getjobcategory.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Views/SignIn/Step3-QualificationDetails.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BasicDetails extends StatefulWidget {
   const BasicDetails({Key key}) : super(key: key);
@@ -16,14 +20,12 @@ class BasicDetails extends StatefulWidget {
 }
 
 class _BasicDetailsState extends State<BasicDetails> {
-  List<String> jobCategoryList = [
-    "Software Engineer",
-    "Network Engineer",
-    "Network Engineer",
-    "Software Tester",
-  ];
 
-  String myjobCategory;
+  //SharedPrefs Variable
+  String titleIdPref;
+
+  String myjobrole = "";
+  String query;
 
   List<String> locationList = ["Srinagar", "Jammu", "Kolkata"];
 
@@ -47,15 +49,25 @@ class _BasicDetailsState extends State<BasicDetails> {
   String dropdownValue;
 
   bool isLoading = false;
+  bool isLoadingJobCategory = false;
 
   ApiServices apiServices = ApiServices();
 
   ApiResponse<List<GetTitle>> _apiResponse;
+  ApiResponse<List<JobCategory>> _apiResponseJobCategory;
+
+  SharedPreferences pref;
 
   @override
   void initState() {
     super.initState();
+    initSharedPreferences();
     fetchTitles();
+    fetchJobCategory(query: "");
+  }
+
+  void initSharedPreferences() async {
+    pref = await SharedPreferences.getInstance();
   }
 
   fetchTitles() async {
@@ -66,6 +78,24 @@ class _BasicDetailsState extends State<BasicDetails> {
     setState(() {
       isLoading = false;
     });
+  }
+    fetchJobCategory({String query}) async {
+    setState(() {
+      isLoadingJobCategory = true;
+    });
+    _apiResponseJobCategory = await apiServices.getJobCategory(query: query);
+    setState(() {
+      isLoadingJobCategory = false;
+    });
+  }
+
+  List<String> parseData(){
+    List<JobCategory> category = _apiResponseJobCategory.data;
+    List<String> dataItems = [];
+    for(int i = 0; i < category.length;i++){
+      dataItems.add(category[i].jobroleName);
+    }
+    return dataItems;
   }
 
   @override
@@ -122,17 +152,26 @@ class _BasicDetailsState extends State<BasicDetails> {
                                 padding: const EdgeInsets.all(5.0),
                                 child: DropdownButtonHideUnderline(
                                   child: GFDropdown(
-                                    hint: Text(
-                                      "Title",
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: "ProximaNova"),
+                                    hint: Row(
+                                      children: [
+                                        Text(
+                                          "Title",
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "ProximaNova"),
+                                        ),
+                                        SizedBox(width: 5,),
+                                        Text("*",style: TextStyle(color: Colors.red),),
+                                      ],
                                     ),
                                     onChanged: (newValue) {
                                       setState(() {
                                         mySelection = newValue;
+                                        pref.setString("titleId", titleIdPref);
                                       });
+                                      String Intval = pref.getString('titleId') ?? 0;
+                                      print(Intval);
                                     },
                                     items: isLoading
                                         ? ["Please Wait"]
@@ -153,7 +192,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                                         : _apiResponse.data
                                             .map(
                                               (data) => DropdownMenuItem(
-                                                value: data.titleId,
+                                                value: titleIdPref = data.titleId,
                                                 child: Text(
                                                   "${data.titleDesc}",
                                                   style: TextStyle(
@@ -181,7 +220,8 @@ class _BasicDetailsState extends State<BasicDetails> {
                           child: const TextField(
                             decoration: InputDecoration(
                               contentPadding: EdgeInsets.all(8.0),
-                              labelText: 'First Name',
+                              alignLabelWithHint: true,
+                              labelText: "First Name",
                               labelStyle: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold,
@@ -612,7 +652,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                     Padding(
                       padding: const EdgeInsets.all(8),
                       child: Text(
-                        "Job Category",
+                        "Job Role",
                         textAlign: TextAlign.left,
                         style: TextStyle(
                             fontSize: 15,
@@ -623,31 +663,29 @@ class _BasicDetailsState extends State<BasicDetails> {
                     Center(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: DropdownSearch<String>(
-                          hint: "Job Category",
-                          dropdownSearchBaseStyle: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),
-                          dropdownSearchDecoration: const InputDecoration(
+                        child: FindDropdown(
+                          searchBoxDecoration:  const InputDecoration(
                             border: UnderlineInputBorder(
                               borderSide: BorderSide(
                                 color: Colors.grey,
                               ),
                             ),
                           ),
-                          mode: Mode.DIALOG,
-                          showSearchBox: true,
-                          showSelectedItems: true,
-                          items: jobCategoryList,
-                          // label: "Menu mode",
-                          popupItemDisabled: (String s) => s.startsWith('I'),
+                          items: parseData(),
+                          searchHint: "Job Role",
+                          onFind: (val) async{
+                            setState(() {
+                              query = val;
+                            });
+                            await fetchJobCategory(query: query);
+                            parseData();
+                          return [""];
+                          },
                           onChanged: (item) {
                             setState(() {
-                              myjobCategory = item;
+                              myjobrole = item;
                             });
                           },
-                          selectedItem: myjobCategory,
                         ),
                       ),
                     ),
@@ -678,7 +716,6 @@ class _BasicDetailsState extends State<BasicDetails> {
                         showSearchBox: true,
                         showSelectedItems: true,
                         items: locationList,
-                        // label: "Menu mode",
                         popupItemDisabled: (String s) => s.startsWith('I'),
                         onChanged: (item) {
                           setState(() {

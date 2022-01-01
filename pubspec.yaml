@@ -30,19 +30,20 @@ dependencies:
   animate_do: ^2.0.0
   date_field: ^2.1.2
   dio: ^4.0.0
-  http:
   dotted_border: ^2.0.0+1
   dropdown_search: ^2.0.0
   file_picker: ^4.1.6
+  find_dropdown: ^1.0.0
   fl_chart: ^0.40.6
-  font_awesome_flutter: ^9.2.0
 
   flutter:
     sdk: flutter
   flutter_svg: ^0.22.0
   flutter_verification_code: ^1.1.0
+  font_awesome_flutter: ^9.2.0
   getwidget: null
   google_fonts: ^2.1.0
+  http: null
   iconsax: ^0.0.8
   search_choices: ^2.0.16
   image_picker: ^0.8.4+3
@@ -57,7 +58,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   fluttertoast: ^8.0.8
-
+  shared_preferences: ^2.0.11
 
 flutter:
   # The following line ensures that the Material Icons font is
@@ -71,7 +72,7 @@ flutter:
     - assets/logo/
     - assets/user/
     - assets/icon/
-#  adding assets from package dependencies, see
+  #  adding assets from package dependencies, see
   # https://flutter.dev/a
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
