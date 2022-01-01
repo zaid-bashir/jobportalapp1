@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:job_portal/Controllers/menucontroller.dart';
 import 'package:job_portal/Theme/colors.dart';
 import 'package:job_portal/Theme/images.dart';
-import 'package:job_portal/Views/Candidate/sidebar.dart';
+import 'package:job_portal/Views/Candidate/Sidebar.dart';
 import 'package:provider/src/provider.dart';
 
-import 'inbox.dart';
+import 'Inbox.dart';
 
 class Notify extends StatefulWidget {
   const Notify({Key key}) : super(key: key);

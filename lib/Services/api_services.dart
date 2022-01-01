@@ -1,10 +1,14 @@
-// ignore_for_file: avoid_print, unnecessary_string_interpolations
+// ignore_for_file: avoid_print
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:job_portal/Consts/apiurls.dart';
+
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/get_otp.dart';
+import 'package:job_portal/Models/getgender.dart';
+import 'package:job_portal/Models/getjobcategory.dart';
+import 'package:job_portal/Models/getshift.dart';
 import 'package:job_portal/Models/gettitle.dart';
 import 'package:job_portal/Models/grading-system.dart';
 import 'package:job_portal/Models/passing-year.dart';
@@ -73,6 +77,30 @@ class ApiServices {
         error: true, errorMessage: "An error occurred");
   }
 
+  Future<ApiResponse<List<GetGender>>> getGender () async {
+    final url = Uri.parse(ApiUrls.kgender);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <GetGender>[];
+      for (var item in jsonData) {
+        list.add(GetGender.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      print(list);
+      return ApiResponse<List<GetGender>>(data: list);
+    }
+    return ApiResponse<List<GetGender>>(
+        error: true, errorMessage: "An error occurred");
+  }
+
 
   // PASSING YEAR DROPDOWN IN QUALIFICATION PAGE
   Future<ApiResponse<List<PassingYear>>> getPassingYear() async {
@@ -122,5 +150,57 @@ class ApiServices {
     return ApiResponse<List<GradingSystem>>(
         error: true, errorMessage: "An error occurred");
   }
-  // update
+
+
+  // PREFERRED SHIFT IN CAREER PREFERENCES//
+  Future<ApiResponse<List<PreferredShift>>> getShift() async {
+    final url = Uri.parse(ApiUrls.kShift);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <PreferredShift>[];
+      for (var item in jsonData) {
+        list.add(PreferredShift.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      print(list);
+      return ApiResponse<List<PreferredShift>>(data: list);
+    }
+    return ApiResponse<List<PreferredShift>>(
+        error: true, errorMessage: "An error occurred");
+  }
+
+  //Get Job Category
+
+  Future<ApiResponse<List<JobCategory>>> getJobCategory({String query}) async {
+    final url = Uri.parse(ApiUrls.kjobrole+query);
+    print(ApiUrls.kjobrole+"="+query);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <JobCategory>[];
+      for (var item in jsonData) {
+        list.add(JobCategory.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      return ApiResponse<List<JobCategory>>(data: list);
+    }
+    return ApiResponse<List<JobCategory>>(
+        error: true, errorMessage: "An error occurred");
+  }
+
 }

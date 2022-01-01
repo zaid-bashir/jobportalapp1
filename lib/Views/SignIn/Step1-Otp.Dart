@@ -6,7 +6,7 @@ import 'package:job_portal/Models/get_otp.dart';
 import 'package:job_portal/Services/api_services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:job_portal/Views/SignIn/step1-verifyotp.dart';
+import 'package:job_portal/Views/SignIn/Step1-VerifyOtp.dart';
 
 class OTP extends StatefulWidget {
   const OTP({Key key}) : super(key: key);
@@ -178,9 +178,9 @@ class _OTPState extends State<OTP> {
                 } else {
                   Fluttertoast.showToast(
                       msg: "Phone Number Not Valid",
-                      toastLength: Toast.LENGTH_SHORT,
+                      toastLength: Toast.LENGTH_LONG,
                       gravity: ToastGravity.BOTTOM,
-                      timeInSecForIosWeb: 1,
+                      timeInSecForIosWeb: 2,
                       backgroundColor: Colors.red,
                       textColor: Colors.white,
                       fontSize: 16.0);

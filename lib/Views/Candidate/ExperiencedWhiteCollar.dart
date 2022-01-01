@@ -23,8 +23,8 @@ class _ExperiencedWhiteState extends State<ExperiencedWhite> {
         icon: const Icon(Icons.arrow_back),
         color: Colors.black,
       ),
-      title: Text('Experienced White Collar',
-          style: const TextStyle(
+      title: const Text('Experienced White Collar',
+          style: TextStyle(
               color: Colors.black,
               fontSize: 18,
               fontWeight: FontWeight.bold,

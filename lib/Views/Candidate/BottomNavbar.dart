@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:job_portal/Controllers/menucontroller.dart';
-import 'package:job_portal/Views/Profile/profile.dart';
+import 'package:job_portal/Views/Profile/Profile.dart';
 import 'package:provider/provider.dart';
 
-import 'uploadpost.dart';
-import 'home.dart';
-import 'job.dart';
-import 'notification.dart';
+import 'UploadPost.dart';
+import 'Home.dart';
+import 'Job.dart';
+import 'Notification.dart';
 
 
 

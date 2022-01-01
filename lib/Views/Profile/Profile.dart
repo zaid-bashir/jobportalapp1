@@ -8,10 +8,10 @@ import 'package:iconsax/iconsax.dart';
 import 'package:job_portal/Controllers/menucontroller.dart';
 import 'package:job_portal/Theme/colors.dart';
 import 'package:job_portal/Theme/images.dart';
-import 'package:job_portal/Views/Candidate/sidebar.dart';
+import 'package:job_portal/Views/Candidate/Sidebar.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
-import '../Candidate/inbox.dart';
+import '../Candidate/Inbox.dart';
 
 class ProfilePage extends StatefulWidget {
    ProfilePage({Key key,this.basic}) : super(key: key);
@@ -39,11 +39,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
   int groupValue = 0;
   bool _status = true;
   final FocusNode myFocusNode = FocusNode();
-  bool _status2 = true;
-  bool _status3 = true;
-  bool _status4 = true;
-  bool _status5 = true;
-  bool _status6 = true;
+
   AnimationController loadingController;
 
   File _file;
