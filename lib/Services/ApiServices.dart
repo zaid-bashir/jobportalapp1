@@ -2,8 +2,9 @@
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:job_portal/Models/QualificationDetails.dart';
+import 'package:job_portal/Models/Stream.dart';
 import 'package:job_portal/Models/getjobcategory.dart';
-import 'package:job_portal/Utility/apiurls.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/getgender.dart';
 import 'package:job_portal/Models/GetOtp.dart';
@@ -12,6 +13,7 @@ import 'package:job_portal/Models/GetTitle.dart';
 import 'package:job_portal/Models/GradingSystem.dart';
 import 'package:job_portal/Models/PassingYear.dart';
 import 'package:job_portal/Models/VerifyOtp.dart';
+import 'package:job_portal/Utility/apiurls.dart';
 import 'package:logger/logger.dart';
 
 class ApiServices {
@@ -101,7 +103,7 @@ class ApiServices {
   }
 
 
-  // PASSING YEAR DROPDOWN IN QUALIFICATION PAGE
+  // PASSING YEAR DROPDOWN IN Qualification PAGE
   Future<ApiResponse<List<PassingYear>>> getPassingYear() async {
     final url = Uri.parse(ApiUrls.kPassingYear);
     final header = {
@@ -125,7 +127,7 @@ class ApiServices {
     return ApiResponse<List<PassingYear>>(
         error: true, errorMessage: "An error occurred");
   }
-  // GRADING DROPDOWN IN QUALIFICATION PAGE
+  // GRADING DROPDOWN IN Qualification PAGE
   Future<ApiResponse<List<GradingSystem>>> getGradingSystem() async {
     final url = Uri.parse(ApiUrls.kGradingSystem);
     final header = {
@@ -199,6 +201,84 @@ class ApiServices {
       return ApiResponse<List<JobCategory>>(data: list);
     }
     return ApiResponse<List<JobCategory>>(
+        error: true, errorMessage: "An error occurred");
+  }
+
+  //Get Highest Qualification
+
+  Future<ApiResponse<List<Qualification>>> getQualification({String query}) async {
+    final url = Uri.parse(ApiUrls.kHighestQualification+query);
+    print(ApiUrls.kHighestQualification+"="+query);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <Qualification>[];
+      for (var item in jsonData) {
+        list.add(Qualification.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      return ApiResponse<List<Qualification>>(data: list);
+    }
+    return ApiResponse<List<Qualification>>(
+        error: true, errorMessage: "An error occurred");
+  }
+
+  //Get Course
+
+  Future<ApiResponse<List<Qualification>>> getCourse({String query}) async {
+    final url = Uri.parse(ApiUrls.kCourse+query);
+    print(ApiUrls.kCourse+"="+query);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <Qualification>[];
+      for (var item in jsonData) {
+        list.add(Qualification.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      return ApiResponse<List<Qualification>>(data: list);
+    }
+    return ApiResponse<List<Qualification>>(
+        error: true, errorMessage: "An error occurred");
+  }
+
+  //Get Course
+
+  Future<ApiResponse<List<Streams>>> getStream({String query}) async {
+    final url = Uri.parse(ApiUrls.kStream+query);
+    print(ApiUrls.kStream+"="+query);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <Streams>[];
+      for (var item in jsonData) {
+        list.add(Streams.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      return ApiResponse<List<Streams>>(data: list);
+    }
+    return ApiResponse<List<Streams>>(
         error: true, errorMessage: "An error occurred");
   }
 
