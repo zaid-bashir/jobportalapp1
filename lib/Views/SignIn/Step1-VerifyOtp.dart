@@ -1,14 +1,11 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, unused_field, curly_braces_in_flow_control_structures, must_be_immutable, avoid_print, avoid_single_cascade_in_expression_statements, unnecessary_string_interpolations
-
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
-import 'package:job_portal/Models/verify_otp.dart';
-import 'package:job_portal/Services/api_services.dart';
+import 'package:job_portal/Models/VerifyOtp.dart';
+import 'package:job_portal/Services/ApiServices.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:job_portal/Views/SignIn/step2-basicdetails.dart';
+import 'package:job_portal/Views/SignIn/Step2-BasicDetails.dart';
 
 class VerifyOTP extends StatefulWidget {
   VerifyOTP({Key key, this.registerMobile, this.otp}) : super(key: key);

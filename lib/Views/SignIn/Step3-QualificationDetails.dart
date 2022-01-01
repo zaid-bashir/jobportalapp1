@@ -6,10 +6,10 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
-import 'package:job_portal/Models/grading-system.dart';
-import 'package:job_portal/Models/passing-year.dart';
-import 'package:job_portal/Services/api_services.dart';
-import 'package:job_portal/Views/SignIn/step5-professionaldetails.dart';
+import 'package:job_portal/Models/GradingSystem.dart';
+import 'package:job_portal/Models/PassingYear.dart';
+import 'package:job_portal/Services/ApiServices.dart';
+import 'package:job_portal/Views/SignIn/Step5-ProfessionalDetails.dart';
 
 class QualificationBlueCollar extends StatefulWidget {
   const QualificationBlueCollar({Key key}) : super(key: key);
