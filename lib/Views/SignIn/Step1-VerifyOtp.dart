@@ -5,7 +5,7 @@ import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/VerifyOtp.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:job_portal/Views/SignIn/Step2-BasicDetails.dart';
+import 'package:job_portal/Views/SignIn/step2-basicdetails.dart';
 
 class VerifyOTP extends StatefulWidget {
   VerifyOTP({Key key, this.registerMobile, this.otp}) : super(key: key);
@@ -38,8 +38,9 @@ class _VerifyOTPState extends State<VerifyOTP> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
-        body: SingleChildScrollView(
-          child: Container(
+        body: ListView(
+          children: [
+            Container(
               padding: EdgeInsets.symmetric(horizontal: 20),
               height: MediaQuery.of(context).size.height,
               width: double.infinity,
@@ -175,6 +176,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
                   ),
                 ],
               )),
-        ));
+          ],
+        ),);
   }
 }
