@@ -330,7 +330,7 @@ class _LoginPageState extends State<LoginPage> {
                       TextButton(
                         onPressed: () {
                           Navigator.push(context, MaterialPageRoute(builder: (
-                              context) => OTP()));
+                              context) => BasicDetails()));
                         },
                         child: Text('Register', style: TextStyle(color:  Color(0xff2972ff), fontSize: 14.0, fontWeight: FontWeight.w400),),
                       )

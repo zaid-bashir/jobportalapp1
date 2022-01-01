@@ -6,8 +6,8 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
-import 'package:job_portal/Models/getshift.dart';
-import 'package:job_portal/Services/api_services.dart';
+import 'package:job_portal/Models/GetShift.dart';
+import 'package:job_portal/Services/ApiServices.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:job_portal/Views/SignIn/Step9-PersonalDetails.dart';
 class CareerPreference extends StatefulWidget {

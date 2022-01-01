@@ -5,11 +5,10 @@ import 'package:find_dropdown/find_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
+import 'package:job_portal/Models/GetTitle.dart';
 import 'package:job_portal/Models/getjobcategory.dart';
-import 'package:job_portal/Models/gettitle.dart';
-import 'package:job_portal/Services/api_services.dart';
+import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Views/SignIn/Step3-QualificationDetails.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -258,7 +257,6 @@ class _BasicDetailsState extends State<BasicDetails> {
                           Expanded(
                             child: const TextField(
                               decoration: InputDecoration(
-                                icon: Icon(FontAwesomeIcons.asterisk),
                                 contentPadding: EdgeInsets.all(8.0),
                                 labelText: 'Middle Name',
                                 labelStyle: TextStyle(

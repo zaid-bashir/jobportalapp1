@@ -1,18 +1,17 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, unnecessary_string_interpolations
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:job_portal/Consts/apiurls.dart';
-
-import 'package:job_portal/Data_Controller/apiresponse.dart';
-import 'package:job_portal/Models/get_otp.dart';
-import 'package:job_portal/Models/getgender.dart';
 import 'package:job_portal/Models/getjobcategory.dart';
-import 'package:job_portal/Models/getshift.dart';
-import 'package:job_portal/Models/gettitle.dart';
-import 'package:job_portal/Models/grading-system.dart';
-import 'package:job_portal/Models/passing-year.dart';
-import 'package:job_portal/Models/verify_otp.dart';
+import 'package:job_portal/Utility/apiurls.dart';
+import 'package:job_portal/Data_Controller/apiresponse.dart';
+import 'package:job_portal/Models/getgender.dart';
+import 'package:job_portal/Models/GetOtp.dart';
+import 'package:job_portal/Models/GetShift.dart';
+import 'package:job_portal/Models/GetTitle.dart';
+import 'package:job_portal/Models/GradingSystem.dart';
+import 'package:job_portal/Models/PassingYear.dart';
+import 'package:job_portal/Models/VerifyOtp.dart';
 import 'package:logger/logger.dart';
 
 class ApiServices {
