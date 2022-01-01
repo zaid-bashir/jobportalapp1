@@ -15,7 +15,6 @@ import 'package:job_portal/Models/verify_otp.dart';
 import 'package:logger/logger.dart';
 
 class ApiServices {
-
   var log = Logger();
 
   Future<ApiResponse<int>> getOTP(GetOTP objGetOtp) async {
@@ -37,7 +36,7 @@ class ApiServices {
   }
 
   Future<ApiResponse<String>> otpVerify(OTPVerify objOtpVerify) async {
-    final url = Uri.parse(ApiUrls.kverifyOTP+"/"+"${objOtpVerify.otp}");
+    final url = Uri.parse(ApiUrls.kverifyOTP + "/" + "${objOtpVerify.otp}");
     final headers = {
       "Content-Type": "application/json",
     };
@@ -78,7 +77,7 @@ class ApiServices {
         error: true, errorMessage: "An error occurred");
   }
 
-  Future<ApiResponse<List<GetGender>>> getGender () async {
+  Future<ApiResponse<List<GetGender>>> getGender() async {
     final url = Uri.parse(ApiUrls.kgender);
     final header = {
       "Content-Type": "application/json",
@@ -101,7 +100,6 @@ class ApiServices {
     return ApiResponse<List<GetGender>>(
         error: true, errorMessage: "An error occurred");
   }
-
 
   // PASSING YEAR DROPDOWN IN QUALIFICATION PAGE
   Future<ApiResponse<List<PassingYear>>> getPassingYear() async {
@@ -127,6 +125,7 @@ class ApiServices {
     return ApiResponse<List<PassingYear>>(
         error: true, errorMessage: "An error occurred");
   }
+
   // GRADING DROPDOWN IN QUALIFICATION PAGE
   Future<ApiResponse<List<GradingSystem>>> getGradingSystem() async {
     final url = Uri.parse(ApiUrls.kGradingSystem);
@@ -151,6 +150,7 @@ class ApiServices {
     return ApiResponse<List<GradingSystem>>(
         error: true, errorMessage: "An error occurred");
   }
+
   // update
 
   // PREFERRED SHIFT IN CAREER PREFERENCES//
@@ -177,5 +177,4 @@ class ApiServices {
     return ApiResponse<List<PreferredShift>>(
         error: true, errorMessage: "An error occurred");
   }
-
 }

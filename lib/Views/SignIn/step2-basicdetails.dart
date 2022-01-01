@@ -178,10 +178,41 @@ class _BasicDetailsState extends State<BasicDetails> {
                         ),
                         Expanded(
                           flex: 5,
+                          // child: RichText(
+                          //   text: TextSpan(
+                          //     text: 'First Name',
+                          //     style: TextStyle(
+                          //       color: Colors.red,
+                          //       fontSize: 30.0,
+                          //       fontWeight: FontWeight.bold,
+                          //
+                          //     ),
+                          //     children: [
+                          //       TextSpan(
+                          //         text: '*',
+                          //       style: TextStyle(
+                          //         color: Colors.blue,
+                          //       ),)
+                          //       // TextSpan(
+                          //       //   text: '*'
+                          //       // )
+                          //     ]
+                          //
+                          //
+                          //
+                          //   )
+                          // ),
+
                           child: const TextField(
+
+                            autofocus: true,
+
+                            keyboardType: TextInputType.text,
                             decoration: InputDecoration(
+
+
                               contentPadding: EdgeInsets.all(8.0),
-                              labelText: 'First Name',
+                              labelText: 'First Name \ * ',
                               labelStyle: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold,
@@ -328,23 +359,19 @@ class _BasicDetailsState extends State<BasicDetails> {
                                 genderGroupValue = value;
                               });
                             },
-
                             inactiveIcon: null,
                             radioColor: Color(0xff2972ff),
                           ),
-
                           const SizedBox(
                             width: 7,
                           ),
                           const Text(
                             "Male",
-
                             style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: "ProximaNova"),
                           ),
-
                           const SizedBox(
                             width: 20,
                           ),
@@ -722,3 +749,5 @@ class _BasicDetailsState extends State<BasicDetails> {
     );
   }
 }
+
+
