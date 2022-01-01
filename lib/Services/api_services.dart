@@ -9,6 +9,7 @@ import 'package:job_portal/Models/getshift.dart';
 import 'package:job_portal/Models/gettitle.dart';
 import 'package:job_portal/Models/grading-system.dart';
 import 'package:job_portal/Models/passing-year.dart';
+
 import 'package:job_portal/Models/verify_otp.dart';
 import 'package:logger/logger.dart';
 
@@ -152,4 +153,6 @@ class ApiServices {
         error: true, errorMessage: "An error occurred");
   }
 
+
 }
+

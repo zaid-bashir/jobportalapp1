@@ -5,6 +5,7 @@ import 'package:getwidget/components/button/gf_button.dart';
 import 'package:job_portal/Views/Candidate/bottomnavbar.dart';
 import 'package:job_portal/Views/SignIn/step6-keyskills.dart';
 import 'package:job_portal/Views/SignIn/step1-otp.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({ Key key }) : super(key: key);
 
