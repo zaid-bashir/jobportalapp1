@@ -71,6 +71,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
+  custom_searchable_dropdown:
+    dependency: "direct main"
+    description:
+      name: custom_searchable_dropdown
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.1"
   date_field:
     dependency: "direct main"
     description:
@@ -429,6 +436,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.0.1"
+  search_choices:
+    dependency: "direct main"
+    description:
+      name: search_choices
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.16"
   simple_animations:
     dependency: transitive
     description:

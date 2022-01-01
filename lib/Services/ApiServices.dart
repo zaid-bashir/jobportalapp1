@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:job_portal/Utility/apiurls.dart';
+import 'package:job_portal/Models/JobCategory.dart';
+import 'package:job_portal/Utility/ApiUrls.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/GetOtp.dart';
 import 'package:job_portal/Models/GetGender.dart';
@@ -72,6 +73,30 @@ class ApiServices {
       return ApiResponse<List<GetTitle>>(data: list);
     }
     return ApiResponse<List<GetTitle>>(
+        error: true, errorMessage: "An error occurred");
+  }
+
+  Future<ApiResponse<List<JobCategory>>> getJobCategory(String name) async {
+    final url = Uri.parse(ApiUrls.kJobCategory + name);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <JobCategory>[];
+      for (var item in jsonData) {
+        list.add(JobCategory.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      print(list);
+      return ApiResponse<List<JobCategory>>(data: list);
+    }
+    return ApiResponse<List<JobCategory>>(
         error: true, errorMessage: "An error occurred");
   }
 

@@ -160,7 +160,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
                               btnOkOnPress: () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
-                                    builder: (context) => BasicDetails(),
+                                    builder: (context) => SearchableDropdownApp(),
                                   ),
                                 );
                               },
