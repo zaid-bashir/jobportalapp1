@@ -41,10 +41,10 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
   }
 
 
-  var highestQualificationSelect;
-  var courseSelect;
-  var streamSelect;
-  var instituteQualifiedFromSelect;
+  var highestQualificationSelect = "";
+  var courseSelect = "";
+  var streamSelect = "";
+  var instituteQualifiedFromSelect = "";
 
   List<String> highestQualification = [
     "PG",
