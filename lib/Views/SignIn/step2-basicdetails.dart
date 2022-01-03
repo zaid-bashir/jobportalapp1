@@ -52,6 +52,31 @@ class _BasicDetailsState extends State<BasicDetails> {
 
   ApiResponse<List<GetTitle>> _apiResponse;
 
+  RichText getRequiredLabel(String fieldName) {
+    return RichText(
+      text: TextSpan(
+        style: TextStyle(
+            fontSize: 15,
+            color: Colors.grey,
+            fontWeight: FontWeight.bold,
+            fontFamily: "ProximaNova"),
+        text: fieldName,
+        children: [
+          TextSpan(
+            text: " *",
+            style: TextStyle(
+              color: Colors.red,
+              fontFamily: "ProximaNova",
+              fontWeight: FontWeight.bold,
+              // letterSpacing: 1.5,
+              fontSize: 15,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -122,13 +147,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                                 padding: const EdgeInsets.all(5.0),
                                 child: DropdownButtonHideUnderline(
                                   child: GFDropdown(
-                                    hint: Text(
-                                      "Title",
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: "ProximaNova"),
-                                    ),
+                                    hint: getRequiredLabel("Title"),
                                     onChanged: (newValue) {
                                       setState(() {
                                         mySelection = newValue;
@@ -178,50 +197,18 @@ class _BasicDetailsState extends State<BasicDetails> {
                         ),
                         Expanded(
                           flex: 5,
-                          // child: RichText(
-                          //   text: TextSpan(
-                          //     text: 'First Name',
-                          //     style: TextStyle(
-                          //       color: Colors.red,
-                          //       fontSize: 30.0,
-                          //       fontWeight: FontWeight.bold,
-                          //
-                          //     ),
-                          //     children: [
-                          //       TextSpan(
-                          //         text: '*',
-                          //       style: TextStyle(
-                          //         color: Colors.blue,
-                          //       ),)
-                          //       // TextSpan(
-                          //       //   text: '*'
-                          //       // )
-                          //     ]
-                          //
-                          //
-                          //
-                          //   )
-                          // ),
-
-                          child: const TextField(
-
+                          child: TextFormField(
                             autofocus: true,
-
                             keyboardType: TextInputType.text,
                             decoration: InputDecoration(
-
-
                               contentPadding: EdgeInsets.all(8.0),
-                              labelText: 'First Name \ * ',
-                              labelStyle: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: "ProximaNova"),
+                              label: getRequiredLabel(
+                                "First Name",
+                              ),
                               floatingLabelStyle: TextStyle(
                                 color: Color(0xff2972ff),
                                 fontFamily: "ProximaNova",
                                 fontWeight: FontWeight.bold,
-                                // letterSpacing: 1.5,
                                 fontSize: 17.5,
                               ),
                               focusedBorder: UnderlineInputBorder(
@@ -249,7 +236,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                             child: const TextField(
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(8.0),
-                                labelText: 'Middle Name',
+                                labelText: 'Middle Name:',
                                 labelStyle: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,
@@ -273,10 +260,10 @@ class _BasicDetailsState extends State<BasicDetails> {
                             width: 10,
                           ),
                           Expanded(
-                            child: const TextField(
+                            child: TextFormField(
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(8.0),
-                                labelText: 'Last Name',
+                                label: getRequiredLabel("Last Name"),
                                 labelStyle: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,
@@ -304,42 +291,41 @@ class _BasicDetailsState extends State<BasicDetails> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: const TextField(
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.all(8.0),
-                          labelText: 'E-mail',
-                          labelStyle: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),
-                          floatingLabelStyle: TextStyle(
-                            color: Color(0xff2972ff),
-                            fontFamily: "ProximaNova",
-                            fontWeight: FontWeight.bold,
-                            // letterSpacing: 1.5,
-                            fontSize: 17.5,
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Color(0xff2972ff),
+                      child: Row(
+                          // ignore: prefer_const_literals_to_create_immutables
+                          children: [
+                            Expanded(
+                              child: const TextField(
+                                decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.all(8.0),
+                                  labelText: 'Email:',
+                                  labelStyle: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: "ProximaNova"),
+                                  floatingLabelStyle: TextStyle(
+                                    color: Color(0xff2972ff),
+                                    fontFamily: "ProximaNova",
+                                    fontWeight: FontWeight.bold,
+                                    // letterSpacing: 1.5,
+                                    fontSize: 17.5,
+                                  ),
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color(0xff2972ff),
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
+                          ]),
                     ),
                     const SizedBox(
                       height: 15,
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8),
-                      child: Text(
-                        "Gender",
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "ProximaNova"),
-                      ),
+                      child: getRequiredLabel("Gender"),
                     ),
                     const SizedBox(
                       height: 3,
@@ -399,7 +385,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                                 fontFamily: "ProximaNova"),
                           ),
                           const SizedBox(
-                            width: 7,
+                            width: 20,
                           ),
                           GFRadio(
                             size: 20,
@@ -429,14 +415,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8),
-                      child: Text(
-                        "Experience",
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "ProximaNova"),
-                      ),
+                      child: getRequiredLabel("Experiance"),
                     ),
                     const SizedBox(
                       height: 3,
@@ -504,14 +483,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                     experienceGroupValue == 0
                         ? Padding(
                             padding: const EdgeInsets.all(8),
-                            child: Text(
-                              "Experience Tenure",
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: "ProximaNova"),
-                            ),
+                            child: getRequiredLabel("Experiance Tenure"),
                           )
                         : Container(),
                     const SizedBox(
@@ -638,14 +610,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8),
-                      child: Text(
-                        "Job Category",
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "ProximaNova"),
-                      ),
+                      child: getRequiredLabel("Job Category"),
                     ),
                     Center(
                       child: Padding(
@@ -683,14 +648,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8),
-                      child: Text(
-                        "Current Location",
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "ProximaNova"),
-                      ),
+                      child: getRequiredLabel("Current Location"),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -749,5 +707,3 @@ class _BasicDetailsState extends State<BasicDetails> {
     );
   }
 }
-
-
