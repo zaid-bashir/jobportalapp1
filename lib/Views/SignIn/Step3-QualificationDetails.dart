@@ -484,6 +484,7 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                                     queryss = val;
                                   });
                                   await fetchStream(query: queryss);
+
                                   getStream();
                                   return [""];
                                 },
