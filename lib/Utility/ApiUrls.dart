@@ -10,4 +10,6 @@ class ApiUrls{
   static String kHighestQualification = "http://192.168.0.20:9004/jobportal-app/app/api/populate/qualification?query=";
   static String kCourse = "http://192.168.0.20:9004/jobportal-app/app/api/populate/course?query=";
   static String kStream = "http://192.168.0.20:9004/jobportal-app/app/api/populate/stream?query=";
+  static String kJobType = "http://192.168.0.20:9004/jobportal-app/app/api/populate/jobtype;";
+  static String kEmpType = "http://192.168.0.20:9004/jobportal-app/app/api/populate/employmenttype";
 }

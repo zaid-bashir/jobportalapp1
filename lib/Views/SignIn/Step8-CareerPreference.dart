@@ -1,12 +1,11 @@
-
-// ignore_for_file: prefer_const_constructors
-
 import 'package:date_field/date_field.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
+import 'package:job_portal/Models/EmploymentType.dart';
 import 'package:job_portal/Models/GetShift.dart';
+import 'package:job_portal/Models/JobType.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:job_portal/Views/SignIn/Step9-PersonalDetails.dart';
@@ -67,16 +66,23 @@ class _CareerPreferenceState extends State<CareerPreference> {
   //
   // ];
   String myShift;
+  String jobType;
+  String empType;
   bool isLoading = false;
 
   ApiServices apiServices = ApiServices();
 
   ApiResponse<List<PreferredShift>> _apiResponse;
+  ApiResponse<List<JobType>> _apiResponse2;
+  ApiResponse<List<EmploymentType>> _apiResponse3;
 
   @override
   void initState() {
-    super.initState();
+    fetchEmpType();
+    fetchJobType();
     fetchShift();
+    super.initState();
+
   }
 
   fetchShift() async {
@@ -84,6 +90,25 @@ class _CareerPreferenceState extends State<CareerPreference> {
       isLoading = true;
     });
     _apiResponse = await apiServices.getShift();
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  fetchJobType() async {
+    setState(() {
+      isLoading = true;
+    });
+    _apiResponse2 = await apiServices.getjobType();
+    setState(() {
+      isLoading = false;
+    });
+  }
+   fetchEmpType() async {
+    setState(() {
+      isLoading = true;
+    });
+    _apiResponse3 = await apiServices.getEmploymentType();
     setState(() {
       isLoading = false;
     });
@@ -115,8 +140,6 @@ class _CareerPreferenceState extends State<CareerPreference> {
                     SizedBox(width: 10,),
                     Text('Career Preferences',style: const TextStyle(color:Colors.black,fontSize: 20, fontWeight:FontWeight.bold,fontFamily: "ProximaNova")),
                   ],
-
-
                 ),
 
 
@@ -211,22 +234,8 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                     Flexible(
                                       child:  Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: DropdownSearch<String>(
-                                          dropdownSearchDecoration: const InputDecoration(
-                                            border: UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: Colors.grey,
-                                              ),
-                                            ),
-                                          ),
-                                          mode: Mode.DIALOG,
-                                          showSelectedItems: true,
-                                          showSearchBox: true,
-                                          items:lists3,
-                                          // popupItemDisabled: (String s) => s.startsWith('I'),
-                                          onChanged: print,
-                                          hint: "Select Type",
-                                        ),
+                                        child:Text("Dummy"),
+
                                       ),
                                     ),
                                   ],
@@ -258,26 +267,28 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
                                   children: <Widget>[
-                                    Flexible(
-                                      child:  Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: DropdownSearch<String>(
-                                          dropdownSearchDecoration: const InputDecoration(
-                                            border: UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: Colors.grey,
-                                              ),
-                                            ),
-                                          ),
-                                          mode: Mode.DIALOG,
-                                          showSelectedItems: true,
-                                          showSearchBox: true,
-                                          items:lists4,
-                                          // popupItemDisabled: (String s) => s.startsWith('I'),
-                                          onChanged: print,
-                                          hint: "Select Employment",
-                                        ),
-                                      ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: DropdownButtonHideUnderline(
+                                          child: GFDropdown(
+                                              hint: const Text("Employment Type"),
+                                              value: empType,
+                                              onChanged: (newValue) {
+                                                setState(() {
+                                                  empType = newValue;
+                                                });
+                                              },
+                                              items:
+
+                                             _apiResponse3.data
+                                              .map(
+                                              (data) => DropdownMenuItem(
+                                          value: data.employmenttypeId ,
+                                          child: Text(data.employmenttypeName)),
+                            )
+                                .toList(),
+                    ),
+                  ),
                                     ),
                                   ],
                                 )),
@@ -445,7 +456,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                             (data) => DropdownMenuItem(
                               value: data.shiftId,
                               child: Text(
-                                "${data.shiftName}",
+                                data.shiftName,
                                 style: TextStyle(
                                     fontSize: 15,
                                     fontWeight:

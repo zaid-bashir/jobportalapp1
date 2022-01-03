@@ -2,6 +2,8 @@
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:job_portal/Models/EmploymentType.dart';
+import 'package:job_portal/Models/JobType.dart';
 import 'package:job_portal/Models/QualificationDetails.dart';
 import 'package:job_portal/Models/Stream.dart';
 import 'package:job_portal/Models/getjobcategory.dart';
@@ -282,4 +284,55 @@ class ApiServices {
         error: true, errorMessage: "An error occurred");
   }
 
+  // JOB TYPE
+  Future<ApiResponse<List<JobType>>> getjobType() async {
+    final url = Uri.parse(ApiUrls.kJobType);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <JobType>[];
+      for (var item in jsonData) {
+        list.add(JobType.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      print(list);
+      return ApiResponse<List<JobType>>(data: list);
+    }
+    return ApiResponse<List<JobType>>(
+        error: true, errorMessage: "An error occurred");
+  }
+
+
+
+  // EMPLOYMENT
+  Future<ApiResponse<List<EmploymentType>>> getEmploymentType() async {
+    final url = Uri.parse(ApiUrls.kEmpType);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <EmploymentType>[];
+      for (var item in jsonData) {
+        list.add(EmploymentType.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      print(list);
+      return ApiResponse<List<EmploymentType>>(data: list);
+    }
+    return ApiResponse<List<EmploymentType>>(
+        error: true, errorMessage: "An error occurred");
+  }
 }
