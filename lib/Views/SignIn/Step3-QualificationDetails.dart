@@ -3,11 +3,14 @@ import 'dart:io';
 
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:find_dropdown/find_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/GradingSystem.dart';
 import 'package:job_portal/Models/PassingYear.dart';
+import 'package:job_portal/Models/QualificationDetails.dart';
+import 'package:job_portal/Models/Stream.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Views/SignIn/Step5-ProfessionalDetails.dart';
 
@@ -45,6 +48,10 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
   var courseSelect = "";
   var streamSelect = "";
   var instituteQualifiedFromSelect = "";
+
+  String highQual;
+  String Courses;
+  String Stream;
 
   List<String> highestQualification = [
     "PG",
@@ -107,8 +114,15 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
 
   ApiResponse<List<GradingSystem>> _apiResponse;
   ApiResponse<List<PassingYear>> _apiResponse2;
+  ApiResponse<List<Qualification>> _apiResponsequalification;
+  ApiResponse<List<Qualification>> _apiResponsecourse;
+  ApiResponse<List<Streams>> _apiResponsestream;
+
   @override
   void initState() {
+    fetchHighestQualification(query: "");
+    fetchCourses(query: "");
+    fetchStream(query: "");
     fetchPassingYear();
     fetchGradingSystem();
     loadingController = AnimationController(
@@ -121,6 +135,62 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
     super.initState();
   }
 
+  fetchStream({String query}) async{
+    setState(() {
+      isLoading = true;
+    });
+    _apiResponsestream = await apiServices.getStream(query: query);
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  fetchCourses({String query}) async{
+    setState(() {
+      isLoading = true;
+    });
+    _apiResponsecourse = await apiServices.getCourse(query: query);
+    setState(() {
+      isLoading = false;
+    });
+  }
+  fetchHighestQualification({String query}) async{
+    setState(() {
+      isLoading = true;
+    });
+      _apiResponsequalification = await apiServices.getQualification(query: query);
+    setState(() {
+      isLoading = false;
+    });
+  }
+  List<String> getStream(){
+    List<Streams> stream = _apiResponsestream.data;
+    List<String> streamItems = [];
+    for( int i = 0; i < stream.length; i++){
+      streamItems.add(stream[i].streamName);
+    }
+    return streamItems;
+  }
+  List<String> getData(){
+    List<Qualification> data = _apiResponsequalification.data;
+    List<String> dataItems = [];
+    for( int i = 0; i < data.length; i++){
+      dataItems.add(data[i].qualName);
+    }
+    return dataItems;
+  }
+  List<String> getCourses(){
+    List<Qualification> Courses = _apiResponsecourse.data;
+    List<String> courseItems = [];
+    for( int i = 0; i < Courses.length; i++){
+      courseItems.add(Courses[i].courseName);
+    }
+    return courseItems;
+  }
+
+  String query;
+  String querys;
+  String queryss;
   bool isLoading = false;
   fetchGradingSystem() async {
     setState(() {
@@ -309,35 +379,35 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: DropdownSearch<String>(
-                      hint: "Select Qualification",
-                      dropdownSearchDecoration: const InputDecoration(
+                    child: FindDropdown(
+                      searchBoxDecoration:   InputDecoration(
                         border: UnderlineInputBorder(
                           borderSide: BorderSide(
                             color: Colors.grey,
                           ),
                         ),
                       ),
-                      mode: Mode.DIALOG,
-                      showSearchBox: true,
-                      showSelectedItems: true,
-                      items: highestQualification,
-                      // label: "Menu mode",
-                      popupItemDisabled: (String s) => s.startsWith('I'),
+                      items: getData(),
+                      searchHint: "Highest Qualification",
+                      onFind: (val) async{
+                        setState(() {
+                          query = val;
+                        });
+                        await fetchHighestQualification(query: query);
+                        getData();
+                        return [""];
+                      },
                       onChanged: (item) {
                         setState(() {
-                          highestQualificationSelect = item;
+                          highQual = item;
                         });
                       },
-                      selectedItem: highestQualificationSelect,
                     ),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
-                  !(highestQualificationSelect == "" ||
-                          highestQualificationSelect == "Below 10th")
-                      ? Column(
+                Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
@@ -356,29 +426,29 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                             ),
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 10),
-                              child: DropdownSearch<String>(
-                                hint: "Select Course",
-                                dropdownSearchDecoration:
-                                    const InputDecoration(
+                              child: FindDropdown(
+                                searchBoxDecoration:   InputDecoration(
                                   border: UnderlineInputBorder(
                                     borderSide: BorderSide(
                                       color: Colors.grey,
                                     ),
                                   ),
                                 ),
-                                mode: Mode.DIALOG,
-                                showSearchBox: true,
-                                showSelectedItems: true,
-                                items: course,
-                                // label: "Menu mode",
-                                popupItemDisabled: (String s) =>
-                                    s.startsWith('I'),
+                                items: getCourses(),
+                                searchHint: "Course",
+                                onFind: (val) async{
+                                  setState(() {
+                                    querys = val;
+                                  });
+                                  await fetchCourses(query: querys);
+                                  getCourses();
+                                  return [""];
+                                },
                                 onChanged: (item) {
                                   setState(() {
-                                    courseSelect = item;
+                                    Courses = item;
                                   });
                                 },
-                                selectedItem: courseSelect,
                               ),
                             ),
                             const SizedBox(
@@ -399,29 +469,29 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                             ),
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 10),
-                              child: DropdownSearch<String>(
-                                hint: "Select Stream",
-                                dropdownSearchDecoration:
-                                    const InputDecoration(
+                              child: FindDropdown(
+                                searchBoxDecoration:   InputDecoration(
                                   border: UnderlineInputBorder(
                                     borderSide: BorderSide(
                                       color: Colors.grey,
                                     ),
                                   ),
                                 ),
-                                mode: Mode.DIALOG,
-                                showSearchBox: true,
-                                showSelectedItems: true,
-                                items: stream,
-                                // label: "Menu mode",
-                                popupItemDisabled: (String s) =>
-                                    s.startsWith('I'),
+                                items: getStream(),
+                                searchHint: "Streams",
+                                onFind: (val) async{
+                                  setState(() {
+                                    queryss = val;
+                                  });
+                                  await fetchStream(query: queryss);
+                                  getStream();
+                                  return [""];
+                                },
                                 onChanged: (item) {
                                   setState(() {
-                                    streamSelect = item;
+                                    Stream = item;
                                   });
                                 },
-                                selectedItem: streamSelect,
                               ),
                             ),
                             const SizedBox(
@@ -770,7 +840,7 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                             ),
                           ],
                         )
-                      : Container(),
+
                 ],
               ),
             ),

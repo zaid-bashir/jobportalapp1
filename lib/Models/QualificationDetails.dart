@@ -1,10 +1,10 @@
 class  Qualification {
   String summary;
-  int qualificationId;
-  String qualificationName;
-  int courseId;
+  String qualId;
+  String qualName;
+  String courseId;
   String courseName;
-  int streamId;
+  String streamId;
   String streamName;
   String courseType;
   int instituteId;
@@ -16,7 +16,7 @@ class  Qualification {
   String value;
 
 
-  Qualification({this.summary,this.qualificationId,this.qualificationName,this.streamId,this.streamName,this.courseType,
+  Qualification({this.summary,this.qualId,this.qualName,this.streamId,this.streamName,this.courseType,
     this.instituteId,this.instituteName, this.yearId,this.yearName,this.gradingsystemId,this.gradingsystemName,this.value,this.courseId,
     this.courseName});
 
@@ -24,8 +24,8 @@ class  Qualification {
   factory Qualification.fromJson(Map<String, dynamic> item) {
     return Qualification(
         summary: item["summary"],
-        qualificationId: item["qualificationId"],
-        qualificationName: item["qualificationName"],
+        qualId: item["qualId"],
+        qualName: item["qualName"],
         streamId: item["streamId"],
         streamName: item["streamName"],
         courseType: item["courseType"],
@@ -43,8 +43,8 @@ class  Qualification {
   Map<String, dynamic> toJson() {
     return {
       "summary": summary,
-      "qualificationId": qualificationId,
-      "qualificationName": qualificationName,
+      "qualificationId": qualId,
+      "qualificationName": qualName,
       "streamId": streamId,
       "streamName": streamName,
       "courseType": courseType,

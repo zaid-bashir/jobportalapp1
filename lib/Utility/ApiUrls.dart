@@ -7,10 +7,7 @@ class ApiUrls{
   static String kGradingSystem = "http://192.168.0.20:9004/jobportal-app/app/api/populate/grading-system";
   static String kShift = "http://192.168.0.20:9004/jobportal-app/app/api/populate/shift";
   static String kjobrole = "http://192.168.0.20:9004/jobportal-app/app/api/populate/jobrole?query=";
-  static String kcompany = "http://192.168.0.20:9004/jobportal-app/app/api/populate/company?query=";
-  static String kindustry = "http://192.168.0.20:9004/jobportal-app/app/api/populate/industry?query=";
-  static String kmarital = "http://192.168.0.20:9004/jobportal-app/app/api/populate/marital-status";
-
-  static String kcategory = "http://192.168.0.20:9004/jobportal-app/app/api/populate/caste";
-
+  static String kHighestQualification = "http://192.168.0.20:9004/jobportal-app/app/api/populate/qualification?query=";
+  static String kCourse = "http://192.168.0.20:9004/jobportal-app/app/api/populate/course?query=";
+  static String kStream = "http://192.168.0.20:9004/jobportal-app/app/api/populate/stream?query=";
 }

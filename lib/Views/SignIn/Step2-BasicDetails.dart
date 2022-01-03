@@ -1,4 +1,3 @@
-// ignore_for_file: prefer_final_fields, unused_field, prefer_const_constructors, avoid_print, deprecated_member_use, prefer_const_literals_to_create_immutables, unnecessary_string_interpolations, duplicate_ignore
 
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:find_dropdown/find_dropdown.dart';
@@ -110,12 +109,12 @@ class _BasicDetailsState extends State<BasicDetails> {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  icon: Icon(Icons.arrow_back),
+                  icon: const Icon(Icons.arrow_back),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
-                Text(
+                const Text(
                   "Register New Account",
                   style: TextStyle(
                       fontSize: 20,
@@ -143,7 +142,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 border: Border(
                                     bottom: BorderSide(color: Colors.grey)),
                               ),
@@ -152,7 +151,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                                 child: DropdownButtonHideUnderline(
                                   child: GFDropdown(
                                     hint: Row(
-                                      children: [
+                                      children: const [
                                         Text(
                                           "Title",
                                           style: TextStyle(
@@ -179,7 +178,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                                                   value: value,
                                                   child: Text(
                                                     value,
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         fontSize: 15,
                                                         fontWeight:
                                                             FontWeight.normal,
@@ -194,7 +193,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                                                 value: titleIdPref = data.titleId,
                                                 child: Text(
                                                   "${data.titleDesc}",
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       fontSize: 15,
                                                       fontWeight:
                                                           FontWeight.normal,
@@ -211,12 +210,12 @@ class _BasicDetailsState extends State<BasicDetails> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
-                        Expanded(
+                        const Expanded(
                           flex: 5,
-                          child: const TextField(
+                          child: TextField(
                             decoration: InputDecoration(
                               contentPadding: EdgeInsets.all(8.0),
                               alignLabelWithHint: true,
@@ -253,8 +252,8 @@ class _BasicDetailsState extends State<BasicDetails> {
                       child: Row(
                         // ignore: prefer_const_literals_to_create_immutables
                         children: [
-                          Expanded(
-                            child: const TextField(
+                          const Expanded(
+                            child: TextField(
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(8.0),
                                 labelText: 'Middle Name',
@@ -277,11 +276,11 @@ class _BasicDetailsState extends State<BasicDetails> {
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
-                          Expanded(
-                            child: const TextField(
+                          const Expanded(
+                            child: TextField(
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(8.0),
                                 labelText: 'Last Name',
@@ -310,9 +309,9 @@ class _BasicDetailsState extends State<BasicDetails> {
                     const SizedBox(
                       height: 10,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: const TextField(
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: TextField(
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.all(8.0),
                           labelText: 'E-mail',
@@ -338,8 +337,8 @@ class _BasicDetailsState extends State<BasicDetails> {
                     const SizedBox(
                       height: 15,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8),
+                    const Padding(
+                      padding: EdgeInsets.all(8),
                       child: Text(
                         "Gender",
                         textAlign: TextAlign.left,
@@ -359,7 +358,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                         children: [
                           GFRadio(
                             size: 20,
-                            activeBorderColor: Color(0xff2972ff),
+                            activeBorderColor: const Color(0xff2972ff),
                             value: 0,
                             groupValue: genderGroupValue,
                             onChanged: (value) {
@@ -369,7 +368,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                             },
 
                             inactiveIcon: null,
-                            radioColor: Color(0xff2972ff),
+                            radioColor: const Color(0xff2972ff),
                           ),
 
                           const SizedBox(
@@ -397,8 +396,8 @@ class _BasicDetailsState extends State<BasicDetails> {
                               });
                             },
                             inactiveIcon: null,
-                            activeBorderColor: Color(0xff2972ff),
-                            radioColor: Color(0xff2972ff),
+                            activeBorderColor: const Color(0xff2972ff),
+                            radioColor: const Color(0xff2972ff),
                           ),
                           const SizedBox(
                             width: 7,
@@ -415,7 +414,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                           ),
                           GFRadio(
                             size: 20,
-                            activeBorderColor: Color(0xff2972ff),
+                            activeBorderColor: const Color(0xff2972ff),
                             value: 3,
                             groupValue: genderGroupValue,
                             onChanged: (value) {
@@ -424,7 +423,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                               });
                             },
                             inactiveIcon: null,
-                            radioColor: Color(0xff2972ff),
+                            radioColor: const Color(0xff2972ff),
                           ),
                           const SizedBox(
                             width: 7,
@@ -439,8 +438,8 @@ class _BasicDetailsState extends State<BasicDetails> {
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8),
+                    const Padding(
+                      padding: EdgeInsets.all(8),
                       child: Text(
                         "Experience",
                         textAlign: TextAlign.left,
@@ -460,7 +459,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                         children: [
                           GFRadio(
                             size: 20,
-                            activeBorderColor: Color(0xff2972ff),
+                            activeBorderColor: const Color(0xff2972ff),
                             value: 0,
                             groupValue: experienceGroupValue,
                             onChanged: (value) {
@@ -469,7 +468,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                               });
                             },
                             inactiveIcon: null,
-                            radioColor: Color(0xff2972ff),
+                            radioColor: const Color(0xff2972ff),
                           ),
                           const SizedBox(
                             width: 7,
@@ -494,8 +493,8 @@ class _BasicDetailsState extends State<BasicDetails> {
                               });
                             },
                             inactiveIcon: null,
-                            activeBorderColor: Color(0xff2972ff),
-                            radioColor: Color(0xff2972ff),
+                            activeBorderColor: const Color(0xff2972ff),
+                            radioColor: const Color(0xff2972ff),
                           ),
                           const SizedBox(
                             width: 7,
@@ -514,8 +513,8 @@ class _BasicDetailsState extends State<BasicDetails> {
                       height: 10,
                     ),
                     experienceGroupValue == 0
-                        ? Padding(
-                            padding: const EdgeInsets.all(8),
+                        ? const Padding(
+                            padding: EdgeInsets.all(8),
                             child: Text(
                               "Experience Tenure",
                               textAlign: TextAlign.left,
@@ -537,21 +536,21 @@ class _BasicDetailsState extends State<BasicDetails> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Container(
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       border: Border(
                                           bottom:
                                               BorderSide(color: Colors.grey)),
                                     ),
                                     child: DropdownButtonHideUnderline(
                                       child: GFDropdown(
-                                        hint: Text(
+                                        hint: const Text(
                                           "Years",
                                           style: TextStyle(
                                               fontSize: 15,
                                               fontWeight: FontWeight.bold,
                                               fontFamily: "ProximaNova"),
                                         ),
-                                        borderRadius: BorderRadius.horizontal(
+                                        borderRadius: const BorderRadius.horizontal(
                                             left: Radius.zero,
                                             right: Radius.zero),
                                         value: mySelectionYear,
@@ -583,7 +582,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                                                   value: value,
                                                   child: Text(
                                                     value,
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         fontSize: 15,
                                                         fontWeight:
                                                             FontWeight.bold,
@@ -602,14 +601,14 @@ class _BasicDetailsState extends State<BasicDetails> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Container(
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       border: Border(
                                           bottom:
                                               BorderSide(color: Colors.grey)),
                                     ),
                                     child: DropdownButtonHideUnderline(
                                       child: GFDropdown(
-                                        hint: Text(
+                                        hint: const Text(
                                           "Months",
                                           style: TextStyle(
                                               fontSize: 15,
@@ -628,7 +627,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                                                   value: value,
                                                   child: Text(
                                                     value,
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         fontSize: 15,
                                                         fontWeight:
                                                             FontWeight.bold,
@@ -648,8 +647,8 @@ class _BasicDetailsState extends State<BasicDetails> {
                     const SizedBox(
                       height: 20,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8),
+                    const Padding(
+                      padding: EdgeInsets.all(8),
                       child: Text(
                         "Job Role",
                         textAlign: TextAlign.left,
@@ -665,6 +664,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                         child: FindDropdown(
                           searchBoxDecoration:  const InputDecoration(
                             border: UnderlineInputBorder(
+
                               borderSide: BorderSide(
                                 color: Colors.grey,
                               ),
@@ -691,8 +691,8 @@ class _BasicDetailsState extends State<BasicDetails> {
                     const SizedBox(
                       height: 20,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8),
+                    const Padding(
+                      padding: EdgeInsets.all(8),
                       child: Text(
                         "Current Location",
                         textAlign: TextAlign.left,
@@ -706,7 +706,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                       padding: const EdgeInsets.all(8.0),
                       child: DropdownSearch<String>(
                         hint: "Current Location",
-                        dropdownSearchBaseStyle: TextStyle(
+                        dropdownSearchBaseStyle: const TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
                             fontFamily: "ProximaNova"),
@@ -743,7 +743,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => QualificationBlueCollar(),
+                      builder: (context) => const QualificationBlueCollar(),
                     ),
                   );
                 },
