@@ -3,7 +3,6 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:find_dropdown/find_dropdown.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/GetTitle.dart';
@@ -21,16 +20,32 @@ class BasicDetails extends StatefulWidget {
 
 class _BasicDetailsState extends State<BasicDetails> {
 
+  //SharedPreference Global 
+  //======================
+  SharedPreferences pref;
+
   //SharedPrefs Variable
+  //====================
   String titleIdPref;
 
+  //Normal Fiels Variables
+  //======================
   String myjobrole = "";
   String query;
-
-  List<String> locationList = ["Srinagar", "Jammu", "Kolkata"];
-
   String myLocation;
+  bool _isLoading = false;
+  int genderGroupValue = 0;
+  int experienceGroupValue = 0;
+  String dropdownValue;
+  String mySelection;
+  String mySelectionYear;
+  String mySelectionMonth;
+  bool isLoadingJobCategory = false;
+  bool isLoading = false;
 
+  //Dummy Data List
+  //===============
+  List<String> locationList = ["Srinagar", "Jammu", "Kolkata"];
   List<String> salutation = [
     "Mr",
     "Ms",
@@ -39,24 +54,16 @@ class _BasicDetailsState extends State<BasicDetails> {
     "Mx",
   ];
 
-  String mySelection;
-  String mySelectionYear;
-  String mySelectionMonth;
 
-  bool _isLoading = false;
-  int genderGroupValue = 0;
-  int experienceGroupValue = 0;
-  String dropdownValue;
-
-  bool isLoading = false;
-  bool isLoadingJobCategory = false;
-
+  //Service Object
+  //==============
   ApiServices apiServices = ApiServices();
 
+  //ApiResponse Generic Objects
+  //===========================
   ApiResponse<List<GetTitle>> _apiResponse;
   ApiResponse<List<JobCategory>> _apiResponseJobCategory;
 
-  SharedPreferences pref;
 
   @override
   void initState() {
@@ -154,6 +161,8 @@ class _BasicDetailsState extends State<BasicDetails> {
                                   child: GFDropdown(
                                     hint: Row(
                                       children: [
+                                        Text("*",style: TextStyle(color: Colors.red,fontSize: 18),),
+                                        SizedBox(width: 10,),
                                         Text(
                                           "Title",
                                           style: TextStyle(
@@ -161,8 +170,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                                               fontWeight: FontWeight.bold,
                                               fontFamily: "ProximaNova"),
                                         ),
-                                        SizedBox(width: 5,),
-                                        Text("*",style: TextStyle(color: Colors.red),),
+                                        SizedBox(width: 10,),
                                       ],
                                     ),
                                     onChanged: (newValue) {
@@ -221,7 +229,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                             decoration: InputDecoration(
                               contentPadding: EdgeInsets.all(8.0),
                               alignLabelWithHint: true,
-                              labelText: "First Name",
+                              labelText: "First Name \*",
                               labelStyle: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold,
@@ -660,33 +668,31 @@ class _BasicDetailsState extends State<BasicDetails> {
                             fontFamily: "ProximaNova"),
                       ),
                     ),
-                    Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: FindDropdown(
-                          searchBoxDecoration:  const InputDecoration(
-                            border: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.grey,
-                              ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: FindDropdown(
+                        searchBoxDecoration:  const InputDecoration(
+                          border: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.grey,
                             ),
                           ),
-                          items: parseData(),
-                          searchHint: "Job Role",
-                          onFind: (val) async{
-                            setState(() {
-                              query = val;
-                            });
-                            await fetchJobCategory(query: query);
-                            parseData();
-                          return [""];
-                          },
-                          onChanged: (item) {
-                            setState(() {
-                              myjobrole = item;
-                            });
-                          },
                         ),
+                        items: isLoadingJobCategory ? ["Not Connected With Internet"] : parseData(),
+                        searchHint: "Job Role", 
+                        onFind: (val) async {
+                          setState(() {
+                            query = val;
+                          });
+                          await isLoadingJobCategory ? (){} : fetchJobCategory(query: query);
+                          parseData();
+                          return [""];
+                        },
+                        onChanged: (item) {
+                          setState(() {
+                            myjobrole = item;
+                          });
+                        },
                       ),
                     ),
                     const SizedBox(
