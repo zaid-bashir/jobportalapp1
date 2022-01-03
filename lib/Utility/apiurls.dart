@@ -12,9 +12,4 @@ class ApiUrls{
   static String kStream = "http://192.168.0.20:9004/jobportal-app/app/api/populate/stream?query=";
   static String kJobType = "http://192.168.0.20:9004/jobportal-app/app/api/populate/jobtype;";
   static String kEmpType = "http://192.168.0.20:9004/jobportal-app/app/api/populate/employmenttype";
-  static String kCity = "http://192.168.0.20:9004/jobportal-app/app/api/populate/location?query=";
-  static String kcategory = "http://192.168.0.20:9004/jobportal-app/app/api/populate/caste";
-  static String kmarital = "http://192.168.0.20:9004/jobportal-app/app/api/populate/marital-status";
-  static String kindustry = "http://192.168.0.20:9004/jobportal-app/app/api/populate/industry?query=";
-  static String kcompany = "http://192.168.0.20:9004/jobportal-app/app/api/populate/company?query=";
 }

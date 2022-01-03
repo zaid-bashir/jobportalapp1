@@ -1,16 +1,12 @@
-import 'package:find_dropdown/find_dropdown.dart';
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:date_field/date_field.dart';
 import 'package:getwidget/components/radio/gf_radio.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:job_portal/Data_Controller/apiresponse.dart';
-import 'package:job_portal/Models/GetCategory.dart';
-import 'package:job_portal/Models/GetIndustry.dart';
-import 'package:job_portal/Models/GetMarital.dart';
-
-import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Views/Candidate/BottomNavbar.dart';
+import 'package:job_portal/Views/Candidate/Home.dart';
 
 class PersonalDetails extends StatefulWidget {
   const PersonalDetails({Key key}) : super(key: key);
@@ -20,7 +16,6 @@ class PersonalDetails extends StatefulWidget {
 }
 
 class _PersonalDetailsState extends State<PersonalDetails> {
-
   DateTime selectedDate;
   int groupValue = 1;
   int groupValue2 = 1;
@@ -28,44 +23,6 @@ class _PersonalDetailsState extends State<PersonalDetails> {
 
   List lists = ["delhi", "mumbai", "chennai", "kashmir"];
   List list = ["Srinagar", "Pulwama", "Budgam", "Ganderbal"];
-
-  String myMaritalStatus ;
-  String myCategory ;
-
-  bool isLoading = false;
-  ApiServices apiServices = ApiServices();
-
-  ApiResponse<List<Marital>> _apiResponse;
-  ApiResponse<List<Category>> _apiResponseCategory;
-
-  @override
-  void initState() {
-    super.initState();
-    fetchMarital();
-    fetchCategory();
-  }
-
-//marital status
-  fetchMarital() async {
-    setState(() {
-      isLoading = true;
-    });
-    _apiResponse = await apiServices.getMarital();
-    setState(() {
-      isLoading = false;
-    });
-  }
-
-//category
-  fetchCategory() async {
-    setState(() {
-      isLoading = true;
-    });
-    _apiResponseCategory = await apiServices.getCategory();
-    setState(() {
-      isLoading = false;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -279,45 +236,27 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                       const SizedBox(
                         height: 10,
                       ),
-                      DropdownButtonFormField(
-                        // disabledHint: ,
-                        decoration: const InputDecoration(
-                            border: UnderlineInputBorder()),
-                        hint: Text("Select Status"),
-                        value: myMaritalStatus,
-                        onChanged: (newValue) {
-                          setState(() {
-                            myMaritalStatus = newValue;
-                          });
-                        },
-                        items: isLoading
-                            ? ["Please Wait"]
-                                .map(
-                                  (value) => DropdownMenuItem(
-                                      value: value,
-                                      child: Text(
-                                        value,
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.normal,
-                                            fontFamily: "ProximaNova"),
-                                      )),
-                                )
-                                .toList()
-                            : _apiResponse.data
-                                .map(
-                                  (data) => DropdownMenuItem(
-                                    value: data.maritalId,
-                                    child: Text(
-                                      data.maritalName,
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.normal,
-                                          fontFamily: "ProximaNova"),
-                                    ),
-                                  ),
-                                )
-                                .toList(),
+                      DropdownSearch<String>(
+                        dropdownSearchDecoration: const InputDecoration(
+                          border: const UnderlineInputBorder(
+                            borderSide: const BorderSide(
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                        mode: Mode.DIALOG,
+                        showSelectedItems: true,
+                        showSearchBox: true,
+                        items: [
+                          "Married",
+                          "Unmarried",
+                          "Separated",
+                          "Divorced",
+                          "Widowed"
+                        ],
+                        // popupItemDisabled: (String s) => s.startsWith('I'),
+                        onChanged: print,
+                        hint: "Select Marital Status",
                       ),
                       const Padding(
                         padding: EdgeInsets.only(top: 15, right: 25),
@@ -330,45 +269,21 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                       const SizedBox(
                         height: 10,
                       ),
-                      DropdownButtonFormField(
-                        // disabledHint: ,
-                        decoration: const InputDecoration(
-                            border: UnderlineInputBorder()),
-                        hint: Text("Select category"),
-                        value: myCategory,
-                        onChanged: (newValue) {
-                          setState(() {
-                            myCategory = newValue;
-                          });
-                        },
-                        items: isLoading
-                            ? ["Please Wait"]
-                                .map(
-                                  (value) => DropdownMenuItem(
-                                      value: value,
-                                      child: Text(
-                                        value,
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.normal,
-                                            fontFamily: "ProximaNova"),
-                                      )),
-                                )
-                                .toList()
-                            : _apiResponseCategory.data
-                                .map(
-                                  (data) => DropdownMenuItem(
-                                    value: data.casteId,
-                                    child: Text(
-                                      data.casteName,
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.normal,
-                                          fontFamily: "ProximaNova"),
-                                    ),
-                                  ),
-                                )
-                                .toList(),
+                      DropdownSearch<String>(
+                        dropdownSearchDecoration: const InputDecoration(
+                          border: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                        mode: Mode.DIALOG,
+                        showSelectedItems: true,
+                        showSearchBox: true,
+                        items: ["OM", "SC", "ST", "RBC", "OBC"],
+                        // popupItemDisabled: (String s) => s.startsWith('I'),
+                        onChanged: print,
+                        hint: "Select Category",
                       ),
                       const Padding(
                         padding: EdgeInsets.only(
@@ -670,11 +585,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                     alignment: Alignment.centerRight,
                     child: GFButton(
                       onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => Navbar(),
-                          ),
-                        );
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Navbar(),),);
                       },
                       text: "Next",
                       type: GFButtonType.solid,
