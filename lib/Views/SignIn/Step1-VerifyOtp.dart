@@ -1,14 +1,11 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, unused_field, curly_braces_in_flow_control_structures, must_be_immutable, avoid_print, avoid_single_cascade_in_expression_statements, unnecessary_string_interpolations
-
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
-import 'package:job_portal/Models/verify_otp.dart';
-import 'package:job_portal/Services/api_services.dart';
+import 'package:job_portal/Models/VerifyOtp.dart';
+import 'package:job_portal/Services/ApiServices.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:job_portal/Views/SignIn/step2-basicdetails.dart';
+import 'package:job_portal/Views/SignIn/Step2-BasicDetails.dart';
 
 class VerifyOTP extends StatefulWidget {
   VerifyOTP({Key key, this.registerMobile, this.otp}) : super(key: key);
@@ -41,9 +38,10 @@ class _VerifyOTPState extends State<VerifyOTP> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
-        body: SingleChildScrollView(
-          child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 20),
+        body: ListView(
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               height: MediaQuery.of(context).size.height,
               width: double.infinity,
               child: Column(
@@ -56,25 +54,25 @@ class _VerifyOTPState extends State<VerifyOTP> {
                     ),
                     child: Image.asset("assets/19873.jpg"),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   FadeInDown(
-                    duration: Duration(milliseconds: 500),
-                    child: Text(
+                    duration: const Duration(milliseconds: 500),
+                    child: const Text(
                       "Verification",
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           fontFamily: "ProximaNova"),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   FadeInDown(
-                    delay: Duration(milliseconds: 500),
-                    duration: Duration(milliseconds: 500),
+                    delay: const Duration(milliseconds: 500),
+                    duration: const Duration(milliseconds: 500),
                     child: Text(
                       "Please enter the 4 digit code sent to \n +91-${widget.registerMobile}",
                       textAlign: TextAlign.center,
@@ -92,7 +90,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
                   FadeInDown(
                     child: VerificationCode(
                       length: 6,
-                      textStyle: TextStyle(fontSize: 20, color: Colors.black),
+                      textStyle: const TextStyle(fontSize: 20, color: Colors.black),
                       underlineColor: Colors.black,
                       keyboardType: TextInputType.number,
                       underlineUnfocusedColor: Colors.black,
@@ -107,12 +105,12 @@ class _VerifyOTPState extends State<VerifyOTP> {
                     ),
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   FadeInDown(
-                    delay: Duration(milliseconds: 700),
-                    duration: Duration(milliseconds: 500),
+                    delay: const Duration(milliseconds: 700),
+                    duration: const Duration(milliseconds: 500),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -121,23 +119,23 @@ class _VerifyOTPState extends State<VerifyOTP> {
                           style: TextStyle(
                               fontSize: 14, color: Colors.grey.shade500),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         TextButton.icon(
                           onPressed: () {},
-                          icon: Icon(Icons.reset_tv),
-                          label: Text("Resend"),
+                          icon: const Icon(Icons.reset_tv),
+                          label: const Text("Resend"),
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 50,
                   ),
                   FadeInDown(
-                    delay: Duration(milliseconds: 800),
-                    duration: Duration(milliseconds: 500),
+                    delay: const Duration(milliseconds: 800),
+                    duration: const Duration(milliseconds: 500),
                     child: MaterialButton(
                       elevation: 0,
                       onPressed: () {
@@ -151,7 +149,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
                               btnOkOnPress: () {
                                 Navigator.of(context).pop();
                               },
-                            )..show();
+                            ).show();
                           } else {
                             AwesomeDialog(
                               context: context,
@@ -163,21 +161,22 @@ class _VerifyOTPState extends State<VerifyOTP> {
                               btnOkOnPress: () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
-                                    builder: (context) => BasicDetails(),
+                                    builder: (context) => const BasicDetails(),
                                   ),
                                 );
                               },
-                            )..show();
+                            ).show();
                           }
                       },
                       color: Colors.orange.shade400,
                       minWidth: MediaQuery.of(context).size.width * 0.8,
                       height: 50,
-                      child: Text("Verify OTP"),
+                      child: const Text("Verify OTP"),
                     ),
                   ),
                 ],
               )),
-        ));
+          ],
+        ),);
   }
 }

@@ -1,12 +1,14 @@
-// ignore_for_file: prefer_final_fields, unused_field, prefer_const_constructors, avoid_print
 
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:find_dropdown/find_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
-import 'package:job_portal/Models/gettitle.dart';
-import 'package:job_portal/Services/api_services.dart';
-import 'package:job_portal/Views/SignIn/step3-qualificationdetails.dart';
+import 'package:job_portal/Models/GetTitle.dart';
+import 'package:job_portal/Models/getjobcategory.dart';
+import 'package:job_portal/Services/ApiServices.dart';
+import 'package:job_portal/Views/SignIn/Step3-QualificationDetails.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BasicDetails extends StatefulWidget {
   const BasicDetails({Key key}) : super(key: key);
@@ -16,14 +18,12 @@ class BasicDetails extends StatefulWidget {
 }
 
 class _BasicDetailsState extends State<BasicDetails> {
-  List<String> jobCategoryList = [
-    "Software Engineer",
-    "Network Engineer",
-    "Network Engineer",
-    "Software Tester",
-  ];
 
-  String myjobCategory;
+  //SharedPrefs Variable
+  String titleIdPref;
+
+  String myjobrole = "";
+  String query;
 
   List<String> locationList = ["Srinagar", "Jammu", "Kolkata"];
 
@@ -47,40 +47,25 @@ class _BasicDetailsState extends State<BasicDetails> {
   String dropdownValue;
 
   bool isLoading = false;
+  bool isLoadingJobCategory = false;
 
   ApiServices apiServices = ApiServices();
 
   ApiResponse<List<GetTitle>> _apiResponse;
+  ApiResponse<List<JobCategory>> _apiResponseJobCategory;
 
-  RichText getRequiredLabel(String fieldName) {
-    return RichText(
-      text: TextSpan(
-        style: TextStyle(
-            fontSize: 15,
-            color: Colors.grey,
-            fontWeight: FontWeight.bold,
-            fontFamily: "ProximaNova"),
-        text: fieldName,
-        children: [
-          TextSpan(
-            text: " *",
-            style: TextStyle(
-              color: Colors.red,
-              fontFamily: "ProximaNova",
-              fontWeight: FontWeight.bold,
-              // letterSpacing: 1.5,
-              fontSize: 15,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  SharedPreferences pref;
 
   @override
   void initState() {
     super.initState();
+    initSharedPreferences();
     fetchTitles();
+    fetchJobCategory(query: "");
+  }
+
+  void initSharedPreferences() async {
+    pref = await SharedPreferences.getInstance();
   }
 
   fetchTitles() async {
@@ -91,6 +76,24 @@ class _BasicDetailsState extends State<BasicDetails> {
     setState(() {
       isLoading = false;
     });
+  }
+    fetchJobCategory({String query}) async {
+    setState(() {
+      isLoadingJobCategory = true;
+    });
+    _apiResponseJobCategory = await apiServices.getJobCategory(query: query);
+    setState(() {
+      isLoadingJobCategory = false;
+    });
+  }
+
+  List<String> parseData(){
+    List<JobCategory> category = _apiResponseJobCategory.data;
+    List<String> dataItems = [];
+    for(int i = 0; i < category.length;i++){
+      dataItems.add(category[i].jobroleName);
+    }
+    return dataItems;
   }
 
   @override
@@ -106,12 +109,12 @@ class _BasicDetailsState extends State<BasicDetails> {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  icon: Icon(Icons.arrow_back),
+                  icon: const Icon(Icons.arrow_back),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
-                Text(
+                const Text(
                   "Register New Account",
                   style: TextStyle(
                       fontSize: 20,
@@ -139,7 +142,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 border: Border(
                                     bottom: BorderSide(color: Colors.grey)),
                               ),
@@ -147,11 +150,26 @@ class _BasicDetailsState extends State<BasicDetails> {
                                 padding: const EdgeInsets.all(5.0),
                                 child: DropdownButtonHideUnderline(
                                   child: GFDropdown(
-                                    hint: getRequiredLabel("Title"),
+                                    hint: Row(
+                                      children: const [
+                                        Text(
+                                          "Title",
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "ProximaNova"),
+                                        ),
+                                        SizedBox(width: 5,),
+                                        Text("*",style: TextStyle(color: Colors.red),),
+                                      ],
+                                    ),
                                     onChanged: (newValue) {
                                       setState(() {
                                         mySelection = newValue;
+                                        pref.setString("titleId", titleIdPref);
                                       });
+                                      String Intval = pref.getString('titleId') ?? 0;
+                                      print(Intval);
                                     },
                                     items: isLoading
                                         ? ["Please Wait"]
@@ -160,7 +178,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                                                   value: value,
                                                   child: Text(
                                                     value,
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         fontSize: 15,
                                                         fontWeight:
                                                             FontWeight.normal,
@@ -172,10 +190,10 @@ class _BasicDetailsState extends State<BasicDetails> {
                                         : _apiResponse.data
                                             .map(
                                               (data) => DropdownMenuItem(
-                                                value: data.titleId,
+                                                value: titleIdPref = data.titleId,
                                                 child: Text(
                                                   "${data.titleDesc}",
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       fontSize: 15,
                                                       fontWeight:
                                                           FontWeight.normal,
@@ -192,23 +210,25 @@ class _BasicDetailsState extends State<BasicDetails> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
-                        Expanded(
+                        const Expanded(
                           flex: 5,
-                          child: TextFormField(
-                            autofocus: true,
-                            keyboardType: TextInputType.text,
+                          child: TextField(
                             decoration: InputDecoration(
                               contentPadding: EdgeInsets.all(8.0),
-                              label: getRequiredLabel(
-                                "First Name",
-                              ),
+                              alignLabelWithHint: true,
+                              labelText: "First Name",
+                              labelStyle: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: "ProximaNova"),
                               floatingLabelStyle: TextStyle(
                                 color: Color(0xff2972ff),
                                 fontFamily: "ProximaNova",
                                 fontWeight: FontWeight.bold,
+                                // letterSpacing: 1.5,
                                 fontSize: 17.5,
                               ),
                               focusedBorder: UnderlineInputBorder(
@@ -232,11 +252,11 @@ class _BasicDetailsState extends State<BasicDetails> {
                       child: Row(
                         // ignore: prefer_const_literals_to_create_immutables
                         children: [
-                          Expanded(
-                            child: const TextField(
+                          const Expanded(
+                            child: TextField(
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(8.0),
-                                labelText: 'Middle Name:',
+                                labelText: 'Middle Name',
                                 labelStyle: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,
@@ -256,14 +276,14 @@ class _BasicDetailsState extends State<BasicDetails> {
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
-                          Expanded(
-                            child: TextFormField(
+                          const Expanded(
+                            child: TextField(
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(8.0),
-                                label: getRequiredLabel("Last Name"),
+                                labelText: 'Last Name',
                                 labelStyle: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,
@@ -289,43 +309,44 @@ class _BasicDetailsState extends State<BasicDetails> {
                     const SizedBox(
                       height: 10,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                          // ignore: prefer_const_literals_to_create_immutables
-                          children: [
-                            Expanded(
-                              child: const TextField(
-                                decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.all(8.0),
-                                  labelText: 'Email:',
-                                  labelStyle: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: "ProximaNova"),
-                                  floatingLabelStyle: TextStyle(
-                                    color: Color(0xff2972ff),
-                                    fontFamily: "ProximaNova",
-                                    fontWeight: FontWeight.bold,
-                                    // letterSpacing: 1.5,
-                                    fontSize: 17.5,
-                                  ),
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Color(0xff2972ff),
-                                    ),
-                                  ),
-                                ),
-                              ),
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(8.0),
+                          labelText: 'E-mail',
+                          labelStyle: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "ProximaNova"),
+                          floatingLabelStyle: TextStyle(
+                            color: Color(0xff2972ff),
+                            fontFamily: "ProximaNova",
+                            fontWeight: FontWeight.bold,
+                            // letterSpacing: 1.5,
+                            fontSize: 17.5,
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color(0xff2972ff),
                             ),
-                          ]),
+                          ),
+                        ),
+                      ),
                     ),
                     const SizedBox(
                       height: 15,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: getRequiredLabel("Gender"),
+                    const Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Text(
+                        "Gender",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "ProximaNova"),
+                      ),
                     ),
                     const SizedBox(
                       height: 3,
@@ -337,7 +358,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                         children: [
                           GFRadio(
                             size: 20,
-                            activeBorderColor: Color(0xff2972ff),
+                            activeBorderColor: const Color(0xff2972ff),
                             value: 0,
                             groupValue: genderGroupValue,
                             onChanged: (value) {
@@ -345,19 +366,23 @@ class _BasicDetailsState extends State<BasicDetails> {
                                 genderGroupValue = value;
                               });
                             },
+
                             inactiveIcon: null,
-                            radioColor: Color(0xff2972ff),
+                            radioColor: const Color(0xff2972ff),
                           ),
+
                           const SizedBox(
                             width: 7,
                           ),
                           const Text(
                             "Male",
+
                             style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: "ProximaNova"),
                           ),
+
                           const SizedBox(
                             width: 20,
                           ),
@@ -371,8 +396,8 @@ class _BasicDetailsState extends State<BasicDetails> {
                               });
                             },
                             inactiveIcon: null,
-                            activeBorderColor: Color(0xff2972ff),
-                            radioColor: Color(0xff2972ff),
+                            activeBorderColor: const Color(0xff2972ff),
+                            radioColor: const Color(0xff2972ff),
                           ),
                           const SizedBox(
                             width: 7,
@@ -385,11 +410,11 @@ class _BasicDetailsState extends State<BasicDetails> {
                                 fontFamily: "ProximaNova"),
                           ),
                           const SizedBox(
-                            width: 20,
+                            width: 7,
                           ),
                           GFRadio(
                             size: 20,
-                            activeBorderColor: Color(0xff2972ff),
+                            activeBorderColor: const Color(0xff2972ff),
                             value: 3,
                             groupValue: genderGroupValue,
                             onChanged: (value) {
@@ -398,7 +423,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                               });
                             },
                             inactiveIcon: null,
-                            radioColor: Color(0xff2972ff),
+                            radioColor: const Color(0xff2972ff),
                           ),
                           const SizedBox(
                             width: 7,
@@ -413,9 +438,16 @@ class _BasicDetailsState extends State<BasicDetails> {
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: getRequiredLabel("Experiance"),
+                    const Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Text(
+                        "Experience",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "ProximaNova"),
+                      ),
                     ),
                     const SizedBox(
                       height: 3,
@@ -427,7 +459,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                         children: [
                           GFRadio(
                             size: 20,
-                            activeBorderColor: Color(0xff2972ff),
+                            activeBorderColor: const Color(0xff2972ff),
                             value: 0,
                             groupValue: experienceGroupValue,
                             onChanged: (value) {
@@ -436,7 +468,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                               });
                             },
                             inactiveIcon: null,
-                            radioColor: Color(0xff2972ff),
+                            radioColor: const Color(0xff2972ff),
                           ),
                           const SizedBox(
                             width: 7,
@@ -461,8 +493,8 @@ class _BasicDetailsState extends State<BasicDetails> {
                               });
                             },
                             inactiveIcon: null,
-                            activeBorderColor: Color(0xff2972ff),
-                            radioColor: Color(0xff2972ff),
+                            activeBorderColor: const Color(0xff2972ff),
+                            radioColor: const Color(0xff2972ff),
                           ),
                           const SizedBox(
                             width: 7,
@@ -481,9 +513,16 @@ class _BasicDetailsState extends State<BasicDetails> {
                       height: 10,
                     ),
                     experienceGroupValue == 0
-                        ? Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: getRequiredLabel("Experiance Tenure"),
+                        ? const Padding(
+                            padding: EdgeInsets.all(8),
+                            child: Text(
+                              "Experience Tenure",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: "ProximaNova"),
+                            ),
                           )
                         : Container(),
                     const SizedBox(
@@ -497,21 +536,21 @@ class _BasicDetailsState extends State<BasicDetails> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Container(
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       border: Border(
                                           bottom:
                                               BorderSide(color: Colors.grey)),
                                     ),
                                     child: DropdownButtonHideUnderline(
                                       child: GFDropdown(
-                                        hint: Text(
+                                        hint: const Text(
                                           "Years",
                                           style: TextStyle(
                                               fontSize: 15,
                                               fontWeight: FontWeight.bold,
                                               fontFamily: "ProximaNova"),
                                         ),
-                                        borderRadius: BorderRadius.horizontal(
+                                        borderRadius: const BorderRadius.horizontal(
                                             left: Radius.zero,
                                             right: Radius.zero),
                                         value: mySelectionYear,
@@ -543,7 +582,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                                                   value: value,
                                                   child: Text(
                                                     value,
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         fontSize: 15,
                                                         fontWeight:
                                                             FontWeight.bold,
@@ -562,14 +601,14 @@ class _BasicDetailsState extends State<BasicDetails> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Container(
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       border: Border(
                                           bottom:
                                               BorderSide(color: Colors.grey)),
                                     ),
                                     child: DropdownButtonHideUnderline(
                                       child: GFDropdown(
-                                        hint: Text(
+                                        hint: const Text(
                                           "Months",
                                           style: TextStyle(
                                               fontSize: 15,
@@ -588,7 +627,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                                                   value: value,
                                                   child: Text(
                                                     value,
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         fontSize: 15,
                                                         fontWeight:
                                                             FontWeight.bold,
@@ -608,53 +647,66 @@ class _BasicDetailsState extends State<BasicDetails> {
                     const SizedBox(
                       height: 20,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: getRequiredLabel("Job Category"),
+                    const Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Text(
+                        "Job Role",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "ProximaNova"),
+                      ),
                     ),
                     Center(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: DropdownSearch<String>(
-                          hint: "Job Category",
-                          dropdownSearchBaseStyle: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),
-                          dropdownSearchDecoration: const InputDecoration(
+                        child: FindDropdown(
+                          searchBoxDecoration:  const InputDecoration(
                             border: UnderlineInputBorder(
+
                               borderSide: BorderSide(
                                 color: Colors.grey,
                               ),
                             ),
                           ),
-                          mode: Mode.DIALOG,
-                          showSearchBox: true,
-                          showSelectedItems: true,
-                          items: jobCategoryList,
-                          // label: "Menu mode",
-                          popupItemDisabled: (String s) => s.startsWith('I'),
+                          items: parseData(),
+                          searchHint: "Job Role",
+                          onFind: (val) async{
+                            setState(() {
+                              query = val;
+                            });
+                            await fetchJobCategory(query: query);
+                            parseData();
+                          return [""];
+                          },
                           onChanged: (item) {
                             setState(() {
-                              myjobCategory = item;
+                              myjobrole = item;
                             });
                           },
-                          selectedItem: myjobCategory,
                         ),
                       ),
                     ),
                     const SizedBox(
                       height: 20,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: getRequiredLabel("Current Location"),
+                    const Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Text(
+                        "Current Location",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "ProximaNova"),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: DropdownSearch<String>(
                         hint: "Current Location",
-                        dropdownSearchBaseStyle: TextStyle(
+                        dropdownSearchBaseStyle: const TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
                             fontFamily: "ProximaNova"),
@@ -663,7 +715,6 @@ class _BasicDetailsState extends State<BasicDetails> {
                         showSearchBox: true,
                         showSelectedItems: true,
                         items: locationList,
-                        // label: "Menu mode",
                         popupItemDisabled: (String s) => s.startsWith('I'),
                         onChanged: (item) {
                           setState(() {
@@ -692,7 +743,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => QualificationBlueCollar(),
+                      builder: (context) => const QualificationBlueCollar(),
                     ),
                   );
                 },

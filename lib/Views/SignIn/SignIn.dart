@@ -2,10 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/button/gf_button.dart';
-import 'package:job_portal/Views/Candidate/bottomnavbar.dart';
-import 'package:job_portal/Views/SignIn/step2-basicdetails.dart';
-import 'package:job_portal/Views/SignIn/step6-keyskills.dart';
-import 'package:job_portal/Views/SignIn/step1-otp.dart';
+import 'package:job_portal/Views/Candidate/BottomNavbar.dart';
+import 'package:job_portal/Views/Candidate/Home.dart';
+import 'package:job_portal/Views/SignIn/Step2-BasicDetails.dart';
+import 'package:job_portal/Views/SignIn/Step6-KeySkills.dart';
+import 'package:job_portal/Views/SignIn/Step1-Otp.Dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({ Key key }) : super(key: key);
 
