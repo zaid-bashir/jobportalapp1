@@ -2,7 +2,7 @@ class JobType{
   String  jobtypeId;
   String  jobtypeName;
 
-  JobType({this.jobtypeName,this.jobtypeId});
+  JobType({this.jobtypeId,this.jobtypeName});
 
   factory JobType.fromJson(Map<String,dynamic> item){
     return JobType(

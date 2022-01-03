@@ -5,6 +5,7 @@ import 'package:date_field/date_field.dart';
 import 'package:getwidget/components/radio/gf_radio.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
+import 'package:job_portal/Models/Country.dart';
 import 'package:job_portal/Models/Nationality.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Views/Candidate/BottomNavbar.dart';
@@ -24,17 +25,19 @@ class _PersonalDetailsState extends State<PersonalDetails> {
   int groupValue2 = 1;
   YearPicker selectedDate2;
   String query;
-  String query1;
-  List lists = ["delhi", "mumbai", "chennai", "kashmir"];
-  List list = ["Srinagar", "Pulwama", "Budgam", "Ganderbal"];
+  String querys;
+  String queryss;
+
   ApiResponse<List<Cities>> _apiResponse;
   ApiResponse<List<Nationality>> _apiResponse2;
+  ApiResponse<List<Country>> _apiResponse3;
   ApiServices apiServices = ApiServices();
   bool isLoading = false;
   @override
   void initState() {
     fetchCity(query: "");
     fetchNationality(query: "");
+    fetchCountry(query: "");
     super.initState();
   }
 
@@ -78,6 +81,27 @@ class _PersonalDetailsState extends State<PersonalDetails> {
     return natioData;
   }
   String Nationalities;
+
+  fetchCountry({String query})async{
+    setState(() {
+      isLoading = true;
+    });
+    _apiResponse3 = await apiServices.getCountry(query: query);
+    setState(() {
+      isLoading = false;
+    });
+
+  }
+
+  List<String> getCountry(){
+    List<Country> getCount= _apiResponse3.data;
+    List<String> countData = [];
+    for(int i = 0 ; i < getCount.length ; i++){
+      countData.add(getCount[i].countryName);
+    }
+    return countData;
+  }
+  String Countries;
 
 
   @override
@@ -521,9 +545,9 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                         searchHint: "Nationality",
                         onFind: (val) async{
                           setState(() {
-                            query1 = val;
+                            querys = val;
                           });
-                          await fetchNationality(query: query1);
+                          await fetchNationality(query: querys);
                           getNationality();
                           return [""];
                         },
@@ -621,22 +645,30 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                         ),
                       ),
                       groupValue2 == 0
-                          ? DropdownSearch<String>(
-                              dropdownSearchDecoration: const InputDecoration(
-                                border: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ),
-                              mode: Mode.DIALOG,
-                              showSelectedItems: true,
-                              showSearchBox: true,
-                              items: ["US", "China", "Australia", "England"],
-                              // popupItemDisabled: (String s) => s.startsWith('I'),
-                              onChanged: print,
-                              hint: "Select Country",
-                            )
+                          ?   FindDropdown(
+                        searchBoxDecoration:   InputDecoration(
+                          border: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                        items: getCountry(),
+                        searchHint: "Country",
+                        onFind: (val) async{
+                          setState(() {
+                            queryss = val;
+                          });
+                          await fetchCity(query: queryss);
+                          getCountry();
+                          return [""];
+                        },
+                        onChanged: (item) {
+                          setState(() {
+                            Countries = item;
+                          });
+                        },
+                      )
                           : Container(),
                     ],
                   ),

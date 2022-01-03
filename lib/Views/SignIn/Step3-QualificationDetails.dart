@@ -46,29 +46,8 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
   var streamSelect = "";
   var instituteQualifiedFromSelect = "";
 
-  List<String> highestQualification = [
-    "PG",
-    "UG",
-    "HSE 10+2",
-    "Matriculation 10th",
-    "Below 10th"
-  ];
-  List<String> course = [
-    "MBA",
-    "M.Tech",
-    "BBA",
-    "B.Tech",
-    "MCA",
-    "BCA",
-  ];
-  List<String> stream = [
-    "Finance",
-    "Operations",
-    "Computer Science",
-    "Civil Enginering",
-    "Mechanical",
-    "Human Resource",
-  ];
+
+
 
   int courseTypeGroupValue = 0;
 
@@ -82,27 +61,11 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
 
   String myGradingSystem;
 
-  List<String> gradingSystem = [
-    "CGPA",
-    "Percentile",
-    "Grades",
-    "Score",
-  ];
+
 
   String myPassingYear;
 
-  List<String> myPassingYearList = [
-    "1971",
-    "1972",
-    "1973",
-    "1974",
-    "1975",
-    "1976",
-    "1977",
-    "1978",
-    "1979",
-    "1980"
-  ];
+
   ApiServices apiServices = ApiServices();
 
   ApiResponse<List<GradingSystem>> _apiResponse;

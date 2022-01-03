@@ -264,10 +264,25 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                   mainAxisSize: MainAxisSize.max,
                                   children: <Widget>[
                                     Flexible(
-                                      child:  Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child:Text("Dummy"),
+                                      child:DropdownButtonHideUnderline(
+                                        child: GFDropdown(
+                                          hint: const Text("Job Type"),
+                                          value: jobType,
+                                          onChanged: (newValue) {
+                                            setState(() {
+                                              jobType = newValue;
+                                            });
+                                          },
+                                          items:
 
+                                          _apiResponse2.data
+                                              .map(
+                                                (data) => DropdownMenuItem(
+                                                value: data.jobtypeId ,
+                                                child: Text(data.jobtypeName)),
+                                          )
+                                              .toList(),
+                                        ),
                                       ),
                                     ),
                                   ],
