@@ -486,6 +486,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                 fontWeight: FontWeight.bold,
                                 fontFamily: "ProximaNova")),
                       ),
+                      // EDit
                       TextField(
                         decoration: InputDecoration(
                           hintText: "PAN Number",
@@ -523,7 +524,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                           setState(() {
                             query1 = val;
                           });
-                          await fetchCity(query: query1);
+                          await fetchNationality(query: query1);
                           getNationality();
                           return [""];
                         },
