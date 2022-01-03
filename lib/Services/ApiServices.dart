@@ -2,6 +2,8 @@
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:job_portal/Models/Nationality.dart';
+import 'package:job_portal/Models/location.dart';
 import 'package:job_portal/Models/EmploymentType.dart';
 import 'package:job_portal/Models/JobType.dart';
 import 'package:job_portal/Models/QualificationDetails.dart';
@@ -335,4 +337,57 @@ class ApiServices {
     return ApiResponse<List<EmploymentType>>(
         error: true, errorMessage: "An error occurred");
   }
+
+  //Get City
+
+  Future<ApiResponse<List<Cities>>> getCity({String query}) async {
+    final url = Uri.parse(ApiUrls.kCity+query);
+    print(ApiUrls.kCity+"="+query);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <Cities>[];
+      for (var item in jsonData) {
+        list.add(Cities.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      return ApiResponse<List<Cities>>(data: list);
+    }
+    return ApiResponse<List<Cities>>(
+        error: true, errorMessage: "An error occurred");
+  }
+
+  //Get City
+
+  Future<ApiResponse<List<Nationality>>> getNationality({String query}) async {
+    final url = Uri.parse(ApiUrls.kNationality+query);
+    print(ApiUrls.kNationality+"="+query);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <Nationality>[];
+      for (var item in jsonData) {
+        list.add(Nationality.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      return ApiResponse<List<Nationality>>(data: list);
+    }
+    return ApiResponse<List<Nationality>>(
+        error: true, errorMessage: "An error occurred");
+  }
+
 }

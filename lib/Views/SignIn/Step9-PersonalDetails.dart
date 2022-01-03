@@ -1,12 +1,15 @@
-// ignore_for_file: prefer_const_constructors
-
+import 'package:find_dropdown/find_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:date_field/date_field.dart';
 import 'package:getwidget/components/radio/gf_radio.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:job_portal/Data_Controller/apiresponse.dart';
+import 'package:job_portal/Models/Nationality.dart';
+import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Views/Candidate/BottomNavbar.dart';
-import 'package:job_portal/Views/Candidate/Home.dart';
+import 'package:job_portal/Models/location.dart';
+
 
 class PersonalDetails extends StatefulWidget {
   const PersonalDetails({Key key}) : super(key: key);
@@ -20,13 +23,66 @@ class _PersonalDetailsState extends State<PersonalDetails> {
   int groupValue = 1;
   int groupValue2 = 1;
   YearPicker selectedDate2;
-
+  String query;
+  String query1;
   List lists = ["delhi", "mumbai", "chennai", "kashmir"];
   List list = ["Srinagar", "Pulwama", "Budgam", "Ganderbal"];
+  ApiResponse<List<Cities>> _apiResponse;
+  ApiResponse<List<Nationality>> _apiResponse2;
+  ApiServices apiServices = ApiServices();
+  bool isLoading = false;
+  @override
+  void initState() {
+    fetchCity(query: "");
+    fetchNationality(query: "");
+    super.initState();
+  }
+
+  fetchCity({String query})async{
+    setState(() {
+      isLoading = true;
+    });
+    _apiResponse = await apiServices.getCity(query: query);
+    setState(() {
+      isLoading = false;
+    });
+
+  }
+
+  List<String> getCity(){
+    List<Cities> getLoc = _apiResponse.data;
+    List<String> locData = [];
+    for(int i = 0 ; i < getLoc.length ; i++){
+      locData.add(getLoc[i].cityName);
+    }
+    return locData;
+  }
+  String City;
+
+  fetchNationality({String query})async{
+    setState(() {
+      isLoading = true;
+    });
+    _apiResponse2 = await apiServices.getNationality(query: query);
+    setState(() {
+      isLoading = false;
+    });
+
+  }
+  List<String> getNationality(){
+    List<Nationality> getNatio = _apiResponse2.data;
+    List<String> natioData = [];
+    for(int i = 0 ; i < getNatio.length ; i++){
+      natioData.add(getNatio[i].countryNationality);
+    }
+    return natioData;
+  }
+  String Nationalities;
+
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return isLoading ? Center(child: CircularProgressIndicator()):SafeArea(
         child: Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -150,21 +206,29 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                       const SizedBox(
                         height: 8,
                       ),
-                      DropdownSearch<String>(
-                        dropdownSearchDecoration: const InputDecoration(
+                      FindDropdown(
+                        searchBoxDecoration:   InputDecoration(
                           border: UnderlineInputBorder(
                             borderSide: BorderSide(
                               color: Colors.grey,
                             ),
                           ),
                         ),
-                        mode: Mode.DIALOG,
-                        showSelectedItems: true,
-                        showSearchBox: true,
-                        items: ["Srinagar", "Pulwama", "Budgam", "Ganderbal"],
-                        // popupItemDisabled: (String s) => s.startsWith('I'),
-                        onChanged: print,
-                        hint: "Select City",
+                        items: getCity(),
+                        searchHint: "City",
+                        onFind: (val) async{
+                          setState(() {
+                            query = val;
+                          });
+                          await fetchCity(query: query);
+                          getCity();
+                          return [""];
+                        },
+                        onChanged: (item) {
+                          setState(() {
+                            City = item;
+                          });
+                        },
                       ),
                       const SizedBox(
                         height: 15,
@@ -445,27 +509,29 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                       const SizedBox(
                         height: 8,
                       ),
-                      DropdownSearch<String>(
-                        dropdownSearchDecoration: const InputDecoration(
+                      FindDropdown(
+                        searchBoxDecoration:   InputDecoration(
                           border: UnderlineInputBorder(
                             borderSide: BorderSide(
                               color: Colors.grey,
                             ),
                           ),
                         ),
-                        mode: Mode.DIALOG,
-                        showSelectedItems: true,
-                        showSearchBox: true,
-                        items: [
-                          "Indian",
-                          "Chinies",
-                          "Indonasian",
-                          "Austrailia"
-                        ],
-                        // popupItemDisabled: (String s) => s.startsWith('I'),
-                        onChanged: print,
-                        hint: "Select Nationality",
-                        // selectedItem: "Indian"
+                        items: getNationality(),
+                        searchHint: "Nationality",
+                        onFind: (val) async{
+                          setState(() {
+                            query1 = val;
+                          });
+                          await fetchCity(query: query1);
+                          getNationality();
+                          return [""];
+                        },
+                        onChanged: (item) {
+                          setState(() {
+                            Nationalities = item;
+                          });
+                        },
                       ),
                       Padding(
                         padding: EdgeInsets.only(
