@@ -1,5 +1,4 @@
-// ignore_for_file: prefer_const_constructors
-
+import 'package:find_dropdown/find_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:date_field/date_field.dart';
@@ -7,16 +6,11 @@ import 'package:getwidget/components/radio/gf_radio.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/GetCategory.dart';
-import 'package:job_portal/Models/GetCategory.dart';
-import 'package:job_portal/Models/GetCategory.dart';
-import 'package:job_portal/Models/GetCategory.dart';
-import 'package:job_portal/Models/GetCategory.dart';
-import 'package:job_portal/Models/GetCategory.dart';
+import 'package:job_portal/Models/GetIndustry.dart';
 import 'package:job_portal/Models/GetMarital.dart';
-import 'package:job_portal/Models/GetCategory.dart';
+
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Views/Candidate/BottomNavbar.dart';
-import 'package:job_portal/Views/Candidate/Home.dart';
 
 class PersonalDetails extends StatefulWidget {
   const PersonalDetails({Key key}) : super(key: key);
@@ -26,6 +20,7 @@ class PersonalDetails extends StatefulWidget {
 }
 
 class _PersonalDetailsState extends State<PersonalDetails> {
+
   DateTime selectedDate;
   int groupValue = 1;
   int groupValue2 = 1;
@@ -34,14 +29,15 @@ class _PersonalDetailsState extends State<PersonalDetails> {
   List lists = ["delhi", "mumbai", "chennai", "kashmir"];
   List list = ["Srinagar", "Pulwama", "Budgam", "Ganderbal"];
 
-  String myMaritalStatus;
- String  myCategory;
+  String myMaritalStatus ;
+  String myCategory ;
 
   bool isLoading = false;
   ApiServices apiServices = ApiServices();
 
   ApiResponse<List<Marital>> _apiResponse;
   ApiResponse<List<Category>> _apiResponseCategory;
+
   @override
   void initState() {
     super.initState();
@@ -49,6 +45,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
     fetchCategory();
   }
 
+//marital status
   fetchMarital() async {
     setState(() {
       isLoading = true;
@@ -59,6 +56,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
     });
   }
 
+//category
   fetchCategory() async {
     setState(() {
       isLoading = true;
@@ -311,7 +309,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                   (data) => DropdownMenuItem(
                                     value: data.maritalId,
                                     child: Text(
-                                      "${data.maritalName}",
+                                      data.maritalName,
                                       style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.normal,
@@ -336,7 +334,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                         // disabledHint: ,
                         decoration: const InputDecoration(
                             border: UnderlineInputBorder()),
-                        hint: Text("Select Category"),
+                        hint: Text("Select category"),
                         value: myCategory,
                         onChanged: (newValue) {
                           setState(() {
@@ -362,7 +360,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                   (data) => DropdownMenuItem(
                                     value: data.casteId,
                                     child: Text(
-                                      "${data.casteName}",
+                                      data.casteName,
                                       style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.normal,

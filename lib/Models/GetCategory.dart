@@ -4,9 +4,11 @@ class Category {
 
   Category({this.casteId, this.casteName});
 
-  Category.fromJson(Map<String, dynamic> json) {
-    casteId = json['casteId'];
-    casteName = json['casteName'];
+ factory  Category.fromJson(Map<String, dynamic> json) {
+   return Category(
+     casteId: json["casteId"],
+     casteName: json["casteName"]
+   );
   }
 
   Map<String, dynamic> toJson() {

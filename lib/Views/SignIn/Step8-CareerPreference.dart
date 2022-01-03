@@ -1,9 +1,11 @@
 import 'package:date_field/date_field.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:find_dropdown/find_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/EmploymentType.dart';
+import 'package:job_portal/Models/GetIndustry.dart';
 import 'package:job_portal/Models/GetShift.dart';
 import 'package:job_portal/Models/JobType.dart';
 import 'package:job_portal/Services/ApiServices.dart';
@@ -65,9 +67,13 @@ class _CareerPreferenceState extends State<CareerPreference> {
   //   "Fixed Shift"
   //
   // ];
+  String query;
+  String myindustry = "";
   String myShift;
   String jobType;
   String empType;
+
+
   bool isLoading = false;
 
   ApiServices apiServices = ApiServices();
@@ -75,12 +81,14 @@ class _CareerPreferenceState extends State<CareerPreference> {
   ApiResponse<List<PreferredShift>> _apiResponse;
   ApiResponse<List<JobType>> _apiResponse2;
   ApiResponse<List<EmploymentType>> _apiResponse3;
+  ApiResponse<List<Industry>> _apiResponseIndustry;
 
   @override
   void initState() {
     fetchEmpType();
     fetchJobType();
     fetchShift();
+    fetchIndustry(query: "");
     super.initState();
 
   }
@@ -113,7 +121,23 @@ class _CareerPreferenceState extends State<CareerPreference> {
       isLoading = false;
     });
   }
-
+  fetchIndustry({String query}) async {
+    setState(() {
+      isLoading = true;
+    });
+    _apiResponseIndustry = await apiServices.getIndustry(query: query);
+    setState(() {
+      isLoading = false;
+    });
+  }
+  List<String> parseIndustry(){
+    List<Industry> category = _apiResponseIndustry.data;
+    List<String> dataItems = [];
+    for(int i = 0; i < category.length;i++){
+      dataItems.add(category[i].industryName);
+    }
+    return dataItems;
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -181,25 +205,33 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                   mainAxisSize: MainAxisSize.max,
                                   children: <Widget>[
                                     Flexible(
-                                      child:  Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child:DropdownSearch<String>(
-                                          dropdownSearchDecoration: const InputDecoration(
+                                      child:    Padding(
+                                        padding: const EdgeInsets.only(top:8.0),
+                                        child: FindDropdown(
+                                          searchBoxDecoration:  const InputDecoration(
                                             border: UnderlineInputBorder(
                                               borderSide: BorderSide(
                                                 color: Colors.grey,
                                               ),
                                             ),
                                           ),
-                                          mode: Mode.DIALOG,
-                                          showSelectedItems: true,
-                                          showSearchBox: true,
-                                          items: lists,
-                                          // popupItemDisabled: (String s) => s.startsWith('I'),
-                                          onChanged: print,
-                                          hint:"Select Industry",
+                                          items: parseIndustry(),
+                                          searchHint: "Industry Name",
+                                          onFind: (val) async{
+                                            setState(() {
+                                              query = val;
+                                            });
+                                            await fetchIndustry(query: query);
+                                            parseIndustry();
+                                            return [""];
+                                          },
+                                          onChanged: (item) {
+                                            setState(() {
+                                              myindustry = item;
+                                            });
+                                          },
                                         ),
-                                      ),
+                                      )
                                     ),
                                   ],
                                 )),

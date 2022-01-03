@@ -5,9 +5,11 @@ class Marital {
 
   Marital({this.maritalId, this.maritalName});
 
-  Marital.fromJson(Map<String, dynamic> json) {
-    maritalId = json['maritalId'];
-    maritalName = json['maritalName'];
+   factory Marital.fromJson(Map<String, dynamic> json) {
+    return Marital(
+      maritalId: json["maritalId"],
+      maritalName: json["maritalName"]
+    );
   }
 
   Map<String, dynamic> toJson() {
