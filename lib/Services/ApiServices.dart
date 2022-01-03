@@ -1,6 +1,10 @@
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:job_portal/Models/GetCategory.dart';
+import 'package:job_portal/Models/GetCompany.dart';
+import 'package:job_portal/Models/GetIndustry.dart';
+import 'package:job_portal/Models/GetMarital.dart';
 import 'package:job_portal/Models/getjobcategory.dart';
 import 'package:job_portal/Utility/apiurls.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
@@ -200,5 +204,107 @@ class ApiServices {
     return ApiResponse<List<JobCategory>>(
         error: true, errorMessage: "An error occurred");
   }
+
+  // company in Professional details page
+
+  Future<ApiResponse<List<Company>>> getCompany({String query}) async {
+    final url = Uri.parse(ApiUrls.kcompany+query);
+    print(ApiUrls.kcompany+"="+query);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <Company>[];
+      for (var item in jsonData) {
+        list.add(Company.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      return ApiResponse<List<Company>>(data: list);
+    }
+    return ApiResponse<List<Company>>(
+        error: true, errorMessage: "An error occurred");
+
+  }
+  // industry in Professional details page
+
+  Future<ApiResponse<List<Industry>>> getIndustry({String query}) async {
+    final url = Uri.parse(ApiUrls.kindustry+query);
+    print(ApiUrls.kindustry+"="+query);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <Industry>[];
+      for (var item in jsonData) {
+        list.add(Industry.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      return ApiResponse<List<Industry>>(data: list);
+    }
+    return ApiResponse<List<Industry>>(
+        error: true, errorMessage: "An error occurred");
+  }
+  // GetMarital in personal dettails page
+  Future<ApiResponse<List<Marital>>> getMarital() async {
+    final url = Uri.parse(ApiUrls.kmarital);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <Marital>[];
+      for (var item in jsonData) {
+        list.add(Marital.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      print(list);
+      return ApiResponse<List<Marital>>(data: list);
+    }
+    return ApiResponse<List<Marital>>(
+        error: true, errorMessage: "An error occurred");
+  }
+
+  Future<ApiResponse<List<Category>>>getCategory () async {
+    final url = Uri.parse(ApiUrls.kcategory);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <Category>[];
+      for (var item in jsonData) {
+        list.add(Category.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      print(list);
+      return ApiResponse<List<Category>>(data: list);
+    }
+    return ApiResponse<List<Category>>(
+        error: true, errorMessage: "An error occurred");
+  }
+
+
 
 }
