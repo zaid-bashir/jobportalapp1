@@ -486,7 +486,6 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                 fontWeight: FontWeight.bold,
                                 fontFamily: "ProximaNova")),
                       ),
-                      // EDit
                       TextField(
                         decoration: InputDecoration(
                           hintText: "PAN Number",
