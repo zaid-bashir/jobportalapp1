@@ -1,4 +1,3 @@
-
 class Marital {
   String maritalId;
   String maritalName;

@@ -6,6 +6,9 @@ import 'package:getwidget/components/radio/gf_radio.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/Country.dart';
+
+import 'package:job_portal/Models/GetCategory.dart';
+import 'package:job_portal/Models/GetMarital.dart';
 import 'package:job_portal/Models/Nationality.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Views/Candidate/BottomNavbar.dart';
@@ -31,16 +34,41 @@ class _PersonalDetailsState extends State<PersonalDetails> {
   ApiResponse<List<Cities>> _apiResponse;
   ApiResponse<List<Nationality>> _apiResponse2;
   ApiResponse<List<Country>> _apiResponse3;
+  ApiResponse<List<Category>> _apiResponse4;
+  ApiResponse<List<Marital>> _apiResponse5;
   ApiServices apiServices = ApiServices();
   bool isLoading = false;
   @override
   void initState() {
+    fetchCaste();
+    fetchMarital();
     fetchCity(query: "");
     fetchNationality(query: "");
-    fetchCountry(query: "");
     super.initState();
   }
 
+  fetchMarital()async{
+    setState(() {
+      isLoading = true;
+    });
+    _apiResponse5 = await apiServices.getMarital();
+    setState(() {
+      isLoading = false;
+    });
+
+  }
+
+
+  fetchCaste()async{
+    setState(() {
+      isLoading = true;
+    });
+    _apiResponse4 = await apiServices.getCaste();
+    setState(() {
+      isLoading = false;
+    });
+
+  }
   fetchCity({String query})async{
     setState(() {
       isLoading = true;
@@ -92,17 +120,15 @@ class _PersonalDetailsState extends State<PersonalDetails> {
     });
 
   }
-
   List<String> getCountry(){
-    List<Country> getCount= _apiResponse3.data;
-    List<String> countData = [];
-    for(int i = 0 ; i < getCount.length ; i++){
-      countData.add(getCount[i].countryName);
+    List<Country>  countData = _apiResponse3.data;
+    List<String> counData = [];
+    for(int i = 0 ; i < countData.length ; i++){
+      counData.add(countData[i].countryName);
     }
-    return countData;
+    return counData;
   }
   String Countries;
-
 
   @override
   Widget build(BuildContext context) {
@@ -324,27 +350,25 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                       const SizedBox(
                         height: 10,
                       ),
-                      DropdownSearch<String>(
-                        dropdownSearchDecoration: const InputDecoration(
-                          border: const UnderlineInputBorder(
-                            borderSide: const BorderSide(
-                              color: Colors.grey,
-                            ),
-                          ),
+                      DropdownButtonHideUnderline(
+                        child: GFDropdown(
+                          hint: const Text("Marital Status"),
+                          value: Marial,
+                          onChanged: (newValue) {
+                            setState(() {
+                              Marial = newValue;
+                            });
+                          },
+                          items:
+
+                          _apiResponse5.data
+                              .map(
+                                (data) => DropdownMenuItem(
+                                value: data.maritalId ,
+                                child: Text(data.maritalName)),
+                          )
+                              .toList(),
                         ),
-                        mode: Mode.DIALOG,
-                        showSelectedItems: true,
-                        showSearchBox: true,
-                        items: [
-                          "Married",
-                          "Unmarried",
-                          "Separated",
-                          "Divorced",
-                          "Widowed"
-                        ],
-                        // popupItemDisabled: (String s) => s.startsWith('I'),
-                        onChanged: print,
-                        hint: "Select Marital Status",
                       ),
                       const Padding(
                         padding: EdgeInsets.only(top: 15, right: 25),
@@ -357,21 +381,25 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                       const SizedBox(
                         height: 10,
                       ),
-                      DropdownSearch<String>(
-                        dropdownSearchDecoration: const InputDecoration(
-                          border: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                            ),
-                          ),
+                      DropdownButtonHideUnderline(
+                        child: GFDropdown(
+                          hint: const Text("Category"),
+                          value: Caste,
+                          onChanged: (newValue) {
+                            setState(() {
+                              Caste = newValue;
+                            });
+                          },
+                          items:
+
+                          _apiResponse4.data
+                              .map(
+                                (data) => DropdownMenuItem(
+                                value: data.casteId ,
+                                child: Text(data.casteName)),
+                          )
+                              .toList(),
                         ),
-                        mode: Mode.DIALOG,
-                        showSelectedItems: true,
-                        showSearchBox: true,
-                        items: ["OM", "SC", "ST", "RBC", "OBC"],
-                        // popupItemDisabled: (String s) => s.startsWith('I'),
-                        onChanged: print,
-                        hint: "Select Category",
                       ),
                       const Padding(
                         padding: EdgeInsets.only(
@@ -510,6 +538,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                 fontWeight: FontWeight.bold,
                                 fontFamily: "ProximaNova")),
                       ),
+                      // EDit
                       TextField(
                         decoration: InputDecoration(
                           hintText: "PAN Number",
@@ -545,9 +574,9 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                         searchHint: "Nationality",
                         onFind: (val) async{
                           setState(() {
-                            querys = val;
+                            query1 = val;
                           });
-                          await fetchNationality(query: querys);
+                          await fetchNationality(query: query1);
                           getNationality();
                           return [""];
                         },
