@@ -1,8 +1,10 @@
+import 'package:find_dropdown/find_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
+import 'package:job_portal/Models/ItSkills.dart';
 import 'package:job_portal/Models/PassingYear.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 
@@ -14,15 +16,15 @@ class ItSkills extends StatefulWidget {
   @override
   _ItSkillsState createState() => _ItSkillsState();
 }
-class Skills {
-  final int id;
-  final String name;
-
-  Skills({
-    this.id,
-    this.name,
-  });
-}
+// class Skills {
+//   final int id;
+//   final String name;
+//
+//   Skills({
+//     this.id,
+//     this.name,
+//   });
+// }
 
 
 class _ItSkillsState extends State<ItSkills> {
@@ -42,15 +44,16 @@ class _ItSkillsState extends State<ItSkills> {
   //   "Back-end Developer"
   // ];
 
-    static List<Skills> _skills = [
-    Skills(id: 1, name: "Web Development"),
-    Skills(id: 2, name: "Mobile App Development"),
-    Skills(id: 3, name: "Full Stack Developer"),
-    Skills(id: 4, name: "Back-end Developer"),
-  ];
+  //   static List<Skills> _skills = [
+  //   Skills(id: 1, name: "Web Development"),
+  //   Skills(id: 2, name: "Mobile App Development"),
+  //   Skills(id: 3, name: "Full Stack Developer"),
+  //   Skills(id: 4, name: "Back-end Developer"),
+  // ];
 
 
-
+String query;
+String myskill ="";
 
 
   bool isLoading = false;
@@ -58,10 +61,13 @@ class _ItSkillsState extends State<ItSkills> {
   ApiServices apiServices = ApiServices();
 
   ApiResponse<List<PassingYear>> _apiResponse;
+
+  ApiResponse<List<ITSkill>> _apiResponseITSkill;
   @override
   void initState() {
     super.initState();
     fetchYear();
+    fetchITSkill(query: "");
   }
   fetchYear() async {
     setState(() {
@@ -72,6 +78,25 @@ class _ItSkillsState extends State<ItSkills> {
       isLoading = false;
     });
   }
+// it skills
+  fetchITSkill({String query}) async {
+    setState(() {
+      isLoading = true;
+    });
+    _apiResponseITSkill = await apiServices.getITSkill(query: query);
+    setState(() {
+      isLoading = false;
+    });
+  }
+  List<String> parseITSkill(){
+    List<ITSkill> itskill = _apiResponseITSkill.data;
+    List<String> dataItems = [];
+    for(int i = 0; i < itskill.length;i++){
+      dataItems.add(itskill[i].itskillName);
+    }
+    return dataItems;
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -119,28 +144,37 @@ class _ItSkillsState extends State<ItSkills> {
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
                               fontFamily: "ProximaNova")),
-                      DropdownSearch<String>(
-                        dropdownSearchDecoration: const InputDecoration(
-                          border: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                            ),
+
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top:8.0),
+                    child: FindDropdown(
+                      searchBoxDecoration:  const InputDecoration(
+                        border: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.grey,
                           ),
                         ),
-                        mode: Mode.DIALOG,
-                        showSelectedItems: true,
-                        showSearchBox: true,
-                        items: [
-                          "Web Development",
-                          "Mobile App Development",
-                          "Back-end Developer",
-                          "Full-Stack Developer"
-                        ],
-                        // popupItemDisabled: (String s) => s.startsWith('I'),
-                        onChanged: print,
-                        hint: "Select Skills",
-                        // selectedItem: "Indian"
                       ),
+                      items: parseITSkill(),
+                      searchHint: "Skill Name",
+                      onFind: (val) async{
+                        setState(() {
+                          query = val;
+                        });
+                        await fetchITSkill(query: query);
+                        parseITSkill();
+                        return [""];
+                      },
+                      onChanged: (item) {
+                        setState(() {
+                          myskill = item;
+                        });
+                      },
+                    ),
+                  ),
                           
                       const SizedBox(
                         height: 15,

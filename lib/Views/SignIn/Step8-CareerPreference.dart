@@ -198,43 +198,36 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                     ),
                                   ],
                                 )),
+                            SizedBox(
+                              height: 5,
+                            ),
                             Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 10.0, right: 10.0, top: 2.0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: <Widget>[
-                                    Flexible(
-                                      child:    Padding(
-                                        padding: const EdgeInsets.only(top:8.0),
-                                        child: FindDropdown(
-                                          searchBoxDecoration:  const InputDecoration(
-                                            border: UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: Colors.grey,
-                                              ),
-                                            ),
-                                          ),
-                                          items: parseIndustry(),
-                                          searchHint: "Industry Name",
-                                          onFind: (val) async{
-                                            setState(() {
-                                              query = val;
-                                            });
-                                            await fetchIndustry(query: query);
-                                            parseIndustry();
-                                            return [""];
-                                          },
-                                          onChanged: (item) {
-                                            setState(() {
-                                              myindustry = item;
-                                            });
-                                          },
-                                        ),
-                                      )
+                              padding: const EdgeInsets.only(left: 20.0,right: 20.0,top:8.0,bottom:8.0),
+                              child: FindDropdown(
+                                searchBoxDecoration:  const InputDecoration(
+                                  border: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.grey,
                                     ),
-                                  ],
-                                )),
+                                  ),
+                                ),
+                                items: parseIndustry(),
+                                searchHint: "Industry Name",
+                                onFind: (val) async{
+                                  setState(() {
+                                    query = val;
+                                  });
+                                  await fetchIndustry(query: query);
+                                  parseIndustry();
+                                  return [""];
+                                },
+                                onChanged: (item) {
+                                  setState(() {
+                                    myindustry = item;
+                                  });
+                                },
+                              ),
+                            ),
 
                             Padding(
                                 padding: const EdgeInsets.only(
@@ -257,21 +250,37 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                     ),
                                   ],
                                 )),
-                            Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 10.0, right: 10.0, top: 2.0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: <Widget>[
-                                    Flexible(
-                                      child:  Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child:Text("Dummy"),
+                      Padding(
+                          padding: const EdgeInsets.only(
+                              left: 10.0, right: 10.0, top: 2.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: DropdownButtonHideUnderline(
+                                  child: GFDropdown(
+                                    hint: const Text("Job Type"),
+                                    value: jobType,
+                                    onChanged: (newValue) {
+                                      setState(() {
+                                        jobType = newValue;
+                                      });
+                                    },
+                                    items:
 
-                                      ),
-                                    ),
-                                  ],
-                                )),
+                                    _apiResponse2.data
+                                        .map(
+                                          (data) => DropdownMenuItem(
+                                          value: data.jobtypeId ,
+                                          child: Text(data.jobtypeName)),
+                                    )
+                                        .toList(),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )),
                             Padding(
                                 padding: const EdgeInsets.only(
                                     left: 20.0, right: 25.0, top: 20.0),

@@ -4,6 +4,10 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:date_field/date_field.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
+import 'package:job_portal/Models/Country.dart';
+
+import 'package:job_portal/Models/GetCategory.dart';
+import 'package:job_portal/Models/GetMarital.dart';
 import 'package:job_portal/Models/Nationality.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Views/Candidate/BottomNavbar.dart';
@@ -24,19 +28,49 @@ class _PersonalDetailsState extends State<PersonalDetails> {
   YearPicker selectedDate2;
   String query;
   String query1;
-  List lists = ["delhi", "mumbai", "chennai", "kashmir"];
-  List list = ["Srinagar", "Pulwama", "Budgam", "Ganderbal"];
+  String query2;
+  String query3;
+ String Caste;
+ String Marial;
   ApiResponse<List<Cities>> _apiResponse;
   ApiResponse<List<Nationality>> _apiResponse2;
+  ApiResponse<List<Country>> _apiResponse3;
+  ApiResponse<List<Category>> _apiResponse4;
+  ApiResponse<List<Marital>> _apiResponse5;
   ApiServices apiServices = ApiServices();
   bool isLoading = false;
   @override
   void initState() {
+    fetchCaste();
+    fetchMarital();
     fetchCity(query: "");
     fetchNationality(query: "");
+    fetchCountry(query: "");
     super.initState();
   }
 
+  fetchMarital()async{
+    setState(() {
+      isLoading = true;
+    });
+    _apiResponse5 = await apiServices.getMarital();
+    setState(() {
+      isLoading = false;
+    });
+
+  }
+
+
+  fetchCaste()async{
+    setState(() {
+      isLoading = true;
+    });
+    _apiResponse4 = await apiServices.getCaste();
+    setState(() {
+      isLoading = false;
+    });
+
+  }
   fetchCity({String query})async{
     setState(() {
       isLoading = true;
@@ -78,6 +112,25 @@ class _PersonalDetailsState extends State<PersonalDetails> {
   }
   String Nationalities;
 
+  fetchCountry({String query})async{
+    setState(() {
+      isLoading = true;
+    });
+    _apiResponse3 = await apiServices.getCountry(query: query);
+    setState(() {
+      isLoading = false;
+    });
+
+  }
+  List<String> getCountry(){
+    List<Country>  countData = _apiResponse3.data;
+    List<String> counData = [];
+    for(int i = 0 ; i < countData.length ; i++){
+      counData.add(countData[i].countryName);
+    }
+    return counData;
+  }
+  String Countries;
 
   @override
   Widget build(BuildContext context) {
@@ -299,27 +352,25 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                       const SizedBox(
                         height: 10,
                       ),
-                      DropdownSearch<String>(
-                        dropdownSearchDecoration: const InputDecoration(
-                          border: const UnderlineInputBorder(
-                            borderSide: const BorderSide(
-                              color: Colors.grey,
-                            ),
-                          ),
+                      DropdownButtonHideUnderline(
+                        child: GFDropdown(
+                          hint: const Text("Marital Status"),
+                          value: Marial,
+                          onChanged: (newValue) {
+                            setState(() {
+                              Marial = newValue;
+                            });
+                          },
+                          items:
+
+                          _apiResponse5.data
+                              .map(
+                                (data) => DropdownMenuItem(
+                                value: data.maritalId ,
+                                child: Text(data.maritalName)),
+                          )
+                              .toList(),
                         ),
-                        mode: Mode.DIALOG,
-                        showSelectedItems: true,
-                        showSearchBox: true,
-                        items: [
-                          "Married",
-                          "Unmarried",
-                          "Separated",
-                          "Divorced",
-                          "Widowed"
-                        ],
-                        // popupItemDisabled: (String s) => s.startsWith('I'),
-                        onChanged: print,
-                        hint: "Select Marital Status",
                       ),
                       const Padding(
                         padding: EdgeInsets.only(top: 15, right: 25),
@@ -332,21 +383,25 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                       const SizedBox(
                         height: 10,
                       ),
-                      DropdownSearch<String>(
-                        dropdownSearchDecoration: const InputDecoration(
-                          border: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                            ),
-                          ),
+                      DropdownButtonHideUnderline(
+                        child: GFDropdown(
+                          hint: const Text("Category"),
+                          value: Caste,
+                          onChanged: (newValue) {
+                            setState(() {
+                              Caste = newValue;
+                            });
+                          },
+                          items:
+
+                          _apiResponse4.data
+                              .map(
+                                (data) => DropdownMenuItem(
+                                value: data.casteId ,
+                                child: Text(data.casteName)),
+                          )
+                              .toList(),
                         ),
-                        mode: Mode.DIALOG,
-                        showSelectedItems: true,
-                        showSearchBox: true,
-                        items: ["OM", "SC", "ST", "RBC", "OBC"],
-                        // popupItemDisabled: (String s) => s.startsWith('I'),
-                        onChanged: print,
-                        hint: "Select Category",
                       ),
                       const Padding(
                         padding: EdgeInsets.only(
@@ -621,22 +676,30 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                         ),
                       ),
                       groupValue2 == 0
-                          ? DropdownSearch<String>(
-                              dropdownSearchDecoration: const InputDecoration(
-                                border: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ),
-                              mode: Mode.DIALOG,
-                              showSelectedItems: true,
-                              showSearchBox: true,
-                              items: ["US", "China", "Australia", "England"],
-                              // popupItemDisabled: (String s) => s.startsWith('I'),
-                              onChanged: print,
-                              hint: "Select Country",
-                            )
+                          ?      FindDropdown(
+                        searchBoxDecoration:   InputDecoration(
+                          border: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                        items: getCountry(),
+                        searchHint: "Country",
+                        onFind: (val) async{
+                          setState(() {
+                            query3 = val;
+                          });
+                          await  fetchCountry(query: query3);
+                          getCountry();
+                          return [""];
+                        },
+                        onChanged: (item) {
+                          setState(() {
+                            Countries = item;
+                          });
+                        },
+                      )
                           : Container(),
                     ],
                   ),

@@ -3,10 +3,12 @@ import 'dart:io';
 
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:find_dropdown/find_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/GradingSystem.dart';
+import 'package:job_portal/Models/InstituteQualified.dart';
 import 'package:job_portal/Models/PassingYear.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Views/SignIn/Step5-ProfessionalDetails.dart';
@@ -103,14 +105,25 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
     "1979",
     "1980"
   ];
+  String query;
+  String myInstitute ="";
+
+
+
+  bool isLoading = false;
+
   ApiServices apiServices = ApiServices();
 
   ApiResponse<List<GradingSystem>> _apiResponse;
   ApiResponse<List<PassingYear>> _apiResponse2;
+  ApiResponse<List<Institute>> _apiResponseInstitute;
   @override
   void initState() {
     fetchPassingYear();
     fetchGradingSystem();
+
+    fetchInstitute(query: "");
+
     loadingController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 10),
@@ -121,7 +134,7 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
     super.initState();
   }
 
-  bool isLoading = false;
+
   fetchGradingSystem() async {
     setState(() {
       isLoading = true;
@@ -131,6 +144,8 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
       isLoading = false;
     });
   }
+
+
   fetchPassingYear() async {
     setState(() {
       isLoading = true;
@@ -139,6 +154,24 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
     setState(() {
       isLoading = false;
     });
+  }
+// institute qualified
+  fetchInstitute({String query}) async {
+    setState(() {
+      isLoading = true;
+    });
+    _apiResponseInstitute = await apiServices.getInstitute(query: query);
+    setState(() {
+      isLoading = false;
+    });
+  }
+  List<String> parseInstitute(){
+    List<Institute> institute = _apiResponseInstitute.data;
+    List<String> dataItems = [];
+    for(int i = 0; i < institute.length;i++){
+      dataItems.add(institute[i].instituteName);
+    }
+    return dataItems;
   }
 
 
@@ -587,33 +620,33 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                             const SizedBox(
                               height: 10,
                             ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 10),
-                              child: DropdownSearch<String>(
-                                hint: "Select Institute",
-                                dropdownSearchDecoration:
-                                    const InputDecoration(
-                                  border: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ),
-                                mode: Mode.DIALOG,
-                                showSearchBox: true,
-                                showSelectedItems: true,
-                                items: instituteQualifiedFrom,
-                                // label: "Menu mode",
-                                popupItemDisabled: (String s) =>
-                                    s.startsWith('I'),
-                                onChanged: (item) {
-                                  setState(() {
-                                    instituteQualifiedFromSelect = item;
-                                  });
-                                },
-                                selectedItem: instituteQualifiedFromSelect,
-                              ),
-                            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 6.0),
+              child: FindDropdown(
+                searchBoxDecoration:  const InputDecoration(
+                  border: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+                items: parseInstitute(),
+                searchHint: "Institute Name",
+                onFind: (val) async{
+                  setState(() {
+                    query = val;
+                  });
+                  await fetchInstitute(query: query);
+                  parseInstitute();
+                  return [""];
+                },
+                onChanged: (item) {
+                  setState(() {
+                    myInstitute = item;
+                  });
+                },
+              ),
+            ),
                             const SizedBox(
                               height: 10,
                             ),
