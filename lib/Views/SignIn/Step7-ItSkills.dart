@@ -16,15 +16,15 @@ class ItSkills extends StatefulWidget {
   @override
   _ItSkillsState createState() => _ItSkillsState();
 }
-class Skills {
-  final int id;
-  final String name;
-
-  Skills({
-    this.id,
-    this.name,
-  });
-}
+// class Skills {
+//   final int id;
+//   final String name;
+//
+//   Skills({
+//     this.id,
+//     this.name,
+//   });
+// }
 
 
 class _ItSkillsState extends State<ItSkills> {
@@ -33,8 +33,7 @@ class _ItSkillsState extends State<ItSkills> {
   String mySelection1;
   String mySelection2;
 
-  String myskill;
-  String queries;
+
   List<String> lists = ["2015", "2016", "2017", "2018","2019","2020"];
   List<String> lists1 = ["2015", "2016", "2017", "2018","2019","2020"];
   List<String> lists2 = ["1", "2", "3","4","5","6","7","8","9","10","11","12"];
@@ -44,34 +43,17 @@ class _ItSkillsState extends State<ItSkills> {
   //   "Full Stack Developer",
   //   "Back-end Developer"
   // ];
-// it skills
-  fetchITSkill({String query}) async {
-    setState(() {
-      isLoading = true;
-    });
-    _apiResponseITSkill = await apiServices.getITSkill(query: query);
-    setState(() {
-      isLoading = false;
-    });
-  }
-  ApiResponse<List<ITSkill>> _apiResponseITSkill;
-  List<String> parseITSkill(){
-    List<ITSkill> itskill = _apiResponseITSkill.data;
-    List<String> dataItems = [];
-    for(int i = 0; i < itskill.length;i++){
-      dataItems.add(itskill[i].itskillName);
-    }
-    return dataItems;
-  }
-    static List<Skills> _skills = [
-    Skills(id: 1, name: "Web Development"),
-    Skills(id: 2, name: "Mobile App Development"),
-    Skills(id: 3, name: "Full Stack Developer"),
-    Skills(id: 4, name: "Back-end Developer"),
-  ];
+
+  //   static List<Skills> _skills = [
+  //   Skills(id: 1, name: "Web Development"),
+  //   Skills(id: 2, name: "Mobile App Development"),
+  //   Skills(id: 3, name: "Full Stack Developer"),
+  //   Skills(id: 4, name: "Back-end Developer"),
+  // ];
 
 
-
+String query;
+String myskill ="";
 
 
   bool isLoading = false;
@@ -79,11 +61,13 @@ class _ItSkillsState extends State<ItSkills> {
   ApiServices apiServices = ApiServices();
 
   ApiResponse<List<PassingYear>> _apiResponse;
+
+  ApiResponse<List<ITSkill>> _apiResponseITSkill;
   @override
   void initState() {
     super.initState();
-    fetchITSkill(query: "");
     fetchYear();
+    fetchITSkill(query: "");
   }
   fetchYear() async {
     setState(() {
@@ -94,6 +78,25 @@ class _ItSkillsState extends State<ItSkills> {
       isLoading = false;
     });
   }
+// it skills
+  fetchITSkill({String query}) async {
+    setState(() {
+      isLoading = true;
+    });
+    _apiResponseITSkill = await apiServices.getITSkill(query: query);
+    setState(() {
+      isLoading = false;
+    });
+  }
+  List<String> parseITSkill(){
+    List<ITSkill> itskill = _apiResponseITSkill.data;
+    List<String> dataItems = [];
+    for(int i = 0; i < itskill.length;i++){
+      dataItems.add(itskill[i].itskillName);
+    }
+    return dataItems;
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -141,6 +144,10 @@ class _ItSkillsState extends State<ItSkills> {
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
                               fontFamily: "ProximaNova")),
+
+                  SizedBox(
+                    height: 5,
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(top:8.0),
                     child: FindDropdown(
@@ -155,9 +162,9 @@ class _ItSkillsState extends State<ItSkills> {
                       searchHint: "Skill Name",
                       onFind: (val) async{
                         setState(() {
-                          queries = val;
+                          query = val;
                         });
-                        await fetchITSkill(query: queries);
+                        await fetchITSkill(query: query);
                         parseITSkill();
                         return [""];
                       },
