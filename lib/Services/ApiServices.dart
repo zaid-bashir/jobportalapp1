@@ -8,6 +8,8 @@ import 'package:job_portal/Models/GetCategory.dart';
 import 'package:job_portal/Models/GetCompany.dart';
 import 'package:job_portal/Models/GetIndustry.dart';
 import 'package:job_portal/Models/GetMarital.dart';
+import 'package:job_portal/Models/InstituteQualified.dart';
+import 'package:job_portal/Models/ItSkills.dart';
 import 'package:job_portal/Models/JobType.dart';
 import 'package:job_portal/Models/Nationality.dart';
 import 'package:job_portal/Models/QualificationDetails.dart';
@@ -532,6 +534,57 @@ class ApiServices {
       return ApiResponse<List<Marital>>(data: list);
     }
     return ApiResponse<List<Marital>>(
+        error: true, errorMessage: "An error occurred");
+  }
+
+
+  // institute qualified from
+  Future<ApiResponse<List<Institute>>> getInstitute({String query}) async {
+    final url = Uri.parse(ApiUrls.kInstitute+query);
+    print(ApiUrls.kInstitute+"="+query);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <Institute>[];
+      for (var item in jsonData) {
+        list.add(Institute.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      return ApiResponse<List<Institute>>(data: list);
+    }
+    return ApiResponse<List<Institute>>(
+        error: true, errorMessage: "An error occurred");
+  }
+
+  // IT skills
+  Future<ApiResponse<List<ITSkill>>> getITSkill({String query}) async {
+    final url = Uri.parse(ApiUrls.kItskill+query);
+    print(ApiUrls.kItskill+"="+query);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <ITSkill>[];
+      for (var item in jsonData) {
+        list.add(ITSkill.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      return ApiResponse<List<ITSkill>>(data: list);
+    }
+    return ApiResponse<List<ITSkill>>(
         error: true, errorMessage: "An error occurred");
   }
 

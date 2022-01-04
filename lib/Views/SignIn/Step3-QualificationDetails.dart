@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/GradingSystem.dart';
+import 'package:job_portal/Models/InstituteQualified.dart';
 import 'package:job_portal/Models/PassingYear.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Views/SignIn/Step5-ProfessionalDetails.dart';
@@ -67,6 +68,7 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
 
 
   ApiServices apiServices = ApiServices();
+  ApiResponse<List<Institute>> _apiResponseInstitute;
 
   ApiResponse<List<GradingSystem>> _apiResponse;
   ApiResponse<List<PassingYear>> _apiResponse2;
