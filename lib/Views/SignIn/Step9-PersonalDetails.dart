@@ -1,9 +1,11 @@
 import 'package:find_dropdown/find_dropdown.dart';
 import 'package:flutter/material.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:date_field/date_field.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/Country.dart';
+
 import 'package:job_portal/Models/GetCategory.dart';
 import 'package:job_portal/Models/GetMarital.dart';
 import 'package:job_portal/Models/Nationality.dart';
@@ -14,9 +16,11 @@ import 'package:job_portal/Models/location.dart';
 
 class PersonalDetails extends StatefulWidget {
   const PersonalDetails({Key key}) : super(key: key);
+
   @override
   _PersonalDetailsState createState() => _PersonalDetailsState();
 }
+
 class _PersonalDetailsState extends State<PersonalDetails> {
   DateTime selectedDate;
   int groupValue = 1;
@@ -49,7 +53,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
     setState(() {
       isLoading = true;
     });
-    _apiResponse5 = await apiServices.getC
+    _apiResponse5 = await apiServices.getM
     setState(() {
       isLoading = false;
     });
