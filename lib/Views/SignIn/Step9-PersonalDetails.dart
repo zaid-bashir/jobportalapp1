@@ -28,9 +28,11 @@ class _PersonalDetailsState extends State<PersonalDetails> {
   int groupValue2 = 1;
   YearPicker selectedDate2;
   String query;
-  String querys;
-  String queryss;
-
+  String query1;
+  String query2;
+  String query3;
+ String Caste;
+ String Marial;
   ApiResponse<List<Cities>> _apiResponse;
   ApiResponse<List<Nationality>> _apiResponse2;
   ApiResponse<List<Country>> _apiResponse3;
@@ -44,6 +46,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
     fetchMarital();
     fetchCity(query: "");
     fetchNationality(query: "");
+    fetchCountry(query: "");
     super.initState();
   }
 
@@ -674,7 +677,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                         ),
                       ),
                       groupValue2 == 0
-                          ?   FindDropdown(
+                          ?      FindDropdown(
                         searchBoxDecoration:   InputDecoration(
                           border: UnderlineInputBorder(
                             borderSide: BorderSide(
@@ -686,9 +689,9 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                         searchHint: "Country",
                         onFind: (val) async{
                           setState(() {
-                            queryss = val;
+                            query3 = val;
                           });
-                          await fetchCity(query: queryss);
+                          await  fetchCountry(query: query3);
                           getCountry();
                           return [""];
                         },
