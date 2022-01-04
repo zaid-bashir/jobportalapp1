@@ -12,14 +12,14 @@ class ApiUrls{
   static String kStream = "http://192.168.0.20:9004/jobportal-app/app/api/populate/stream?query=";
   static String kindustry = "http://192.168.0.20:9004/jobportal-app/app/api/populate/industry?query=";
   static String kcompany = "http://192.168.0.20:9004/jobportal-app/app/api/populate/company?query=";
-  static String kJobType = "http://192.168.0.20:9004/jobportal-app/app/api/populate/jobtype;";
+  static String kJobType = "http://192.168.0.20:9004/jobportal-app/app/api/populate/jobtype";
   static String kEmpType = "http://192.168.0.20:9004/jobportal-app/app/api/populate/employmenttype";
   static String kBasicDetial = "http://192.168.0.20:7038/jobportal-app/api/candidate/basic-detail";
   static String kCity = "http://192.168.0.20:9004/jobportal-app/app/api/populate/city?query=";
   static String kNationality = "http://192.168.0.20:9004/jobportal-app/app/api/populate/nationality?query=";
-  static String kInstitute = "http://192.168.0.20:9004/jobportal-app/app/api/populate/institute?query=";
-  static String kItskill = "http://192.168.0.20:9004/jobportal-app/app/api/populate/itskill?query=";
-    static String kCountry = "http://192.168.0.20:9004/jobportal-app/app/api/populate/country?query=";
+  static String kCountry = "http://192.168.0.20:9004/jobportal-app/app/api/populate/country?query=";
   static String kCaste = "http://192.168.0.20:9004/jobportal-app/app/api/populate/caste";
   static String kMarital = "http://192.168.0.20:9004/jobportal-app/app/api/populate/marital-status";
+  static String kInstitute = "http://192.168.0.20:9004/jobportal-app/app/api/populate/institute?query=";
+  static String kItskill = "http://192.168.0.20:9004/jobportal-app/app/api/populate/itskill?query=";
 }

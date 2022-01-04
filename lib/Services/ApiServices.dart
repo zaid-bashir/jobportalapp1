@@ -446,7 +446,8 @@ class ApiServices {
     return ApiResponse<List<EmploymentType>>(
         error: true, errorMessage: "An error occurred");
   }
-  // Basic Details Page...
+
+  //  Nationality Dropdown
   Future<ApiResponse<String>> postBasicDetials(
       BasicDetialModel obj) async {
     final url = Uri.parse(ApiUrls.kBasicDetial);
@@ -480,6 +481,85 @@ class ApiServices {
         error: true, errorMessage: "Something went wrong, please try again...");
   }
 
+  //  Country
+
+  Future<ApiResponse<List<Country>>> getCountry({String query}) async {
+    final url = Uri.parse(ApiUrls.kCountry+query);
+    print(ApiUrls.kCountry+"="+query);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <Country>[];
+      for (var item in jsonData) {
+        list.add(Country.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      return ApiResponse<List<Country>>(data: list);
+    }
+    return ApiResponse<List<Country>>(
+        error: true, errorMessage: "An error occurred");
+
+  }
+
+
+  // CASTE
+  Future<ApiResponse<List<Category>>> getCaste() async {
+    final url = Uri.parse(ApiUrls.kCaste);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <Category>[];
+      for (var item in jsonData) {
+        list.add(Category.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      print(list);
+      return ApiResponse<List<Category>>(data: list);
+    }
+    return ApiResponse<List<Category>>(
+        error: true, errorMessage: "An error occurred");
+  }
+
+  // MARITAL
+
+  Future<ApiResponse<List<Marital>>> getMarital() async {
+    final url = Uri.parse(ApiUrls.kMarital);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <Marital>[];
+      for (var item in jsonData) {
+        list.add(Marital.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      print(list);
+      return ApiResponse<List<Marital>>(data: list);
+    }
+    return ApiResponse<List<Marital>>(
+        error: true, errorMessage: "An error occurred");
+  }
+  // institute qualified from
   Future<ApiResponse<List<Institute>>> getInstitute({String query}) async {
     final url = Uri.parse(ApiUrls.kInstitute+query);
     print(ApiUrls.kInstitute+"="+query);

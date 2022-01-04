@@ -70,6 +70,7 @@ class _BasicDetailsState extends State<BasicDetails> {
     super.initState();
     fetchTitles();
     fetchJobCategory(query: "");
+
   }
 
   fetchTitles() async {
@@ -702,7 +703,9 @@ class _BasicDetailsState extends State<BasicDetails> {
                           },
                           onChanged: (item) {
                             setState(() {
-                              myjobrole = item;
+                              myjobrole = item.split(",")[1].toString();
+                              print(myjobrole);
+                              print("hello");
                             });
                           },
                         ),

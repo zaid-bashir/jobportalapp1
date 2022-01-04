@@ -20,7 +20,7 @@ class WorkingProfession extends StatefulWidget {
 }
 
 class _WorkingProfessionState extends State<WorkingProfession> {
-
+String industryId;
   String query;
   String mycompany = "";
   String myindustry = "";
@@ -607,6 +607,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                 onChanged: (item) {
                                   setState(() {
                                     myindustry = item;
+
                                   });
                                 },
                               ),
