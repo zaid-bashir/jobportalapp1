@@ -1,15 +1,16 @@
+import 'dart:ui';
 
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:find_dropdown/find_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
+import 'package:job_portal/Models/CurerntLocation.dart';
 import 'package:job_portal/Models/GetTitle.dart';
 import 'package:job_portal/Models/getjobcategory.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Views/SignIn/Step3-QualificationDetails.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 class BasicDetails extends StatefulWidget {
   const BasicDetails({Key key}) : super(key: key);
 
@@ -18,16 +19,16 @@ class BasicDetails extends StatefulWidget {
 }
 
 class _BasicDetailsState extends State<BasicDetails> {
-
   //SharedPrefs Variable
   String titleIdPref;
+  // String myyear = "";
 
   String myjobrole = "";
-  String query;
 
   List<String> locationList = ["Srinagar", "Jammu", "Kolkata"];
 
-  String myLocation;
+  String myLocation = "";
+  String query = "";
 
   List<String> salutation = [
     "Mr",
@@ -40,19 +41,19 @@ class _BasicDetailsState extends State<BasicDetails> {
   String mySelection;
   String mySelectionYear;
   String mySelectionMonth;
-
   bool _isLoading = false;
   int genderGroupValue = 0;
   int experienceGroupValue = 0;
   String dropdownValue;
-
   bool isLoading = false;
   bool isLoadingJobCategory = false;
-
+  bool isLoadingCurrentLocation = false;
+  // bool isLoadingYears = false;
   ApiServices apiServices = ApiServices();
-
   ApiResponse<List<GetTitle>> _apiResponse;
+  // ApiResponse<List<Years>> _apiResponse3;
   ApiResponse<List<JobCategory>> _apiResponseJobCategory;
+  ApiResponse<List<CurrentLocation>> _apiResponseCurrentLocation;
 
   SharedPreferences pref;
 
@@ -62,11 +63,23 @@ class _BasicDetailsState extends State<BasicDetails> {
     initSharedPreferences();
     fetchTitles();
     fetchJobCategory(query: "");
+    fetchCurrentLocation(query: "");
+    // fetchYears();
   }
 
   void initSharedPreferences() async {
     pref = await SharedPreferences.getInstance();
   }
+
+  // fetchYears() async {
+  //   setState(() {
+  //     isLoadingYears  = true;
+  //   });
+  //   _apiResponse3 = await apiServices.getExperienceYears();
+  //   setState(() {
+  //     isLoadingYears = false;
+  //   });
+  // }
 
   fetchTitles() async {
     setState(() {
@@ -77,7 +90,8 @@ class _BasicDetailsState extends State<BasicDetails> {
       isLoading = false;
     });
   }
-    fetchJobCategory({String query}) async {
+
+  fetchJobCategory({String query}) async {
     setState(() {
       isLoadingJobCategory = true;
     });
@@ -87,13 +101,47 @@ class _BasicDetailsState extends State<BasicDetails> {
     });
   }
 
-  List<String> parseData(){
+  List<String> parseData() {
     List<JobCategory> category = _apiResponseJobCategory.data;
     List<String> dataItems = [];
-    for(int i = 0; i < category.length;i++){
+    for (int i = 0; i < category.length; i++) {
       dataItems.add(category[i].jobroleName);
     }
     return dataItems;
+  }
+
+  fetchCurrentLocation({String query}) async {
+    setState(() {
+      isLoadingCurrentLocation = true;
+    });
+    _apiResponseCurrentLocation =
+        await apiServices.getCurrentLocation(query: query);
+    setState(() {
+      isLoadingCurrentLocation = false;
+    });
+  }
+
+  List<String> parseLocation() {
+    List<CurrentLocation> location = _apiResponseCurrentLocation.data;
+    List<String> dataItems = [];
+    for (int i = 0; i < location.length; i++) {
+      dataItems.add(location[i].cityName);
+    }
+    return dataItems;
+  }
+
+  RichText getRequiredLabel({String fieldName}) {
+    return RichText(
+      text: TextSpan(
+          style:TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+              fontFamily: "ProximaNova"),
+          text: fieldName ,
+          children: [
+            TextSpan(text: ' *', style: TextStyle(color: Colors.red)),
+          ]),
+    );
   }
 
   @override
@@ -150,25 +198,14 @@ class _BasicDetailsState extends State<BasicDetails> {
                                 padding: const EdgeInsets.all(5.0),
                                 child: DropdownButtonHideUnderline(
                                   child: GFDropdown(
-                                    hint: Row(
-                                      children: const [
-                                        Text(
-                                          "Title",
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "ProximaNova"),
-                                        ),
-                                        SizedBox(width: 5,),
-                                        Text("*",style: TextStyle(color: Colors.red),),
-                                      ],
-                                    ),
+                                    hint: getRequiredLabel(fieldName: "Title"),
                                     onChanged: (newValue) {
                                       setState(() {
                                         mySelection = newValue;
                                         pref.setString("titleId", titleIdPref);
                                       });
-                                      String Intval = pref.getString('titleId') ?? 0;
+                                      String Intval =
+                                          pref.getString('titleId') ?? 0;
                                       print(Intval);
                                     },
                                     items: isLoading
@@ -190,7 +227,8 @@ class _BasicDetailsState extends State<BasicDetails> {
                                         : _apiResponse.data
                                             .map(
                                               (data) => DropdownMenuItem(
-                                                value: titleIdPref = data.titleId,
+                                                value: titleIdPref =
+                                                    data.titleId,
                                                 child: Text(
                                                   "${data.titleDesc}",
                                                   style: const TextStyle(
@@ -213,24 +251,24 @@ class _BasicDetailsState extends State<BasicDetails> {
                         const SizedBox(
                           width: 10,
                         ),
-                        const Expanded(
+                        Expanded(
                           flex: 5,
-                          child: TextField(
+                          child: TextFormField(
                             decoration: InputDecoration(
                               contentPadding: EdgeInsets.all(8.0),
                               alignLabelWithHint: true,
-                              labelText: "First Name",
-                              labelStyle: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: "ProximaNova"),
-                              floatingLabelStyle: TextStyle(
-                                color: Color(0xff2972ff),
-                                fontFamily: "ProximaNova",
-                                fontWeight: FontWeight.bold,
-                                // letterSpacing: 1.5,
-                                fontSize: 17.5,
-                              ),
+                              label: getRequiredLabel(fieldName: "First Name",),
+                              // labelStyle: TextStyle(
+                              //     fontSize: 15,
+                              //     fontWeight: FontWeight.normal,
+                              //     fontFamily: "ProximaNova"),
+                              // floatingLabelStyle: TextStyle(
+                              //   color: Color(0xff2972ff),
+                              //   fontFamily: "ProximaNova",
+                              //   fontWeight: FontWeight.bold,
+                              //   // letterSpacing: 1.5,
+                              //   fontSize: 17.5,
+                              // ),
                               focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
                                   color: Color(0xff2972ff),
@@ -279,11 +317,11 @@ class _BasicDetailsState extends State<BasicDetails> {
                           const SizedBox(
                             width: 10,
                           ),
-                          const Expanded(
-                            child: TextField(
+                          Expanded(
+                            child: TextFormField(
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(8.0),
-                                labelText: 'Last Name',
+                                label: getRequiredLabel(fieldName: "Last Name"),
                                 labelStyle: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,
@@ -337,16 +375,9 @@ class _BasicDetailsState extends State<BasicDetails> {
                     const SizedBox(
                       height: 15,
                     ),
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.all(8),
-                      child: Text(
-                        "Gender",
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "ProximaNova"),
-                      ),
+                      child: getRequiredLabel(fieldName: "Gender"),
                     ),
                     const SizedBox(
                       height: 3,
@@ -366,23 +397,19 @@ class _BasicDetailsState extends State<BasicDetails> {
                                 genderGroupValue = value;
                               });
                             },
-
                             inactiveIcon: null,
                             radioColor: const Color(0xff2972ff),
                           ),
-
                           const SizedBox(
                             width: 7,
                           ),
                           const Text(
                             "Male",
-
                             style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: "ProximaNova"),
                           ),
-
                           const SizedBox(
                             width: 20,
                           ),
@@ -438,16 +465,9 @@ class _BasicDetailsState extends State<BasicDetails> {
                         ],
                       ),
                     ),
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.all(8),
-                      child: Text(
-                        "Experience",
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "ProximaNova"),
-                      ),
+                      child: getRequiredLabel(fieldName: "Experiance"),
                     ),
                     const SizedBox(
                       height: 3,
@@ -513,16 +533,10 @@ class _BasicDetailsState extends State<BasicDetails> {
                       height: 10,
                     ),
                     experienceGroupValue == 0
-                        ? const Padding(
+                        ? Padding(
                             padding: EdgeInsets.all(8),
-                            child: Text(
-                              "Experience Tenure",
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: "ProximaNova"),
-                            ),
+                            child: getRequiredLabel(
+                                fieldName: "Experiance Tenure"),
                           )
                         : Container(),
                     const SizedBox(
@@ -550,49 +564,82 @@ class _BasicDetailsState extends State<BasicDetails> {
                                               fontWeight: FontWeight.bold,
                                               fontFamily: "ProximaNova"),
                                         ),
-                                        borderRadius: const BorderRadius.horizontal(
-                                            left: Radius.zero,
-                                            right: Radius.zero),
-                                        value: mySelectionYear,
+                                        value: mySelectionMonth,
                                         onChanged: (newValue) {
                                           setState(() {
-                                            mySelectionYear = newValue;
+                                            mySelectionMonth = newValue;
                                           });
                                         },
-                                        items: [
-                                          "0",
-                                          "1",
-                                          "2",
-                                          "3",
-                                          "4",
-                                          "5",
-                                          "6",
-                                          "7",
-                                          "8",
-                                          "9",
-                                          "10",
-                                          "11",
-                                          "12",
-                                          "13",
-                                          "14",
-                                          "15"
-                                        ]
+                                        items: ["0", "1", "2", "3", "4", "5"]
                                             .map(
                                               (value) => DropdownMenuItem(
-                                                  value: value,
-                                                  child: Text(
-                                                    value,
-                                                    style: const TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontFamily:
-                                                            "ProximaNova"),
-                                                  )),
-                                            )
+                                              value: value,
+                                              child: Text(
+                                                value,
+                                                style: const TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight:
+                                                    FontWeight.bold,
+                                                    fontFamily:
+                                                    "ProximaNova"),
+                                              )),
+                                        )
                                             .toList(),
                                       ),
                                     ),
+                                    // child: DropdownButtonHideUnderline(
+                                        //       child:  DropdownButtonFormField(
+                                        //         // disabledHint: ,
+                                        //           decoration:const InputDecoration(
+                                        //               border: UnderlineInputBorder(
+                                        //
+                                        //               )
+                                        //           ),
+                                        //           hint: Text("Select year"),
+                                        //           value: myyear,
+                                        //           onChanged: (newValue) {
+                                        //             setState(() {
+                                        //               myyear = newValue;
+                                        //             });
+                                        //           },
+                                        //           items: isLoading
+                                        //           ? ["Please Wait"]
+                                        //               .map(
+                                        //                 (value) => DropdownMenuItem(
+                                        //                 value: value,
+                                        //                 child: Text(
+                                        //                   value,
+                                        //                   style: TextStyle(
+                                        //                       fontSize: 15,
+                                        //                       fontWeight:
+                                        //                       FontWeight.normal,
+                                        //                       fontFamily:
+                                        //                       "ProximaNova"),
+                                        //                 )),
+                                        //           )
+                                        //               .toList()
+                                        //               : _apiResponse3.data
+                                        //           .map(
+                                        //           (data) => DropdownMenuItem(
+                                        //       value: data.yearId,
+                                        //       child: Text(
+                                        //         data.yearName,
+                                        //         style: TextStyle(
+                                        //             fontSize: 15,
+                                        //             fontWeight:
+                                        //             FontWeight.normal,
+                                        //             fontFamily:
+                                        //             "ProximaNova"),
+                                        //       ),
+                                        //     ),
+                                        //   )
+                                        //       .toList(),
+                                        //
+                                        //
+                                        //
+                                        //
+                                        // ),
+                                        // ),
                                   ),
                                 ),
                               ),
@@ -647,24 +694,16 @@ class _BasicDetailsState extends State<BasicDetails> {
                     const SizedBox(
                       height: 20,
                     ),
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.all(8),
-                      child: Text(
-                        "Job Role",
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "ProximaNova"),
-                      ),
+                      child: getRequiredLabel(fieldName: "Job Role"),
                     ),
                     Center(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: FindDropdown(
-                          searchBoxDecoration:  const InputDecoration(
+                          searchBoxDecoration: const InputDecoration(
                             border: UnderlineInputBorder(
-
                               borderSide: BorderSide(
                                 color: Colors.grey,
                               ),
@@ -672,13 +711,13 @@ class _BasicDetailsState extends State<BasicDetails> {
                           ),
                           items: parseData(),
                           searchHint: "Job Role",
-                          onFind: (val) async{
+                          onFind: (val) async {
                             setState(() {
                               query = val;
                             });
                             await fetchJobCategory(query: query);
                             parseData();
-                          return [""];
+                            return [""];
                           },
                           onChanged: (item) {
                             setState(() {
@@ -691,37 +730,35 @@ class _BasicDetailsState extends State<BasicDetails> {
                     const SizedBox(
                       height: 20,
                     ),
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.all(8),
-                      child: Text(
-                        "Current Location",
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "ProximaNova"),
-                      ),
+                      child: getRequiredLabel(fieldName: "Current Location"),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: DropdownSearch<String>(
-                        hint: "Current Location",
-                        dropdownSearchBaseStyle: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "ProximaNova"),
-                        dropdownSearchDecoration: const InputDecoration(),
-                        mode: Mode.DIALOG,
-                        showSearchBox: true,
-                        showSelectedItems: true,
-                        items: locationList,
-                        popupItemDisabled: (String s) => s.startsWith('I'),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: FindDropdown(
+                        searchBoxDecoration: InputDecoration(
+                          border: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                        items: parseLocation(),
+                        searchHint: "Current Location",
+                        onFind: (val) async {
+                          setState(() {
+                            query = val;
+                          });
+                          await fetchCurrentLocation(query: query);
+                          parseLocation();
+                          return [""];
+                        },
                         onChanged: (item) {
                           setState(() {
                             myLocation = item;
                           });
                         },
-                        selectedItem: myLocation,
                       ),
                     ),
                     const SizedBox(

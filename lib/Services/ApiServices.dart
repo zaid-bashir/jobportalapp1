@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:job_portal/Models/CurerntLocation.dart';
 import 'package:job_portal/Models/EmploymentType.dart';
 import 'package:job_portal/Models/JobType.dart';
 import 'package:job_portal/Models/QualificationDetails.dart';
@@ -15,7 +16,7 @@ import 'package:job_portal/Models/GetTitle.dart';
 import 'package:job_portal/Models/GradingSystem.dart';
 import 'package:job_portal/Models/PassingYear.dart';
 import 'package:job_portal/Models/VerifyOtp.dart';
-import 'package:job_portal/Utility/apiurls.dart';
+import 'package:job_portal/Utility/ApiUrls.dart';
 import 'package:logger/logger.dart';
 
 class ApiServices {
@@ -258,7 +259,7 @@ class ApiServices {
         error: true, errorMessage: "An error occurred");
   }
 
-  //Get Course
+                //Get Course
 
   Future<ApiResponse<List<Streams>>> getStream({String query}) async {
     final url = Uri.parse(ApiUrls.kStream+query);
@@ -284,7 +285,7 @@ class ApiServices {
         error: true, errorMessage: "An error occurred");
   }
 
-  // JOB TYPE
+           // JOB TYPE
   Future<ApiResponse<List<JobType>>> getjobType() async {
     final url = Uri.parse(ApiUrls.kJobType);
     final header = {
@@ -311,7 +312,7 @@ class ApiServices {
 
 
 
-  // EMPLOYMENT
+            // EMPLOYMENT
   Future<ApiResponse<List<EmploymentType>>> getEmploymentType() async {
     final url = Uri.parse(ApiUrls.kEmpType);
     final header = {
@@ -335,4 +336,59 @@ class ApiServices {
     return ApiResponse<List<EmploymentType>>(
         error: true, errorMessage: "An error occurred");
   }
+
+
+  //CURRENT LOCATION STARTS HERE
+  Future<ApiResponse<List<CurrentLocation>>> getCurrentLocation({String query}) async {
+    final url = Uri.parse(ApiUrls.kLocation+query);
+    print(ApiUrls.kLocation+"="+query);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <CurrentLocation>[];
+      for (var item in jsonData) {
+        list.add(CurrentLocation.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      return ApiResponse<List<CurrentLocation>>(data: list);
+    }
+    return ApiResponse<List<CurrentLocation>>(
+        error: true, errorMessage: "An error occurred");
+  }
+           //CURRENT LOCATION ENDS HERE
+
+
+  // EXPERIANCE TENURE (YEARS)
+  // Future<ApiResponse<List<Years>>> getExperienceYears() async {
+  //   final url = Uri.parse(ApiUrls.kyears);
+  //   final header = {
+  //     "Content-Type": "application/json",
+  //   };
+  //   final response = await http.get(
+  //     url,
+  //     headers: header,
+  //   );
+  //   if (response.statusCode == 200) {
+  //     final jsonData = jsonDecode(response.body);
+  //     final list = <Years>[];
+  //     for (var item in jsonData) {
+  //       list.add(Years.fromJson(item));
+  //     }
+  //     log.i(response.body);
+  //     log.i(response.statusCode);
+  //     print(list);
+  //     return ApiResponse<List<Years>>(data: list);
+  //   }
+  //   return ApiResponse<List<Years>>(
+  //       error: true, errorMessage: "An error occurred");
+  // }
+
 }
+

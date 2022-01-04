@@ -110,8 +110,8 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
     "1979",
     "1980"
   ];
+  bool isLoading = false;
   ApiServices apiServices = ApiServices();
-
   ApiResponse<List<GradingSystem>> _apiResponse;
   ApiResponse<List<PassingYear>> _apiResponse2;
   ApiResponse<List<Qualification>> _apiResponsequalification;
@@ -121,8 +121,8 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
   @override
   void initState() {
     fetchHighestQualification(query: "");
-    fetchCourses(query: "");
-    fetchStream(query: "");
+    fetchCourses(query:"");
+    fetchStream(query:"");
     fetchPassingYear();
     fetchGradingSystem();
     loadingController = AnimationController(
@@ -131,7 +131,6 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
     )..addListener(() {
       setState(() {});
     });
-
     super.initState();
   }
 
@@ -191,7 +190,7 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
   String query;
   String querys;
   String queryss;
-  bool isLoading = false;
+
   fetchGradingSystem() async {
     setState(() {
       isLoading = true;
