@@ -1,5 +1,4 @@
-
-// ignore_for_file: prefer_const_constructors, deprecated_member_use
+// ignore_for_file: prefer_const_constructors, deprecated_member_use, prefer_final_fields, unused_field, unnecessary_string_interpolations, avoid_print
 
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:find_dropdown/find_dropdown.dart';
@@ -7,10 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/GetTitle.dart';
+import 'package:job_portal/Models/basicdetials.dart';
 import 'package:job_portal/Models/getjobcategory.dart';
 import 'package:job_portal/Services/ApiServices.dart';
-import 'package:job_portal/Views/SignIn/Step3-QualificationDetails.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class BasicDetails extends StatefulWidget {
   const BasicDetails({Key key}) : super(key: key);
@@ -20,17 +18,20 @@ class BasicDetails extends StatefulWidget {
 }
 
 class _BasicDetailsState extends State<BasicDetails> {
+  //Global Form Key
+  //===============
+  var formKey = GlobalKey<FormState>();
 
-  //SharedPreference Global 
-  //======================
-  SharedPreferences pref;
-
-  //SharedPrefs Variable
-  //====================
-  String titleIdPref;
+  //Controllers for TextField
+  //=========================
+  TextEditingController fnameController = TextEditingController();
+  TextEditingController mnameController = TextEditingController();
+  TextEditingController lnameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
 
   //Normal Fiels Variables
   //======================
+  String titleId = "";
   String myjobrole = "";
   String query;
   String myLocation;
@@ -55,7 +56,6 @@ class _BasicDetailsState extends State<BasicDetails> {
     "Mx",
   ];
 
-
   //Service Object
   //==============
   ApiServices apiServices = ApiServices();
@@ -65,17 +65,11 @@ class _BasicDetailsState extends State<BasicDetails> {
   ApiResponse<List<GetTitle>> _apiResponse;
   ApiResponse<List<JobCategory>> _apiResponseJobCategory;
 
-
   @override
   void initState() {
     super.initState();
-    initSharedPreferences();
     fetchTitles();
     fetchJobCategory(query: "");
-  }
-
-  void initSharedPreferences() async {
-    pref = await SharedPreferences.getInstance();
   }
 
   fetchTitles() async {
@@ -87,7 +81,8 @@ class _BasicDetailsState extends State<BasicDetails> {
       isLoading = false;
     });
   }
-    fetchJobCategory({String query}) async {
+
+  fetchJobCategory({String query}) async {
     setState(() {
       isLoadingJobCategory = true;
     });
@@ -97,10 +92,10 @@ class _BasicDetailsState extends State<BasicDetails> {
     });
   }
 
-  List<String> parseData(){
+  List<String> parseData() {
     List<JobCategory> category = _apiResponseJobCategory.data;
     List<String> dataItems = [];
-    for(int i = 0; i < category.length;i++){
+    for (int i = 0; i < category.length; i++) {
       dataItems.add(category[i].jobroleName);
     }
     return dataItems;
@@ -138,6 +133,7 @@ class _BasicDetailsState extends State<BasicDetails> {
             padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
             child: Card(
               child: Form(
+                key: formKey,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -162,7 +158,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                                   child: GFDropdown(
                                     hint: Row(
                                       // ignore: prefer_const_literals_to_create_immutables
-                                      children:  [
+                                      children: [
                                         Text(
                                           "Title",
                                           style: TextStyle(
@@ -170,16 +166,15 @@ class _BasicDetailsState extends State<BasicDetails> {
                                               fontWeight: FontWeight.bold,
                                               fontFamily: "ProximaNova"),
                                         ),
-                                        SizedBox(width: 10,),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
                                       ],
                                     ),
                                     onChanged: (newValue) {
                                       setState(() {
                                         mySelection = newValue;
-                                        pref.setString("titleId", titleIdPref);
                                       });
-                                      String Intval = pref.getString('titleId') ?? 0;
-                                      print(Intval);
                                     },
                                     items: isLoading
                                         ? ["Please Wait"]
@@ -200,7 +195,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                                         : _apiResponse.data
                                             .map(
                                               (data) => DropdownMenuItem(
-                                                value: titleIdPref = data.titleId,
+                                                value: titleId = data.titleId,
                                                 child: Text(
                                                   "${data.titleDesc}",
                                                   style: const TextStyle(
@@ -223,9 +218,10 @@ class _BasicDetailsState extends State<BasicDetails> {
                         const SizedBox(
                           width: 10,
                         ),
-                        const Expanded(
+                        Expanded(
                           flex: 5,
-                          child: TextField(
+                          child: TextFormField(
+                            controller: fnameController,
                             decoration: InputDecoration(
                               contentPadding: EdgeInsets.all(8.0),
                               alignLabelWithHint: true,
@@ -262,8 +258,9 @@ class _BasicDetailsState extends State<BasicDetails> {
                       child: Row(
                         // ignore: prefer_const_literals_to_create_immutables
                         children: [
-                          const Expanded(
-                            child: TextField(
+                          Expanded(
+                            child: TextFormField(
+                              controller: mnameController,
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(8.0),
                                 labelText: 'Middle Name',
@@ -289,8 +286,9 @@ class _BasicDetailsState extends State<BasicDetails> {
                           const SizedBox(
                             width: 10,
                           ),
-                          const Expanded(
-                            child: TextField(
+                          Expanded(
+                            child: TextFormField(
+                              controller: lnameController,
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(8.0),
                                 labelText: 'Last Name',
@@ -319,9 +317,10 @@ class _BasicDetailsState extends State<BasicDetails> {
                     const SizedBox(
                       height: 10,
                     ),
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.all(8.0),
-                      child: TextField(
+                      child: TextFormField(
+                        controller: emailController,
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.all(8.0),
                           labelText: 'E-mail',
@@ -369,36 +368,32 @@ class _BasicDetailsState extends State<BasicDetails> {
                           GFRadio(
                             size: 20,
                             activeBorderColor: const Color(0xff2972ff),
-                            value: 0,
+                            value: 1,
                             groupValue: genderGroupValue,
                             onChanged: (value) {
                               setState(() {
                                 genderGroupValue = value;
                               });
                             },
-
                             inactiveIcon: null,
                             radioColor: const Color(0xff2972ff),
                           ),
-
                           const SizedBox(
                             width: 7,
                           ),
                           const Text(
                             "Male",
-
                             style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: "ProximaNova"),
                           ),
-
                           const SizedBox(
                             width: 20,
                           ),
                           GFRadio(
                             size: 20,
-                            value: 1,
+                            value: 2,
                             groupValue: genderGroupValue,
                             onChanged: (value) {
                               setState(() {
@@ -470,7 +465,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                           GFRadio(
                             size: 20,
                             activeBorderColor: const Color(0xff2972ff),
-                            value: 0,
+                            value: 1,
                             groupValue: experienceGroupValue,
                             onChanged: (value) {
                               setState(() {
@@ -495,7 +490,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                           ),
                           GFRadio(
                             size: 20,
-                            value: 1,
+                            value: 2,
                             groupValue: experienceGroupValue,
                             onChanged: (value) {
                               setState(() {
@@ -560,9 +555,10 @@ class _BasicDetailsState extends State<BasicDetails> {
                                               fontWeight: FontWeight.bold,
                                               fontFamily: "ProximaNova"),
                                         ),
-                                        borderRadius: const BorderRadius.horizontal(
-                                            left: Radius.zero,
-                                            right: Radius.zero),
+                                        borderRadius:
+                                            const BorderRadius.horizontal(
+                                                left: Radius.zero,
+                                                right: Radius.zero),
                                         value: mySelectionYear,
                                         onChanged: (newValue) {
                                           setState(() {
@@ -582,10 +578,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                                           "9",
                                           "10",
                                           "11",
-                                          "12",
-                                          "13",
-                                          "14",
-                                          "15"
+                                          "12"
                                         ]
                                             .map(
                                               (value) => DropdownMenuItem(
@@ -631,7 +624,21 @@ class _BasicDetailsState extends State<BasicDetails> {
                                             mySelectionMonth = newValue;
                                           });
                                         },
-                                        items: ["0", "1", "2", "3", "4", "5"]
+                                        items: [
+                                          "0",
+                                          "1",
+                                          "2",
+                                          "3",
+                                          "4",
+                                          "5",
+                                          "6",
+                                          "7",
+                                          "8",
+                                          "9",
+                                          "10",
+                                          "11",
+                                          "12",
+                                        ]
                                             .map(
                                               (value) => DropdownMenuItem(
                                                   value: value,
@@ -672,30 +679,33 @@ class _BasicDetailsState extends State<BasicDetails> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: FindDropdown(
-                          searchBoxDecoration:  const InputDecoration(
+                          searchBoxDecoration: const InputDecoration(
                             border: UnderlineInputBorder(
                               borderSide: BorderSide(
                                 color: Colors.grey,
                               ),
                             ),
                           ),
-                        items: isLoadingJobCategory ? ["Not Connected With Internet"] : parseData(),
-                        searchHint: "Job Role", 
-                        onFind: (val) async {
-                          setState(() {
-                            query = val;
-                          });
-                          await isLoadingJobCategory ? (){} : fetchJobCategory(query: query);
-                          parseData();
-                          return [""];
-                        },
-                        onChanged: (item) {
-                          setState(() {
-                            myjobrole = item;
-                          });
-                        },
+                          items: isLoadingJobCategory
+                              ? ["Not Connected With Internet"]
+                              : parseData(),
+                          searchHint: "Job Role",
+                          onFind: (val) async {
+                            setState(() {
+                              query = val;
+                            });
+                            await isLoadingJobCategory
+                                ? () {}
+                                : fetchJobCategory(query: query);
+                            parseData();
+                            return [""];
+                          },
+                          onChanged: (item) {
+                            setState(() {
+                              myjobrole = item;
+                            });
+                          },
                         ),
-                        
                       ),
                     ),
                     const SizedBox(
@@ -725,7 +735,6 @@ class _BasicDetailsState extends State<BasicDetails> {
                         showSearchBox: true,
                         showSelectedItems: true,
                         items: locationList,
-                        popupItemDisabled: (String s) => s.startsWith('I'),
                         onChanged: (item) {
                           setState(() {
                             myLocation = item;
@@ -751,11 +760,32 @@ class _BasicDetailsState extends State<BasicDetails> {
                 type: GFButtonType.solid,
                 blockButton: false,
                 onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const QualificationBlueCollar(),
-                    ),
-                  );
+                  print(titleId);
+                  print(fnameController.text);
+                  print(mnameController.text);
+                  print(lnameController.text);
+                  print(emailController.text);
+                  print(genderGroupValue);
+                  print(experienceGroupValue);
+                  print(myjobrole);
+                  print(myLocation);
+                  if (formKey.currentState.validate()) {
+                    apiServices.postBasicDetials(BasicDetialModel(
+                      candidateTitleId: int.parse(titleId),
+                      candidateFirstName: fnameController.text,
+                      candidateMiddleName: mnameController.text,
+                      candidateLastName: lnameController.text,
+                      candidateEmail1: emailController.text,
+                      candidateGenderId: genderGroupValue,
+                      candidateJobroleId: 3,
+                      candidateCityId: 5,
+                    ));
+                  }
+                  // Navigator.of(context).push(
+                  //   MaterialPageRoute(
+                  //     builder: (context) => const QualificationBlueCollar(),
+                  //   ),
+                  // );
                 },
               ),
             ),

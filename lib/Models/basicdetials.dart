@@ -3,10 +3,10 @@ class BasicDetialModel {
   String candidateFirstName;
   String candidateMiddleName;
   String candidateLastName;
-  String candidateGenderId;
-  String candiadteexpExperience;
-  String candiadteexpStartyear;
-  String candiadteexpEndmonth;
+  String candidateEmail1;
+  int candidateGenderId;
+  // String candiadteexpExperience;
+  String candidateTotalworkexp;
   int candidateJobroleId;
   int candidateCityId;
 
@@ -15,43 +15,42 @@ class BasicDetialModel {
     this.candidateFirstName,
     this.candidateMiddleName,
     this.candidateLastName,
+    this.candidateEmail1,
     this.candidateGenderId,
-    this.candiadteexpExperience,
-    this.candiadteexpStartyear,
-    this.candiadteexpEndmonth,
+    // this.candiadteexpExperience,
+    this.candidateTotalworkexp,
     this.candidateJobroleId,
     this.candidateCityId,
   });
 
-   factory  BasicDetialModel.fromJson(Map<String, dynamic> json) {
-   return BasicDetialModel(
-     candidateTitleId: json["candidateTitleId"],
-     candidateFirstName: json["candidateFirstName"],
-     candidateMiddleName: json["candidateMiddleName"],
-     candidateLastName: json["candidateLastName"],
-     candidateGenderId: json["candidateGenderId"],
-     candiadteexpExperience: json["candiadteexpExperience"],
-     candiadteexpStartyear: json["candiadteexpStartyear"],
-     candiadteexpEndmonth: json["candiadteexpEndmonth"],
-     candidateJobroleId: json["candidateJobroleId"],
-     candidateCityId: json["candidateCityId"],
-   );
+  factory BasicDetialModel.fromJson(Map<String, dynamic> json) {
+    return BasicDetialModel(
+      candidateTitleId: json["candidateTitleId"],
+      candidateFirstName: json["candidateFirstName"],
+      candidateMiddleName: json["candidateMiddleName"],
+      candidateLastName: json["candidateLastName"],
+      candidateEmail1 : json["candiadateEmail1"],
+      candidateGenderId: json["candidateGenderId"],
+      // candiadteexpExperience: json["candiadteexpExperience"],
+      candidateTotalworkexp: json["candidateTotalworkexp"],
+      candidateJobroleId: json["candidateJobroleId"],
+      candidateCityId: json["candidateCityId"],
+    );
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  <String, dynamic>{};
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['candidateTitleId'] = candidateTitleId;
     data['candidateFirstName'] = candidateFirstName;
     data['candidateMiddleName'] = candidateMiddleName;
     data['candidateLastName'] = candidateLastName;
+    data["candiadateEmail1"] = candidateEmail1;
     data['candidateGenderId'] = candidateGenderId;
-    data['candiadteexpExperience'] = candiadteexpExperience;
-    data['candiadteexpStartyear'] = candiadteexpStartyear;
-    data['candiadteexpEndmonth'] = candiadteexpEndmonth;
+    // data['candiadteexpExperience'] = candiadteexpExperience;
+    data["candidateTotalworkexp"] = candidateTotalworkexp;
     data['candidateJobroleId'] = candidateJobroleId;
     data['candidateCityId'] = candidateCityId;
-    
+
     return data;
   }
-
 }

@@ -454,10 +454,10 @@ class ApiServices {
       "candidateFirstName": obj.candidateFirstName,
       "candidateMiddleName": obj.candidateMiddleName,
       "candidateLastName" : obj.candidateLastName,
+      "candidateEmail1" : obj.candidateEmail1,
       "candidateGenderId" : obj.candidateGenderId,
-      "candiadteexpExperience" : obj.candiadteexpExperience,
-      "candiadteexpStartyear" : obj.candiadteexpStartyear,
-      "candiadteexpEndmonth" : obj.candiadteexpEndmonth,
+      // "candiadteexpExperience" : obj.candiadteexpExperience,
+      "candidateTotalworkexp" : obj.candidateTotalworkexp,
       "candidateJobroleId" : obj.candidateJobroleId,
       "candidateCityId" : obj.candidateCityId,
     });
