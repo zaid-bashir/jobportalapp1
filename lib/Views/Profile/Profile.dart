@@ -534,8 +534,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                 left: 28.0, right: 28.0, top: 5.0),
                             child:  Row(
                               mainAxisSize: MainAxisSize.max,
-                              children:
-                              <Widget>[
+                              children: <Widget>[
                                 Flexible(
                                   child:  Text('Isra Riaz',style: TextStyle(fontSize:15, fontWeight: FontWeight.bold)
                                     // decoration: const InputDecoration(

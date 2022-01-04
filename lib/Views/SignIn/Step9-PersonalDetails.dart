@@ -30,7 +30,6 @@ class _PersonalDetailsState extends State<PersonalDetails> {
   String query;
   String query1;
   String query2;
-  String query3;
  String Caste;
  String Marial;
   ApiResponse<List<Cities>> _apiResponse;
@@ -677,7 +676,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                         ),
                       ),
                       groupValue2 == 0
-                          ?      FindDropdown(
+                          ?       FindDropdown(
                         searchBoxDecoration:   InputDecoration(
                           border: UnderlineInputBorder(
                             borderSide: BorderSide(
@@ -686,12 +685,12 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                           ),
                         ),
                         items: getCountry(),
-                        searchHint: "Country",
+                        searchHint: "City",
                         onFind: (val) async{
                           setState(() {
-                            query3 = val;
+                            query2 = val;
                           });
-                          await  fetchCountry(query: query3);
+                          await fetchCity(query: query2);
                           getCountry();
                           return [""];
                         },

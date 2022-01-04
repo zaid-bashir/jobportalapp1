@@ -62,6 +62,7 @@ class _BasicDetailsState extends State<BasicDetails> {
     initSharedPreferences();
     fetchTitles();
     fetchJobCategory(query: "");
+
   }
 
   void initSharedPreferences() async {
@@ -89,9 +90,13 @@ class _BasicDetailsState extends State<BasicDetails> {
 
   List<String> parseData(){
     List<JobCategory> category = _apiResponseJobCategory.data;
+    print("########################");
+    print(category[0].jobroleId);
+    print(category[0].jobroleName);
     List<String> dataItems = [];
     for(int i = 0; i < category.length;i++){
-      dataItems.add(category[i].jobroleName);
+      String data = "${category[i].jobroleName+","+category[i].jobroleId}";
+      dataItems.add(data);
     }
     return dataItems;
   }
@@ -682,7 +687,9 @@ class _BasicDetailsState extends State<BasicDetails> {
                           },
                           onChanged: (item) {
                             setState(() {
-                              myjobrole = item;
+                              myjobrole = item.split(",")[1].toString();
+                              print(myjobrole);
+                              print("hello");
                             });
                           },
                         ),
