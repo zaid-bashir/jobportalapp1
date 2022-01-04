@@ -1,11 +1,9 @@
 import 'package:find_dropdown/find_dropdown.dart';
 import 'package:flutter/material.dart';
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:date_field/date_field.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/Country.dart';
-
 import 'package:job_portal/Models/GetCategory.dart';
 import 'package:job_portal/Models/GetMarital.dart';
 import 'package:job_portal/Models/Nationality.dart';
@@ -16,11 +14,9 @@ import 'package:job_portal/Models/location.dart';
 
 class PersonalDetails extends StatefulWidget {
   const PersonalDetails({Key key}) : super(key: key);
-
   @override
   _PersonalDetailsState createState() => _PersonalDetailsState();
 }
-
 class _PersonalDetailsState extends State<PersonalDetails> {
   DateTime selectedDate;
   int groupValue = 1;
@@ -30,8 +26,8 @@ class _PersonalDetailsState extends State<PersonalDetails> {
   String query1;
   String query2;
   String query3;
- String Caste;
- String Marial;
+  String Caste;
+  String Marial;
   ApiResponse<List<Cities>> _apiResponse;
   ApiResponse<List<Nationality>> _apiResponse2;
   ApiResponse<List<Country>> _apiResponse3;
@@ -53,7 +49,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
     setState(() {
       isLoading = true;
     });
-    _apiResponse5 = await apiServices.getMarital();
+    _apiResponse5 = await apiServices.getC
     setState(() {
       isLoading = false;
     });
@@ -116,12 +112,15 @@ class _PersonalDetailsState extends State<PersonalDetails> {
     setState(() {
       isLoading = true;
     });
-    _apiResponse3 = await apiServices.getCountry(query: query);
+    _apiResponse3 = await apiServices.ge
     setState(() {
       isLoading = false;
     });
 
   }
+
+  
+
   List<String> getCountry(){
     List<Country>  countData = _apiResponse3.data;
     List<String> counData = [];

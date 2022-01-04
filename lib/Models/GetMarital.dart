@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_this
+
 class Marital {
   String maritalId;
   String maritalName;
