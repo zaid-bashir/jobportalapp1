@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, avoid_single_cascade_in_expression_statements
-
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';

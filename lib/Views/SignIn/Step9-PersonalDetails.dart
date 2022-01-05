@@ -2,6 +2,7 @@ import 'package:find_dropdown/find_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:date_field/date_field.dart';
+import 'package:getwidget/components/radio/gf_radio.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/Country.dart';
@@ -29,14 +30,8 @@ class _PersonalDetailsState extends State<PersonalDetails> {
   String query;
   String query1;
   String query2;
-<<<<<<< HEAD
-  String query3;
-  String Caste;
-  String Marial;
-=======
  String Caste;
  String Marial;
->>>>>>> b98d1dafd1b3b6f1eb3c3bcf9c9aa5df33d2ae22
   ApiResponse<List<Cities>> _apiResponse;
   ApiResponse<List<Nationality>> _apiResponse2;
   ApiResponse<List<Country>> _apiResponse3;
@@ -58,7 +53,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
     setState(() {
       isLoading = true;
     });
-    _apiResponse5 = await apiServices.getM
+    _apiResponse5 = await apiServices.getMarital();
     setState(() {
       isLoading = false;
     });
@@ -121,15 +116,12 @@ class _PersonalDetailsState extends State<PersonalDetails> {
     setState(() {
       isLoading = true;
     });
-    _apiResponse3 = await apiServices.ge
+    _apiResponse3 = await apiServices.getCountry(query: query);
     setState(() {
       isLoading = false;
     });
 
   }
-
-  
-
   List<String> getCountry(){
     List<Country>  countData = _apiResponse3.data;
     List<String> counData = [];
@@ -693,12 +685,12 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                           ),
                         ),
                         items: getCountry(),
-                        searchHint: "City",
+                        searchHint: "Country",
                         onFind: (val) async{
                           setState(() {
                             query2 = val;
                           });
-                          await fetchCity(query: query2);
+                          await fetchCountry(query: query2);
                           getCountry();
                           return [""];
                         },
