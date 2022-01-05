@@ -1,53 +1,24 @@
-class ITSkills {
-
-  int skillsId;
-  String skillsName;
-
-  String version;
-  String itYears;
-  String itMonths;
-  int yearId;
-  String yearName;
-
+class ITSkill {
+  String itskillId;
+  String itskillName;
 
 // changes
-  ITSkills(
-      {
-        this.skillsId,
-        this.skillsName,
+  ITSkill({
+    this.itskillId,
+    this.itskillName,
+  });
 
-        this.version,
-        this.itYears,
-        this.itMonths,
-        this.yearId,
-        this.yearName,
-       });
-
-  factory ITSkills.fromJson(Map<String, dynamic> item) {
-    return ITSkills(
-      skillsId: item["skillsId"],
-      skillsName: item["skillsName"],
-      version: item["  version"],
-      itMonths: item["  itMonths"],
-      itYears: item["itYears"],
-      yearName: item["  yearNam"],
-      yearId: item["  yearId"],
-
+  factory ITSkill.fromJson(Map<String, dynamic> item) {
+    return ITSkill(
+      itskillId: item["itskillId"],
+      itskillName: item["itskillName"],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      "version": version,
-      "skillsId": skillsId,
-      "skillsName": skillsName,
-      "itYears": itYears,
-      "itMonths": itMonths,
-      "yearName": yearName,
-      "yearId": yearId,
-
+      "itskillId": itskillId,
+      "itskillName": itskillName,
     };
   }
-
-
 }

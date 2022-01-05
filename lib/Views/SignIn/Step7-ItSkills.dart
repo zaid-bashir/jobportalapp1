@@ -1,16 +1,14 @@
+import 'package:find_dropdown/find_dropdown.dart';
 import 'package:flutter/material.dart';
-import 'package:dropdown_search/dropdown_search.dart';
-import 'package:date_field/date_field.dart';
-import 'package:getwidget/components/radio/gf_radio.dart';
+
+
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/ItSkills.dart';
 import 'package:job_portal/Models/PassingYear.dart';
 import 'package:job_portal/Services/ApiServices.dart';
-import 'package:job_portal/Views/SignIn/Step8-CareerPreference.dart';
-import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
-import 'package:multi_select_flutter/util/multi_select_item.dart';
-import 'package:multi_select_flutter/util/multi_select_list_type.dart';
+
+import 'Step8-CareerPreference.dart';
 
 class ItSkills extends StatefulWidget {
   const ItSkills({Key key}) : super(key: key);
@@ -35,7 +33,8 @@ class _ItSkillsState extends State<ItSkills> {
   String mySelection1;
   String mySelection2;
 
-
+  String myskill;
+  String queries;
   List<String> lists = ["2015", "2016", "2017", "2018","2019","2020"];
   List<String> lists1 = ["2015", "2016", "2017", "2018","2019","2020"];
   List<String> lists2 = ["1", "2", "3","4","5","6","7","8","9","10","11","12"];
@@ -45,7 +44,25 @@ class _ItSkillsState extends State<ItSkills> {
   //   "Full Stack Developer",
   //   "Back-end Developer"
   // ];
-
+// it skills
+  fetchITSkill({String query}) async {
+    setState(() {
+      isLoading = true;
+    });
+    _apiResponseITSkill = await apiServices.getITSkill(query: query);
+    setState(() {
+      isLoading = false;
+    });
+  }
+  ApiResponse<List<ITSkill>> _apiResponseITSkill;
+  List<String> parseITSkill(){
+    List<ITSkill> itskill = _apiResponseITSkill.data;
+    List<String> dataItems = [];
+    for(int i = 0; i < itskill.length;i++){
+      dataItems.add(itskill[i].itskillName);
+    }
+    return dataItems;
+  }
     static List<Skills> _skills = [
     Skills(id: 1, name: "Web Development"),
     Skills(id: 2, name: "Mobile App Development"),
@@ -65,6 +82,7 @@ class _ItSkillsState extends State<ItSkills> {
   @override
   void initState() {
     super.initState();
+    fetchITSkill(query: "");
     fetchYear();
   }
   fetchYear() async {
@@ -123,28 +141,33 @@ class _ItSkillsState extends State<ItSkills> {
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
                               fontFamily: "ProximaNova")),
-                      DropdownSearch<String>(
-                        dropdownSearchDecoration: const InputDecoration(
-                          border: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                            ),
+                  Padding(
+                    padding: const EdgeInsets.only(top:8.0),
+                    child: FindDropdown(
+                      searchBoxDecoration:  const InputDecoration(
+                        border: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.grey,
                           ),
                         ),
-                        mode: Mode.DIALOG,
-                        showSelectedItems: true,
-                        showSearchBox: true,
-                        items: [
-                          "Web Development",
-                          "Mobile App Development",
-                          "Back-end Developer",
-                          "Full-Stack Developer"
-                        ],
-                        // popupItemDisabled: (String s) => s.startsWith('I'),
-                        onChanged: print,
-                        hint: "Select Skills",
-                        // selectedItem: "Indian"
                       ),
+                      items: parseITSkill(),
+                      searchHint: "Skill Name",
+                      onFind: (val) async{
+                        setState(() {
+                          queries = val;
+                        });
+                        await fetchITSkill(query: queries);
+                        parseITSkill();
+                        return [""];
+                      },
+                      onChanged: (item) {
+                        setState(() {
+                          myskill = item;
+                        });
+                      },
+                    ),
+                  ),
                           
                       const SizedBox(
                         height: 15,
