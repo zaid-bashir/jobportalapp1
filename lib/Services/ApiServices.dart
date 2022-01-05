@@ -461,7 +461,6 @@ class ApiServices {
       "candidateLastName" : obj.candidateLastName,
       "candidateEmail1" : obj.candidateEmail1,
       "candidateGenderId" : obj.candidateGenderId,
-      // "candiadteexpExperience" : obj.candiadteexpExperience,
       "candidateTotalworkexp" : obj.candidateTotalworkexp,
       "candidateJobroleId" : obj.candidateJobroleId,
       "candidateCityId" : obj.candidateCityId,

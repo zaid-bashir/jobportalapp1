@@ -9,6 +9,7 @@ import 'package:job_portal/Models/GetTitle.dart';
 import 'package:job_portal/Models/basicdetials.dart';
 import 'package:job_portal/Models/getjobcategory.dart';
 import 'package:job_portal/Services/ApiServices.dart';
+import 'package:job_portal/Views/SignIn/Step3-QualificationDetails.dart';
 
 class BasicDetails extends StatefulWidget {
   const BasicDetails({Key key}) : super(key: key);
@@ -36,8 +37,8 @@ class _BasicDetailsState extends State<BasicDetails> {
   String query;
   String myLocation;
   bool _isLoading = false;
-  int genderGroupValue = 0;
-  int experienceGroupValue = 0;
+  int genderGroupValue = 1;
+  int experienceGroupValue = 1;
   String dropdownValue;
   String mySelection;
   String mySelectionYear;
@@ -172,13 +173,14 @@ class _BasicDetailsState extends State<BasicDetails> {
                                         ),
                                       ],
                                     ),
+                                    
                                     onChanged: (newValue) {
                                       setState(() {
                                         mySelection = newValue;
                                       });
                                     },
                                     items: isLoading
-                                        ? ["Please Wait"]
+                                        ? ["Not Connected With Internet"]
                                             .map(
                                               (value) => DropdownMenuItem(
                                                   value: value,
@@ -244,6 +246,11 @@ class _BasicDetailsState extends State<BasicDetails> {
                                 ),
                               ),
                             ),
+                            validator: (value){
+                              if(value.isEmpty){
+                                return "Please Enter First Name";
+                              }
+                            },
                           ),
                         ),
                         const SizedBox(
@@ -310,6 +317,11 @@ class _BasicDetailsState extends State<BasicDetails> {
                                   ),
                                 ),
                               ),
+                              validator: (value){
+                              if(value.isEmpty){
+                                return "Please Enter Last Name";
+                              }
+                            },
                             ),
                           ),
                         ],
@@ -342,6 +354,11 @@ class _BasicDetailsState extends State<BasicDetails> {
                             ),
                           ),
                         ),
+                        validator: (value){
+                              if(value.isEmpty){
+                                return "Please Enter Email";
+                              }
+                            },
                       ),
                     ),
                     const SizedBox(
@@ -518,7 +535,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                     const SizedBox(
                       height: 10,
                     ),
-                    experienceGroupValue == 0
+                    experienceGroupValue == 1
                         ? const Padding(
                             padding: EdgeInsets.all(8),
                             child: Text(
@@ -534,7 +551,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                     const SizedBox(
                       height: 3,
                     ),
-                    experienceGroupValue == 0
+                    experienceGroupValue == 1
                         ? Row(
                             children: [
                               Expanded(
@@ -680,6 +697,11 @@ class _BasicDetailsState extends State<BasicDetails> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: FindDropdown(
+                          validate: (value){
+                            if(value.toString().isEmpty){
+                              return "Please Select Job Role";
+                            }
+                          },
                           searchBoxDecoration: const InputDecoration(
                             border: UnderlineInputBorder(
                               borderSide: BorderSide(
@@ -763,13 +785,14 @@ class _BasicDetailsState extends State<BasicDetails> {
                 type: GFButtonType.solid,
                 blockButton: false,
                 onPressed: () {
+                  int totalworkexp = (int.parse(mySelectionYear)*12)+int.parse(mySelectionMonth);
                   print(titleId);
                   print(fnameController.text);
                   print(mnameController.text);
                   print(lnameController.text);
                   print(emailController.text);
                   print(genderGroupValue);
-                  print(experienceGroupValue);
+                  print(totalworkexp);
                   print(myjobrole);
                   print(myLocation);
                   if (formKey.currentState.validate()) {
@@ -780,15 +803,16 @@ class _BasicDetailsState extends State<BasicDetails> {
                       candidateLastName: lnameController.text,
                       candidateEmail1: emailController.text,
                       candidateGenderId: genderGroupValue,
+                      candidateTotalworkexp: totalworkexp.toString(),
                       candidateJobroleId: 3,
                       candidateCityId: 5,
                     ));
                   }
-                  // Navigator.of(context).push(
-                  //   MaterialPageRoute(
-                  //     builder: (context) => const QualificationBlueCollar(),
-                  //   ),
-                  // );
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const QualificationBlueCollar(),
+                    ),
+                  );
                 },
               ),
             ),
