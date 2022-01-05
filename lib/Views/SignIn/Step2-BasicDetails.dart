@@ -11,6 +11,7 @@ import 'package:job_portal/Models/getjobcategory.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Views/SignIn/Step3-QualificationDetails.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 class BasicDetails extends StatefulWidget {
   const BasicDetails({Key key}) : super(key: key);
 
@@ -133,11 +134,11 @@ class _BasicDetailsState extends State<BasicDetails> {
   RichText getRequiredLabel({String fieldName}) {
     return RichText(
       text: TextSpan(
-          style:TextStyle(
+          style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.bold,
               fontFamily: "ProximaNova"),
-          text: fieldName ,
+          text: fieldName,
           children: [
             TextSpan(text: ' *', style: TextStyle(color: Colors.red)),
           ]),
@@ -257,7 +258,9 @@ class _BasicDetailsState extends State<BasicDetails> {
                             decoration: InputDecoration(
                               contentPadding: EdgeInsets.all(8.0),
                               alignLabelWithHint: true,
-                              label: getRequiredLabel(fieldName: "First Name",),
+                              label: getRequiredLabel(
+                                fieldName: "First Name",
+                              ),
                               // labelStyle: TextStyle(
                               //     fontSize: 15,
                               //     fontWeight: FontWeight.normal,
@@ -573,73 +576,73 @@ class _BasicDetailsState extends State<BasicDetails> {
                                         items: ["0", "1", "2", "3", "4", "5"]
                                             .map(
                                               (value) => DropdownMenuItem(
-                                              value: value,
-                                              child: Text(
-                                                value,
-                                                style: const TextStyle(
-                                                    fontSize: 15,
-                                                    fontWeight:
-                                                    FontWeight.bold,
-                                                    fontFamily:
-                                                    "ProximaNova"),
-                                              )),
-                                        )
+                                                  value: value,
+                                                  child: Text(
+                                                    value,
+                                                    style: const TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontFamily:
+                                                            "ProximaNova"),
+                                                  )),
+                                            )
                                             .toList(),
                                       ),
                                     ),
                                     // child: DropdownButtonHideUnderline(
-                                        //       child:  DropdownButtonFormField(
-                                        //         // disabledHint: ,
-                                        //           decoration:const InputDecoration(
-                                        //               border: UnderlineInputBorder(
-                                        //
-                                        //               )
-                                        //           ),
-                                        //           hint: Text("Select year"),
-                                        //           value: myyear,
-                                        //           onChanged: (newValue) {
-                                        //             setState(() {
-                                        //               myyear = newValue;
-                                        //             });
-                                        //           },
-                                        //           items: isLoading
-                                        //           ? ["Please Wait"]
-                                        //               .map(
-                                        //                 (value) => DropdownMenuItem(
-                                        //                 value: value,
-                                        //                 child: Text(
-                                        //                   value,
-                                        //                   style: TextStyle(
-                                        //                       fontSize: 15,
-                                        //                       fontWeight:
-                                        //                       FontWeight.normal,
-                                        //                       fontFamily:
-                                        //                       "ProximaNova"),
-                                        //                 )),
-                                        //           )
-                                        //               .toList()
-                                        //               : _apiResponse3.data
-                                        //           .map(
-                                        //           (data) => DropdownMenuItem(
-                                        //       value: data.yearId,
-                                        //       child: Text(
-                                        //         data.yearName,
-                                        //         style: TextStyle(
-                                        //             fontSize: 15,
-                                        //             fontWeight:
-                                        //             FontWeight.normal,
-                                        //             fontFamily:
-                                        //             "ProximaNova"),
-                                        //       ),
-                                        //     ),
-                                        //   )
-                                        //       .toList(),
-                                        //
-                                        //
-                                        //
-                                        //
-                                        // ),
-                                        // ),
+                                    //       child:  DropdownButtonFormField(
+                                    //         // disabledHint: ,
+                                    //           decoration:const InputDecoration(
+                                    //               border: UnderlineInputBorder(
+                                    //
+                                    //               )
+                                    //           ),
+                                    //           hint: Text("Select year"),
+                                    //           value: myyear,
+                                    //           onChanged: (newValue) {
+                                    //             setState(() {
+                                    //               myyear = newValue;
+                                    //             });
+                                    //           },
+                                    //           items: isLoading
+                                    //           ? ["Please Wait"]
+                                    //               .map(
+                                    //                 (value) => DropdownMenuItem(
+                                    //                 value: value,
+                                    //                 child: Text(
+                                    //                   value,
+                                    //                   style: TextStyle(
+                                    //                       fontSize: 15,
+                                    //                       fontWeight:
+                                    //                       FontWeight.normal,
+                                    //                       fontFamily:
+                                    //                       "ProximaNova"),
+                                    //                 )),
+                                    //           )
+                                    //               .toList()
+                                    //               : _apiResponse3.data
+                                    //           .map(
+                                    //           (data) => DropdownMenuItem(
+                                    //       value: data.yearId,
+                                    //       child: Text(
+                                    //         data.yearName,
+                                    //         style: TextStyle(
+                                    //             fontSize: 15,
+                                    //             fontWeight:
+                                    //             FontWeight.normal,
+                                    //             fontFamily:
+                                    //             "ProximaNova"),
+                                    //       ),
+                                    //     ),
+                                    //   )
+                                    //       .toList(),
+                                    //
+                                    //
+                                    //
+                                    //
+                                    // ),
+                                    // ),
                                   ),
                                 ),
                               ),
