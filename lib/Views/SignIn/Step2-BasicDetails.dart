@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, deprecated_member_use, prefer_final_fields, unused_field, unnecessary_string_interpolations, avoid_print
 
 import 'package:dropdown_search/dropdown_search.dart';
-import 'package:find_dropdown/find_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
@@ -29,6 +28,7 @@ class _BasicDetailsState extends State<BasicDetails> {
   TextEditingController mnameController = TextEditingController();
   TextEditingController lnameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  TextEditingController jobCategorySearchCon = TextEditingController();
 
   //Normal Fiels Variables
   //======================
@@ -71,7 +71,6 @@ class _BasicDetailsState extends State<BasicDetails> {
     super.initState();
     fetchTitles();
     fetchJobCategory(query: "");
-
   }
 
   fetchTitles() async {
@@ -173,7 +172,6 @@ class _BasicDetailsState extends State<BasicDetails> {
                                         ),
                                       ],
                                     ),
-                                    
                                     onChanged: (newValue) {
                                       setState(() {
                                         mySelection = newValue;
@@ -246,8 +244,8 @@ class _BasicDetailsState extends State<BasicDetails> {
                                 ),
                               ),
                             ),
-                            validator: (value){
-                              if(value.isEmpty){
+                            validator: (value) {
+                              if (value.isEmpty) {
                                 return "Please Enter First Name";
                               }
                             },
@@ -317,11 +315,11 @@ class _BasicDetailsState extends State<BasicDetails> {
                                   ),
                                 ),
                               ),
-                              validator: (value){
-                              if(value.isEmpty){
-                                return "Please Enter Last Name";
-                              }
-                            },
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return "Please Enter Last Name";
+                                }
+                              },
                             ),
                           ),
                         ],
@@ -354,11 +352,11 @@ class _BasicDetailsState extends State<BasicDetails> {
                             ),
                           ),
                         ),
-                        validator: (value){
-                              if(value.isEmpty){
-                                return "Please Enter Email";
-                              }
-                            },
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return "Please Enter Email";
+                          }
+                        },
                       ),
                     ),
                     const SizedBox(
@@ -696,41 +694,81 @@ class _BasicDetailsState extends State<BasicDetails> {
                     Center(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: FindDropdown(
-                          validate: (value){
-                            if(value.toString().isEmpty){
-                              return "Please Select Job Role";
+                        child: DropdownSearch<JobCategory>(
+                          validator: (value){
+                            if(value.jobroleName.isEmpty){
+                              return "Please Enter Job Role";
                             }
+                            return null;
                           },
-                          searchBoxDecoration: const InputDecoration(
-                            border: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ),
+                          mode: Mode.DIALOG,
                           items: isLoadingJobCategory
-                              ? ["Not Connected With Internet"]
-                              : parseData(),
-                          searchHint: "Job Role",
+                              ? JobCategory()
+                              : _apiResponseJobCategory.data,
+                          itemAsString: (JobCategory obj) {
+                            return obj.jobroleName;
+                          },
                           onFind: (val) async {
                             setState(() {
                               query = val;
                             });
-                            await isLoadingJobCategory
-                                ? () {}
-                                : fetchJobCategory(query: query);
-                            parseData();
-                            return [""];
+                            return _apiResponseJobCategory.data;
                           },
-                          onChanged: (item) {
-                            setState(() {
-                              myjobrole = item.split(",")[1].toString();
-                              print(myjobrole);
-                              print("hello");
-                            });
+                          hint: "Select Job Category",
+                          onChanged: (value) {
+                            jobCategorySearchCon.text =
+                                value.jobroleId.toString();
+                            print(value.jobroleId);
+                          },
+                          showSearchBox: true,
+                          popupItemBuilder:
+                              (context, JobCategory item, bool isSelected) {
+                            return Container(
+                              margin: EdgeInsets.symmetric(horizontal: 8),
+                              child: Card(
+                                child: Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Text(item.jobroleName),
+                                ),
+                              ),
+                            );
                           },
                         ),
+                        // child: FindDropdown(
+                        //   validate: (value){
+                        //     if(value.toString().isEmpty){
+                        //       return "Please Select Job Role";
+                        //     }
+                        //   },
+                        //   searchBoxDecoration: const InputDecoration(
+                        //     border: UnderlineInputBorder(
+                        //       borderSide: BorderSide(
+                        //         color: Colors.grey,
+                        //       ),
+                        //     ),
+                        //   ),
+                        //   items: isLoadingJobCategory
+                        //       ? ["Not Connected With Internet"]
+                        //       : parseData(),
+                        //   searchHint: "Job Role",
+                        // onFind: (val) async {
+                        //   setState(() {
+                        //     query = val;
+                        //   });
+                        //     await isLoadingJobCategory
+                        //         ? () {}
+                        //         : fetchJobCategory(query: query);
+                        //     parseData();
+                        //     return [""];
+                        //   },
+                        //   onChanged: (item) {
+                        //     setState(() {
+                        //       myjobrole = item.split(",")[1].toString();
+                        //       print(myjobrole);
+                        //       print("hello");
+                        //     });
+                        //   },
+                        // ),
                       ),
                     ),
                     const SizedBox(
@@ -785,7 +823,8 @@ class _BasicDetailsState extends State<BasicDetails> {
                 type: GFButtonType.solid,
                 blockButton: false,
                 onPressed: () {
-                  int totalworkexp = (int.parse(mySelectionYear)*12)+int.parse(mySelectionMonth);
+                  int totalworkexp = (int.parse(mySelectionYear) * 12) +
+                      int.parse(mySelectionMonth);
                   print(titleId);
                   print(fnameController.text);
                   print(mnameController.text);
