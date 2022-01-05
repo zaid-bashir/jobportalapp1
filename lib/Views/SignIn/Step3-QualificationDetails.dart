@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:dropdown_search/dropdown_search.dart';
@@ -42,7 +41,6 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
 
     loadingController.forward();
   }
-
 
   var highestQualificationSelect;
   var courseSelect;
@@ -129,12 +127,12 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
       vsync: this,
       duration: const Duration(seconds: 10),
     )..addListener(() {
-      setState(() {});
-    });
+        setState(() {});
+      });
     super.initState();
   }
 
-  fetchStream({String query}) async{
+  fetchStream({String query}) async {
     setState(() {
       isLoading = true;
     });
@@ -144,7 +142,7 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
     });
   }
 
-  fetchCourses({String query}) async{
+  fetchCourses({String query}) async {
     setState(() {
       isLoading = true;
     });
@@ -153,35 +151,40 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
       isLoading = false;
     });
   }
-  fetchHighestQualification({String query}) async{
+
+  fetchHighestQualification({String query}) async {
     setState(() {
       isLoading = true;
     });
-      _apiResponsequalification = await apiServices.getQualification(query: query);
+    _apiResponsequalification =
+        await apiServices.getQualification(query: query);
     setState(() {
       isLoading = false;
     });
   }
-  List<String> getStream(){
+
+  List<String> getStream() {
     List<Streams> stream = _apiResponsestream.data;
     List<String> streamItems = [];
-    for( int i = 0; i < stream.length; i++){
+    for (int i = 0; i < stream.length; i++) {
       streamItems.add(stream[i].streamName);
     }
     return streamItems;
   }
-  List<String> getData(){
+
+  List<String> getData() {
     List<Qualification> data = _apiResponsequalification.data;
     List<String> dataItems = [];
-    for( int i = 0; i < data.length; i++){
+    for (int i = 0; i < data.length; i++) {
       dataItems.add(data[i].qualName);
     }
     return dataItems;
   }
-  List<String> getCourses(){
+
+  List<String> getCourses() {
     List<Qualification> Courses = _apiResponsecourse.data;
     List<String> courseItems = [];
-    for( int i = 0; i < Courses.length; i++){
+    for (int i = 0; i < Courses.length; i++) {
       courseItems.add(Courses[i].courseName);
     }
     return courseItems;
@@ -200,6 +203,7 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
       isLoading = false;
     });
   }
+
   fetchPassingYear() async {
     setState(() {
       isLoading = true;
@@ -209,7 +213,6 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
       isLoading = false;
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -265,64 +268,64 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                     ),
                   ),
                   const SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10,right: 10,left: 10,bottom: 10),
-                child: GestureDetector(
-                  onTap: () {
-                    selectFile();
-                  },
-                  child: Row(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey, width: 2.5),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Icon(
-                          Icons.add,
-                          color: Colors.grey,
-                          size: 25,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
-                            "Attach File From Phone",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "ProximaNova",
-                                fontSize: 15),
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 10, right: 10, left: 10, bottom: 10),
+                    child: GestureDetector(
+                      onTap: () {
+                        selectFile();
+                      },
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                border:
+                                    Border.all(color: Colors.grey, width: 2.5),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Icon(
+                              Icons.add,
+                              color: Colors.grey,
+                              size: 25,
+                            ),
                           ),
                           SizedBox(
-                            height: 5,
+                            width: 30,
                           ),
-                          Text(
-                            "pdf,docx",
-                            style: TextStyle(
-                                color: Colors.grey,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: "ProximaNova",
-                                fontSize: 15),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: const [
+                              Text(
+                                "Attach File From Phone",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: "ProximaNova",
+                                    fontSize: 15),
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                "pdf,docx",
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: "ProximaNova",
+                                    fontSize: 15),
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
-              
                 ],
               ),
             ),
           ),
-          
           const SizedBox(
             height: 10,
           ),
@@ -379,7 +382,7 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: FindDropdown(
-                      searchBoxDecoration:   InputDecoration(
+                      searchBoxDecoration: InputDecoration(
                         border: UnderlineInputBorder(
                           borderSide: BorderSide(
                             color: Colors.grey,
@@ -388,7 +391,7 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                       ),
                       items: getData(),
                       searchHint: "Highest Qualification",
-                      onFind: (val) async{
+                      onFind: (val) async {
                         setState(() {
                           query = val;
                         });
@@ -406,441 +409,434 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                   const SizedBox(
                     height: 10,
                   ),
-                Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.all(10),
-                              child: Text(
-                                "Course",
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: "ProximaNova"),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Text(
+                          "Course",
+                          style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "ProximaNova"),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: FindDropdown(
+                          searchBoxDecoration: InputDecoration(
+                            border: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.grey,
                               ),
                             ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 10),
-                              child: FindDropdown(
-                                searchBoxDecoration:   InputDecoration(
-                                  border: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ),
-                                items: getCourses(),
-                                searchHint: "Course",
-                                onFind: (val) async{
-                                  setState(() {
-                                    querys = val;
-                                  });
-                                  await fetchCourses(query: querys);
-                                  getCourses();
-                                  return [""];
-                                },
-                                onChanged: (item) {
-                                  setState(() {
-                                    Courses = item;
-                                  });
-                                },
+                          ),
+                          items: getCourses(),
+                          searchHint: "Course",
+                          onFind: (val) async {
+                            setState(() {
+                              querys = val;
+                            });
+                            await fetchCourses(query: querys);
+                            getCourses();
+                            return [""];
+                          },
+                          onChanged: (item) {
+                            setState(() {
+                              Courses = item;
+                            });
+                          },
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Text(
+                          "Stream",
+                          style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "ProximaNova"),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: FindDropdown(
+                          searchBoxDecoration: InputDecoration(
+                            border: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.grey,
                               ),
                             ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.all(10),
-                              child: Text(
-                                "Stream",
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: "ProximaNova"),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 10),
-                              child: FindDropdown(
-                                searchBoxDecoration:   InputDecoration(
-                                  border: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ),
-                                items: getStream(),
-                                searchHint: "Streams",
-                                onFind: (val) async{
-                                  setState(() {
-                                    queryss = val;
-                                  });
-                                  await fetchStream(query: queryss);
+                          ),
+                          items: getStream(),
+                          searchHint: "Streams",
+                          onFind: (val) async {
+                            setState(() {
+                              queryss = val;
+                            });
+                            await fetchStream(query: queryss);
 
-                                  getStream();
-                                  return [""];
-                                },
-                                onChanged: (item) {
-                                  setState(() {
-                                    Stream = item;
-                                  });
-                                },
-                              ),
+                            getStream();
+                            return [""];
+                          },
+                          onChanged: (item) {
+                            setState(() {
+                              Stream = item;
+                            });
+                          },
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Text(
+                          "Course Type",
+                          style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "ProximaNova"),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                GFRadio(
+                                  size: 20,
+                                  activeBorderColor: Color(0xff2972ff),
+                                  value: 0,
+                                  groupValue: courseTypeGroupValue,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      courseTypeGroupValue = value;
+                                    });
+                                  },
+                                  inactiveIcon: null,
+                                  radioColor: Color(0xff2972ff),
+                                ),
+                                const SizedBox(
+                                  width: 7,
+                                ),
+                                const Text(
+                                  "Full Time",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: "ProximaNova"),
+                                ),
+                              ],
                             ),
                             const SizedBox(
-                              height: 10,
+                              height: 7,
                             ),
-                            Padding(
-                              padding: EdgeInsets.all(10),
-                              child: Text(
-                                "Course Type",
-                                style: TextStyle(
-                                    fontSize: 15,
+                            Row(
+                              children: [
+                                GFRadio(
+                                  size: 20,
+                                  value: 1,
+                                  groupValue: courseTypeGroupValue,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      courseTypeGroupValue = value;
+                                    });
+                                  },
+                                  inactiveIcon: null,
+                                  activeBorderColor: Color(0xff2972ff),
+                                  radioColor: Color(0xff2972ff),
+                                ),
+                                const SizedBox(
+                                  width: 7,
+                                ),
+                                const Text(
+                                  "Correspondance",
+                                  style: TextStyle(
+                                    fontFamily: "ProximaNova",
                                     fontWeight: FontWeight.bold,
-                                    fontFamily: "ProximaNova"),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      GFRadio(
-                                        size: 20,
-                                        activeBorderColor: Color(0xff2972ff),
-                                        value: 0,
-                                        groupValue: courseTypeGroupValue,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            courseTypeGroupValue = value;
-                                          });
-                                        },
-                                        inactiveIcon: null,
-                                        radioColor: Color(0xff2972ff),
-                                      ),
-                                      const SizedBox(
-                                        width: 7,
-                                      ),
-                                      const Text(
-                                        "Full Time",
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: "ProximaNova"),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 7,
-                                  ),
-                                  Row(
-                                    children: [
-                                      GFRadio(
-                                        size: 20,
-                                        value: 1,
-                                        groupValue: courseTypeGroupValue,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            courseTypeGroupValue = value;
-                                          });
-                                        },
-                                        inactiveIcon: null,
-                                        activeBorderColor: Color(0xff2972ff),
-                                        radioColor: Color(0xff2972ff),
-                                      ),
-                                      const SizedBox(
-                                        width: 7,
-                                      ),
-                                      const Text(
-                                        "Correspondance",
-                                        style: TextStyle(
-                                          fontFamily: "ProximaNova",
-                                          fontWeight: FontWeight.bold,
-                                          letterSpacing: 1.5,
-                                          fontSize: 15,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 7,
-                                  ),
-                                  Row(
-                                    children: [
-                                      GFRadio(
-                                        size: 20,
-                                        activeBorderColor: Color(0xff2972ff),
-                                        value: 2,
-                                        groupValue: courseTypeGroupValue,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            courseTypeGroupValue = value;
-                                          });
-                                        },
-                                        inactiveIcon: null,
-                                        radioColor: Color(0xff2972ff),
-                                      ),
-                                      const SizedBox(
-                                        width: 7,
-                                      ),
-                                      const Text(
-                                        "Distance",
-                                        style: TextStyle(
-                                          fontFamily: "ProximaNova",
-                                          fontWeight: FontWeight.bold,
-                                          letterSpacing: 1.5,
-                                          fontSize: 15,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 7,
-                                  ),
-                                  Row(
-                                    children: [
-                                      GFRadio(
-                                        size: 20,
-                                        activeBorderColor: Color(0xff2972ff),
-                                        value: 3,
-                                        groupValue: courseTypeGroupValue,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            courseTypeGroupValue = value;
-                                          });
-                                        },
-                                        inactiveIcon: null,
-                                        radioColor: Color(0xff2972ff),
-                                      ),
-                                      const SizedBox(
-                                        width: 7,
-                                      ),
-                                      const Text(
-                                        "Online",
-                                        style: TextStyle(
-                                          fontFamily: "ProximaNova",
-                                          fontWeight: FontWeight.bold,
-                                          letterSpacing: 1.5,
-                                          fontSize: 15,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.all(10),
-                              child: Text(
-                                "Institute Qualified From",
-                                style: TextStyle(
+                                    letterSpacing: 1.5,
                                     fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: "ProximaNova"),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 10),
-                              child: DropdownSearch<String>(
-                                hint: "Select Institute",
-                                dropdownSearchDecoration:
-                                    const InputDecoration(
-                                  border: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Colors.grey,
-                                    ),
                                   ),
                                 ),
-                                mode: Mode.DIALOG,
-                                showSearchBox: true,
-                                showSelectedItems: true,
-                                items: instituteQualifiedFrom,
-                                // label: "Menu mode",
-                                popupItemDisabled: (String s) =>
-                                    s.startsWith('I'),
-                                onChanged: (item) {
-                                  setState(() {
-                                    instituteQualifiedFromSelect = item;
-                                  });
-                                },
-                                selectedItem: instituteQualifiedFromSelect,
-                              ),
+                              ],
                             ),
                             const SizedBox(
-                              height: 10,
+                              height: 7,
                             ),
-                            Padding(
-                              padding: EdgeInsets.all(10),
-                              child: Text(
-                                "Passing Year",
-                                style: TextStyle(
-                                    fontSize: 15,
+                            Row(
+                              children: [
+                                GFRadio(
+                                  size: 20,
+                                  activeBorderColor: Color(0xff2972ff),
+                                  value: 2,
+                                  groupValue: courseTypeGroupValue,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      courseTypeGroupValue = value;
+                                    });
+                                  },
+                                  inactiveIcon: null,
+                                  radioColor: Color(0xff2972ff),
+                                ),
+                                const SizedBox(
+                                  width: 7,
+                                ),
+                                const Text(
+                                  "Distance",
+                                  style: TextStyle(
+                                    fontFamily: "ProximaNova",
                                     fontWeight: FontWeight.bold,
-                                    fontFamily: "ProximaNova"),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 6),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  border: Border(
-                                    bottom: BorderSide(color: Colors.grey),
+                                    letterSpacing: 1.5,
+                                    fontSize: 15,
                                   ),
                                 ),
-                                child: DropdownButtonHideUnderline(
-                                  child: GFDropdown(
-                                    hint: Text("Select Year"),
-                                    value: myPassingYear,
-                                    onChanged: (newValue) {
-                                      setState(() {
-                                        myPassingYear = newValue;
-                                      });
-                                    },
-                                      items: isLoading
-                                      ? ["Please Wait"]
-                                          .map(
-                                            (value) => DropdownMenuItem(
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 7,
+                            ),
+                            Row(
+                              children: [
+                                GFRadio(
+                                  size: 20,
+                                  activeBorderColor: Color(0xff2972ff),
+                                  value: 3,
+                                  groupValue: courseTypeGroupValue,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      courseTypeGroupValue = value;
+                                    });
+                                  },
+                                  inactiveIcon: null,
+                                  radioColor: Color(0xff2972ff),
+                                ),
+                                const SizedBox(
+                                  width: 7,
+                                ),
+                                const Text(
+                                  "Online",
+                                  style: TextStyle(
+                                    fontFamily: "ProximaNova",
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 1.5,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Text(
+                          "Institute Qualified From",
+                          style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "ProximaNova"),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: DropdownSearch<String>(
+                          hint: "Select Institute",
+                          dropdownSearchDecoration: const InputDecoration(
+                            border: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
+                          mode: Mode.DIALOG,
+                          showSearchBox: true,
+                          showSelectedItems: true,
+                          items: instituteQualifiedFrom,
+                          // label: "Menu mode",
+                          popupItemDisabled: (String s) => s.startsWith('I'),
+                          onChanged: (item) {
+                            setState(() {
+                              instituteQualifiedFromSelect = item;
+                            });
+                          },
+                          selectedItem: instituteQualifiedFromSelect,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Text(
+                          "Passing Year",
+                          style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "ProximaNova"),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 6),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(color: Colors.grey),
+                            ),
+                          ),
+                          child: DropdownButtonHideUnderline(
+                            child: GFDropdown(
+                              hint: Text("Select Year"),
+                              value: myPassingYear,
+                              onChanged: (newValue) {
+                                setState(() {
+                                  myPassingYear = newValue;
+                                });
+                              },
+                              items: isLoading
+                                  ? ["Please Wait"]
+                                      .map(
+                                        (value) => DropdownMenuItem(
                                             value: value,
                                             child: Text(
                                               value,
                                               style: TextStyle(
                                                   fontSize: 15,
-                                                  fontWeight:
-                                                  FontWeight.normal,
-                                                  fontFamily:
-                                                  "ProximaNova"),
+                                                  fontWeight: FontWeight.normal,
+                                                  fontFamily: "ProximaNova"),
                                             )),
                                       )
-                                          .toList():
-                                      _apiResponse2.data
-                                        .map(
-                                          (data) => DropdownMenuItem(
-                                              value: data.yearId,
-                                              child: Text(data.yearName)),
-                                        )
-                                        .toList(),
-                                  ),
-                                ),
+                                      .toList()
+                                  : _apiResponse2.data
+                                      .map(
+                                        (data) => DropdownMenuItem(
+                                            value: data.yearId,
+                                            child: Text(data.yearName)),
+                                      )
+                                      .toList(),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Text(
+                          "Grading System",
+                          style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "ProximaNova"),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 6),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(color: Colors.grey),
+                            ),
+                          ),
+                          child: DropdownButtonHideUnderline(
+                            child: GFDropdown(
+                              hint: Text("Select Grading System"),
+                              value: myGradingSystem,
+                              onChanged: (newValue) {
+                                setState(() {
+                                  myGradingSystem = newValue;
+                                });
+                              },
+                              items: isLoading
+                                  ? ["Please Wait"]
+                                      .map(
+                                        (value) => DropdownMenuItem(
+                                            value: value,
+                                            child: Text(
+                                              value,
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.normal,
+                                                  fontFamily: "ProximaNova"),
+                                            )),
+                                      )
+                                      .toList()
+                                  : _apiResponse.data
+                                      .map(
+                                        (data) => DropdownMenuItem(
+                                            value: data.gradingsystemId,
+                                            child:
+                                                Text(data.gradingsystemName)),
+                                      )
+                                      .toList(),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Text(
+                          "Grade Value",
+                          style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "ProximaNova"),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: TextFormField(
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            labelText: "Grade Value",
+                            border: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.grey,
                               ),
                             ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.all(10),
-                              child: Text(
-                                "Grading System",
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: "ProximaNova"),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 6),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  border: Border(
-                                    bottom: BorderSide(color: Colors.grey),
-                                  ),
-                                ),
-                                child: DropdownButtonHideUnderline(
-                                  child: GFDropdown(
-                                    hint: Text("Select Grading System"),
-                                    value: myGradingSystem,
-                                    onChanged: (newValue) {
-                                      setState(() {
-                                        myGradingSystem = newValue;
-                                      });
-                                    },
-                                            items: isLoading
-                                        ? ["Please Wait"]
-                                            .map(
-                                              (value) => DropdownMenuItem(
-                                              value: value,
-                                              child: Text(
-                                                value,
-                                                style: TextStyle(
-                                                    fontSize: 15,
-                                                    fontWeight:
-                                                    FontWeight.normal,
-                                                    fontFamily:
-                                                    "ProximaNova"),
-                                              )),
-                                        )
-                                            .toList()
-                                            :
-                                    _apiResponse.data
-                                        .map(
-                                          (data) => DropdownMenuItem(
-                                              value: data.gradingsystemId,
-                                              child: Text(data.gradingsystemName)),
-                                        )
-                                        .toList(),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.all(10),
-                              child: Text(
-                                "Grade Value",
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: "ProximaNova"),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 10),
-                              child: TextFormField(
-                                keyboardType: TextInputType.number,
-                                decoration: InputDecoration(
-                                  labelText: "Grade Value",
-                                  border: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                          ],
-                        )
-
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                    ],
+                  )
                 ],
               ),
             ),
