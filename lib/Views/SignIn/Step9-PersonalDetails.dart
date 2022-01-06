@@ -44,6 +44,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
     fetchMarital();
     fetchCity(query: "");
     fetchNationality(query: "");
+    fetchCountry(query: "");
     super.initState();
   }
 

@@ -1,6 +1,5 @@
 import 'package:find_dropdown/find_dropdown.dart';
 import 'package:flutter/material.dart';
-import 'package:dropdown_search/dropdown_search.dart';
 
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
@@ -16,6 +15,7 @@ class ItSkills extends StatefulWidget {
   @override
   _ItSkillsState createState() => _ItSkillsState();
 }
+
 class Skills {
   final int id;
   final String name;
@@ -26,7 +26,6 @@ class Skills {
   });
 }
 
-
 class _ItSkillsState extends State<ItSkills> {
   String myYear;
   String mySelection;
@@ -35,9 +34,23 @@ class _ItSkillsState extends State<ItSkills> {
 
   String myskill;
   String queries;
-  List<String> lists = ["2015", "2016", "2017", "2018","2019","2020"];
-  List<String> lists1 = ["2015", "2016", "2017", "2018","2019","2020"];
-  List<String> lists2 = ["1", "2", "3","4","5","6","7","8","9","10","11","12"];
+  List<String> lists = ["2015", "2016", "2017", "2018", "2019", "2020"];
+  List<String> lists1 = ["2015", "2016", "2017", "2018", "2019", "2020"];
+  List<String> lists2 = [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "11",
+    "12"
+  ];
+
   // List list = [
   //   "Web Development",
   //   "Mobile App Development",
@@ -54,37 +67,38 @@ class _ItSkillsState extends State<ItSkills> {
       isLoading = false;
     });
   }
+
   ApiResponse<List<ITSkill>> _apiResponseITSkill;
-  List<String> parseITSkill(){
+
+  List<String> parseITSkill() {
     List<ITSkill> itskill = _apiResponseITSkill.data;
     List<String> dataItems = [];
-    for(int i = 0; i < itskill.length;i++){
+    for (int i = 0; i < itskill.length; i++) {
       dataItems.add(itskill[i].itskillName);
     }
     return dataItems;
   }
-    static List<Skills> _skills = [
+
+  static List<Skills> _skills = [
     Skills(id: 1, name: "Web Development"),
     Skills(id: 2, name: "Mobile App Development"),
     Skills(id: 3, name: "Full Stack Developer"),
     Skills(id: 4, name: "Back-end Developer"),
   ];
 
-
-
-
-
   bool isLoading = false;
 
   ApiServices apiServices = ApiServices();
 
   ApiResponse<List<PassingYear>> _apiResponse;
+
   @override
   void initState() {
     super.initState();
     fetchITSkill(query: "");
     fetchYear();
   }
+
   fetchYear() async {
     setState(() {
       isLoading = true;
@@ -94,6 +108,10 @@ class _ItSkillsState extends State<ItSkills> {
       isLoading = false;
     });
   }
+
+  TextEditingController yearsCont = TextEditingController();
+  TextEditingController monthCont = TextEditingController();
+  TextEditingController versionCont = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -141,34 +159,33 @@ class _ItSkillsState extends State<ItSkills> {
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
                               fontFamily: "ProximaNova")),
-                  Padding(
-                    padding: const EdgeInsets.only(top:8.0),
-                    child: FindDropdown(
-                      searchBoxDecoration:  const InputDecoration(
-                        border: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.grey,
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: FindDropdown(
+                          searchBoxDecoration: const InputDecoration(
+                            border: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.grey,
+                              ),
+                            ),
                           ),
+                          items: parseITSkill(),
+                          searchHint: "Skill Name",
+                          onFind: (val) async {
+                            setState(() {
+                              queries = val;
+                            });
+                            await fetchITSkill(query: queries);
+                            parseITSkill();
+                            return [""];
+                          },
+                          onChanged: (item) {
+                            setState(() {
+                              myskill = item;
+                            });
+                          },
                         ),
                       ),
-                      items: parseITSkill(),
-                      searchHint: "Skill Name",
-                      onFind: (val) async{
-                        setState(() {
-                          queries = val;
-                        });
-                        await fetchITSkill(query: queries);
-                        parseITSkill();
-                        return [""];
-                      },
-                      onChanged: (item) {
-                        setState(() {
-                          myskill = item;
-                        });
-                      },
-                    ),
-                  ),
-                          
                       const SizedBox(
                         height: 15,
                       ),
@@ -177,8 +194,8 @@ class _ItSkillsState extends State<ItSkills> {
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
                               fontFamily: "ProximaNova")),
-
                       TextField(
+                        controller: versionCont,
                         decoration: InputDecoration(
                           hintText: "Version",
                           hintStyle: TextStyle(
@@ -199,9 +216,10 @@ class _ItSkillsState extends State<ItSkills> {
                               fontWeight: FontWeight.bold,
                               fontFamily: "ProximaNova")),
                       Row(
-                        children:  [
+                        children: [
                           Expanded(
-                            child:TextField(
+                            child: TextField(
+                              controller: yearsCont,
                               decoration: InputDecoration(
                                 hintText: "Type Year",
                                 hintStyle: TextStyle(
@@ -218,7 +236,8 @@ class _ItSkillsState extends State<ItSkills> {
                             width: 10,
                           ),
                           Expanded(
-                            child:                TextField(
+                            child: TextField(
+                              controller: monthCont,
                               decoration: InputDecoration(
                                 hintText: "Type Month",
                                 hintStyle: TextStyle(
@@ -233,7 +252,6 @@ class _ItSkillsState extends State<ItSkills> {
                           ),
                         ],
                       ),
-
                       const SizedBox(
                         height: 10,
                       ),
@@ -247,84 +265,110 @@ class _ItSkillsState extends State<ItSkills> {
                       ),
                       DropdownButtonFormField(
                         // disabledHint: ,
-                        decoration:const InputDecoration(
-                          border: UnderlineInputBorder(
-
-                          )
-                        ),
+                        decoration: const InputDecoration(
+                            border: UnderlineInputBorder()),
                         hint: Text("Select year"),
                         value: myYear,
-                          onChanged: (newValue) {
-                            setState(() {
-                              myYear = newValue;
-                            });
-                          },
-                          items: isLoading
-                          ? ["Please Wait"]
-                              .map(
-                                (value) => DropdownMenuItem(
-                                value: value,
-                                child: Text(
-                                  value,
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight:
-                                      FontWeight.normal,
-                                      fontFamily:
-                                      "ProximaNova"),
-                                )),
-                          )
-                              .toList()
-                              : _apiResponse.data
-                          .map(
-                          (data) => DropdownMenuItem(
-                  value: data.yearId,
-                  child: Text(
-                    "${data.yearName}",
-                    style: TextStyle(
-                        fontSize: 15,
-                        fontWeight:
-                        FontWeight.normal,
-                        fontFamily:
-                        "ProximaNova"),
-                  ),
-                ),
-              )
-                  .toList(),
-
-
-
-
+                        onChanged: (newValue) {
+                          setState(() {
+                            myYear = newValue;
+                          });
+                        },
+                        items: isLoading
+                            ? ["Please Wait"]
+                                .map(
+                                  (value) => DropdownMenuItem(
+                                      value: value,
+                                      child: Text(
+                                        value,
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.normal,
+                                            fontFamily: "ProximaNova"),
+                                      )),
+                                )
+                                .toList()
+                            : _apiResponse.data
+                                .map(
+                                  (data) => DropdownMenuItem(
+                                    value: data.yearId,
+                                    child: Text(
+                                      "${data.yearName}",
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: "ProximaNova"),
+                                    ),
+                                  ),
+                                )
+                                .toList(),
                       ),
-
-
                     ],
                   ),
                 ),
               ),
-
- const SizedBox(height: 20,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      GFButton(
-                        onPressed: () {},
-                        text: "Add",
-                        type: GFButtonType.solid,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      GFButton(
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>CareerPreference()));
-                     },
-                        text: "Next",
-                        type: GFButtonType.solid,
-                      ),
-                    ],
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GFButton(
+                    onPressed: () {},
+                    text: "Add",
+                    type: GFButtonType.solid,
                   ),
-
+                  SizedBox(
+                    width: 10,
+                  ),
+                  GFButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CareerPreference()));
+                    },
+                    // onPressed: () async {
+                    //   setState(() {
+                    //     isLoading = true;
+                    //   });
+                    //   final insert = PostItSkills(Id: 1, month: "2", year: "3",version: "5",lastId: 5);
+                    //   final result =
+                    //       await apiServices.ItSkillsPost(insert);
+                    //   setState(() {
+                    //     isLoading = false;
+                    //   });
+                    //   const title = "Done";
+                    //   final text = result.error
+                    //       ? (result.errorMessage ?? "An Error Occurred")
+                    //       : "Successfully Created";
+                    //   showDialog(
+                    //     context: context,
+                    //     builder: (_) => AlertDialog(
+                    //       title: const Text(title),
+                    //       content: Text(text),
+                    //       actions: [
+                    //         ElevatedButton(
+                    //             onPressed: () {
+                    //               Navigator.pop(context);
+                    //             },
+                    //             child: const Text("OK"))
+                    //       ],
+                    //     ),
+                    //   ).then((data) {
+                    //     if (result.data) {
+                    //       Navigator.push(
+                    //           context,
+                    //           MaterialPageRoute(
+                    //               builder: (context) => CareerPreference()));
+                    //     }
+                    //   });
+                    // },
+                    text: "Next",
+                    type: GFButtonType.solid,
+                  ),
+                ],
+              ),
             ],
           ),
         ),
