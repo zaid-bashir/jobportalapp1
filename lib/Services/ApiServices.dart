@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+
 import 'package:job_portal/Models/Country.dart';
 import 'package:job_portal/Models/EmploymentType.dart';
 import 'package:job_portal/Models/GetCategory.dart';
@@ -12,6 +13,7 @@ import 'package:job_portal/Models/InstituteQualified.dart';
 import 'package:job_portal/Models/ItSkills.dart';
 import 'package:job_portal/Models/JobType.dart';
 import 'package:job_portal/Models/Nationality.dart';
+import 'package:job_portal/Models/PersonalDetails-post.dart';
 import 'package:job_portal/Models/QualificationDetails.dart';
 import 'package:job_portal/Models/Stream.dart';
 import 'package:job_portal/Models/getjobcategory.dart';
@@ -588,5 +590,22 @@ class ApiServices {
         error: true, errorMessage: "An error occurred");
   }
 
+// personal details post
+  Future<ApiResponse<bool>> PostPersonal(PersonalDetailsPost personal) async {
+    final url = Uri.parse(ApiUrls.kPersonal);
+    final headers = {
+      "Content-Type": "application/json",
+
+    };
+    final jsonData = jsonEncode(personal);
+
+    final response = await http.post(url, headers: headers, body: jsonData);
+    log.i(response.body);
+    log.i(response.statusCode);
+    if (response.statusCode == 200 || response.statusCode == 200) {
+      return ApiResponse<bool>(data: true);
+    }
+    return ApiResponse<bool>(error: true, errorMessage: "An Error Occurred");
+  }
 
 }
