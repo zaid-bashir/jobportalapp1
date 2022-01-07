@@ -6,7 +6,8 @@ import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/GetCompany.dart';
 import 'package:job_portal/Models/GetIndustry.dart';
-import 'package:job_portal/Models/ProfessionDetails.dart';
+import 'package:job_portal/Models/-post.dart';
+import 'package:job_portal/Models/ProfessionalDetails.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Views/SignIn/Step6-KeySkills.dart';
 
@@ -21,6 +22,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
   String query;
   String mycompany = "";
   String myindustry = "";
+  int highProfID ;
 
   int groupValue = 0;
   List lists = [
@@ -43,11 +45,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
     "E-Learning"
   ];
   DateTime selectedDate;
-
-  // int groupValue = 1;
-  // int groupValue2 = 1;
-  // List lists = ["delhi", "mumbai", "chennai", "kashmir"];
-  // List list = ["Srinagar", "Pulwama", "Budgam", "Ganderbal"];
+  TextEditingController professionSearchCon = TextEditingController();
 
   bool isLoadingCompany = false;
   bool isLoadingIndustry = false;
@@ -56,15 +54,14 @@ class _WorkingProfessionState extends State<WorkingProfession> {
 
   ApiResponse<List<Company>> _apiResponseCompany;
   ApiResponse<List<Industry>> _apiResponseIndustry;
+  ApiResponse<List<Professional>> _apiResponseProfessional;
 
   @override
   void initState() {
     super.initState();
-
     fetchCompany(query: "");
     fetchIndustry(query: "");
   }
-
   fetchCompany({String query}) async {
     setState(() {
       isLoadingCompany = true;
@@ -241,29 +238,46 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                             groupValue == 1
                                 ? Padding(
                                     padding: const EdgeInsets.only(top: 8.0),
-                                    child: FindDropdown(
-                                      searchBoxDecoration:
-                                          const InputDecoration(
-                                        border: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Colors.grey,
-                                          ),
-                                        ),
-                                      ),
-                                      items: parseData(),
-                                      searchHint: "Company Name",
+                                    child: DropdownSearch<Professional>(
+                                      validator: (value) {
+                                        if (value.companyName.isEmpty) {
+                                          return "Please Select Qualification";
+                                        }
+                                        return null;
+                                      },
+                                      mode: Mode.DIALOG,
+                                      items: isLoading
+                                          ? Professional()
+                                          : _apiResponseProfessional.data,
+                                      itemAsString: (Professional obj) {
+                                        return obj.companyName;
+                                      },
                                       onFind: (val) async {
                                         setState(() {
                                           query = val;
                                         });
-                                        await fetchCompany(query: query);
-                                        parseData();
-                                        return [""];
+                                        return _apiResponseProfessional.data;
                                       },
-                                      onChanged: (item) {
-                                        setState(() {
-                                          mycompany = item;
-                                        });
+                                      hint: "Select Highest Qualification",
+                                      onChanged: (value) {
+                                        professionSearchCon.text =
+                                            value.companyId.toString();
+                                        highProfID = value.companyId;
+                                        print(value.companyId);
+                                      },
+                                      showSearchBox: true,
+                                      popupItemBuilder: (context,
+                                          Professional item, bool isSelected) {
+                                        return Container(
+                                          margin: EdgeInsets.symmetric(
+                                              horizontal: 8),
+                                          child: Card(
+                                            child: Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: Text(item.companyName),
+                                            ),
+                                          ),
+                                        );
                                       },
                                     ),
                                   )
@@ -460,31 +474,25 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                     padding: EdgeInsets.only(
                                       top: 15,
                                     ),
-                                    child: Text("Previous Designation",
+                                    child: Text("Previous Company",
                                         style: TextStyle(
                                             fontSize: 15,
                                             fontWeight: FontWeight.bold,
                                             fontFamily: "ProximaNova")),
                                   )
                                 : Container(),
-
                             groupValue == 2
-                                ? DropdownSearch<String>(
-                                    dropdownSearchDecoration:
-                                        const InputDecoration(
-                                      border: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Colors.grey,
-                                        ),
+                                ? TextField(
+                                    decoration: InputDecoration(
+                                      hintText: "Previous Company Name",
+                                      hintStyle: TextStyle(
+                                        color: Colors.blueGrey,
+                                        fontFamily: "ProximaNova",
+                                        fontWeight: FontWeight.w500,
+                                        letterSpacing: 1.5,
+                                        fontSize: 14.5,
                                       ),
                                     ),
-                                    mode: Mode.DIALOG,
-                                    showSelectedItems: true,
-                                    showSearchBox: true,
-                                    items: ["OM", "SC", "ST", "RBC", "OBC"],
-                                    // popupItemDisabled: (String s) => s.startsWith('I'),
-                                    onChanged: print,
-                                    hint: "Select Previous Designation",
                                   )
                                 : Container(),
                             groupValue == 2
@@ -536,7 +544,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                             groupValue == 2
                                 ? TextField(
                                     decoration: InputDecoration(
-                                      hintText: "Previous Salary('Annually')",
+                                      hintText: "Previous Annually Salary",
                                       hintStyle: TextStyle(
                                         color: Colors.blueGrey,
                                         fontFamily: "ProximaNova",

@@ -13,7 +13,7 @@ import 'package:job_portal/Models/ItSkills.dart';
 import 'package:job_portal/Models/JobType.dart';
 import 'package:job_portal/Models/Nationality.dart';
 import 'package:job_portal/Models/PersonalDetails-post.dart';
-import 'package:job_portal/Models/ProfessionDetails.dart';
+import 'package:job_portal/Models/-post.dart';
 import 'package:job_portal/Models/QualificationDetails.dart';
 import 'package:job_portal/Models/Stream.dart';
 import 'package:job_portal/Models/getjobcategory.dart';
