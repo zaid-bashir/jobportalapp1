@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:job_portal/Models/Country.dart';
+import 'package:job_portal/Models/CurerntLocation.dart';
 import 'package:job_portal/Models/EmploymentType.dart';
 import 'package:job_portal/Models/GetCategory.dart';
 import 'package:job_portal/Models/GetCompany.dart';
@@ -65,6 +66,33 @@ class ApiServices {
     }
     return ApiResponse<String>(error: true, errorMessage: "An Error Occurred");
   }
+
+
+  //CURRENT LOCATION STARTS HERE
+  Future<ApiResponse<List<CurrentLocation>>> getCurrentLocation({String query}) async {
+    final url = Uri.parse(ApiUrls.kLocation+query);
+    print(ApiUrls.kLocation+"="+query);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <CurrentLocation>[];
+      for (var item in jsonData) {
+        list.add(CurrentLocation.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      return ApiResponse<List<CurrentLocation>>(data: list);
+    }
+    return ApiResponse<List<CurrentLocation>>(
+        error: true, errorMessage: "An error occurred");
+  }
+  //CURRENT LOCATION ENDS HERE
 
   // industry in Professional details page
 
@@ -448,7 +476,7 @@ class ApiServices {
   }
 
   //  Nationality Dropdown
-  Future<ApiResponse<String>> postBasicDetials(
+  Future<ApiResponse<int>> postBasicDetials(
       BasicDetialModel obj) async {
     final url = Uri.parse(ApiUrls.kBasicDetial);
     final header = {
@@ -462,6 +490,7 @@ class ApiServices {
       "candidateEmail1" : obj.candidateEmail1,
       "candidateGenderId" : obj.candidateGenderId,
       "candidateTotalworkexp" : obj.candidateTotalworkexp,
+      "candidateName" : obj.candidateName,
       "candidateJobroleId" : obj.candidateJobroleId,
       "candidateCityId" : obj.candidateCityId,
     });
@@ -470,13 +499,13 @@ class ApiServices {
       headers: header,
       body: jsonData,
     );
-    if (response.statusCode == 201) {
-      final responseData = jsonDecode(response.body);
+    if (response.statusCode == 201 || response.statusCode == 200) {
+      final int responseData = int.parse(response.body);
       log.i(response.body);
       log.i(response.statusCode);
-      return ApiResponse<String>(data: responseData);
+      return ApiResponse<int>(data: responseData);
     }
-    return ApiResponse<String>(
+    return ApiResponse<int>(
         error: true, errorMessage: "Something went wrong, please try again...");
   }
 

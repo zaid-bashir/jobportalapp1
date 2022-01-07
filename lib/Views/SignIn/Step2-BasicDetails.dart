@@ -4,11 +4,15 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
+import 'package:job_portal/Models/CurerntLocation.dart';
 import 'package:job_portal/Models/GetTitle.dart';
 import 'package:job_portal/Models/basicdetials.dart';
 import 'package:job_portal/Models/getjobcategory.dart';
 import 'package:job_portal/Services/ApiServices.dart';
-import 'package:job_portal/Views/SignIn/Step3-QualificationDetails.dart';
+import 'package:email_validator/email_validator.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:job_portal/Views/SignIn/Step1-VerifyOtp.dart';
+import 'Step3-QualificationDetails.dart';
 
 class BasicDetails extends StatefulWidget {
   const BasicDetails({Key key}) : super(key: key);
@@ -18,6 +22,8 @@ class BasicDetails extends StatefulWidget {
 }
 
 class _BasicDetailsState extends State<BasicDetails> {
+  GetTitle selectedUser;
+
   //Global Form Key
   //===============
   var formKey = GlobalKey<FormState>();
@@ -30,32 +36,30 @@ class _BasicDetailsState extends State<BasicDetails> {
   TextEditingController emailController = TextEditingController();
   TextEditingController jobCategorySearchCon = TextEditingController();
 
+  //ID's for Fields
+  //===============
+  String titleID = "";
+  String genderID = "";
+  String jobRoleID = "";
+  String cityID = "";
+  int totalExp = 0;
+  int candidateId;
+
   //Normal Fiels Variables
   //======================
-  String titleId = "";
   String myjobrole = "";
   String query;
-  String myLocation;
+  String myLocation = "";
   bool _isLoading = false;
-  int genderGroupValue = 1;
-  int experienceGroupValue = 1;
+  int genderGroupValue = 0;
+  int experienceGroupValue = 0;
   String dropdownValue;
   String mySelection;
   String mySelectionYear;
   String mySelectionMonth;
   bool isLoadingJobCategory = false;
+  bool isLoadingCurrentLocation = false;
   bool isLoading = false;
-
-  //Dummy Data List
-  //===============
-  List<String> locationList = ["Srinagar", "Jammu", "Kolkata"];
-  List<String> salutation = [
-    "Mr",
-    "Ms",
-    "Shri",
-    "Mrs",
-    "Mx",
-  ];
 
   //Service Object
   //==============
@@ -65,12 +69,15 @@ class _BasicDetailsState extends State<BasicDetails> {
   //===========================
   ApiResponse<List<GetTitle>> _apiResponse;
   ApiResponse<List<JobCategory>> _apiResponseJobCategory;
+  ApiResponse<List<CurrentLocation>> _apiResponseCurrentLocation;
+  ApiResponse<List<BasicDetialModel>> _apiResponseBasicDetail;
 
   @override
   void initState() {
     super.initState();
     fetchTitles();
     fetchJobCategory(query: "");
+    fetchCurrentLocation(query: "");
   }
 
   fetchTitles() async {
@@ -93,6 +100,17 @@ class _BasicDetailsState extends State<BasicDetails> {
     });
   }
 
+  fetchCurrentLocation({String query}) async {
+    setState(() {
+      isLoadingCurrentLocation = true;
+    });
+    _apiResponseCurrentLocation =
+        await apiServices.getCurrentLocation(query: query);
+    setState(() {
+      isLoadingCurrentLocation = false;
+    });
+  }
+
   List<String> parseData() {
     List<JobCategory> category = _apiResponseJobCategory.data;
     List<String> dataItems = [];
@@ -100,6 +118,30 @@ class _BasicDetailsState extends State<BasicDetails> {
       dataItems.add(category[i].jobroleName);
     }
     return dataItems;
+  }
+
+  List<String> parseLocation() {
+    List<CurrentLocation> location = _apiResponseCurrentLocation.data;
+    List<String> dataItems = [];
+    for (int i = 0; i < location.length; i++) {
+      dataItems.add(location[i].cityName);
+    }
+    return dataItems;
+  }
+
+  RichText getRequiredLabel({String fieldName}) {
+    return RichText(
+      text: TextSpan(
+          style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+              fontFamily: "ProximaNova"),
+          text: fieldName,
+          // ignore: prefer_const_literals_to_create_immutables
+          children: [
+            TextSpan(text: ' *', style: TextStyle(color: Colors.red)),
+          ]),
+    );
   }
 
   @override
@@ -145,74 +187,31 @@ class _BasicDetailsState extends State<BasicDetails> {
                     Row(
                       children: [
                         Expanded(
-                          flex: 3,
+                          flex: 2,
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                border: Border(
-                                    bottom: BorderSide(color: Colors.grey)),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: DropdownButtonHideUnderline(
-                                  child: GFDropdown(
-                                    hint: Row(
-                                      // ignore: prefer_const_literals_to_create_immutables
-                                      children: [
-                                        Text(
-                                          "Title",
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "ProximaNova"),
-                                        ),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                      ],
-                                    ),
-                                    onChanged: (newValue) {
-                                      setState(() {
-                                        mySelection = newValue;
-                                      });
-                                    },
-                                    items: isLoading
-                                        ? ["Not Connected With Internet"]
-                                            .map(
-                                              (value) => DropdownMenuItem(
-                                                  value: value,
-                                                  child: Text(
-                                                    value,
-                                                    style: const TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        fontFamily:
-                                                            "ProximaNova"),
-                                                  )),
-                                            )
-                                            .toList()
-                                        : _apiResponse.data
-                                            .map(
-                                              (data) => DropdownMenuItem(
-                                                value: titleId = data.titleId,
-                                                child: Text(
-                                                  "${data.titleDesc}",
-                                                  style: const TextStyle(
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      fontFamily:
-                                                          "ProximaNova"),
-                                                ),
-                                              ),
-                                            )
-                                            .toList(),
-                                    value: mySelection,
+                            padding: const EdgeInsets.only(top: 0, left: 13),
+                            child: DropdownButtonFormField<GetTitle>(
+                              hint: Text("Title",style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: "ProximaNova"),),
+                              value: selectedUser,
+                              onChanged: (GetTitle newValue) {
+                                setState(() {
+                                  selectedUser = newValue;
+                                });
+                              },
+                              validator: (value) =>
+                                  value == null ? 'Please fill Title' : null,
+                              items: _apiResponse.data.map((GetTitle user) {
+                                return DropdownMenuItem<GetTitle>(
+                                  value: user,
+                                  child: Text(
+                                    user.titleDesc,
+                                    style: TextStyle(color: Colors.black),
                                   ),
-                                ),
-                              ),
+                                );
+                              }).toList(),
                             ),
                           ),
                         ),
@@ -247,6 +246,8 @@ class _BasicDetailsState extends State<BasicDetails> {
                             validator: (value) {
                               if (value.isEmpty) {
                                 return "Please Enter First Name";
+                              } else {
+                                return null;
                               }
                             },
                           ),
@@ -319,6 +320,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                                 if (value.isEmpty) {
                                   return "Please Enter Last Name";
                                 }
+                                return null;
                               },
                             ),
                           ),
@@ -356,6 +358,10 @@ class _BasicDetailsState extends State<BasicDetails> {
                           if (value.isEmpty) {
                             return "Please Enter Email";
                           }
+                          if(!EmailValidator.validate(value)){
+                            return "Please enter Correct email";
+                          }
+                          return null;
                         },
                       ),
                     ),
@@ -557,60 +563,46 @@ class _BasicDetailsState extends State<BasicDetails> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Container(
-                                    decoration: const BoxDecoration(
-                                      border: Border(
-                                          bottom:
-                                              BorderSide(color: Colors.grey)),
-                                    ),
-                                    child: DropdownButtonHideUnderline(
-                                      child: GFDropdown(
-                                        hint: const Text(
-                                          "Years",
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "ProximaNova"),
-                                        ),
-                                        borderRadius:
-                                            const BorderRadius.horizontal(
-                                                left: Radius.zero,
-                                                right: Radius.zero),
-                                        value: mySelectionYear,
-                                        onChanged: (newValue) {
-                                          setState(() {
-                                            mySelectionYear = newValue;
-                                          });
-                                        },
-                                        items: [
-                                          "0",
-                                          "1",
-                                          "2",
-                                          "3",
-                                          "4",
-                                          "5",
-                                          "6",
-                                          "7",
-                                          "8",
-                                          "9",
-                                          "10",
-                                          "11",
-                                          "12"
-                                        ]
-                                            .map(
-                                              (value) => DropdownMenuItem(
-                                                  value: value,
-                                                  child: Text(
-                                                    value,
-                                                    style: const TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontFamily:
-                                                            "ProximaNova"),
-                                                  )),
-                                            )
-                                            .toList(),
-                                      ),
+                                    child: DropdownButtonFormField<String>(
+                                      hint: Text("Years"),
+                                      value: mySelectionYear,
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          mySelectionYear = newValue;
+                                        });
+                                      },
+                                      validator: (value) => value == null
+                                          ? 'Please fill Year'
+                                          : null,
+                                      items: [
+                                        "0",
+                                        "1",
+                                        "2",
+                                        "3",
+                                        "4",
+                                        "5",
+                                        "6",
+                                        "7",
+                                        "8",
+                                        "9",
+                                        "10",
+                                        "11",
+                                        "12"
+                                      ]
+                                          .map(
+                                            (value) => DropdownMenuItem(
+                                                value: value,
+                                                child: Text(
+                                                  value,
+                                                  style: const TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontFamily:
+                                                          "ProximaNova"),
+                                                )),
+                                          )
+                                          .toList(),
                                     ),
                                   ),
                                 ),
@@ -620,56 +612,46 @@ class _BasicDetailsState extends State<BasicDetails> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Container(
-                                    decoration: const BoxDecoration(
-                                      border: Border(
-                                          bottom:
-                                              BorderSide(color: Colors.grey)),
-                                    ),
-                                    child: DropdownButtonHideUnderline(
-                                      child: GFDropdown(
-                                        hint: const Text(
-                                          "Months",
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "ProximaNova"),
-                                        ),
-                                        value: mySelectionMonth,
-                                        onChanged: (newValue) {
-                                          setState(() {
-                                            mySelectionMonth = newValue;
-                                          });
-                                        },
-                                        items: [
-                                          "0",
-                                          "1",
-                                          "2",
-                                          "3",
-                                          "4",
-                                          "5",
-                                          "6",
-                                          "7",
-                                          "8",
-                                          "9",
-                                          "10",
-                                          "11",
-                                          "12",
-                                        ]
-                                            .map(
-                                              (value) => DropdownMenuItem(
-                                                  value: value,
-                                                  child: Text(
-                                                    value,
-                                                    style: const TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontFamily:
-                                                            "ProximaNova"),
-                                                  )),
-                                            )
-                                            .toList(),
-                                      ),
+                                     child: DropdownButtonFormField<String>(
+                                      hint: Text("Months"),
+                                      value: mySelectionMonth,
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          mySelectionMonth = newValue;
+                                        });
+                                      },
+                                      validator: (value) => value == null
+                                          ? 'Please fill Month'
+                                          : null,
+                                      items: [
+                                        "0",
+                                        "1",
+                                        "2",
+                                        "3",
+                                        "4",
+                                        "5",
+                                        "6",
+                                        "7",
+                                        "8",
+                                        "9",
+                                        "10",
+                                        "11",
+                                        "12"
+                                      ]
+                                          .map(
+                                            (value) => DropdownMenuItem(
+                                                value: value,
+                                                child: Text(
+                                                  value,
+                                                  style: const TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontFamily:
+                                                          "ProximaNova"),
+                                                )),
+                                          )
+                                          .toList(),
                                     ),
                                   ),
                                 ),
@@ -695,8 +677,8 @@ class _BasicDetailsState extends State<BasicDetails> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: DropdownSearch<JobCategory>(
-                          validator: (value){
-                            if(value.jobroleName.isEmpty){
+                          validator: (value) {
+                            if (value == null) {
                               return "Please Enter Job Role";
                             }
                             return null;
@@ -718,6 +700,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                           onChanged: (value) {
                             jobCategorySearchCon.text =
                                 value.jobroleId.toString();
+                            jobRoleID = value.jobroleId;
                             print(value.jobroleId);
                           },
                           showSearchBox: true,
@@ -734,41 +717,6 @@ class _BasicDetailsState extends State<BasicDetails> {
                             );
                           },
                         ),
-                        // child: FindDropdown(
-                        //   validate: (value){
-                        //     if(value.toString().isEmpty){
-                        //       return "Please Select Job Role";
-                        //     }
-                        //   },
-                        //   searchBoxDecoration: const InputDecoration(
-                        //     border: UnderlineInputBorder(
-                        //       borderSide: BorderSide(
-                        //         color: Colors.grey,
-                        //       ),
-                        //     ),
-                        //   ),
-                        //   items: isLoadingJobCategory
-                        //       ? ["Not Connected With Internet"]
-                        //       : parseData(),
-                        //   searchHint: "Job Role",
-                        // onFind: (val) async {
-                        //   setState(() {
-                        //     query = val;
-                        //   });
-                        //     await isLoadingJobCategory
-                        //         ? () {}
-                        //         : fetchJobCategory(query: query);
-                        //     parseData();
-                        //     return [""];
-                        //   },
-                        //   onChanged: (item) {
-                        //     setState(() {
-                        //       myjobrole = item.split(",")[1].toString();
-                        //       print(myjobrole);
-                        //       print("hello");
-                        //     });
-                        //   },
-                        // ),
                       ),
                     ),
                     const SizedBox(
@@ -787,23 +735,45 @@ class _BasicDetailsState extends State<BasicDetails> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: DropdownSearch<String>(
-                        hint: "Current Location",
-                        dropdownSearchBaseStyle: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "ProximaNova"),
-                        dropdownSearchDecoration: const InputDecoration(),
-                        mode: Mode.DIALOG,
-                        showSearchBox: true,
-                        showSelectedItems: true,
-                        items: locationList,
-                        onChanged: (item) {
-                          setState(() {
-                            myLocation = item;
-                          });
+                      child: DropdownSearch<CurrentLocation>(
+                        validator: (value) {
+                          if (value == null) {
+                            return "Please Select Current Location";
+                          }
+                          return null;
                         },
-                        selectedItem: myLocation,
+                        mode: Mode.DIALOG,
+                        items: isLoadingCurrentLocation
+                            ? CurrentLocation()
+                            : _apiResponseCurrentLocation.data,
+                        itemAsString: (CurrentLocation obj) {
+                          return obj.cityName;
+                        },
+                        onFind: (val) async {
+                          setState(() {
+                            query = val;
+                          });
+                          return _apiResponseCurrentLocation.data;
+                        },
+                        hint: "Select City",
+                        onChanged: (value) {
+                          jobCategorySearchCon.text = value.cityName.toString();
+                          cityID = value.cityId;
+                          print(value.cityId);
+                        },
+                        showSearchBox: true,
+                        popupItemBuilder:
+                            (context, CurrentLocation item, bool isSelected) {
+                          return Container(
+                            margin: EdgeInsets.symmetric(horizontal: 8),
+                            child: Card(
+                              child: Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text(item.cityName),
+                              ),
+                            ),
+                          );
+                        },
                       ),
                     ),
                     const SizedBox(
@@ -819,41 +789,56 @@ class _BasicDetailsState extends State<BasicDetails> {
             child: Align(
               alignment: Alignment.centerRight,
               child: GFButton(
-                text: "Next",
-                type: GFButtonType.solid,
-                blockButton: false,
-                onPressed: () {
-                  int totalworkexp = (int.parse(mySelectionYear) * 12) +
-                      int.parse(mySelectionMonth);
-                  print(titleId);
-                  print(fnameController.text);
-                  print(mnameController.text);
-                  print(lnameController.text);
-                  print(emailController.text);
-                  print(genderGroupValue);
-                  print(totalworkexp);
-                  print(myjobrole);
-                  print(myLocation);
-                  if (formKey.currentState.validate()) {
-                    apiServices.postBasicDetials(BasicDetialModel(
-                      candidateTitleId: int.parse(titleId),
-                      candidateFirstName: fnameController.text,
-                      candidateMiddleName: mnameController.text,
-                      candidateLastName: lnameController.text,
-                      candidateEmail1: emailController.text,
-                      candidateGenderId: genderGroupValue,
-                      candidateTotalworkexp: totalworkexp.toString(),
-                      candidateJobroleId: 3,
-                      candidateCityId: 5,
-                    ));
+                  text: "Next",
+                  type: GFButtonType.solid,
+                  blockButton: false,
+                  onPressed: () async {
+                    if (formKey.currentState.validate()) {
+                      await apiServices
+                          .postBasicDetials(BasicDetialModel(
+                        candidateTitleId: int.parse(selectedUser.titleId),
+                        candidateFirstName: fnameController.text,
+                        candidateMiddleName: mnameController.text,
+                        candidateLastName: lnameController.text,
+                        candidateEmail1: emailController.text,
+                        candidateName: fnameController.text +
+                            " " +
+                            mnameController.text +
+                            " " +
+                            lnameController.text,
+                        candidateGenderId: genderGroupValue,
+                        candidateTotalworkexp:
+                            totalExp == 0 ? totalExp : totalWorkExp(),
+                        candidateJobroleId: int.parse(jobRoleID),
+                        candidateCityId: int.parse(cityID),
+                      ))
+                          .then((value) {
+                        candidateId = value.data;
+                        return candidateId;
+                      });
+                      print(candidateId);
+                      // if (_apiResponseBasicDetail.error) {
+                      //   Fluttertoast.showToast(
+                      //       msg: "Something went Wrong while submitting details",
+                      //       toastLength: Toast.LENGTH_LONG,
+                      //       gravity: ToastGravity.BOTTOM,
+                      //       timeInSecForIosWeb: 2,
+                      //       backgroundColor: Colors.red,
+                      //       textColor: Colors.white,
+                      //       fontSize: 16.0);
+                      // } else {
+                      _apiResponseBasicDetail.error ? VerifyOTP() : Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => QualificationBlueCollar(
+                            key: formKey,
+                            candidateId: candidateId,
+                          ),
+                        ),
+                      );
+                    }
                   }
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const QualificationBlueCollar(),
-                    ),
-                  );
-                },
-              ),
+                  // },
+                  ),
             ),
           ),
           const SizedBox(
@@ -862,5 +847,10 @@ class _BasicDetailsState extends State<BasicDetails> {
         ],
       ),
     );
+  }
+
+  int totalWorkExp() {
+    totalExp = (int.parse(mySelectionYear) * 12) + int.parse(mySelectionMonth);
+    return totalExp;
   }
 }
