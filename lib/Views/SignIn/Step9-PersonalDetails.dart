@@ -40,6 +40,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
   String nationalityID = "";
   TextEditingController countrySearchCon = TextEditingController();
   String countryID = "";
+
   //general variables
   DateTime selectedDate;
   int groupValue = 0;
@@ -109,14 +110,14 @@ class _PersonalDetailsState extends State<PersonalDetails> {
     });
   }
 
-  List<String> getCity() {
-    List<Cities> getLoc = _apiResponse.data;
-    List<String> locData = [];
-    for (int i = 0; i < getLoc.length; i++) {
-      locData.add(getLoc[i].cityName);
-    }
-    return locData;
-  }
+  // List<String> getCity() {
+  //   List<Cities> getLoc = _apiResponse.data;
+  //   List<String> locData = [];
+  //   for (int i = 0; i < getLoc.length; i++) {
+  //     locData.add(getLoc[i].cityName);
+  //   }
+  //   return locData;
+  // }
 
   String City;
 
@@ -130,14 +131,14 @@ class _PersonalDetailsState extends State<PersonalDetails> {
     });
   }
 
-  List<String> getNationality() {
-    List<Nationality> getNatio = _apiResponse2.data;
-    List<String> natioData = [];
-    for (int i = 0; i < getNatio.length; i++) {
-      natioData.add(getNatio[i].countryNationality);
-    }
-    return natioData;
-  }
+  // List<String> getNationality() {
+  //   List<Nationality> getNatio = _apiResponse2.data;
+  //   List<String> natioData = [];
+  //   for (int i = 0; i < getNatio.length; i++) {
+  //     natioData.add(getNatio[i].countryNationality);
+  //   }
+  //   return natioData;
+  // }
 
   String Nationalities;
 
@@ -151,14 +152,14 @@ class _PersonalDetailsState extends State<PersonalDetails> {
     });
   }
 
-  List<String> getCountry() {
-    List<Country> countData = _apiResponse3.data;
-    List<String> counData = [];
-    for (int i = 0; i < countData.length; i++) {
-      counData.add(countData[i].countryName);
-    }
-    return counData;
-  }
+  // List<String> getCountry() {
+  //   List<Country> countData = _apiResponse3.data;
+  //   List<String> counData = [];
+  //   for (int i = 0; i < countData.length; i++) {
+  //     counData.add(countData[i].countryName);
+  //   }
+  //   return counData;
+  // }
 
   String Countries;
 
@@ -303,7 +304,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                 },
                                 mode: Mode.DIALOG,
                                 items:
-                                    isLoading ? getCity() : _apiResponse.data,
+                                    isLoading ? Cities() : _apiResponse.data,
                                 itemAsString: (Cities obj) {
                                   return obj.cityName;
                                 },
@@ -896,7 +897,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                 },
                                 mode: Mode.DIALOG,
                                 items: isLoading
-                                    ? getNationality()
+                                    ? Nationality()
                                     : _apiResponse2.data,
                                 itemAsString: (Nationality obj) {
                                   return obj.countryNationality;
@@ -1033,7 +1034,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                         },
                                         mode: Mode.DIALOG,
                                         items: isLoading
-                                            ? getCountry()
+                                            ? Country()
                                             : _apiResponse3.data,
                                         itemAsString: (Country obj) {
                                           return obj.countryName;

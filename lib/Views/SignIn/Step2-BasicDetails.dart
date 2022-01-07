@@ -1,14 +1,14 @@
+// ignore_for_file: prefer_const_constructors, deprecated_member_use, prefer_final_fields, unused_field, unnecessary_string_interpolations, avoid_print
 
 import 'package:dropdown_search/dropdown_search.dart';
-import 'package:find_dropdown/find_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/GetTitle.dart';
+import 'package:job_portal/Models/basicdetials.dart';
 import 'package:job_portal/Models/getjobcategory.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Views/SignIn/Step3-QualificationDetails.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class BasicDetails extends StatefulWidget {
   const BasicDetails({Key key}) : super(key: key);
@@ -18,17 +18,37 @@ class BasicDetails extends StatefulWidget {
 }
 
 class _BasicDetailsState extends State<BasicDetails> {
+  //Global Form Key
+  //===============
+  var formKey = GlobalKey<FormState>();
 
-  //SharedPrefs Variable
-  String titleIdPref;
+  //Controllers for TextField
+  //=========================
+  TextEditingController fnameController = TextEditingController();
+  TextEditingController mnameController = TextEditingController();
+  TextEditingController lnameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController jobCategorySearchCon = TextEditingController();
 
+  //Normal Fiels Variables
+  //======================
+  String titleId = "";
   String myjobrole = "";
   String query;
-
-  List<String> locationList = ["Srinagar", "Jammu", "Kolkata"];
-
   String myLocation;
+  bool _isLoading = false;
+  int genderGroupValue = 1;
+  int experienceGroupValue = 1;
+  String dropdownValue;
+  String mySelection;
+  String mySelectionYear;
+  String mySelectionMonth;
+  bool isLoadingJobCategory = false;
+  bool isLoading = false;
 
+  //Dummy Data List
+  //===============
+  List<String> locationList = ["Srinagar", "Jammu", "Kolkata"];
   List<String> salutation = [
     "Mr",
     "Ms",
@@ -37,35 +57,20 @@ class _BasicDetailsState extends State<BasicDetails> {
     "Mx",
   ];
 
-  String mySelection;
-  String mySelectionYear;
-  String mySelectionMonth;
-
-  bool _isLoading = false;
-  int genderGroupValue = 0;
-  int experienceGroupValue = 0;
-  String dropdownValue;
-
-  bool isLoading = false;
-  bool isLoadingJobCategory = false;
-
+  //Service Object
+  //==============
   ApiServices apiServices = ApiServices();
 
+  //ApiResponse Generic Objects
+  //===========================
   ApiResponse<List<GetTitle>> _apiResponse;
   ApiResponse<List<JobCategory>> _apiResponseJobCategory;
-
-  SharedPreferences pref;
 
   @override
   void initState() {
     super.initState();
-    initSharedPreferences();
     fetchTitles();
     fetchJobCategory(query: "");
-  }
-
-  void initSharedPreferences() async {
-    pref = await SharedPreferences.getInstance();
   }
 
   fetchTitles() async {
@@ -77,7 +82,8 @@ class _BasicDetailsState extends State<BasicDetails> {
       isLoading = false;
     });
   }
-    fetchJobCategory({String query}) async {
+
+  fetchJobCategory({String query}) async {
     setState(() {
       isLoadingJobCategory = true;
     });
@@ -87,10 +93,10 @@ class _BasicDetailsState extends State<BasicDetails> {
     });
   }
 
-  List<String> parseData(){
+  List<String> parseData() {
     List<JobCategory> category = _apiResponseJobCategory.data;
     List<String> dataItems = [];
-    for(int i = 0; i < category.length;i++){
+    for (int i = 0; i < category.length; i++) {
       dataItems.add(category[i].jobroleName);
     }
     return dataItems;
@@ -128,6 +134,7 @@ class _BasicDetailsState extends State<BasicDetails> {
             padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
             child: Card(
               child: Form(
+                key: formKey,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -151,7 +158,8 @@ class _BasicDetailsState extends State<BasicDetails> {
                                 child: DropdownButtonHideUnderline(
                                   child: GFDropdown(
                                     hint: Row(
-                                      children: const [
+                                      // ignore: prefer_const_literals_to_create_immutables
+                                      children: [
                                         Text(
                                           "Title",
                                           style: TextStyle(
@@ -159,20 +167,18 @@ class _BasicDetailsState extends State<BasicDetails> {
                                               fontWeight: FontWeight.bold,
                                               fontFamily: "ProximaNova"),
                                         ),
-                                        SizedBox(width: 5,),
-                                        Text("*",style: TextStyle(color: Colors.red),),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
                                       ],
                                     ),
                                     onChanged: (newValue) {
                                       setState(() {
                                         mySelection = newValue;
-                                        pref.setString("titleId", titleIdPref);
                                       });
-                                      String Intval = pref.getString('titleId') ?? 0;
-                                      print(Intval);
                                     },
                                     items: isLoading
-                                        ? ["Please Wait"]
+                                        ? ["Not Connected With Internet"]
                                             .map(
                                               (value) => DropdownMenuItem(
                                                   value: value,
@@ -190,7 +196,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                                         : _apiResponse.data
                                             .map(
                                               (data) => DropdownMenuItem(
-                                                value: titleIdPref = data.titleId,
+                                                value: titleId = data.titleId,
                                                 child: Text(
                                                   "${data.titleDesc}",
                                                   style: const TextStyle(
@@ -213,9 +219,10 @@ class _BasicDetailsState extends State<BasicDetails> {
                         const SizedBox(
                           width: 10,
                         ),
-                        const Expanded(
+                        Expanded(
                           flex: 5,
-                          child: TextField(
+                          child: TextFormField(
+                            controller: fnameController,
                             decoration: InputDecoration(
                               contentPadding: EdgeInsets.all(8.0),
                               alignLabelWithHint: true,
@@ -237,6 +244,11 @@ class _BasicDetailsState extends State<BasicDetails> {
                                 ),
                               ),
                             ),
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return "Please Enter First Name";
+                              }
+                            },
                           ),
                         ),
                         const SizedBox(
@@ -252,8 +264,9 @@ class _BasicDetailsState extends State<BasicDetails> {
                       child: Row(
                         // ignore: prefer_const_literals_to_create_immutables
                         children: [
-                          const Expanded(
-                            child: TextField(
+                          Expanded(
+                            child: TextFormField(
+                              controller: mnameController,
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(8.0),
                                 labelText: 'Middle Name',
@@ -279,8 +292,9 @@ class _BasicDetailsState extends State<BasicDetails> {
                           const SizedBox(
                             width: 10,
                           ),
-                          const Expanded(
-                            child: TextField(
+                          Expanded(
+                            child: TextFormField(
+                              controller: lnameController,
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(8.0),
                                 labelText: 'Last Name',
@@ -301,6 +315,11 @@ class _BasicDetailsState extends State<BasicDetails> {
                                   ),
                                 ),
                               ),
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return "Please Enter Last Name";
+                                }
+                              },
                             ),
                           ),
                         ],
@@ -309,9 +328,10 @@ class _BasicDetailsState extends State<BasicDetails> {
                     const SizedBox(
                       height: 10,
                     ),
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.all(8.0),
-                      child: TextField(
+                      child: TextFormField(
+                        controller: emailController,
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.all(8.0),
                           labelText: 'E-mail',
@@ -332,6 +352,11 @@ class _BasicDetailsState extends State<BasicDetails> {
                             ),
                           ),
                         ),
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return "Please Enter Email";
+                          }
+                        },
                       ),
                     ),
                     const SizedBox(
@@ -359,36 +384,32 @@ class _BasicDetailsState extends State<BasicDetails> {
                           GFRadio(
                             size: 20,
                             activeBorderColor: const Color(0xff2972ff),
-                            value: 0,
+                            value: 1,
                             groupValue: genderGroupValue,
                             onChanged: (value) {
                               setState(() {
                                 genderGroupValue = value;
                               });
                             },
-
                             inactiveIcon: null,
                             radioColor: const Color(0xff2972ff),
                           ),
-
                           const SizedBox(
                             width: 7,
                           ),
                           const Text(
                             "Male",
-
                             style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: "ProximaNova"),
                           ),
-
                           const SizedBox(
                             width: 20,
                           ),
                           GFRadio(
                             size: 20,
-                            value: 1,
+                            value: 2,
                             groupValue: genderGroupValue,
                             onChanged: (value) {
                               setState(() {
@@ -460,7 +481,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                           GFRadio(
                             size: 20,
                             activeBorderColor: const Color(0xff2972ff),
-                            value: 0,
+                            value: 1,
                             groupValue: experienceGroupValue,
                             onChanged: (value) {
                               setState(() {
@@ -485,7 +506,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                           ),
                           GFRadio(
                             size: 20,
-                            value: 1,
+                            value: 2,
                             groupValue: experienceGroupValue,
                             onChanged: (value) {
                               setState(() {
@@ -512,7 +533,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                     const SizedBox(
                       height: 10,
                     ),
-                    experienceGroupValue == 0
+                    experienceGroupValue == 1
                         ? const Padding(
                             padding: EdgeInsets.all(8),
                             child: Text(
@@ -528,7 +549,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                     const SizedBox(
                       height: 3,
                     ),
-                    experienceGroupValue == 0
+                    experienceGroupValue == 1
                         ? Row(
                             children: [
                               Expanded(
@@ -550,9 +571,10 @@ class _BasicDetailsState extends State<BasicDetails> {
                                               fontWeight: FontWeight.bold,
                                               fontFamily: "ProximaNova"),
                                         ),
-                                        borderRadius: const BorderRadius.horizontal(
-                                            left: Radius.zero,
-                                            right: Radius.zero),
+                                        borderRadius:
+                                            const BorderRadius.horizontal(
+                                                left: Radius.zero,
+                                                right: Radius.zero),
                                         value: mySelectionYear,
                                         onChanged: (newValue) {
                                           setState(() {
@@ -572,10 +594,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                                           "9",
                                           "10",
                                           "11",
-                                          "12",
-                                          "13",
-                                          "14",
-                                          "15"
+                                          "12"
                                         ]
                                             .map(
                                               (value) => DropdownMenuItem(
@@ -621,7 +640,21 @@ class _BasicDetailsState extends State<BasicDetails> {
                                             mySelectionMonth = newValue;
                                           });
                                         },
-                                        items: ["0", "1", "2", "3", "4", "5"]
+                                        items: [
+                                          "0",
+                                          "1",
+                                          "2",
+                                          "3",
+                                          "4",
+                                          "5",
+                                          "6",
+                                          "7",
+                                          "8",
+                                          "9",
+                                          "10",
+                                          "11",
+                                          "12",
+                                        ]
                                             .map(
                                               (value) => DropdownMenuItem(
                                                   value: value,
@@ -661,34 +694,81 @@ class _BasicDetailsState extends State<BasicDetails> {
                     Center(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: FindDropdown(
-                          searchBoxDecoration:  const InputDecoration(
-                            border: UnderlineInputBorder(
-
-                              borderSide: BorderSide(
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ),
-                          items: parseData(),
-                          searchHint: "Job Role",
-                          onFind: (val) async{
+                        child: DropdownSearch<JobCategory>(
+                          validator: (value){
+                            if(value.jobroleName.isEmpty){
+                              return "Please Enter Job Role";
+                            }
+                            return null;
+                          },
+                          mode: Mode.DIALOG,
+                          items: isLoadingJobCategory
+                              ? JobCategory()
+                              : _apiResponseJobCategory.data,
+                          itemAsString: (JobCategory obj) {
+                            return obj.jobroleName;
+                          },
+                          onFind: (val) async {
                             setState(() {
                               query = val;
                             });
-                            await fetchJobCategory(query: query);
-                            parseData();
-                          return [""];
+                            return _apiResponseJobCategory.data;
                           },
-                          onChanged: (item) {
-                            setState(() {
-                              myjobrole = item;
-                              print(myjobrole);
-
-
-                            });
+                          hint: "Select Job Category",
+                          onChanged: (value) {
+                            jobCategorySearchCon.text =
+                                value.jobroleId.toString();
+                            print(value.jobroleId);
+                          },
+                          showSearchBox: true,
+                          popupItemBuilder:
+                              (context, JobCategory item, bool isSelected) {
+                            return Container(
+                              margin: EdgeInsets.symmetric(horizontal: 8),
+                              child: Card(
+                                child: Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Text(item.jobroleName),
+                                ),
+                              ),
+                            );
                           },
                         ),
+                        // child: FindDropdown(
+                        //   validate: (value){
+                        //     if(value.toString().isEmpty){
+                        //       return "Please Select Job Role";
+                        //     }
+                        //   },
+                        //   searchBoxDecoration: const InputDecoration(
+                        //     border: UnderlineInputBorder(
+                        //       borderSide: BorderSide(
+                        //         color: Colors.grey,
+                        //       ),
+                        //     ),
+                        //   ),
+                        //   items: isLoadingJobCategory
+                        //       ? ["Not Connected With Internet"]
+                        //       : parseData(),
+                        //   searchHint: "Job Role",
+                        // onFind: (val) async {
+                        //   setState(() {
+                        //     query = val;
+                        //   });
+                        //     await isLoadingJobCategory
+                        //         ? () {}
+                        //         : fetchJobCategory(query: query);
+                        //     parseData();
+                        //     return [""];
+                        //   },
+                        //   onChanged: (item) {
+                        //     setState(() {
+                        //       myjobrole = item.split(",")[1].toString();
+                        //       print(myjobrole);
+                        //       print("hello");
+                        //     });
+                        //   },
+                        // ),
                       ),
                     ),
                     const SizedBox(
@@ -718,7 +798,6 @@ class _BasicDetailsState extends State<BasicDetails> {
                         showSearchBox: true,
                         showSelectedItems: true,
                         items: locationList,
-                        popupItemDisabled: (String s) => s.startsWith('I'),
                         onChanged: (item) {
                           setState(() {
                             myLocation = item;
@@ -744,6 +823,30 @@ class _BasicDetailsState extends State<BasicDetails> {
                 type: GFButtonType.solid,
                 blockButton: false,
                 onPressed: () {
+                  int totalworkexp = (int.parse(mySelectionYear) * 12) +
+                      int.parse(mySelectionMonth);
+                  print(titleId);
+                  print(fnameController.text);
+                  print(mnameController.text);
+                  print(lnameController.text);
+                  print(emailController.text);
+                  print(genderGroupValue);
+                  print(totalworkexp);
+                  print(myjobrole);
+                  print(myLocation);
+                  if (formKey.currentState.validate()) {
+                    // apiServices.postBasicDetials(BasicDetialModel(
+                    //
+                    //   candidateFirstName: fnameController.text,
+                    //   candidateMiddleName: mnameController.text,
+                    //   candidateLastName: lnameController.text,
+                    //   candidateEmail1: emailController.text,
+                    //   candidateGenderId: genderGroupValue,
+                    //   candidateTotalworkexp: totalworkexp.toString(),
+                    //   candidateJobroleId: 3,
+                    //   candidateCityId: 5,
+                    // ));
+                  }
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => const QualificationBlueCollar(),
