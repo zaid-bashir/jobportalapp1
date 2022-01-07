@@ -883,15 +883,15 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                       isLoading = true;
                     });
                     final insert = QualificationPost(
-                        candidatequalCandidateId:1 ,
-                        candidatequalQualificationId:2,
-                        candidatequalCourseId:3,
-                        candidatequalStreamId:4,
-                        candidatequalCoursetypeId:5,
+                        candidatequalCandidateId: 1,
+                        candidatequalQualificationId: 2,
+                        candidatequalCourseId: 3,
+                        candidatequalStreamId: 4,
+                        candidatequalCoursetypeId: 5,
                         candidatequalInstituteId: 6,
-                        candidatequalCompletionYear:7,
-                        candidatequalGradingsystemId: 8 ,
-                        candidatequalMarks:71);
+                        candidatequalCompletionYear: 7,
+                        candidatequalGradingsystemId: 8,
+                        candidatequalMarks: 71);
                     final result = await apiServices.PostQualification(insert);
                     setState(() {
                       isLoading = false;
@@ -899,7 +899,7 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                     const title = "Done";
                     final text = result.error
                         ? (result.errorMessage ?? "An Error Occurred")
-                        : " Successfully Created";
+                        : "Successfully Created";
                     showDialog(
                       context: context,
                       builder: (_) => AlertDialog(
@@ -915,7 +915,10 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                       ),
                     ).then((data) {
                       if (result.data) {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=> WorkingProfession()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => WorkingProfession()));
                       }
                     });
                   },

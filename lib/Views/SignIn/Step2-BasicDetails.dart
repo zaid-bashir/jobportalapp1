@@ -1,4 +1,3 @@
-// ignore_for_file: prefer_const_constructors, deprecated_member_use, prefer_final_fields, unused_field, unnecessary_string_interpolations, avoid_print
 
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:find_dropdown/find_dropdown.dart';
@@ -6,9 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/GetTitle.dart';
-import 'package:job_portal/Models/basicdetials.dart';
 import 'package:job_portal/Models/getjobcategory.dart';
 import 'package:job_portal/Services/ApiServices.dart';
+import 'package:job_portal/Views/SignIn/Step3-QualificationDetails.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BasicDetails extends StatefulWidget {
   const BasicDetails({Key key}) : super(key: key);
@@ -18,36 +18,17 @@ class BasicDetails extends StatefulWidget {
 }
 
 class _BasicDetailsState extends State<BasicDetails> {
-  //Global Form Key
-  //===============
-  var formKey = GlobalKey<FormState>();
 
-  //Controllers for TextField
-  //=========================
-  TextEditingController fnameController = TextEditingController();
-  TextEditingController mnameController = TextEditingController();
-  TextEditingController lnameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
+  //SharedPrefs Variable
+  String titleIdPref;
 
-  //Normal Fiels Variables
-  //======================
-  String titleId = "";
   String myjobrole = "";
   String query;
-  String myLocation;
-  bool _isLoading = false;
-  int genderGroupValue = 0;
-  int experienceGroupValue = 0;
-  String dropdownValue;
-  String mySelection;
-  String mySelectionYear;
-  String mySelectionMonth;
-  bool isLoadingJobCategory = false;
-  bool isLoading = false;
 
-  //Dummy Data List
-  //===============
   List<String> locationList = ["Srinagar", "Jammu", "Kolkata"];
+
+  String myLocation;
+
   List<String> salutation = [
     "Mr",
     "Ms",
@@ -56,21 +37,35 @@ class _BasicDetailsState extends State<BasicDetails> {
     "Mx",
   ];
 
-  //Service Object
-  //==============
+  String mySelection;
+  String mySelectionYear;
+  String mySelectionMonth;
+
+  bool _isLoading = false;
+  int genderGroupValue = 0;
+  int experienceGroupValue = 0;
+  String dropdownValue;
+
+  bool isLoading = false;
+  bool isLoadingJobCategory = false;
+
   ApiServices apiServices = ApiServices();
 
-  //ApiResponse Generic Objects
-  //===========================
   ApiResponse<List<GetTitle>> _apiResponse;
   ApiResponse<List<JobCategory>> _apiResponseJobCategory;
+
+  SharedPreferences pref;
 
   @override
   void initState() {
     super.initState();
+    initSharedPreferences();
     fetchTitles();
     fetchJobCategory(query: "");
+  }
 
+  void initSharedPreferences() async {
+    pref = await SharedPreferences.getInstance();
   }
 
   fetchTitles() async {
@@ -82,8 +77,7 @@ class _BasicDetailsState extends State<BasicDetails> {
       isLoading = false;
     });
   }
-
-  fetchJobCategory({String query}) async {
+    fetchJobCategory({String query}) async {
     setState(() {
       isLoadingJobCategory = true;
     });
@@ -93,10 +87,10 @@ class _BasicDetailsState extends State<BasicDetails> {
     });
   }
 
-  List<String> parseData() {
+  List<String> parseData(){
     List<JobCategory> category = _apiResponseJobCategory.data;
     List<String> dataItems = [];
-    for (int i = 0; i < category.length; i++) {
+    for(int i = 0; i < category.length;i++){
       dataItems.add(category[i].jobroleName);
     }
     return dataItems;
@@ -134,7 +128,6 @@ class _BasicDetailsState extends State<BasicDetails> {
             padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
             child: Card(
               child: Form(
-                key: formKey,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -158,8 +151,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                                 child: DropdownButtonHideUnderline(
                                   child: GFDropdown(
                                     hint: Row(
-                                      // ignore: prefer_const_literals_to_create_immutables
-                                      children: [
+                                      children: const [
                                         Text(
                                           "Title",
                                           style: TextStyle(
@@ -167,15 +159,17 @@ class _BasicDetailsState extends State<BasicDetails> {
                                               fontWeight: FontWeight.bold,
                                               fontFamily: "ProximaNova"),
                                         ),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
+                                        SizedBox(width: 5,),
+                                        Text("*",style: TextStyle(color: Colors.red),),
                                       ],
                                     ),
                                     onChanged: (newValue) {
                                       setState(() {
                                         mySelection = newValue;
+                                        pref.setString("titleId", titleIdPref);
                                       });
+                                      String Intval = pref.getString('titleId') ?? 0;
+                                      print(Intval);
                                     },
                                     items: isLoading
                                         ? ["Please Wait"]
@@ -196,7 +190,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                                         : _apiResponse.data
                                             .map(
                                               (data) => DropdownMenuItem(
-                                                value: titleId = data.titleId,
+                                                value: titleIdPref = data.titleId,
                                                 child: Text(
                                                   "${data.titleDesc}",
                                                   style: const TextStyle(
@@ -219,10 +213,9 @@ class _BasicDetailsState extends State<BasicDetails> {
                         const SizedBox(
                           width: 10,
                         ),
-                        Expanded(
+                        const Expanded(
                           flex: 5,
-                          child: TextFormField(
-                            controller: fnameController,
+                          child: TextField(
                             decoration: InputDecoration(
                               contentPadding: EdgeInsets.all(8.0),
                               alignLabelWithHint: true,
@@ -259,9 +252,8 @@ class _BasicDetailsState extends State<BasicDetails> {
                       child: Row(
                         // ignore: prefer_const_literals_to_create_immutables
                         children: [
-                          Expanded(
-                            child: TextFormField(
-                              controller: mnameController,
+                          const Expanded(
+                            child: TextField(
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(8.0),
                                 labelText: 'Middle Name',
@@ -287,9 +279,8 @@ class _BasicDetailsState extends State<BasicDetails> {
                           const SizedBox(
                             width: 10,
                           ),
-                          Expanded(
-                            child: TextFormField(
-                              controller: lnameController,
+                          const Expanded(
+                            child: TextField(
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(8.0),
                                 labelText: 'Last Name',
@@ -318,10 +309,9 @@ class _BasicDetailsState extends State<BasicDetails> {
                     const SizedBox(
                       height: 10,
                     ),
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.all(8.0),
-                      child: TextFormField(
-                        controller: emailController,
+                      child: TextField(
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.all(8.0),
                           labelText: 'E-mail',
@@ -369,32 +359,36 @@ class _BasicDetailsState extends State<BasicDetails> {
                           GFRadio(
                             size: 20,
                             activeBorderColor: const Color(0xff2972ff),
-                            value: 1,
+                            value: 0,
                             groupValue: genderGroupValue,
                             onChanged: (value) {
                               setState(() {
                                 genderGroupValue = value;
                               });
                             },
+
                             inactiveIcon: null,
                             radioColor: const Color(0xff2972ff),
                           ),
+
                           const SizedBox(
                             width: 7,
                           ),
                           const Text(
                             "Male",
+
                             style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: "ProximaNova"),
                           ),
+
                           const SizedBox(
                             width: 20,
                           ),
                           GFRadio(
                             size: 20,
-                            value: 2,
+                            value: 1,
                             groupValue: genderGroupValue,
                             onChanged: (value) {
                               setState(() {
@@ -466,7 +460,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                           GFRadio(
                             size: 20,
                             activeBorderColor: const Color(0xff2972ff),
-                            value: 1,
+                            value: 0,
                             groupValue: experienceGroupValue,
                             onChanged: (value) {
                               setState(() {
@@ -491,7 +485,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                           ),
                           GFRadio(
                             size: 20,
-                            value: 2,
+                            value: 1,
                             groupValue: experienceGroupValue,
                             onChanged: (value) {
                               setState(() {
@@ -556,10 +550,9 @@ class _BasicDetailsState extends State<BasicDetails> {
                                               fontWeight: FontWeight.bold,
                                               fontFamily: "ProximaNova"),
                                         ),
-                                        borderRadius:
-                                            const BorderRadius.horizontal(
-                                                left: Radius.zero,
-                                                right: Radius.zero),
+                                        borderRadius: const BorderRadius.horizontal(
+                                            left: Radius.zero,
+                                            right: Radius.zero),
                                         value: mySelectionYear,
                                         onChanged: (newValue) {
                                           setState(() {
@@ -579,7 +572,10 @@ class _BasicDetailsState extends State<BasicDetails> {
                                           "9",
                                           "10",
                                           "11",
-                                          "12"
+                                          "12",
+                                          "13",
+                                          "14",
+                                          "15"
                                         ]
                                             .map(
                                               (value) => DropdownMenuItem(
@@ -625,21 +621,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                                             mySelectionMonth = newValue;
                                           });
                                         },
-                                        items: [
-                                          "0",
-                                          "1",
-                                          "2",
-                                          "3",
-                                          "4",
-                                          "5",
-                                          "6",
-                                          "7",
-                                          "8",
-                                          "9",
-                                          "10",
-                                          "11",
-                                          "12",
-                                        ]
+                                        items: ["0", "1", "2", "3", "4", "5"]
                                             .map(
                                               (value) => DropdownMenuItem(
                                                   value: value,
@@ -680,32 +662,30 @@ class _BasicDetailsState extends State<BasicDetails> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: FindDropdown(
-                          searchBoxDecoration: const InputDecoration(
+                          searchBoxDecoration:  const InputDecoration(
                             border: UnderlineInputBorder(
+
                               borderSide: BorderSide(
                                 color: Colors.grey,
                               ),
                             ),
                           ),
-                          items: isLoadingJobCategory
-                              ? ["Not Connected With Internet"]
-                              : parseData(),
+                          items: parseData(),
                           searchHint: "Job Role",
-                          onFind: (val) async {
+                          onFind: (val) async{
                             setState(() {
                               query = val;
                             });
-                            await isLoadingJobCategory
-                                ? () {}
-                                : fetchJobCategory(query: query);
+                            await fetchJobCategory(query: query);
                             parseData();
-                            return [""];
+                          return [""];
                           },
                           onChanged: (item) {
                             setState(() {
-                              myjobrole = item.split(",")[1].toString();
+                              myjobrole = item;
                               print(myjobrole);
-                              print("hello");
+
+
                             });
                           },
                         ),
@@ -738,6 +718,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                         showSearchBox: true,
                         showSelectedItems: true,
                         items: locationList,
+                        popupItemDisabled: (String s) => s.startsWith('I'),
                         onChanged: (item) {
                           setState(() {
                             myLocation = item;
@@ -763,32 +744,11 @@ class _BasicDetailsState extends State<BasicDetails> {
                 type: GFButtonType.solid,
                 blockButton: false,
                 onPressed: () {
-                  print(titleId);
-                  print(fnameController.text);
-                  print(mnameController.text);
-                  print(lnameController.text);
-                  print(emailController.text);
-                  print(genderGroupValue);
-                  print(experienceGroupValue);
-                  print(myjobrole);
-                  print(myLocation);
-                  if (formKey.currentState.validate()) {
-                    apiServices.postBasicDetials(BasicDetialModel(
-                      candidateTitleId: int.parse(titleId),
-                      candidateFirstName: fnameController.text,
-                      candidateMiddleName: mnameController.text,
-                      candidateLastName: lnameController.text,
-                      candidateEmail1: emailController.text,
-                      candidateGenderId: genderGroupValue,
-                      candidateJobroleId: 3,
-                      candidateCityId: 5,
-                    ));
-                  }
-                  // Navigator.of(context).push(
-                  //   MaterialPageRoute(
-                  //     builder: (context) => const QualificationBlueCollar(),
-                  //   ),
-                  // );
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const QualificationBlueCollar(),
+                    ),
+                  );
                 },
               ),
             ),

@@ -1,9 +1,12 @@
 import 'package:find_dropdown/find_dropdown.dart';
 import 'package:flutter/material.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:date_field/date_field.dart';
+import 'package:getwidget/components/radio/gf_radio.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/Country.dart';
+
 import 'package:job_portal/Models/GetCategory.dart';
 import 'package:job_portal/Models/GetMarital.dart';
 import 'package:job_portal/Models/Nationality.dart';
@@ -27,9 +30,8 @@ class _PersonalDetailsState extends State<PersonalDetails> {
   String query;
   String query1;
   String query2;
-  String query3;
-  String Caste;
-  String Marial;
+ String Caste;
+ String Marial;
   ApiResponse<List<Cities>> _apiResponse;
   ApiResponse<List<Nationality>> _apiResponse2;
   ApiResponse<List<Country>> _apiResponse3;
@@ -51,7 +53,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
     setState(() {
       isLoading = true;
     });
-    _apiResponse5 = await apiServices.getMarital(); 
+    _apiResponse5 = await apiServices.getMarital();
     setState(() {
       isLoading = false;
     });
@@ -120,9 +122,6 @@ class _PersonalDetailsState extends State<PersonalDetails> {
     });
 
   }
-
-  
-
   List<String> getCountry(){
     List<Country>  countData = _apiResponse3.data;
     List<String> counData = [];
@@ -677,7 +676,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                         ),
                       ),
                       groupValue2 == 0
-                          ?      FindDropdown(
+                          ?       FindDropdown(
                         searchBoxDecoration:   InputDecoration(
                           border: UnderlineInputBorder(
                             borderSide: BorderSide(
@@ -689,9 +688,9 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                         searchHint: "Country",
                         onFind: (val) async{
                           setState(() {
-                            query3 = val;
+                            query2 = val;
                           });
-                          await  fetchCountry(query: query3);
+                          await fetchCountry(query: query2);
                           getCountry();
                           return [""];
                         },
