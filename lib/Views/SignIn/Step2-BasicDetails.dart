@@ -835,17 +835,17 @@ class _BasicDetailsState extends State<BasicDetails> {
                   print(myjobrole);
                   print(myLocation);
                   if (formKey.currentState.validate()) {
-                    apiServices.postBasicDetials(BasicDetialModel(
-                      candidateTitleId: int.parse(titleId),
-                      candidateFirstName: fnameController.text,
-                      candidateMiddleName: mnameController.text,
-                      candidateLastName: lnameController.text,
-                      candidateEmail1: emailController.text,
-                      candidateGenderId: genderGroupValue,
-                      candidateTotalworkexp: totalworkexp.toString(),
-                      candidateJobroleId: 3,
-                      candidateCityId: 5,
-                    ));
+                    // apiServices.postBasicDetials(BasicDetialModel(
+                    //
+                    //   candidateFirstName: fnameController.text,
+                    //   candidateMiddleName: mnameController.text,
+                    //   candidateLastName: lnameController.text,
+                    //   candidateEmail1: emailController.text,
+                    //   candidateGenderId: genderGroupValue,
+                    //   candidateTotalworkexp: totalworkexp.toString(),
+                    //   candidateJobroleId: 3,
+                    //   candidateCityId: 5,
+                    // ));
                   }
                   Navigator.of(context).push(
                     MaterialPageRoute(
