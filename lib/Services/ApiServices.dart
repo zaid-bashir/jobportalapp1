@@ -1,9 +1,9 @@
-// ignore_for_file: avoid_print, unnecessary_string_interpolations
+// ignore_for_file: avoid_print, unnecessary_string_interpolations, unused_local_variable
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
 import 'package:job_portal/Models/Country.dart';
+import 'package:job_portal/Models/CurerntLocation.dart';
 import 'package:job_portal/Models/EmploymentType.dart';
 import 'package:job_portal/Models/GetCategory.dart';
 import 'package:job_portal/Models/GetCompany.dart';
@@ -14,8 +14,11 @@ import 'package:job_portal/Models/ItSkills.dart';
 import 'package:job_portal/Models/JobType.dart';
 import 'package:job_portal/Models/Nationality.dart';
 import 'package:job_portal/Models/PersonalDetails-post.dart';
+import 'package:job_portal/Models/ProfessionDetails.dart';
 import 'package:job_portal/Models/QualificationDetails.dart';
 import 'package:job_portal/Models/Stream.dart';
+import 'package:job_portal/Models/basicdetailresponse.dart';
+import 'package:job_portal/Models/basicdetials.dart';
 import 'package:job_portal/Models/getjobcategory.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/getgender.dart';
@@ -26,6 +29,7 @@ import 'package:job_portal/Models/GradingSystem.dart';
 import 'package:job_portal/Models/PassingYear.dart';
 import 'package:job_portal/Models/VerifyOtp.dart';
 import 'package:job_portal/Models/location.dart';
+import 'package:job_portal/Models/qualification-post.dart';
 import 'package:job_portal/Utility/apiurls.dart';
 import 'package:logger/logger.dart';
 
@@ -123,6 +127,56 @@ class ApiServices {
 
   }
 
+   //  Nationality Dropdown
+
+  Future<ApiResponse<List<Nationality>>> getNationality({String query}) async {
+    final url = Uri.parse(ApiUrls.kNationality + query);
+    print(ApiUrls.kNationality + "=" + query);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <Nationality>[];
+      for (var item in jsonData) {
+        list.add(Nationality.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      return ApiResponse<List<Nationality>>(data: list);
+    }
+    return ApiResponse<List<Nationality>>(
+        error: true, errorMessage: "An error occurred");
+  }
+
+  //CURRENT LOCATION STARTS HERE
+  Future<ApiResponse<List<CurrentLocation>>> getCurrentLocation({String query}) async {
+    final url = Uri.parse(ApiUrls.kLocation+query);
+    print(ApiUrls.kLocation+"="+query);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <CurrentLocation>[];
+      for (var item in jsonData) {
+        list.add(CurrentLocation.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      return ApiResponse<List<CurrentLocation>>(data: list);
+    }
+    return ApiResponse<List<CurrentLocation>>(
+        error: true, errorMessage: "An error occurred");
+  }
 
   Future<ApiResponse<List<GetTitle>>> getTitle() async {
     final url = Uri.parse(ApiUrls.ktitles);
@@ -405,30 +459,38 @@ class ApiServices {
   }
 
   //  Nationality Dropdown
-
-  Future<ApiResponse<List<Nationality>>> getNationality({String query}) async {
-    final url = Uri.parse(ApiUrls.kNationality+query);
-    print(ApiUrls.kNationality+"="+query);
+  Future<ApiResponse<BasicDetailResponse>> postBasicDetials(
+      BasicDetialModel obj) async {
+    final url = Uri.parse(ApiUrls.kBasicDetial);
     final header = {
       "Content-Type": "application/json",
     };
-    final response = await http.get(
+    final jsonData = jsonEncode({
+      "candidateTitleId": obj.candidateTitleId,
+      "candidateMobile1" : obj.candidateMobile1,
+      "candidateFirstName": obj.candidateFirstName,
+      "candidateMiddleName": obj.candidateMiddleName,
+      "candidateLastName" : obj.candidateLastName,
+      "candidateEmail1" : obj.candidateEmail1,
+      "candidateGenderId" : obj.candidateGenderId,
+      "candidateTotalworkexp" : obj.candidateTotalworkexp,
+      "candidateName" : obj.candidateName,
+      "candidateJobroleId" : obj.candidateJobroleId,
+      "candidateCityId" : obj.candidateCityId,
+    });
+    final response = await http.post(
       url,
       headers: header,
+      body: jsonData,
     );
-    if (response.statusCode == 200) {
-      final jsonData = jsonDecode(response.body);
-      final list = <Nationality>[];
-      for (var item in jsonData) {
-        list.add(Nationality.fromJson(item));
-      }
+    if (response.statusCode == 201 || response.statusCode == 200) {
+      final BasicDetailResponse basicDetailResponse = BasicDetailResponse.fromJson(jsonDecode(response.body));
       log.i(response.body);
       log.i(response.statusCode);
-      return ApiResponse<List<Nationality>>(data: list);
+      return ApiResponse<BasicDetailResponse>(data: basicDetailResponse);
     }
-    return ApiResponse<List<Nationality>>(
-        error: true, errorMessage: "An error occurred");
-
+    return ApiResponse<BasicDetailResponse>(
+        error: true, errorMessage: "Something went wrong, please try again...");
   }
 
 
@@ -564,6 +626,42 @@ class ApiServices {
     return ApiResponse<List<Institute>>(
         error: true, errorMessage: "An error occurred");
   }
+  // POST QUALIFICATION
+  Future<ApiResponse<bool>> PostQualification(QualificationPost qualifi) async {
+    final url = Uri.parse(ApiUrls.kQualify);
+    final headers = {
+      "Content-Type": "application/json",
+    };
+    final jsonData = jsonEncode(qualifi);
+
+    final response = await http.post(url, headers: headers, body: jsonData);
+    log.i(response.body);
+    log.i(response.statusCode);
+    if (response.statusCode == 200 || response.statusCode == 200) {
+      return ApiResponse<bool>(data: true);
+    }
+    return ApiResponse<bool>(error: true, errorMessage: "An Error Occurred");
+  }
+
+  // POST QUALIFICATION ENDS HERE
+  // PROFESSIONPAGE STARTS HERE
+  Future<ApiResponse<bool>> ProfessionPost(PostProfession profes) async {
+    final url = Uri.parse(ApiUrls.kProfession);
+    final headers = {
+      "Content-Type": "application/json",
+    };
+    final jsonData = jsonEncode(profes);
+
+    final response = await http.post(url, headers: headers, body: jsonData);
+    log.i(response.body);
+    log.i(response.statusCode);
+    if (response.statusCode == 200 || response.statusCode == 200) {
+      return ApiResponse<bool>(data: true);
+    }
+    return ApiResponse<bool>(error: true, errorMessage: "An Error Occurred");
+  }
+
+  // PROFESSIONPAGE ends  HERE
 
   // IT skills
   Future<ApiResponse<List<ITSkill>>> getITSkill({String query}) async {
