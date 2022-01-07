@@ -1,6 +1,5 @@
-// ignore_for_file: must_be_immutable
-
 import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:find_dropdown/find_dropdown.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +10,7 @@ import 'package:job_portal/Models/InstituteQualified.dart';
 import 'package:job_portal/Models/PassingYear.dart';
 import 'package:job_portal/Models/QualificationDetails.dart';
 import 'package:job_portal/Models/Stream.dart';
+import 'package:job_portal/Models/qualification-post.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Views/SignIn/Step5-ProfessionalDetails.dart';
 
@@ -120,6 +120,9 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
   ApiResponse<List<Qualification>> _apiResponsequalification;
   ApiResponse<List<Qualification>> _apiResponsecourse;
   ApiResponse<List<Streams>> _apiResponsestream;
+
+  TextEditingController profileCont = TextEditingController();
+  TextEditingController gradeCont = TextEditingController();
 
   @override
   void initState() {
@@ -875,12 +878,49 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
             child: Align(
                 alignment: Alignment.centerRight,
                 child: GFButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => WorkingProfession(),
+                  onPressed: () async {
+                    setState(() {
+                      isLoading = true;
+                    });
+                    final insert = QualificationPost(
+                        candidatequalCandidateId: 1,
+                        candidatequalQualificationId: 2,
+                        candidatequalCourseId: 3,
+                        candidatequalStreamId: 4,
+                        candidatequalCoursetypeId: 5,
+                        candidatequalInstituteId: 6,
+                        candidatequalCompletionYear: 7,
+                        candidatequalGradingsystemId: 8,
+                        candidatequalMarks: 71);
+                    final result = await apiServices.PostQualification(insert);
+                    setState(() {
+                      isLoading = false;
+                    });
+                    const title = "Done";
+                    final text = result.error
+                        ? (result.errorMessage ?? "An Error Occurred")
+                        : "Successfully Created";
+                    showDialog(
+                      context: context,
+                      builder: (_) => AlertDialog(
+                        title: const Text(title),
+                        content: Text(text),
+                        actions: [
+                          ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text("OK"))
+                        ],
                       ),
-                    );
+                    ).then((data) {
+                      if (result.data) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => WorkingProfession()));
+                      }
+                    });
                   },
                   text: "Next",
                   type: GFButtonType.solid,

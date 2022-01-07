@@ -5,9 +5,6 @@ class Industry {
 
   Industry({this.industryId, this.industryName});
 
-
-
-
   Industry.fromJson(Map<String, dynamic> json) {
     industryId = json['industryId'];
     industryName = json['industryName'];
