@@ -33,27 +33,29 @@ dependencies:
   dotted_border: ^2.0.0+1
   dropdown_search: ^2.0.0
   file_picker: ^4.1.6
-  find_dropdown:
-  shared_preferences:
+  find_dropdown: null
   fl_chart: ^0.40.6
-  font_awesome_flutter: ^9.2.0
 
   flutter:
     sdk: flutter
   flutter_svg: ^0.22.0
   flutter_verification_code: ^1.1.0
+  font_awesome_flutter: ^9.2.0
   getwidget: null
   google_fonts: ^2.1.0
   iconsax: ^0.0.8
-  search_choices: ^2.0.16
   image_picker: ^0.8.4+3
   loading_indicator: ^3.0.2
   logger: ^1.1.0
   multi_select_flutter: ^4.0.0
   provider: null
+  search_choices: ^2.0.16
+  email_validator: 
+  shared_preferences: null
 
 dev_dependencies:
   awesome_dialog: ^2.1.2
+  flutter_form_builder: ^7.0.0
   flutter_lints: ^1.0.0
   flutter_test:
     sdk: flutter

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, avoid_single_cascade_in_expression_statements, must_be_immutable
+
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
@@ -19,7 +21,6 @@ class VerifyOTP extends StatefulWidget {
 class _VerifyOTPState extends State<VerifyOTP> {
   bool isLoading = false;
   ApiServices apiServices = ApiServices();
-
   ApiResponse<String> _apiResponse;
 
   verifyOTP() async {
@@ -31,6 +32,11 @@ class _VerifyOTPState extends State<VerifyOTP> {
     setState(() {
       isLoading = false;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
@@ -161,7 +167,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
                               btnOkOnPress: () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
-                                    builder: (context) => const BasicDetails(),
+                                    builder: (context) => BasicDetails(mobileNo: widget.registerMobile,),
                                   ),
                                 );
                               },
