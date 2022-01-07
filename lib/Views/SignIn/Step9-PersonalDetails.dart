@@ -57,10 +57,6 @@ class _PersonalDetailsState extends State<PersonalDetails> {
   String mySelectionYear;
   String mySelectionMonth;
 
-
-
-
-
   // API RESONSE GENERIC OBJECTS
   ApiResponse<List<Cities>> _apiResponse;
   ApiResponse<List<Nationality>> _apiResponse2;
@@ -271,8 +267,15 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                     fontWeight: FontWeight.bold,
                                     fontFamily: "ProximaNova"),
                               ),
-                              TextField(
+                              TextFormField(
                                 controller: addressController,
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return "Please Enter Address";
+                                  } else {
+                                    return null;
+                                  }
+                                },
                                 decoration: InputDecoration(
                                   hintText: "Address",
                                   hintStyle: TextStyle(
@@ -303,8 +306,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                   return null;
                                 },
                                 mode: Mode.DIALOG,
-                                items:
-                                    isLoading ? Cities() : _apiResponse.data,
+                                items: isLoading ? Cities() : _apiResponse.data,
                                 itemAsString: (Cities obj) {
                                   return obj.cityName;
                                 },
@@ -342,7 +344,14 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold,
                                       fontFamily: "ProximaNova")),
-                              TextField(
+                              TextFormField(
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return "Please Enter Pin-Code";
+                                  } else {
+                                    return null;
+                                  }
+                                },
                                 controller: pincodeController,
                                 decoration: InputDecoration(
                                   hintText: "Pin Code",
@@ -807,7 +816,14 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                     )
                                   : Container(),
                               groupValue == 1
-                                  ? TextField(
+                                  ? TextFormField(
+                                      validator: (value) {
+                                        if (value.isEmpty) {
+                                          return "Please Enter Type";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
                                       controller: disabilityController,
                                       decoration: InputDecoration(
                                         hintText: "Disability Type",
@@ -839,7 +855,14 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                     )
                                   : Container(),
                               groupValue == 1
-                                  ? TextField(
+                                  ? TextFormField(
+                                      validator: (value) {
+                                        if (value.isEmpty) {
+                                          return "Please Enter  Value";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
                                       controller: assistanceController,
                                       decoration: InputDecoration(
                                         hintText: "Is Assistance Required",
@@ -864,7 +887,14 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                         fontFamily: "ProximaNova")),
                               ),
                               // EDit
-                              TextField(
+                              TextFormField(
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return "Please Enter PAN Number";
+                                  } else {
+                                    return null;
+                                  }
+                                },
                                 controller: panController,
                                 decoration: InputDecoration(
                                   hintText: "PAN Number",
@@ -939,7 +969,14 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                         fontWeight: FontWeight.bold,
                                         fontFamily: "ProximaNova")),
                               ),
-                              TextField(
+                              TextFormField(
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return "Please Enter Passport number";
+                                  } else {
+                                    return null;
+                                  }
+                                },
                                 controller: passportController,
                                 decoration: InputDecoration(
                                   hintText: "Passport Number",
@@ -1026,8 +1063,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                       padding: const EdgeInsets.only(top: 8.0),
                                       child: DropdownSearch<Country>(
                                         validator: (value) {
-                                          if (value
-                                              .countryName.isEmpty) {
+                                          if (value.countryName.isEmpty) {
                                             return "Please Select Country";
                                           }
                                           return null;
@@ -1061,8 +1097,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                             child: Card(
                                               child: Padding(
                                                 padding: EdgeInsets.all(8.0),
-                                                child: Text(
-                                                    item.countryName),
+                                                child: Text(item.countryName),
                                               ),
                                             ),
                                           );
@@ -1084,71 +1119,76 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                           alignment: Alignment.centerRight,
                           child: GFButton(
                             onPressed: () async {
-                              setState(() {
-                                isLoading = true;
-                              });
-                              int totalworkexp =
-                                  (int.parse(mySelectionYear) * 12) +
-                                      int.parse(mySelectionMonth);
-                               print(totalworkexp);
-                               print(addressController.text);
-                               print(cityNameID);
-                               print(selectedDate);
-                               print(pincodeController.text);
+                              if (formKey.currentState.validate()) {
+                                int totalworkexp =
+                                    (int.parse(mySelectionYear) * 12) +
+                                        int.parse(mySelectionMonth);
+                                print(totalworkexp);
+                                print(addressController.text);
+                                print(cityNameID);
+                                print(selectedDate);
+                                print(pincodeController.text);
 
-                              final insert = PersonalDetailsPost(
-                                 candidateId: 5,
-                                candidateAddress: addressController.text,
-                                candidateDob: selectedDate,
-                                candidateCityId: int.parse(cityNameID),
-                                candidatePin: pincodeController.text,
-                                candidateMaritalstatusId: 6,
-                                candidatecasteId: 7,
-                                candidateExservicemen:
-                                    exservicemenGroupValue.toString(),
-                                candidatePassportno: passportController.text,
-                                candidatePancard: panController.text,
-                                candidateExservicemenExp: totalworkexp,
-                                candidateDifferentlyAbled:
-                                    groupValue.toString(),
-                                candidateDisabilitType:
-                                    disabilityController.text,
-                                candidateDisabilityAssistance:
-                                    assistanceController.text,
-                                candidateNationalityId:
-                                    int.parse(nationalityID),
-                                  candidateWorkpermitcountryId:int.parse(countryID),
-                              );
-                              final result =
-                                  await apiServices.PostPersonal(insert);
-                              setState(() {
-                                isLoading = false;
-                              });
-                              const title = "Done";
-                              final text = result.error
-                                  ? (result.errorMessage ?? "An Error Occurred")
-                                  : "Successfully Created";
-                              showDialog(
-                                  context: context,
-                                  builder: (_) => AlertDialog(
-                                        title: const Text(title),
-                                        content: Text(text),
-                                        actions: [
-                                          ElevatedButton(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: const Text("OK"))
-                                        ],
-                                      )).then((data) {
-                                if (result.data) {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => Navbar(),
-                                    ),
-                                  );
-                                }
-                              });
+                                setState(() {
+                                  isLoading = true;
+                                });
+
+                                final insert = PersonalDetailsPost(
+                                  candidateId: 5,
+                                  candidateAddress: addressController.text,
+                                  candidateDob: selectedDate,
+                                  candidateCityId: int.parse(cityNameID),
+                                  candidatePin: pincodeController.text,
+                                  candidateMaritalstatusId: 6,
+                                  candidatecasteId: 7,
+                                  candidateExservicemen:
+                                      exservicemenGroupValue.toString(),
+                                  candidatePassportno: passportController.text,
+                                  candidatePancard: panController.text,
+                                  candidateExservicemenExp: totalworkexp,
+                                  candidateDifferentlyAbled:
+                                      groupValue.toString(),
+                                  candidateDisabilitType:
+                                      disabilityController.text,
+                                  candidateDisabilityAssistance:
+                                      assistanceController.text,
+                                  candidateNationalityId:
+                                      int.parse(nationalityID),
+                                  candidateWorkpermitcountryId:
+                                      int.parse(countryID),
+                                );
+                                final result =
+                                    await apiServices.PostPersonal(insert);
+                                setState(() {
+                                  isLoading = false;
+                                });
+                                const title = "Done";
+                                final text = result.error
+                                    ? (result.errorMessage ??
+                                        "An Error Occurred")
+                                    : "Successfully Created";
+                                showDialog(
+                                    context: context,
+                                    builder: (_) => AlertDialog(
+                                          title: const Text(title),
+                                          content: Text(text),
+                                          actions: [
+                                            ElevatedButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: const Text("OK"))
+                                          ],
+                                        )).then((data) {
+                                  if (result.data) {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => Navbar(),
+                                      ),
+                                    );
+                                  }
+                                });
+                              }
                             },
                             text: "Next",
                             type: GFButtonType.solid,

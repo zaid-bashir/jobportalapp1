@@ -834,7 +834,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                   print(totalworkexp);
                   print(myjobrole);
                   print(myLocation);
-                  if (formKey.currentState.validate()) {
+                 // if (formKey.currentState.validate()) {
                     // apiServices.postBasicDetials(BasicDetialModel(
                     //
                     //   candidateFirstName: fnameController.text,
@@ -842,11 +842,11 @@ class _BasicDetailsState extends State<BasicDetails> {
                     //   candidateLastName: lnameController.text,
                     //   candidateEmail1: emailController.text,
                     //   candidateGenderId: genderGroupValue,
-                    //   candidateTotalworkexp: totalworkexp.toString(),
+                    //   candidateTotalworkexp: totalworkexp.toString(),s
                     //   candidateJobroleId: 3,
                     //   candidateCityId: 5,
                     // ));
-                  }
+                 // }
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => const QualificationBlueCollar(),

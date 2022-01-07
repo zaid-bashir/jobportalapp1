@@ -21,6 +21,6 @@ class ApiUrls{
   static String kMarital = "http://192.168.0.20:9004/jobportal-app/api/populate/marital-status";
   static String kInstitute = "http://192.168.0.20:9004/jobportal-app/api/populate/institute?query=";
   static String kItskill = "http://192.168.0.20:9004/jobportal-app/api/populate/itskill?query=";
-
+  static String kBasicDetial = "http://192.168.0.20:9004/jobportal-app/api/candidate-registration/basic-detail";
   static String kPersonal = "http://192.168.0.20:9004/jobportal-app/api/candidate-registration/personal-detail?candidateId=5";
 }
