@@ -15,6 +15,7 @@ import 'package:job_portal/Models/JobType.dart';
 import 'package:job_portal/Models/Nationality.dart';
 import 'package:job_portal/Models/QualificationDetails.dart';
 import 'package:job_portal/Models/Stream.dart';
+import 'package:job_portal/Models/basicdetailresponse.dart';
 import 'package:job_portal/Models/basicdetials.dart';
 import 'package:job_portal/Models/getjobcategory.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
@@ -476,7 +477,7 @@ class ApiServices {
   }
 
   //  Nationality Dropdown
-  Future<ApiResponse<int>> postBasicDetials(
+  Future<ApiResponse<BasicDetailResponse>> postBasicDetials(
       BasicDetialModel obj) async {
     final url = Uri.parse(ApiUrls.kBasicDetial);
     final header = {
@@ -484,6 +485,7 @@ class ApiServices {
     };
     final jsonData = jsonEncode({
       "candidateTitleId": obj.candidateTitleId,
+      "candidateMobile1" : obj.candidateMobile1,
       "candidateFirstName": obj.candidateFirstName,
       "candidateMiddleName": obj.candidateMiddleName,
       "candidateLastName" : obj.candidateLastName,
@@ -500,12 +502,12 @@ class ApiServices {
       body: jsonData,
     );
     if (response.statusCode == 201 || response.statusCode == 200) {
-      final int responseData = int.parse(response.body);
+      final BasicDetailResponse basicDetailResponse = BasicDetailResponse.fromJson(jsonDecode(response.body));
       log.i(response.body);
       log.i(response.statusCode);
-      return ApiResponse<int>(data: responseData);
+      return ApiResponse<BasicDetailResponse>(data: basicDetailResponse);
     }
-    return ApiResponse<int>(
+    return ApiResponse<BasicDetailResponse>(
         error: true, errorMessage: "Something went wrong, please try again...");
   }
 

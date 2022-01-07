@@ -1,5 +1,6 @@
 class BasicDetialModel {
   int candidateTitleId;
+  String candidateMobile1;
   String candidateFirstName;
   String candidateMiddleName;
   String candidateLastName;
@@ -12,6 +13,7 @@ class BasicDetialModel {
 
   BasicDetialModel({
     this.candidateTitleId,
+    this.candidateMobile1,
     this.candidateFirstName,
     this.candidateMiddleName,
     this.candidateLastName,
@@ -26,6 +28,7 @@ class BasicDetialModel {
   factory BasicDetialModel.fromJson(Map<String, dynamic> json) {
     return BasicDetialModel(
       candidateTitleId: json["candidateTitleId"],
+      candidateMobile1 : json["candidateMobile1"],
       candidateFirstName: json["candidateFirstName"],
       candidateMiddleName: json["candidateMiddleName"],
       candidateLastName: json["candidateLastName"],
@@ -41,6 +44,7 @@ class BasicDetialModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['candidateTitleId'] = candidateTitleId;
+    data["candidateMobile1"] = candidateMobile1;
     data['candidateFirstName'] = candidateFirstName;
     data['candidateMiddleName'] = candidateMiddleName;
     data['candidateLastName'] = candidateLastName;

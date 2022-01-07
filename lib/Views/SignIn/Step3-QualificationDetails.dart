@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:find_dropdown/find_dropdown.dart';
@@ -13,7 +15,8 @@ import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Views/SignIn/Step5-ProfessionalDetails.dart';
 
 class QualificationBlueCollar extends StatefulWidget {
-  const QualificationBlueCollar({Key key, int candidateId}) : super(key: key);
+  QualificationBlueCollar({Key key, this.uuid}) : super(key: key);
+  String uuid;
 
   @override
   _QualificationBlueCollarState createState() =>

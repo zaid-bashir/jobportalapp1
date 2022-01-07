@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, deprecated_member_use, prefer_final_fields, unused_field, unnecessary_string_interpolations, avoid_print
+// ignore_for_file: prefer_const_constructors, deprecated_member_use, prefer_final_fields, unused_field, unnecessary_string_interpolations, avoid_print, prefer_const_constructors_in_immutables, must_be_immutable
 
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
@@ -6,16 +6,16 @@ import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/CurerntLocation.dart';
 import 'package:job_portal/Models/GetTitle.dart';
+import 'package:job_portal/Models/basicdetailresponse.dart';
 import 'package:job_portal/Models/basicdetials.dart';
 import 'package:job_portal/Models/getjobcategory.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:job_portal/Views/SignIn/Step1-VerifyOtp.dart';
 import 'Step3-QualificationDetails.dart';
 
 class BasicDetails extends StatefulWidget {
-  const BasicDetails({Key key}) : super(key: key);
+  BasicDetails({Key key,this.mobileNo}) : super(key: key);
+  String mobileNo;
 
   @override
   _BasicDetailsState createState() => _BasicDetailsState();
@@ -43,7 +43,7 @@ class _BasicDetailsState extends State<BasicDetails> {
   String jobRoleID = "";
   String cityID = "";
   int totalExp = 0;
-  int candidateId;
+  BasicDetailResponse response;
 
   //Normal Fiels Variables
   //======================
@@ -191,10 +191,13 @@ class _BasicDetailsState extends State<BasicDetails> {
                           child: Padding(
                             padding: const EdgeInsets.only(top: 0, left: 13),
                             child: DropdownButtonFormField<GetTitle>(
-                              hint: Text("Title",style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: "ProximaNova"),),
+                              hint: Text(
+                                "Title",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: "ProximaNova"),
+                              ),
                               value: selectedUser,
                               onChanged: (GetTitle newValue) {
                                 setState(() {
@@ -358,7 +361,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                           if (value.isEmpty) {
                             return "Please Enter Email";
                           }
-                          if(!EmailValidator.validate(value)){
+                          if (!EmailValidator.validate(value)) {
                             return "Please enter Correct email";
                           }
                           return null;
@@ -612,7 +615,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Container(
-                                     child: DropdownButtonFormField<String>(
+                                    child: DropdownButtonFormField<String>(
                                       hint: Text("Months"),
                                       value: mySelectionMonth,
                                       onChanged: (newValue) {
@@ -794,9 +797,25 @@ class _BasicDetailsState extends State<BasicDetails> {
                   blockButton: false,
                   onPressed: () async {
                     if (formKey.currentState.validate()) {
+                      print(int.parse(selectedUser.titleId));
+                      print(widget.mobileNo);
+                      print(fnameController.text);
+                      print(mnameController.text);
+                      print(lnameController.text);
+                      print(emailController.text);
+                      print(fnameController.text +
+                          " " +
+                          mnameController.text +
+                          " " +
+                          lnameController.text);
+                      print(genderGroupValue);
+                      print(totalExp == 0 ? totalExp : totalWorkExp());
+                      print(int.parse(jobRoleID));
+                      print(int.parse(cityID));
                       await apiServices
                           .postBasicDetials(BasicDetialModel(
                         candidateTitleId: int.parse(selectedUser.titleId),
+                        candidateMobile1: widget.mobileNo,
                         candidateFirstName: fnameController.text,
                         candidateMiddleName: mnameController.text,
                         candidateLastName: lnameController.text,
@@ -813,32 +832,20 @@ class _BasicDetailsState extends State<BasicDetails> {
                         candidateCityId: int.parse(cityID),
                       ))
                           .then((value) {
-                        candidateId = value.data;
-                        return candidateId;
+                        response = value.data;
+                        return response;
                       });
-                      print(candidateId);
-                      // if (_apiResponseBasicDetail.error) {
-                      //   Fluttertoast.showToast(
-                      //       msg: "Something went Wrong while submitting details",
-                      //       toastLength: Toast.LENGTH_LONG,
-                      //       gravity: ToastGravity.BOTTOM,
-                      //       timeInSecForIosWeb: 2,
-                      //       backgroundColor: Colors.red,
-                      //       textColor: Colors.white,
-                      //       fontSize: 16.0);
-                      // } else {
-                      _apiResponseBasicDetail.error ? VerifyOTP() : Navigator.of(context).push(
+                      print(response);
+                      Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => QualificationBlueCollar(
                             key: formKey,
-                            candidateId: candidateId,
+                            uuid: response.axelaCandidateUuId,
                           ),
                         ),
                       );
                     }
-                  }
-                  // },
-                  ),
+                  }),
             ),
           ),
           const SizedBox(
