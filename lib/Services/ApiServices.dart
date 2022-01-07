@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+
 import 'package:job_portal/Models/Country.dart';
 import 'package:job_portal/Models/CurerntLocation.dart';
 import 'package:job_portal/Models/EmploymentType.dart';
@@ -13,6 +14,7 @@ import 'package:job_portal/Models/InstituteQualified.dart';
 import 'package:job_portal/Models/ItSkills.dart';
 import 'package:job_portal/Models/JobType.dart';
 import 'package:job_portal/Models/Nationality.dart';
+import 'package:job_portal/Models/PersonalDetails-post.dart';
 import 'package:job_portal/Models/QualificationDetails.dart';
 import 'package:job_portal/Models/Stream.dart';
 import 'package:job_portal/Models/basicdetailresponse.dart';
@@ -51,7 +53,7 @@ class ApiServices {
   }
 
   Future<ApiResponse<String>> otpVerify(OTPVerify objOtpVerify) async {
-    final url = Uri.parse(ApiUrls.kverifyOTP + "/" + "${objOtpVerify.otp}");
+    final url = Uri.parse(ApiUrls.kverifyOTP+"/"+"${objOtpVerify.otp}");
     final headers = {
       "Content-Type": "application/json",
     };
@@ -68,6 +70,87 @@ class ApiServices {
     return ApiResponse<String>(error: true, errorMessage: "An Error Occurred");
   }
 
+
+
+  // industry in Professional details page
+
+  Future<ApiResponse<List<Industry>>> getIndustry({String query}) async {
+    final url = Uri.parse(ApiUrls.kindustry+query);
+    print(ApiUrls.kindustry+"="+query);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <Industry>[];
+      for (var item in jsonData) {
+        list.add(Industry.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      return ApiResponse<List<Industry>>(data: list);
+    }
+    return ApiResponse<List<Industry>>(
+        error: true, errorMessage: "An error occurred");
+  }
+
+
+  // company in Professional details page
+
+  Future<ApiResponse<List<Company>>> getCompany({String query}) async {
+    final url = Uri.parse(ApiUrls.kcompany+query);
+    print(ApiUrls.kcompany+"="+query);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <Company>[];
+      for (var item in jsonData) {
+        list.add(Company.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      return ApiResponse<List<Company>>(data: list);
+    }
+    return ApiResponse<List<Company>>(
+        error: true, errorMessage: "An error occurred");
+
+  }
+
+   //  Nationality Dropdown
+
+  Future<ApiResponse<List<Nationality>>> getNationality({String query}) async {
+    final url = Uri.parse(ApiUrls.kNationality + query);
+    print(ApiUrls.kNationality + "=" + query);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <Nationality>[];
+      for (var item in jsonData) {
+        list.add(Nationality.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      return ApiResponse<List<Nationality>>(data: list);
+    }
+    return ApiResponse<List<Nationality>>(
+        error: true, errorMessage: "An error occurred");
+  }
 
   //CURRENT LOCATION STARTS HERE
   Future<ApiResponse<List<CurrentLocation>>> getCurrentLocation({String query}) async {
@@ -91,59 +174,6 @@ class ApiServices {
       return ApiResponse<List<CurrentLocation>>(data: list);
     }
     return ApiResponse<List<CurrentLocation>>(
-        error: true, errorMessage: "An error occurred");
-  }
-  //CURRENT LOCATION ENDS HERE
-
-  // industry in Professional details page
-
-  Future<ApiResponse<List<Industry>>> getIndustry({String query}) async {
-    final url = Uri.parse(ApiUrls.kindustry + query);
-    print(ApiUrls.kindustry + "=" + query);
-    final header = {
-      "Content-Type": "application/json",
-    };
-    final response = await http.get(
-      url,
-      headers: header,
-    );
-    if (response.statusCode == 200) {
-      final jsonData = jsonDecode(response.body);
-      final list = <Industry>[];
-      for (var item in jsonData) {
-        list.add(Industry.fromJson(item));
-      }
-      log.i(response.body);
-      log.i(response.statusCode);
-      return ApiResponse<List<Industry>>(data: list);
-    }
-    return ApiResponse<List<Industry>>(
-        error: true, errorMessage: "An error occurred");
-  }
-
-  // company in Professional details page
-
-  Future<ApiResponse<List<Company>>> getCompany({String query}) async {
-    final url = Uri.parse(ApiUrls.kcompany + query);
-    print(ApiUrls.kcompany + "=" + query);
-    final header = {
-      "Content-Type": "application/json",
-    };
-    final response = await http.get(
-      url,
-      headers: header,
-    );
-    if (response.statusCode == 200) {
-      final jsonData = jsonDecode(response.body);
-      final list = <Company>[];
-      for (var item in jsonData) {
-        list.add(Company.fromJson(item));
-      }
-      log.i(response.body);
-      log.i(response.statusCode);
-      return ApiResponse<List<Company>>(data: list);
-    }
-    return ApiResponse<List<Company>>(
         error: true, errorMessage: "An error occurred");
   }
 
@@ -171,7 +201,7 @@ class ApiServices {
         error: true, errorMessage: "An error occurred");
   }
 
-  Future<ApiResponse<List<GetGender>>> getGender() async {
+  Future<ApiResponse<List<GetGender>>> getGender () async {
     final url = Uri.parse(ApiUrls.kgender);
     final header = {
       "Content-Type": "application/json",
@@ -194,6 +224,7 @@ class ApiServices {
     return ApiResponse<List<GetGender>>(
         error: true, errorMessage: "An error occurred");
   }
+
 
   // PASSING YEAR DROPDOWN IN Qualification PAGE
   Future<ApiResponse<List<PassingYear>>> getPassingYear() async {
@@ -219,7 +250,6 @@ class ApiServices {
     return ApiResponse<List<PassingYear>>(
         error: true, errorMessage: "An error occurred");
   }
-
   // GRADING DROPDOWN IN Qualification PAGE
   Future<ApiResponse<List<GradingSystem>>> getGradingSystem() async {
     final url = Uri.parse(ApiUrls.kGradingSystem);
@@ -244,6 +274,7 @@ class ApiServices {
     return ApiResponse<List<GradingSystem>>(
         error: true, errorMessage: "An error occurred");
   }
+
 
   // PREFERRED SHIFT IN CAREER PREFERENCES//
   Future<ApiResponse<List<PreferredShift>>> getShift() async {
@@ -273,8 +304,8 @@ class ApiServices {
   //Get Job Category
 
   Future<ApiResponse<List<JobCategory>>> getJobCategory({String query}) async {
-    final url = Uri.parse(ApiUrls.kjobrole + query);
-    print(ApiUrls.kjobrole + "=" + query);
+    final url = Uri.parse(ApiUrls.kjobrole+query);
+    print(ApiUrls.kjobrole+"="+query);
     final header = {
       "Content-Type": "application/json",
     };
@@ -298,10 +329,9 @@ class ApiServices {
 
   //Get Highest Qualification
 
-  Future<ApiResponse<List<Qualification>>> getQualification(
-      {String query}) async {
-    final url = Uri.parse(ApiUrls.kHighestQualification + query);
-    print(ApiUrls.kHighestQualification + "=" + query);
+  Future<ApiResponse<List<Qualification>>> getQualification({String query}) async {
+    final url = Uri.parse(ApiUrls.kHighestQualification+query);
+    print(ApiUrls.kHighestQualification+"="+query);
     final header = {
       "Content-Type": "application/json",
     };
@@ -323,62 +353,11 @@ class ApiServices {
         error: true, errorMessage: "An error occurred");
   }
 
-
-    Future<ApiResponse<List<Cities>>> getCity({String query}) async {
-    final url = Uri.parse(ApiUrls.kCity+query);
-    print(ApiUrls.kCity+"="+query);
-    final header = {
-      "Content-Type": "application/json",
-    };
-    final response = await http.get(
-      url,
-      headers: header,
-    );
-    if (response.statusCode == 200) {
-      final jsonData = jsonDecode(response.body);
-      final list = <Cities>[];
-      for (var item in jsonData) {
-        list.add(Cities.fromJson(item));
-      }
-      log.i(response.body);
-      log.i(response.statusCode);
-      return ApiResponse<List<Cities>>(data: list);
-    }
-    return ApiResponse<List<Cities>>(
-        error: true, errorMessage: "An error occurred");
-  }
-
-
-  Future<ApiResponse<List<Nationality>>> getNationality({String query}) async {
-    final url = Uri.parse(ApiUrls.kNationality+query);
-    print(ApiUrls.kNationality+"="+query);
-    final header = {
-      "Content-Type": "application/json",
-    };
-    final response = await http.get(
-      url,
-      headers: header,
-    );
-    if (response.statusCode == 200) {
-      final jsonData = jsonDecode(response.body);
-      final list = <Nationality>[];
-      for (var item in jsonData) {
-        list.add(Nationality.fromJson(item));
-      }
-      log.i(response.body);
-      log.i(response.statusCode);
-      return ApiResponse<List<Nationality>>(data: list);
-    }
-    return ApiResponse<List<Nationality>>(
-        error: true, errorMessage: "An error occurred");
-  }
-
-
   //Get Course
 
   Future<ApiResponse<List<Qualification>>> getCourse({String query}) async {
-    final url = Uri.parse(ApiUrls.kCourse + query);
-    print(ApiUrls.kCourse + "=" + query);
+    final url = Uri.parse(ApiUrls.kCourse+query);
+    print(ApiUrls.kCourse+"="+query);
     final header = {
       "Content-Type": "application/json",
     };
@@ -403,8 +382,8 @@ class ApiServices {
   //Get Course
 
   Future<ApiResponse<List<Streams>>> getStream({String query}) async {
-    final url = Uri.parse(ApiUrls.kStream + query);
-    print(ApiUrls.kStream + "=" + query);
+    final url = Uri.parse(ApiUrls.kStream+query);
+    print(ApiUrls.kStream+"="+query);
     final header = {
       "Content-Type": "application/json",
     };
@@ -450,6 +429,8 @@ class ApiServices {
     return ApiResponse<List<JobType>>(
         error: true, errorMessage: "An error occurred");
   }
+
+
 
   // EMPLOYMENT
   Future<ApiResponse<List<EmploymentType>>> getEmploymentType() async {
@@ -499,7 +480,6 @@ class ApiServices {
     final response = await http.post(
       url,
       headers: header,
-      body: jsonData,
     );
     if (response.statusCode == 201 || response.statusCode == 200) {
       final BasicDetailResponse basicDetailResponse = BasicDetailResponse.fromJson(jsonDecode(response.body));
@@ -510,6 +490,35 @@ class ApiServices {
     return ApiResponse<BasicDetailResponse>(
         error: true, errorMessage: "Something went wrong, please try again...");
   }
+
+
+  //  City Dropdown
+
+  Future<ApiResponse<List<Cities>>> getCity({String query}) async {
+    final url = Uri.parse(ApiUrls.kCity+query);
+    print(ApiUrls.kCity+"="+query);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <Cities>[];
+      for (var item in jsonData) {
+        list.add(Cities.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      return ApiResponse<List<Cities>>(data: list);
+    }
+    return ApiResponse<List<Cities>>(
+        error: true, errorMessage: "An error occurred");
+
+  }
+
 
   //  Country
 
@@ -589,6 +598,8 @@ class ApiServices {
     return ApiResponse<List<Marital>>(
         error: true, errorMessage: "An error occurred");
   }
+
+
   // institute qualified from
   Future<ApiResponse<List<Institute>>> getInstitute({String query}) async {
     final url = Uri.parse(ApiUrls.kInstitute+query);
@@ -638,98 +649,23 @@ class ApiServices {
     return ApiResponse<List<ITSkill>>(
         error: true, errorMessage: "An error occurred");
   }
+
+// personal details post
+  Future<ApiResponse<bool>> PostPersonal(PersonalDetailsPost personal) async {
+    final url = Uri.parse(ApiUrls.kPersonal);
+    final headers = {
+      "Content-Type": "application/json",
+
+    };
+    final jsonData = jsonEncode(personal);
+
+    final response = await http.post(url, headers: headers, body: jsonData);
+    log.i(response.body);
+    log.i(response.statusCode);
+    if (response.statusCode == 200 || response.statusCode == 200) {
+      return ApiResponse<bool>(data: true);
+    }
+    return ApiResponse<bool>(error: true, errorMessage: "An Error Occurred");
+  }
+
 }
-
-  // CASTE
-  Future<ApiResponse<List<Category>>> getCaste() async {
-    final url = Uri.parse(ApiUrls.kCaste);
-    final header = {
-      "Content-Type": "application/json",
-    };
-    final response = await http.get(
-      url,
-      headers: header,
-    );
-    if (response.statusCode == 200) {
-      final jsonData = jsonDecode(response.body);
-      final list = <Category>[];
-      for (var item in jsonData) {
-        list.add(Category.fromJson(item));
-      }
-      print(list);
-      return ApiResponse<List<Category>>(data: list);
-    }
-    return ApiResponse<List<Category>>(
-        error: true, errorMessage: "An error occurred");
-  }
-
-  // MARITAL
-
-  Future<ApiResponse<List<Marital>>> getMarital() async {
-    final url = Uri.parse(ApiUrls.kMarital);
-    final header = {
-      "Content-Type": "application/json",
-    };
-    final response = await http.get(
-      url,
-      headers: header,
-    );
-    if (response.statusCode == 200) {
-      final jsonData = jsonDecode(response.body);
-      final list = <Marital>[];
-      for (var item in jsonData) {
-        list.add(Marital.fromJson(item));
-      }
-      print(list);
-      return ApiResponse<List<Marital>>(data: list);
-    }
-    return ApiResponse<List<Marital>>(
-        error: true, errorMessage: "An error occurred");
-  }
-
-  Future<ApiResponse<List<Country>>> getCountry({String query}) async {
-    final url = Uri.parse(ApiUrls.kCountry+query);
-    print(ApiUrls.kCountry+"="+query);
-    final header = {
-      "Content-Type": "application/json",
-    };
-    final response = await http.get(
-      url,
-      headers: header,
-    );
-    if (response.statusCode == 200) {
-      final jsonData = jsonDecode(response.body);
-      final list = <Country>[];
-      for (var item in jsonData) {
-        list.add(Country.fromJson(item));
-      }
-      return ApiResponse<List<Country>>(data: list);
-    }
-    return ApiResponse<List<Country>>(
-        error: true, errorMessage: "An error occurred");
-
-  }
-
-// nationality
-Future<ApiResponse<List<Nationality>>> getNationality({String query}) async {
-    final url = Uri.parse(ApiUrls.kNationality+query);
-    print(ApiUrls.kNationality+"="+query);
-    final header = {
-      "Content-Type": "application/json",
-    };
-    final response = await http.get(
-      url,
-      headers: header,
-    );
-    if (response.statusCode == 200) {
-      final jsonData = jsonDecode(response.body);
-      final list = <Nationality>[];
-      for (var item in jsonData) {
-        list.add(Nationality.fromJson(item));
-      }
-      return ApiResponse<List<Nationality>>(data: list);
-    }
-    return ApiResponse<List<Nationality>>(
-        error: true, errorMessage: "An error occurred");
-
-  }

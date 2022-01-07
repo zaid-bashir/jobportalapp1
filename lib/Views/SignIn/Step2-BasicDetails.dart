@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, deprecated_member_use, prefer_final_fields, unused_field, unnecessary_string_interpolations, avoid_print, prefer_const_constructors_in_immutables, must_be_immutable
+// ignore_for_file: prefer_const_constructors, deprecated_member_use, prefer_final_fields, unused_field, unnecessary_string_interpolations, avoid_print, prefer_const_constructors_in_immutables, must_be_immutable, avoid_unnecessary_containers
 
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
@@ -8,13 +8,15 @@ import 'package:job_portal/Models/CurerntLocation.dart';
 import 'package:job_portal/Models/GetTitle.dart';
 import 'package:job_portal/Models/basicdetailresponse.dart';
 import 'package:job_portal/Models/basicdetials.dart';
+import 'package:job_portal/Models/custumradiomodel.dart';
 import 'package:job_portal/Models/getjobcategory.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:email_validator/email_validator.dart';
 import 'Step3-QualificationDetails.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class BasicDetails extends StatefulWidget {
-  BasicDetails({Key key,this.mobileNo}) : super(key: key);
+  BasicDetails({Key key, this.mobileNo}) : super(key: key);
   String mobileNo;
 
   @override
@@ -27,6 +29,7 @@ class _BasicDetailsState extends State<BasicDetails> {
   //Global Form Key
   //===============
   var formKey = GlobalKey<FormState>();
+  final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
 
   //Controllers for TextField
   //=========================
@@ -35,6 +38,24 @@ class _BasicDetailsState extends State<BasicDetails> {
   TextEditingController lnameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController jobCategorySearchCon = TextEditingController();
+
+  //RadioButtons
+  //============
+
+  final List<CustumRadioButtons> genderItems = [
+    CustumRadioButtons(value: 1, text: "Male"),
+    CustumRadioButtons(value: 2, text: "Female"),
+    CustumRadioButtons(value: 3, text: "Others"),
+  ];
+  int genderRadioId = 0;
+  String genderRadioadioValue = "";
+
+  final List<CustumRadioButtons> experienceItems = [
+    CustumRadioButtons(value: 1, text: "Yes"),
+    CustumRadioButtons(value: 2, text: "No"),
+  ];
+  int experienceRadioId = 0;
+  String experienceRadioValue = "";
 
   //ID's for Fields
   //===============
@@ -51,7 +72,7 @@ class _BasicDetailsState extends State<BasicDetails> {
   String query;
   String myLocation = "";
   bool _isLoading = false;
-  int genderGroupValue = 0;
+  // int genderGroupValue = 0;
   int experienceGroupValue = 0;
   String dropdownValue;
   String mySelection;
@@ -175,8 +196,8 @@ class _BasicDetailsState extends State<BasicDetails> {
           Padding(
             padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
             child: Card(
-              child: Form(
-                key: formKey,
+              child: FormBuilder(
+                key: _fbKey,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -387,85 +408,30 @@ class _BasicDetailsState extends State<BasicDetails> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          GFRadio(
-                            size: 20,
-                            activeBorderColor: const Color(0xff2972ff),
-                            value: 1,
-                            groupValue: genderGroupValue,
-                            onChanged: (value) {
-                              setState(() {
-                                genderGroupValue = value;
-                              });
-                            },
-                            inactiveIcon: null,
-                            radioColor: const Color(0xff2972ff),
-                          ),
-                          const SizedBox(
-                            width: 7,
-                          ),
-                          const Text(
-                            "Male",
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "ProximaNova"),
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          GFRadio(
-                            size: 20,
-                            value: 2,
-                            groupValue: genderGroupValue,
-                            onChanged: (value) {
-                              setState(() {
-                                genderGroupValue = value;
-                              });
-                            },
-                            inactiveIcon: null,
-                            activeBorderColor: const Color(0xff2972ff),
-                            radioColor: const Color(0xff2972ff),
-                          ),
-                          const SizedBox(
-                            width: 7,
-                          ),
-                          const Text(
-                            "Female",
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "ProximaNova"),
-                          ),
-                          const SizedBox(
-                            width: 7,
-                          ),
-                          GFRadio(
-                            size: 20,
-                            activeBorderColor: const Color(0xff2972ff),
-                            value: 3,
-                            groupValue: genderGroupValue,
-                            onChanged: (value) {
-                              setState(() {
-                                genderGroupValue = value;
-                              });
-                            },
-                            inactiveIcon: null,
-                            radioColor: const Color(0xff2972ff),
-                          ),
-                          const SizedBox(
-                            width: 7,
-                          ),
-                          const Text(
-                            "Others",
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "ProximaNova"),
-                          ),
-                        ],
+                      child: FormBuilderRadioGroup<CustumRadioButtons>(
+                        options: genderItems
+                            .map((lang) => FormBuilderFieldOption(
+                                  value: lang,
+                                  child: Text(lang.text),
+                                ))
+                            .toList(growable: false),
+                        onChanged: (val) {
+                          setState(() {
+                            genderRadioId = val.value;
+                            genderRadioadioValue = val.text;
+                          });
+                          print(genderRadioId);
+                          print(genderRadioadioValue);
+                        },
+                        validator: (val) {
+                          if (val == null) {
+                            return "This field is required";
+                          } else {
+                            return null;
+                          }
+                        },
+                        initialValue: null,
+                        name: "Gender",
                       ),
                     ),
                     const Padding(
@@ -484,65 +450,92 @@ class _BasicDetailsState extends State<BasicDetails> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          GFRadio(
-                            size: 20,
-                            activeBorderColor: const Color(0xff2972ff),
-                            value: 1,
-                            groupValue: experienceGroupValue,
-                            onChanged: (value) {
-                              setState(() {
-                                experienceGroupValue = value;
-                              });
-                            },
-                            inactiveIcon: null,
-                            radioColor: const Color(0xff2972ff),
-                          ),
-                          const SizedBox(
-                            width: 7,
-                          ),
-                          const Text(
-                            "Yes",
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "ProximaNova"),
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          GFRadio(
-                            size: 20,
-                            value: 2,
-                            groupValue: experienceGroupValue,
-                            onChanged: (value) {
-                              setState(() {
-                                experienceGroupValue = value;
-                              });
-                            },
-                            inactiveIcon: null,
-                            activeBorderColor: const Color(0xff2972ff),
-                            radioColor: const Color(0xff2972ff),
-                          ),
-                          const SizedBox(
-                            width: 7,
-                          ),
-                          const Text(
-                            "No",
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "ProximaNova"),
-                          ),
-                        ],
+                      child: FormBuilderRadioGroup<CustumRadioButtons>(
+                        options: experienceItems
+                            .map((lang) => FormBuilderFieldOption(
+                                  value: lang,
+                                  child: Text(lang.text),
+                                ))
+                            .toList(growable: false),
+                        onChanged: (val) {
+                          setState(() {
+                            experienceRadioId = val.value;
+                            experienceRadioValue = val.text;
+                          });
+                          print(experienceRadioId);
+                          print(experienceRadioValue);
+                        },
+                        validator: (val) {
+                          if (val == null) {
+                            return "This field is required";
+                          } else {
+                            return null;
+                          }
+                        },
+                        initialValue: null,
+                        name: "Experience",
                       ),
                     ),
+                    // Row(
+                    //     crossAxisAlignment: CrossAxisAlignment.start,
+                    //     children: [
+                    //       GFRadio(
+                    //         size: 20,
+                    //         activeBorderColor: const Color(0xff2972ff),
+                    //         value: 1,
+                    //         groupValue: experienceGroupValue,
+                    //         onChanged: (value) {
+                    //           setState(() {
+                    //             experienceGroupValue = value;
+                    //           });
+                    //         },
+                    //         inactiveIcon: null,
+                    //         radioColor: const Color(0xff2972ff),
+                    //       ),
+                    //       const SizedBox(
+                    //         width: 7,
+                    //       ),
+                    //       const Text(
+                    //         "Yes",
+                    //         style: TextStyle(
+                    //             fontSize: 15,
+                    //             fontWeight: FontWeight.bold,
+                    //             fontFamily: "ProximaNova"),
+                    //       ),
+                    //       const SizedBox(
+                    //         width: 20,
+                    //       ),
+                    //       GFRadio(
+                    //         size: 20,
+                    //         value: 2,
+                    //         groupValue: experienceGroupValue,
+                    //         onChanged: (value) {
+                    //           setState(() {
+                    //             experienceGroupValue = value;
+                    //           });
+                    //         },
+                    //         inactiveIcon: null,
+                    //         activeBorderColor: const Color(0xff2972ff),
+                    //         radioColor: const Color(0xff2972ff),
+                    //       ),
+                    //       const SizedBox(
+                    //         width: 7,
+                    //       ),
+                    //       const Text(
+                    //         "No",
+                    //         style: TextStyle(
+                    //             fontSize: 15,
+                    //             fontWeight: FontWeight.bold,
+                    //             fontFamily: "ProximaNova"),
+                    //       ),
+                    //     ],
+                    //   ),
+
+                    // ),
                     const SizedBox(
                       height: 10,
                     ),
-                    experienceGroupValue == 1
+                    experienceRadioId == 1
                         ? const Padding(
                             padding: EdgeInsets.all(8),
                             child: Text(
@@ -558,7 +551,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                     const SizedBox(
                       height: 3,
                     ),
-                    experienceGroupValue == 1
+                    experienceRadioId == 1
                         ? Row(
                             children: [
                               Expanded(
@@ -796,7 +789,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                   type: GFButtonType.solid,
                   blockButton: false,
                   onPressed: () async {
-                    if (formKey.currentState.validate()) {
+                    if (_fbKey.currentState.saveAndValidate()) {
                       print(int.parse(selectedUser.titleId));
                       print(widget.mobileNo);
                       print(fnameController.text);
@@ -808,7 +801,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                           mnameController.text +
                           " " +
                           lnameController.text);
-                      print(genderGroupValue);
+                      print(genderRadioId);
                       print(totalExp == 0 ? totalExp : totalWorkExp());
                       print(int.parse(jobRoleID));
                       print(int.parse(cityID));
@@ -825,7 +818,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                             mnameController.text +
                             " " +
                             lnameController.text,
-                        candidateGenderId: genderGroupValue,
+                        candidateGenderId: genderRadioId,
                         candidateTotalworkexp:
                             totalExp == 0 ? totalExp : totalWorkExp(),
                         candidateJobroleId: int.parse(jobRoleID),
@@ -833,13 +826,15 @@ class _BasicDetailsState extends State<BasicDetails> {
                       ))
                           .then((value) {
                         response = value.data;
-                        return response;
+                        // return response;
                       });
+                      print("#######################");
                       print(response);
+                      print("#######################");
+
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => QualificationBlueCollar(
-                            key: formKey,
                             uuid: response.axelaCandidateUuId,
                           ),
                         ),
