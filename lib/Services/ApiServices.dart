@@ -2,7 +2,6 @@
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
 import 'package:job_portal/Models/Country.dart';
 import 'package:job_portal/Models/EmploymentType.dart';
 import 'package:job_portal/Models/GetCategory.dart';
@@ -14,6 +13,7 @@ import 'package:job_portal/Models/ItSkills.dart';
 import 'package:job_portal/Models/JobType.dart';
 import 'package:job_portal/Models/Nationality.dart';
 import 'package:job_portal/Models/PersonalDetails-post.dart';
+import 'package:job_portal/Models/ProfessionDetails.dart';
 import 'package:job_portal/Models/QualificationDetails.dart';
 import 'package:job_portal/Models/Stream.dart';
 import 'package:job_portal/Models/getjobcategory.dart';
@@ -26,6 +26,7 @@ import 'package:job_portal/Models/GradingSystem.dart';
 import 'package:job_portal/Models/PassingYear.dart';
 import 'package:job_portal/Models/VerifyOtp.dart';
 import 'package:job_portal/Models/location.dart';
+import 'package:job_portal/Models/qualification-post.dart';
 import 'package:job_portal/Utility/apiurls.dart';
 import 'package:logger/logger.dart';
 
@@ -564,6 +565,42 @@ class ApiServices {
     return ApiResponse<List<Institute>>(
         error: true, errorMessage: "An error occurred");
   }
+  // POST QUALIFICATION
+  Future<ApiResponse<bool>> PostQualification(QualificationPost qualifi) async {
+    final url = Uri.parse(ApiUrls.kQualify);
+    final headers = {
+      "Content-Type": "application/json",
+    };
+    final jsonData = jsonEncode(qualifi);
+
+    final response = await http.post(url, headers: headers, body: jsonData);
+    log.i(response.body);
+    log.i(response.statusCode);
+    if (response.statusCode == 200 || response.statusCode == 200) {
+      return ApiResponse<bool>(data: true);
+    }
+    return ApiResponse<bool>(error: true, errorMessage: "An Error Occurred");
+  }
+
+  // POST QUALIFICATION ENDS HERE
+  // PROFESSIONPAGE STARTS HERE
+  Future<ApiResponse<bool>> ProfessionPost(PostProfession profes) async {
+    final url = Uri.parse(ApiUrls.kProfession);
+    final headers = {
+      "Content-Type": "application/json",
+    };
+    final jsonData = jsonEncode(profes);
+
+    final response = await http.post(url, headers: headers, body: jsonData);
+    log.i(response.body);
+    log.i(response.statusCode);
+    if (response.statusCode == 200 || response.statusCode == 200) {
+      return ApiResponse<bool>(data: true);
+    }
+    return ApiResponse<bool>(error: true, errorMessage: "An Error Occurred");
+  }
+
+  // PROFESSIONPAGE ends  HERE
 
   // IT skills
   Future<ApiResponse<List<ITSkill>>> getITSkill({String query}) async {

@@ -7,6 +7,7 @@ class PostProfession {
   int candidateexpStartmonth;
   int candidateIndustryId;
 
+
   PostProfession({
     this.candidateexpCompanyId,
     this.candidateexpCompanyName,

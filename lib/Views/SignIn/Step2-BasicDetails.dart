@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/GetTitle.dart';
-import 'package:job_portal/Models/basicdetials.dart';
 import 'package:job_portal/Models/getjobcategory.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Views/SignIn/Step3-QualificationDetails.dart';
@@ -823,30 +822,30 @@ class _BasicDetailsState extends State<BasicDetails> {
                 type: GFButtonType.solid,
                 blockButton: false,
                 onPressed: () {
-                  int totalworkexp = (int.parse(mySelectionYear) * 12) +
-                      int.parse(mySelectionMonth);
-                  print(titleId);
-                  print(fnameController.text);
-                  print(mnameController.text);
-                  print(lnameController.text);
-                  print(emailController.text);
-                  print(genderGroupValue);
-                  print(totalworkexp);
-                  print(myjobrole);
-                  print(myLocation);
-                  if (formKey.currentState.validate()) {
-                    // apiServices.postBasicDetials(BasicDetialModel(
-                    //
-                    //   candidateFirstName: fnameController.text,
-                    //   candidateMiddleName: mnameController.text,
-                    //   candidateLastName: lnameController.text,
-                    //   candidateEmail1: emailController.text,
-                    //   candidateGenderId: genderGroupValue,
-                    //   candidateTotalworkexp: totalworkexp.toString(),
-                    //   candidateJobroleId: 3,
-                    //   candidateCityId: 5,
-                    // ));
-                  }
+                  // int totalworkexp = (int.parse(mySelectionYear) * 12) +
+                  //     int.parse(mySelectionMonth);
+                  // print(titleId);
+                  // print(fnameController.text);
+                  // print(mnameController.text);
+                  // print(lnameController.text);
+                  // print(emailController.text);
+                  // print(genderGroupValue);
+                  // print(totalworkexp);
+                  // print(myjobrole);
+                  // print(myLocation);
+                  // if (formKey.currentState.validate()) {
+                  //   // apiServices.postBasicDetials(BasicDetialModel(
+                  //   //
+                  //   //   candidateFirstName: fnameController.text,
+                  //   //   candidateMiddleName: mnameController.text,
+                  //   //   candidateLastName: lnameController.text,
+                  //   //   candidateEmail1: emailController.text,
+                  //   //   candidateGenderId: genderGroupValue,
+                  //   //   candidateTotalworkexp: totalworkexp.toString(),
+                  //   //   candidateJobroleId: 3,
+                  //   //   candidateCityId: 5,
+                  //   // ));
+                  // }
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => const QualificationBlueCollar(),
