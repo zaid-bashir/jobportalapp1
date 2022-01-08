@@ -12,6 +12,7 @@ import 'package:job_portal/Models/custumradiomodel.dart';
 import 'package:job_portal/Models/getjobcategory.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'Step3-QualificationDetails.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
@@ -24,6 +25,31 @@ class BasicDetails extends StatefulWidget {
 }
 
 class _BasicDetailsState extends State<BasicDetails> {
+  //Get SharedPreference Bucket
+  //===========================
+
+  SharedPreferences pref;
+
+  //Shared Preference Variables
+  //===========================
+
+  String sharedPrefUuid = "";
+  int sharedPrefCandidateId = 0;
+  String sharedPrefCandidateName = "";
+  String sharedPrefCandidateEmail = "";
+  String sharedPrefCandidateMobile = "";
+
+  //Shared Preference Keys
+  //======================
+
+  String keyUuid = "keyUuid";
+  String keyCandiadateId = "keyCandiadateId";
+  String keyCandidateName = "keyCandidateName";
+  String keyCandidateEmail = "keyCandidateEmail";
+  String keyCandiadteMobile = "keyCandiadteMobile";
+
+  //GetTtile Instance
+  //=================
   GetTitle selectedUser;
 
   //Global Form Key
@@ -96,9 +122,14 @@ class _BasicDetailsState extends State<BasicDetails> {
   @override
   void initState() {
     super.initState();
+    initSharedPreference();
     fetchTitles();
     fetchJobCategory(query: "");
     fetchCurrentLocation(query: "");
+  }
+
+  initSharedPreference() async {
+    pref = await SharedPreferences.getInstance();
   }
 
   fetchTitles() async {
@@ -798,7 +829,6 @@ class _BasicDetailsState extends State<BasicDetails> {
                       print(emailController.text);
                       print(fnameController.text +
                           " " +
-                          mnameController.text +
                           " " +
                           lnameController.text);
                       print(genderRadioId);
@@ -831,7 +861,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                       print("#######################");
                       print(response);
                       print("#######################");
-
+                      storeDataToSharedPref();
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => QualificationBlueCollar(
@@ -854,5 +884,13 @@ class _BasicDetailsState extends State<BasicDetails> {
   int totalWorkExp() {
     totalExp = (int.parse(mySelectionYear) * 12) + int.parse(mySelectionMonth);
     return totalExp;
+  }
+
+  void storeDataToSharedPref() {
+    pref.setString(keyUuid,response.axelaCandidateUuId);
+    pref.setInt(keyCandiadateId,response.axelaCandidateId);
+    pref.setString(keyCandidateName,response.axelaCandidateName);
+    pref.setString(keyCandidateEmail,response.axelaCandidateEmail1);
+    pref.setString(keyCandiadteMobile,response.axelaCandidateMobile);
   }
 }
