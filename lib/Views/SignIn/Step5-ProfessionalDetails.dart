@@ -22,7 +22,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
   String query;
   String mycompany = "";
   String myindustry = "";
-  int highProfID ;
+  String currentCompanyID= "";
 
   int groupValue = 0;
   List lists = [
@@ -44,17 +44,21 @@ class _WorkingProfessionState extends State<WorkingProfession> {
     "IT-Hardware/ Networking",
     "E-Learning"
   ];
-  DateTime selectedDate;
-  TextEditingController professionSearchCon = TextEditingController();
+  DateTime selectedDate = DateTime.now();
+  TextEditingController currentCompanySearchCo = TextEditingController();
+  TextEditingController currentCompanyCntrl = TextEditingController();
 
   bool isLoadingCompany = false;
   bool isLoadingIndustry = false;
   bool isLoading = false;
+  bool isLoadingCurrentCopmpany = false;
   ApiServices apiServices = ApiServices();
 
-  ApiResponse<List<Company>> _apiResponseCompany;
+  ApiResponse<List<Company>> _apiResponseCurrentCompany;
   ApiResponse<List<Industry>> _apiResponseIndustry;
   ApiResponse<List<Professional>> _apiResponseProfessional;
+  // ApiResponse<List<Company>> _apiResponseCurrentCompanyName;
+
 
   @override
   void initState() {
@@ -66,14 +70,14 @@ class _WorkingProfessionState extends State<WorkingProfession> {
     setState(() {
       isLoadingCompany = true;
     });
-    _apiResponseCompany = await apiServices.getCompany(query: query);
+    _apiResponseCurrentCompany = await apiServices.getCompany(query: query);
     setState(() {
       isLoadingCompany = false;
     });
   }
 
   List<String> parseData() {
-    List<Company> category = _apiResponseCompany.data;
+    List<Company> category = _apiResponseCurrentCompany.data;
     List<String> dataItems = [];
     for (int i = 0; i < category.length; i++) {
       dataItems.add(category[i].companyName);
@@ -238,36 +242,37 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                             groupValue == 1
                                 ? Padding(
                                     padding: const EdgeInsets.only(top: 8.0),
-                                    child: DropdownSearch<Professional>(
+                                    child: DropdownSearch<Company>(
                                       validator: (value) {
-                                        if (value.companyName.isEmpty) {
-                                          return "Please Select Qualification";
+                                        if (value== null) {
+                                          return "Please Select Company Name";
                                         }
                                         return null;
                                       },
                                       mode: Mode.DIALOG,
-                                      items: isLoading
-                                          ? Professional()
-                                          : _apiResponseProfessional.data,
-                                      itemAsString: (Professional obj) {
+                                      items: isLoadingCurrentCopmpany
+                                          ? Company()
+                                          : _apiResponseCurrentCompany.data,
+                                      itemAsString: (Company obj) {
                                         return obj.companyName;
                                       },
                                       onFind: (val) async {
                                         setState(() {
                                           query = val;
+                                          print(val);
                                         });
-                                        return _apiResponseProfessional.data;
+                                        return _apiResponseCurrentCompany.data;
                                       },
                                       hint: "Select Highest Qualification",
                                       onChanged: (value) {
-                                        professionSearchCon.text =
+                                        currentCompanySearchCo.text =
                                             value.companyId.toString();
-                                        highProfID = value.companyId;
+                                        currentCompanyID = value.companyId;
                                         print(value.companyId);
                                       },
                                       showSearchBox: true,
                                       popupItemBuilder: (context,
-                                          Professional item, bool isSelected) {
+                                          Company item, bool isSelected) {
                                         return Container(
                                           margin: EdgeInsets.symmetric(
                                               horizontal: 8),
@@ -343,6 +348,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                         fontSize: 14.5,
                                       ),
                                     ),
+
                                   )
                                 : Container(),
 
@@ -474,7 +480,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                     padding: EdgeInsets.only(
                                       top: 15,
                                     ),
-                                    child: Text("Previous Company",
+                                    child: Text("Previous Designation",
                                         style: TextStyle(
                                             fontSize: 15,
                                             fontWeight: FontWeight.bold,
@@ -484,7 +490,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                             groupValue == 2
                                 ? TextField(
                                     decoration: InputDecoration(
-                                      hintText: "Previous Company Name",
+                                      hintText: "Previous Designation",
                                       hintStyle: TextStyle(
                                         color: Colors.blueGrey,
                                         fontFamily: "ProximaNova",
