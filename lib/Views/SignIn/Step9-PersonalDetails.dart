@@ -1,4 +1,3 @@
-import 'package:find_dropdown/find_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:date_field/date_field.dart';
@@ -14,6 +13,7 @@ import 'package:job_portal/Models/PersonalDetails-post.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Views/Candidate/BottomNavbar.dart';
 import 'package:job_portal/Models/location.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class PersonalDetails extends StatefulWidget {
   const PersonalDetails({Key key}) : super(key: key);
@@ -25,23 +25,30 @@ class PersonalDetails extends StatefulWidget {
 class _PersonalDetailsState extends State<PersonalDetails> {
 // Global formKey
   var formKey = GlobalKey<FormState>();
+  final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
 
+  // text controllers
   TextEditingController addressController = TextEditingController();
   TextEditingController pincodeController = TextEditingController();
   TextEditingController panController = TextEditingController();
   TextEditingController disabilityController = TextEditingController();
-
   TextEditingController assistanceController = TextEditingController();
   TextEditingController passportController = TextEditingController();
 
+  // controllers for searchable dropdown
   TextEditingController citySearchCon = TextEditingController();
-  String cityNameID = "";
   TextEditingController nationalitySearchCon = TextEditingController();
-  String nationalityID = "";
   TextEditingController countrySearchCon = TextEditingController();
+
+  // ID's for fields
+  int totalExp = 0;
+  String cityNameID = "";
+  String nationalityID = "";
   String countryID = "";
 
   //general variables
+  Marital Marial;
+  Category Caste;
   DateTime selectedDate;
   int groupValue = 0;
   int groupValue2 = 0;
@@ -49,17 +56,11 @@ class _PersonalDetailsState extends State<PersonalDetails> {
   String query;
   String query1;
   String query2;
-  String Caste;
-  String Marial;
   int exservicemenGroupValue = 0;
   String dropdownValue;
   String mySelection;
   String mySelectionYear;
   String mySelectionMonth;
-
-
-
-
 
   // API RESONSE GENERIC OBJECTS
   ApiResponse<List<Cities>> _apiResponse;
@@ -246,8 +247,8 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                           left: 10,
                           right: 10,
                         ),
-                        child: Form(
-                          key: formKey,
+                        child: FormBuilder(
+                          key: _fbKey,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -271,8 +272,15 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                     fontWeight: FontWeight.bold,
                                     fontFamily: "ProximaNova"),
                               ),
-                              TextField(
+                              TextFormField(
                                 controller: addressController,
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return "Please Enter Address";
+                                  } else {
+                                    return null;
+                                  }
+                                },
                                 decoration: InputDecoration(
                                   hintText: "Address",
                                   hintStyle: TextStyle(
@@ -297,14 +305,13 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                               ),
                               DropdownSearch<Cities>(
                                 validator: (value) {
-                                  if (value.cityName.isEmpty) {
+                                  if (value == null) {
                                     return "Please Select City";
                                   }
                                   return null;
                                 },
                                 mode: Mode.DIALOG,
-                                items:
-                                    isLoading ? Cities() : _apiResponse.data,
+                                items: isLoading ? Cities() : _apiResponse.data,
                                 itemAsString: (Cities obj) {
                                   return obj.cityName;
                                 },
@@ -342,7 +349,14 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold,
                                       fontFamily: "ProximaNova")),
-                              TextField(
+                              TextFormField(
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return "Please Enter Pin-Code";
+                                  } else {
+                                    return null;
+                                  }
+                                },
                                 controller: pincodeController,
                                 decoration: InputDecoration(
                                   hintText: "Pin Code",
@@ -405,39 +419,32 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              DropdownButtonHideUnderline(
-                                child: GFDropdown(
-                                  hint: Text("Select Status"),
-                                  value: Marial,
-                                  onChanged: (newValue) {
-                                    setState(() {
-                                      Marial = newValue;
-                                    });
-                                  },
-                                  items: isLoading
-                                      ? ["Please Wait"]
-                                          .map(
-                                            (value) => DropdownMenuItem(
-                                                value: value,
-                                                child: Text(
-                                                  value,
-                                                  style: TextStyle(
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      fontFamily:
-                                                          "ProximaNova"),
-                                                )),
-                                          )
-                                          .toList()
-                                      : _apiResponse5.data
-                                          .map(
-                                            (data) => DropdownMenuItem(
-                                                value: data.maritalId,
-                                                child: Text(data.maritalName)),
-                                          )
-                                          .toList(),
+                              DropdownButtonFormField<Marital>(
+                                hint: Text(
+                                  "Select Status",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: "ProximaNova"),
                                 ),
+                                value: Marial,
+                                onChanged: (Marital newValue) {
+                                  setState(() {
+                                    Marial = newValue;
+                                  });
+                                },
+                                validator: (value) => value == null
+                                    ? 'Please Enter Status'
+                                    : null,
+                                items: _apiResponse5.data.map((Marital user) {
+                                  return DropdownMenuItem<Marital>(
+                                    value: user,
+                                    child: Text(
+                                      user.maritalName,
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  );
+                                }).toList(),
                               ),
                               const Padding(
                                 padding: EdgeInsets.only(top: 15, right: 25),
@@ -450,39 +457,32 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              DropdownButtonHideUnderline(
-                                child: GFDropdown(
-                                  hint: Text("Select Category"),
-                                  value: Caste,
-                                  onChanged: (newValue) {
-                                    setState(() {
-                                      Caste = newValue;
-                                    });
-                                  },
-                                  items: isLoading
-                                      ? ["Please Wait"]
-                                          .map(
-                                            (value) => DropdownMenuItem(
-                                                value: value,
-                                                child: Text(
-                                                  value,
-                                                  style: TextStyle(
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      fontFamily:
-                                                          "ProximaNova"),
-                                                )),
-                                          )
-                                          .toList()
-                                      : _apiResponse4.data
-                                          .map(
-                                            (data) => DropdownMenuItem(
-                                                value: data.casteId,
-                                                child: Text(data.casteName)),
-                                          )
-                                          .toList(),
+                              DropdownButtonFormField<Category>(
+                                hint: Text(
+                                  "Category",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: "ProximaNova"),
                                 ),
+                                value: Caste,
+                                onChanged: (Category newValue) {
+                                  setState(() {
+                                    Caste = newValue;
+                                  });
+                                },
+                                validator: (value) => value == null
+                                    ? 'Please Select Category'
+                                    : null,
+                                items: _apiResponse4.data.map((Category user) {
+                                  return DropdownMenuItem<Category>(
+                                    value: user,
+                                    child: Text(
+                                      user.casteName,
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  );
+                                }).toList(),
                               ),
                               const Padding(
                                 padding: EdgeInsets.only(top: 15.0),
@@ -503,57 +503,58 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    GFRadio(
-                                      size: 20,
-                                      activeBorderColor:
-                                          const Color(0xff2972ff),
-                                      value: 1,
-                                      groupValue: exservicemenGroupValue,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          exservicemenGroupValue = value;
-                                        });
-                                      },
-                                      inactiveIcon: null,
-                                      radioColor: const Color(0xff2972ff),
-                                    ),
-                                    const SizedBox(
-                                      width: 7,
-                                    ),
-                                    const Text(
-                                      "Yes",
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: "ProximaNova"),
-                                    ),
-                                    const SizedBox(
-                                      width: 20,
-                                    ),
-                                    GFRadio(
-                                      size: 20,
-                                      value: 2,
-                                      groupValue: exservicemenGroupValue,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          exservicemenGroupValue = value;
-                                        });
-                                      },
-                                      inactiveIcon: null,
-                                      activeBorderColor:
-                                          const Color(0xff2972ff),
-                                      radioColor: const Color(0xff2972ff),
-                                    ),
-                                    const SizedBox(
-                                      width: 7,
-                                    ),
-                                    const Text(
-                                      "No",
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: "ProximaNova"),
-                                    ),
+                                    _radioButtonss(context),
+                                    // GFRadio(
+                                    //   size: 20,
+                                    //   activeBorderColor:
+                                    //       const Color(0xff2972ff),
+                                    //   value: 1,
+                                    //   groupValue: exservicemenGroupValue,
+                                    //   onChanged: (value) {
+                                    //     setState(() {
+                                    //       exservicemenGroupValue = value;
+                                    //     });
+                                    //   },
+                                    //   inactiveIcon: null,
+                                    //   radioColor: const Color(0xff2972ff),
+                                    // ),
+                                    // const SizedBox(
+                                    //   width: 7,
+                                    // ),
+                                    // const Text(
+                                    //   "Yes",
+                                    //   style: TextStyle(
+                                    //       fontSize: 15,
+                                    //       fontWeight: FontWeight.bold,
+                                    //       fontFamily: "ProximaNova"),
+                                    // ),
+                                    // const SizedBox(
+                                    //   width: 20,
+                                    // ),
+                                    // GFRadio(
+                                    //   size: 20,
+                                    //   value: 2,
+                                    //   groupValue: exservicemenGroupValue,
+                                    //   onChanged: (value) {
+                                    //     setState(() {
+                                    //       exservicemenGroupValue = value;
+                                    //     });
+                                    //   },
+                                    //   inactiveIcon: null,
+                                    //   activeBorderColor:
+                                    //       const Color(0xff2972ff),
+                                    //   radioColor: const Color(0xff2972ff),
+                                    // ),
+                                    // const SizedBox(
+                                    //   width: 7,
+                                    // ),
+                                    // const Text(
+                                    //   "No",
+                                    //   style: TextStyle(
+                                    //       fontSize: 15,
+                                    //       fontWeight: FontWeight.bold,
+                                    //       fontFamily: "ProximaNova"),
+                                    // ),
                                   ],
                                 ),
                               ),
@@ -737,55 +738,56 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                 padding: const EdgeInsets.only(left: 10),
                                 child: Row(
                                   children: [
-                                    GFRadio(
-                                      size: 20,
-                                      activeBorderColor:
-                                          const Color(0xff3e61ed),
-                                      value: 1,
-                                      groupValue: groupValue,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          groupValue = value;
-                                        });
-                                      },
-                                      inactiveIcon: null,
-                                      radioColor: const Color(0xff3e61ed),
-                                    ),
-                                    const SizedBox(
-                                      width: 7,
-                                    ),
-                                    const Text(
-                                      "Yes",
-                                      style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    const SizedBox(
-                                      width: 20,
-                                    ),
-                                    GFRadio(
-                                      size: 20,
-                                      value: 2,
-                                      groupValue: groupValue,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          groupValue = value;
-                                        });
-                                      },
-                                      inactiveIcon: null,
-                                      activeBorderColor:
-                                          const Color(0xff3e61ed),
-                                      radioColor: const Color(0xff3e61ed),
-                                    ),
-                                    const SizedBox(
-                                      width: 7,
-                                    ),
-                                    const Text(
-                                      "No",
-                                      style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold),
-                                    ),
+                                    _radioButtonss2(context),
+                                    // GFRadio(
+                                    //   size: 20,
+                                    //   activeBorderColor:
+                                    //       const Color(0xff3e61ed),
+                                    //   value: 1,
+                                    //   groupValue: groupValue,
+                                    //   onChanged: (value) {
+                                    //     setState(() {
+                                    //       groupValue = value;
+                                    //     });
+                                    //   },
+                                    //   inactiveIcon: null,
+                                    //   radioColor: const Color(0xff3e61ed),
+                                    // ),
+                                    // const SizedBox(
+                                    //   width: 7,
+                                    // ),
+                                    // const Text(
+                                    //   "Yes",
+                                    //   style: TextStyle(
+                                    //       fontSize: 16.0,
+                                    //       fontWeight: FontWeight.bold),
+                                    // ),
+                                    // const SizedBox(
+                                    //   width: 20,
+                                    // ),
+                                    // GFRadio(
+                                    //   size: 20,
+                                    //   value: 2,
+                                    //   groupValue: groupValue,
+                                    //   onChanged: (value) {
+                                    //     setState(() {
+                                    //       groupValue = value;
+                                    //     });
+                                    //   },
+                                    //   inactiveIcon: null,
+                                    //   activeBorderColor:
+                                    //       const Color(0xff3e61ed),
+                                    //   radioColor: const Color(0xff3e61ed),
+                                    // ),
+                                    // const SizedBox(
+                                    //   width: 7,
+                                    // ),
+                                    // const Text(
+                                    //   "No",
+                                    //   style: TextStyle(
+                                    //       fontSize: 16.0,
+                                    //       fontWeight: FontWeight.bold),
+                                    // ),
                                   ],
                                 ),
                               ),
@@ -807,7 +809,14 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                     )
                                   : Container(),
                               groupValue == 1
-                                  ? TextField(
+                                  ? TextFormField(
+                                      validator: (value) {
+                                        if (value.isEmpty) {
+                                          return "Please Enter Type";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
                                       controller: disabilityController,
                                       decoration: InputDecoration(
                                         hintText: "Disability Type",
@@ -839,7 +848,14 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                     )
                                   : Container(),
                               groupValue == 1
-                                  ? TextField(
+                                  ? TextFormField(
+                                      validator: (value) {
+                                        if (value.isEmpty) {
+                                          return "Please Enter  Value";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
                                       controller: assistanceController,
                                       decoration: InputDecoration(
                                         hintText: "Is Assistance Required",
@@ -864,7 +880,14 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                         fontFamily: "ProximaNova")),
                               ),
                               // EDit
-                              TextField(
+                              TextFormField(
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return "Please Enter PAN Number";
+                                  } else {
+                                    return null;
+                                  }
+                                },
                                 controller: panController,
                                 decoration: InputDecoration(
                                   hintText: "PAN Number",
@@ -939,7 +962,14 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                         fontWeight: FontWeight.bold,
                                         fontFamily: "ProximaNova")),
                               ),
-                              TextField(
+                              TextFormField(
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return "Please Enter Passport number";
+                                  } else {
+                                    return null;
+                                  }
+                                },
                                 controller: passportController,
                                 decoration: InputDecoration(
                                   hintText: "Passport Number",
@@ -969,55 +999,56 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                 padding: const EdgeInsets.only(left: 10),
                                 child: Row(
                                   children: [
-                                    GFRadio(
-                                      size: 20,
-                                      activeBorderColor:
-                                          const Color(0xff3e61ed),
-                                      value: 1,
-                                      groupValue: groupValue2,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          groupValue2 = value;
-                                        });
-                                      },
-                                      inactiveIcon: null,
-                                      radioColor: const Color(0xff3e61ed),
-                                    ),
-                                    const SizedBox(
-                                      width: 7,
-                                    ),
-                                    const Text(
-                                      "Yes",
-                                      style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    const SizedBox(
-                                      width: 20,
-                                    ),
-                                    GFRadio(
-                                      size: 20,
-                                      value: 2,
-                                      groupValue: groupValue2,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          groupValue2 = value;
-                                        });
-                                      },
-                                      inactiveIcon: null,
-                                      activeBorderColor:
-                                          const Color(0xff3e61ed),
-                                      radioColor: const Color(0xff3e61ed),
-                                    ),
-                                    const SizedBox(
-                                      width: 7,
-                                    ),
-                                    const Text(
-                                      "No",
-                                      style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold),
-                                    ),
+                                    _radioButtonss3(context),
+                                    // GFRadio(
+                                    //   size: 20,
+                                    //   activeBorderColor:
+                                    //       const Color(0xff3e61ed),
+                                    //   value: 1,
+                                    //   groupValue: groupValue2,
+                                    //   onChanged: (value) {
+                                    //     setState(() {
+                                    //       groupValue2 = value;
+                                    //     });
+                                    //   },
+                                    //   inactiveIcon: null,
+                                    //   radioColor: const Color(0xff3e61ed),
+                                    // ),
+                                    // const SizedBox(
+                                    //   width: 7,
+                                    // ),
+                                    // const Text(
+                                    //   "Yes",
+                                    //   style: TextStyle(
+                                    //       fontSize: 16.0,
+                                    //       fontWeight: FontWeight.bold),
+                                    // ),
+                                    // const SizedBox(
+                                    //   width: 20,
+                                    // ),
+                                    // GFRadio(
+                                    //   size: 20,
+                                    //   value: 2,
+                                    //   groupValue: groupValue2,
+                                    //   onChanged: (value) {
+                                    //     setState(() {
+                                    //       groupValue2 = value;
+                                    //     });
+                                    //   },
+                                    //   inactiveIcon: null,
+                                    //   activeBorderColor:
+                                    //       const Color(0xff3e61ed),
+                                    //   radioColor: const Color(0xff3e61ed),
+                                    // ),
+                                    // const SizedBox(
+                                    //   width: 7,
+                                    // ),
+                                    // const Text(
+                                    //   "No",
+                                    //   style: TextStyle(
+                                    //       fontSize: 16.0,
+                                    //       fontWeight: FontWeight.bold),
+                                    // ),
                                   ],
                                 ),
                               ),
@@ -1026,8 +1057,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                       padding: const EdgeInsets.only(top: 8.0),
                                       child: DropdownSearch<Country>(
                                         validator: (value) {
-                                          if (value
-                                              .countryName.isEmpty) {
+                                          if (value.countryName.isEmpty) {
                                             return "Please Select Country";
                                           }
                                           return null;
@@ -1061,8 +1091,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                             child: Card(
                                               child: Padding(
                                                 padding: EdgeInsets.all(8.0),
-                                                child: Text(
-                                                    item.countryName),
+                                                child: Text(item.countryName),
                                               ),
                                             ),
                                           );
@@ -1084,71 +1113,79 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                           alignment: Alignment.centerRight,
                           child: GFButton(
                             onPressed: () async {
-                              setState(() {
-                                isLoading = true;
-                              });
-                              int totalworkexp =
-                                  (int.parse(mySelectionYear) * 12) +
-                                      int.parse(mySelectionMonth);
-                               print(totalworkexp);
-                               print(addressController.text);
-                               print(cityNameID);
-                               print(selectedDate);
-                               print(pincodeController.text);
+                              if (_fbKey.currentState.saveAndValidate()) {
+                                print(
+                                    totalExp == 0 ? totalExp : totalWorkExp());
+                                print(int.parse(Marial.maritalId));
+                                print(int.parse(Caste.casteId));
+                                print(addressController.text);
+                                print(cityNameID);
+                                print(selectedDate);
+                                print(pincodeController.text);
+                                print(panController.text);
 
-                              final insert = PersonalDetailsPost(
-                                 candidateId: 5,
-                                candidateAddress: addressController.text,
-                                candidateDob: selectedDate,
-                                candidateCityId: int.parse(cityNameID),
-                                candidatePin: pincodeController.text,
-                                candidateMaritalstatusId: 6,
-                                candidatecasteId: 7,
-                                candidateExservicemen:
-                                    exservicemenGroupValue.toString(),
-                                candidatePassportno: passportController.text,
-                                candidatePancard: panController.text,
-                                candidateExservicemenExp: totalworkexp,
-                                candidateDifferentlyAbled:
-                                    groupValue.toString(),
-                                candidateDisabilitType:
-                                    disabilityController.text,
-                                candidateDisabilityAssistance:
-                                    assistanceController.text,
-                                candidateNationalityId:
-                                    int.parse(nationalityID),
-                                  candidateWorkpermitcountryId:int.parse(countryID),
-                              );
-                              final result =
-                                  await apiServices.PostPersonal(insert);
-                              setState(() {
-                                isLoading = false;
-                              });
-                              const title = "Done";
-                              final text = result.error
-                                  ? (result.errorMessage ?? "An Error Occurred")
-                                  : "Successfully Created";
-                              showDialog(
-                                  context: context,
-                                  builder: (_) => AlertDialog(
-                                        title: const Text(title),
-                                        content: Text(text),
-                                        actions: [
-                                          ElevatedButton(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: const Text("OK"))
-                                        ],
-                                      )).then((data) {
-                                if (result.data) {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => Navbar(),
-                                    ),
-                                  );
-                                }
-                              });
+                                setState(() {
+                                  isLoading = true;
+                                });
+
+                                final insert = PersonalDetailsPost(
+                                  candidateId: 5,
+                                  candidateAddress: addressController.text,
+                                  candidateDob: selectedDate,
+                                  candidateCityId: int.parse(cityNameID),
+                                  candidatePin: pincodeController.text,
+                                  candidateMaritalstatusId:
+                                      int.parse(Marial.maritalId),
+                                  candidateCasteId: int.parse(Caste.casteId),
+                                  candidateExservicemen:
+                                      exservicemenGroupValue.toString(),
+                                  candidatePassportno: passportController.text,
+                                  candidatePancard: panController.text,
+                                  candidateExservicemenExp:
+                                      totalExp == 0 ? totalExp : totalWorkExp(),
+                                  candidateDifferentlyAbled:
+                                      groupValue.toString(),
+                                  candidateDisabilitType:
+                                      disabilityController.text,
+                                  candidateDisabilityAssistance:
+                                      assistanceController.text,
+                                  candidateNationalityId:
+                                      int.parse(nationalityID),
+                                  candidateWorkpermitcountryId:
+                                      int.parse(countryID),
+                                );
+                                final result =
+                                    await apiServices.PostPersonal(insert);
+                                setState(() {
+                                  isLoading = false;
+                                });
+                                const title = "Done";
+                                final text = result.error
+                                    ? (result.errorMessage ??
+                                        "An Error Occurred")
+                                    : "Successfully Created";
+                                showDialog(
+                                    context: context,
+                                    builder: (_) => AlertDialog(
+                                          title: const Text(title),
+                                          content: Text(text),
+                                          actions: [
+                                            ElevatedButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: const Text("OK"))
+                                          ],
+                                        )).then((data) {
+                                  if (result.data) {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => Navbar(),
+                                      ),
+                                    );
+                                  }
+                                });
+                              }
                             },
                             text: "Next",
                             type: GFButtonType.solid,
@@ -1159,5 +1196,208 @@ class _PersonalDetailsState extends State<PersonalDetails> {
               ),
             ),
           ));
+  }
+
+  int totalWorkExp() {
+    totalExp = (int.parse(mySelectionYear) * 12) + int.parse(mySelectionMonth);
+    return totalExp;
+  }
+
+  // Radio Buttons with Validation
+  Widget _radioButtonss(BuildContext context) {
+    return FormField(builder: (state) {
+      return Column(children: [
+        Row(children: [
+          GFRadio(
+            size: 20,
+            inactiveIcon: null,
+            activeBorderColor: Color(0xff2972ff),
+            radioColor: Color(0xff2972ff),
+            value: 1,
+            groupValue: exservicemenGroupValue,
+            onChanged: (value) {
+              setState(() {
+                exservicemenGroupValue = value;
+              });
+            },
+          ),
+          const SizedBox(
+            width: 7,
+          ),
+          const Text(
+            "Yes",
+            style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+                fontFamily: "ProximaNova"),
+          ),
+          const SizedBox(
+            width: 20,
+          ),
+          GFRadio(
+            size: 20,
+            value: 2,
+            groupValue: exservicemenGroupValue,
+            onChanged: (value) {
+              setState(() {
+                exservicemenGroupValue = value;
+              });
+            },
+            inactiveIcon: null,
+            activeBorderColor: Color(0xff2972ff),
+            radioColor: Color(0xff2972ff),
+          ),
+          const SizedBox(
+            width: 7,
+          ),
+          const Text(
+            "No",
+            style: TextStyle(
+              fontFamily: "ProximaNova",
+              fontWeight: FontWeight.bold,
+              letterSpacing: 1.5,
+              fontSize: 15,
+            ),
+          ),
+        ])
+      ]);
+    }, validator: (value) {
+      if (exservicemenGroupValue == 0) {
+        return "Choose one of the option";
+      }
+      return null;
+    });
+  }
+
+// radio button Disability
+  Widget _radioButtonss2(BuildContext context) {
+    return FormField(builder: (state) {
+      return Column(children: [
+        Row(children: [
+          GFRadio(
+            size: 20,
+            inactiveIcon: null,
+            activeBorderColor: Color(0xff2972ff),
+            radioColor: Color(0xff2972ff),
+            value: 1,
+            groupValue: groupValue,
+            onChanged: (value) {
+              setState(() {
+                groupValue = value;
+              });
+            },
+          ),
+          const SizedBox(
+            width: 7,
+          ),
+          const Text(
+            "Yes",
+            style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+                fontFamily: "ProximaNova"),
+          ),
+          const SizedBox(
+            width: 20,
+          ),
+          GFRadio(
+            size: 20,
+            value: 2,
+            groupValue: groupValue,
+            onChanged: (value) {
+              setState(() {
+                groupValue = value;
+              });
+            },
+            inactiveIcon: null,
+            activeBorderColor: Color(0xff2972ff),
+            radioColor: Color(0xff2972ff),
+          ),
+          const SizedBox(
+            width: 7,
+          ),
+          const Text(
+            "No",
+            style: TextStyle(
+              fontFamily: "ProximaNova",
+              fontWeight: FontWeight.bold,
+              letterSpacing: 1.5,
+              fontSize: 15,
+            ),
+          ),
+        ])
+      ]);
+    }, validator: (value) {
+      if (groupValue == 0) {
+        return "Choose one of the option";
+      }
+      return null;
+    });
+  }
+
+// radio button for work permit
+  Widget _radioButtonss3(BuildContext context) {
+    return FormField(builder: (state) {
+      return Column(children: [
+        Row(children: [
+          GFRadio(
+            size: 20,
+            inactiveIcon: null,
+            activeBorderColor: Color(0xff2972ff),
+            radioColor: Color(0xff2972ff),
+            value: 1,
+            groupValue: groupValue2,
+            onChanged: (value) {
+              setState(() {
+                groupValue2 = value;
+              });
+            },
+          ),
+          const SizedBox(
+            width: 7,
+          ),
+          const Text(
+            "Yes",
+            style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+                fontFamily: "ProximaNova"),
+          ),
+          const SizedBox(
+            width: 20,
+          ),
+          GFRadio(
+            size: 20,
+            value: 2,
+            groupValue: groupValue2,
+            onChanged: (value) {
+              setState(() {
+                groupValue2 = value;
+              });
+            },
+            inactiveIcon: null,
+            activeBorderColor: Color(0xff2972ff),
+            radioColor: Color(0xff2972ff),
+          ),
+          const SizedBox(
+            width: 7,
+          ),
+          const Text(
+            "No",
+            style: TextStyle(
+              fontFamily: "ProximaNova",
+              fontWeight: FontWeight.bold,
+              letterSpacing: 1.5,
+              fontSize: 15,
+            ),
+          ),
+        ])
+      ]);
+    }, validator: (value) {
+      if (groupValue2 == 0) {
+        return "Choose one of the option";
+      }
+      return null;
+    });
   }
 }
