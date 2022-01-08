@@ -14,6 +14,7 @@ import 'package:job_portal/Models/PersonalDetails-post.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Views/Candidate/BottomNavbar.dart';
 import 'package:job_portal/Models/location.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class PersonalDetails extends StatefulWidget {
   const PersonalDetails({Key key}) : super(key: key);
@@ -25,7 +26,9 @@ class PersonalDetails extends StatefulWidget {
 class _PersonalDetailsState extends State<PersonalDetails> {
 // Global formKey
   var formKey = GlobalKey<FormState>();
+  final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
 
+  // text controllers
   TextEditingController addressController = TextEditingController();
   TextEditingController pincodeController = TextEditingController();
   TextEditingController panController = TextEditingController();
@@ -242,8 +245,8 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                           left: 10,
                           right: 10,
                         ),
-                        child: Form(
-                          key: formKey,
+                        child: FormBuilder(
+                          key: _fbKey,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -300,7 +303,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                               ),
                               DropdownSearch<Cities>(
                                 validator: (value) {
-                                  if (value.cityName.isEmpty) {
+                                  if (value == null) {
                                     return "Please Select City";
                                   }
                                   return null;
