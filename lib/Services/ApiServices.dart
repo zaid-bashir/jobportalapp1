@@ -12,12 +12,13 @@ import 'package:job_portal/Models/GetMarital.dart';
 import 'package:job_portal/Models/InstituteQualified.dart';
 import 'package:job_portal/Models/ItSkills.dart';
 import 'package:job_portal/Models/ItSkillsPost.dart';
-import 'package:job_portal/Models/ItSkillsPost.dart';
+import 'package:job_portal/Models/CareerPreference-post.dart';
 import 'package:job_portal/Models/JobType.dart';
 import 'package:job_portal/Models/Nationality.dart';
-import 'package:job_portal/Models/PersonalDetails.dart';
+import 'package:job_portal/Models/PersonalDetails-post.dart';
 import 'package:job_portal/Models/QualificationDetails.dart';
 import 'package:job_portal/Models/Stream.dart';
+import 'package:job_portal/Models/basicdetailresponse.dart';
 import 'package:job_portal/Models/basicdetials.dart';
 import 'package:job_portal/Models/getjobcategory.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
@@ -612,24 +613,6 @@ class ApiServices {
     }
     return ApiResponse<bool>(error: true, errorMessage: "An Error Occurred");
   }
-
-  Future<ApiResponse<bool>> PersonalDetailsPost(
-      PersonalDetails personalDetails) async {
-    final url = Uri.parse(ApiUrls.kQualify);
-    final headers = {
-      "Content-Type": "application/json",
-    };
-    final jsonData = jsonEncode(personalDetails);
-
-    final response = await http.post(url, headers: headers, body: jsonData);
-    log.i(response.body);
-    log.i(response.statusCode);
-    if (response.statusCode == 200 || response.statusCode == 200) {
-      return ApiResponse<bool>(data: true);
-    }
-    return ApiResponse<bool>(error: true, errorMessage: "An Error Occurred");
-  }
-
   //CURRENT LOCATION STARTS HERE
   Future<ApiResponse<List<CurrentLocation>>> getCurrentLocation({String query}) async {
     final url = Uri.parse(ApiUrls.kLocation+query);
@@ -656,7 +639,7 @@ class ApiServices {
   }
 
 
-  Future<ApiResponse<String>> postBasicDetials(
+  Future<ApiResponse<BasicDetailResponse>> postBasicDetials(
       BasicDetialModel obj) async {
     final url = Uri.parse(ApiUrls.kBasicDetial);
     final header = {
@@ -664,12 +647,14 @@ class ApiServices {
     };
     final jsonData = jsonEncode({
       "candidateTitleId": obj.candidateTitleId,
+      "candidateMobile1" : obj.candidateMobile1,
       "candidateFirstName": obj.candidateFirstName,
       "candidateMiddleName": obj.candidateMiddleName,
       "candidateLastName" : obj.candidateLastName,
       "candidateEmail1" : obj.candidateEmail1,
       "candidateGenderId" : obj.candidateGenderId,
       "candidateTotalworkexp" : obj.candidateTotalworkexp,
+      "candidateName" : obj.candidateName,
       "candidateJobroleId" : obj.candidateJobroleId,
       "candidateCityId" : obj.candidateCityId,
     });
@@ -678,14 +663,51 @@ class ApiServices {
       headers: header,
       body: jsonData,
     );
-    if (response.statusCode == 201) {
-      final responseData = jsonDecode(response.body);
+    if (response.statusCode == 201 || response.statusCode == 200) {
+      final BasicDetailResponse basicDetailResponse = BasicDetailResponse.fromJson(jsonDecode(response.body));
       log.i(response.body);
       log.i(response.statusCode);
-      return ApiResponse<String>(data: responseData);
+      return ApiResponse<BasicDetailResponse>(data: basicDetailResponse);
     }
-    return ApiResponse<String>(
+    return ApiResponse<BasicDetailResponse>(
         error: true, errorMessage: "Something went wrong, please try again...");
+  }
+
+
+  // career preference POST
+  Future<ApiResponse<bool>> PostPreference(CareerPreferencePost preference) async {
+    final url = Uri.parse(ApiUrls.kPreference);
+    final headers = {
+      "Content-Type": "application/json",
+
+    };
+    final jsonData = jsonEncode(preference);
+
+    final response = await http.post(url, headers: headers, body: jsonData);
+    log.i(response.body);
+    log.i(response.statusCode);
+    if (response.statusCode == 200 || response.statusCode == 200) {
+      return ApiResponse<bool>(data: true);
+    }
+    return ApiResponse<bool>(error: true, errorMessage: "An Error Occurred");
+  }
+
+  // personal details post
+  Future<ApiResponse<bool>> PostPersonal(PersonalDetailsPost personal) async {
+    final url = Uri.parse(ApiUrls.kPersonal);
+    final headers = {
+      "Content-Type": "application/json",
+
+    };
+    final jsonData = jsonEncode(personal);
+
+    final response = await http.post(url, headers: headers, body: jsonData);
+    log.i(response.body);
+    log.i(response.statusCode);
+    if (response.statusCode == 200 || response.statusCode == 200) {
+      return ApiResponse<bool>(data: true);
+    }
+    return ApiResponse<bool>(error: true, errorMessage: "An Error Occurred");
   }
 
 }

@@ -161,7 +161,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
                               btnOkOnPress: () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
-                                    builder: (context) => const BasicDetails(),
+                                    builder: (context) =>  BasicDetails(),
                                   ),
                                 );
                               },

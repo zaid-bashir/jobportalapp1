@@ -1,9 +1,11 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:find_dropdown/find_dropdown.dart';
 import 'package:flutter/material.dart';
 
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/ItSkills.dart';
+import 'package:job_portal/Models/ItSkillsPost.dart';
 import 'package:job_portal/Models/PassingYear.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 
@@ -27,37 +29,18 @@ class Skills {
 }
 
 class _ItSkillsState extends State<ItSkills> {
-  String myYear;
+  PassingYear myYear;
   String mySelection;
   String mySelection1;
   String mySelection2;
 
   String myskill;
   String queries;
-  List<String> lists = ["2015", "2016", "2017", "2018", "2019", "2020"];
-  List<String> lists1 = ["2015", "2016", "2017", "2018", "2019", "2020"];
-  List<String> lists2 = [
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "10",
-    "11",
-    "12"
-  ];
+  var formKey = GlobalKey<FormState>();
 
-  // List list = [
-  //   "Web Development",
-  //   "Mobile App Development",
-  //   "Full Stack Developer",
-  //   "Back-end Developer"
-  // ];
-// it skills
+  TextEditingController skillSearchCont = TextEditingController();
+  String itSkillId = "";
+
   fetchITSkill({String query}) async {
     setState(() {
       isLoading = true;
@@ -78,13 +61,6 @@ class _ItSkillsState extends State<ItSkills> {
     }
     return dataItems;
   }
-
-  static List<Skills> _skills = [
-    Skills(id: 1, name: "Web Development"),
-    Skills(id: 2, name: "Mobile App Development"),
-    Skills(id: 3, name: "Full Stack Developer"),
-    Skills(id: 4, name: "Back-end Developer"),
-  ];
 
   bool isLoading = false;
 
@@ -118,258 +94,360 @@ class _ItSkillsState extends State<ItSkills> {
     return SafeArea(
         child: Scaffold(
       body: SingleChildScrollView(
-        child: Padding(
-          padding:
-              const EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: const Icon(Icons.arrow_back)),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  const Text(
-                    "IT Skills",
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: "ProximaNova"),
-                  ),
-                ],
-              ),
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    top: 20,
-                    bottom: 20,
-                    left: 10,
-                    right: 10,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('IT Skills',
-                          style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova")),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: FindDropdown(
-                          searchBoxDecoration: const InputDecoration(
-                            border: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ),
-                          items: parseITSkill(),
-                          searchHint: "Skill Name",
-                          onFind: (val) async {
-                            setState(() {
-                              queries = val;
-                            });
-                            await fetchITSkill(query: queries);
-                            parseITSkill();
-                            return [""];
-                          },
-                          onChanged: (item) {
-                            setState(() {
-                              myskill = item;
-                            });
-                          },
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      const Text('Version',
-                          style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova")),
-                      TextField(
-                        controller: versionCont,
-                        decoration: InputDecoration(
-                          hintText: "Version",
-                          hintStyle: TextStyle(
-                            color: Colors.blueGrey,
-                            fontFamily: "ProximaNova",
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 1.5,
-                            fontSize: 14.5,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      Text('Experience',
-                          style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova")),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: TextField(
-                              controller: yearsCont,
-                              decoration: InputDecoration(
-                                hintText: "Type Year",
-                                hintStyle: TextStyle(
-                                  color: Colors.blueGrey,
-                                  fontFamily: "ProximaNova",
-                                  fontWeight: FontWeight.w500,
-                                  letterSpacing: 1.5,
-                                  fontSize: 14.5,
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Expanded(
-                            child: TextField(
-                              controller: monthCont,
-                              decoration: InputDecoration(
-                                hintText: "Type Month",
-                                hintStyle: TextStyle(
-                                  color: Colors.blueGrey,
-                                  fontFamily: "ProximaNova",
-                                  fontWeight: FontWeight.w500,
-                                  letterSpacing: 1.5,
-                                  fontSize: 14.5,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const Text('Last Used',
-                          style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova")),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      DropdownButtonFormField(
-                        // disabledHint: ,
-                        decoration: const InputDecoration(
-                            border: UnderlineInputBorder()),
-                        hint: Text("Select year"),
-                        value: myYear,
-                        onChanged: (newValue) {
-                          setState(() {
-                            myYear = newValue;
-                          });
+        child: Form(
+          key: formKey,
+          child: Padding(
+            padding:
+                const EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
                         },
-                        items: isLoading
-                            ? ["Please Wait"]
-                                .map(
-                                  (value) => DropdownMenuItem(
-                                      value: value,
-                                      child: Text(
-                                        value,
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.normal,
-                                            fontFamily: "ProximaNova"),
-                                      )),
-                                )
-                                .toList()
-                            : _apiResponse.data
-                                .map(
-                                  (data) => DropdownMenuItem(
-                                    value: data.yearId,
-                                    child: Text(
-                                      "${data.yearName}",
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.normal,
-                                          fontFamily: "ProximaNova"),
-                                    ),
+                        icon: const Icon(Icons.arrow_back)),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    const Text(
+                      "IT Skills",
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "ProximaNova"),
+                    ),
+                  ],
+                ),
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      top: 20,
+                      bottom: 20,
+                      left: 10,
+                      right: 10,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('IT Skills',
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "ProximaNova")),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: DropdownSearch<ITSkill>(
+                            validator: (value) {
+                              if (value == null) {
+                                return "Please Select Your Skill";
+                              }
+                              return null;
+                            },
+                            dropdownSearchDecoration:
+                                InputDecoration(border: UnderlineInputBorder()),
+                            mode: Mode.DIALOG,
+                            items: isLoading
+                                ? parseITSkill()
+                                : _apiResponseITSkill.data,
+                            itemAsString: (ITSkill obj) {
+                              return obj.itskillName;
+                            },
+                            onFind: (val) async {
+                              setState(() {
+                                queries = val;
+                              });
+                              return _apiResponseITSkill.data;
+                            },
+                            hint: "Select Skill",
+                            onChanged: (value) {
+                              skillSearchCont.text = value.itskillId.toString();
+                              itSkillId = value.itskillId;
+                              print(value.itskillId);
+                            },
+                            showSearchBox: true,
+                            popupItemBuilder:
+                                (context, ITSkill item, bool isSelected) {
+                              return Container(
+                                margin: EdgeInsets.symmetric(horizontal: 8),
+                                child: Card(
+                                  child: Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Text(item.itskillName),
                                   ),
-                                )
-                                .toList(),
-                      ),
-                    ],
+                                ),
+                              );
+                            },
+                          ),
+                          // FindDropdown(
+                          //   searchBoxDecoration: const InputDecoration(
+                          //     border: UnderlineInputBorder(
+                          //       borderSide: BorderSide(
+                          //         color: Colors.grey,
+                          //       ),
+                          //     ),
+                          //   ),
+                          //   items: parseITSkill(),
+                          //   searchHint: "Skill Name",
+                          //   onFind: (val) async {
+                          //     setState(() {
+                          //       queries = val;
+                          //     });
+                          //     await fetchITSkill(query: queries);
+                          //     parseITSkill();
+                          //     return [""];
+                          //   },
+                          //   onChanged: (item) {
+                          //     setState(() {
+                          //       myskill = item;
+                          //     });
+                          //   },
+                          // ),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        const Text('Version',
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "ProximaNova")),
+                        TextFormField(
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return "Please Enter Version";
+                            } else {
+                              return null;
+                            }
+                          },
+                          controller: versionCont,
+                          decoration: InputDecoration(
+                            hintText: "Version",
+                            hintStyle: TextStyle(
+                              color: Colors.blueGrey,
+                              fontFamily: "ProximaNova",
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 1.5,
+                              fontSize: 14.5,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Text('Experience',
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "ProximaNova")),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TextFormField(
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return "Please Enter Year";
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                                controller: yearsCont,
+                                decoration: InputDecoration(
+                                  hintText: "Type Year",
+                                  hintStyle: TextStyle(
+                                    color: Colors.blueGrey,
+                                    fontFamily: "ProximaNova",
+                                    fontWeight: FontWeight.w500,
+                                    letterSpacing: 1.5,
+                                    fontSize: 14.5,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: TextFormField(
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return "Please Enter Month";
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                                controller: monthCont,
+                                decoration: InputDecoration(
+                                  hintText: "Type Month",
+                                  hintStyle: TextStyle(
+                                    color: Colors.blueGrey,
+                                    fontFamily: "ProximaNova",
+                                    fontWeight: FontWeight.w500,
+                                    letterSpacing: 1.5,
+                                    fontSize: 14.5,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const Text('Last Used',
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "ProximaNova")),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        DropdownButtonFormField<PassingYear>(
+
+                          hint: Text("Last Year",style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "ProximaNova"),),
+                          value: myYear,
+                          onChanged: (PassingYear newValue) {
+                            setState(() {
+                              myYear = newValue;
+                            });
+                          },
+                          validator: (value) =>
+                          value == null ? 'Please fill Last Year' : null,
+                          items: _apiResponse.data.map((PassingYear user) {
+                            return DropdownMenuItem<PassingYear>(
+                              value: user,
+                              child: Text(
+                                user.yearName,
+                                style: TextStyle(color: Colors.black),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                        // DropdownButtonFormField(
+                        //     validator: (value) =>
+                        //     value == null ? 'Please fill year' : null,
+                        //   decoration: const InputDecoration(
+                        //       border: UnderlineInputBorder()),
+                        //   hint: Text("Select year"),
+                        //   value: myYear,
+                        //   onChanged: (newValue) {
+                        //     setState(() {
+                        //       myYear = newValue;
+                        //     });
+                        //   },
+                        //   items: isLoading
+                        //       ? ["Please Wait"]
+                        //           .map(
+                        //             (value) => DropdownMenuItem(
+                        //                 value: value,
+                        //                 child: Text(
+                        //                   value,
+                        //                   style: TextStyle(
+                        //                       fontSize: 15,
+                        //                       fontWeight: FontWeight.normal,
+                        //                       fontFamily: "ProximaNova"),
+                        //                 )),
+                        //           )
+                        //           .toList()
+                        //       : _apiResponse.data
+                        //           .map(
+                        //             (data) => DropdownMenuItem(
+                        //               value: data.yearId,
+                        //               child: Text(
+                        //                 "${data.yearName}",
+                        //                 style: TextStyle(
+                        //                     fontSize: 15,
+                        //                     fontWeight: FontWeight.normal,
+                        //                     fontFamily: "ProximaNova"),
+                        //               ),
+                        //             ),
+                        //           )
+                        //           .toList(),
+                        // ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  GFButton(
-                    onPressed: () {},
-                    text: "Add",
-                    type: GFButtonType.solid,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  GFButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CareerPreference()));
-                    },
-                    // onPressed: () async {
-                    //   setState(() {
-                    //     isLoading = true;
-                    //   });
-                    //   final insert = PostItSkills(Id: 1, month: "2", year: "3",version: "5",lastId: 5);
-                    //   final result =
-                    //       await apiServices.ItSkillsPost(insert);
-                    //   setState(() {
-                    //     isLoading = false;
-                    //   });
-                    //   const title = "Done";
-                    //   final text = result.error
-                    //       ? (result.errorMessage ?? "An Error Occurred")
-                    //       : "Successfully Created";
-                    //   showDialog(
-                    //     context: context,
-                    //     builder: (_) => AlertDialog(
-                    //       title: const Text(title),
-                    //       content: Text(text),
-                    //       actions: [
-                    //         ElevatedButton(
-                    //             onPressed: () {
-                    //               Navigator.pop(context);
-                    //             },
-                    //             child: const Text("OK"))
-                    //       ],
-                    //     ),
-                    //   ).then((data) {
-                    //     if (result.data) {
-                    //       Navigator.push(
-                    //           context,
-                    //           MaterialPageRoute(
-                    //               builder: (context) => CareerPreference()));
-                    //     }
-                    //   });
-                    // },
-                    text: "Next",
-                    type: GFButtonType.solid,
-                  ),
-                ],
-              ),
-            ],
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    GFButton(
+                      onPressed: () {},
+                      text: "Add",
+                      type: GFButtonType.solid,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    GFButton(
+                      // onPressed: () {
+                      //   Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(
+                      //           builder: (context) => CareerPreference()));
+                      // },
+                      onPressed: () async {
+                        if (formKey.currentState.validate()) {
+                          int totalworkexp = (int.parse(yearsCont.text) * 12) +
+                              int.parse(monthCont.text);
+                          print(totalworkexp);
+
+                          setState(() {
+                            isLoading = true;
+                          });
+                          final insert = PostItSkills(
+                              candidiateitskillCandidateId: 3,
+                              candidiateitskillItskillId: int.parse(itSkillId),
+                              candidiateitskillVersion: int.parse(versionCont.text),
+                              candidiateitskillExperience: totalworkexp,
+                              candidiateitskillLastused: int.parse(myYear.yearId));
+                          final result = await apiServices.ItSkillsPost(insert);
+                          setState(() {
+                            isLoading = false;
+                          });
+                          const title = "Done";
+                          final text = result.error
+                              ? (result.errorMessage ?? "An Error Occurred")
+                              : "Successfully Created";
+                          showDialog(
+                            context: context,
+                            builder: (_) => AlertDialog(
+                              title: const Text(title),
+                              content: Text(text),
+                              actions: [
+                                ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text("OK"))
+                              ],
+                            ),
+                          ).then((data) {
+                            if (result.data) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          CareerPreference()));
+                            }
+                          });
+                        }
+                      },
+                      text: "Next",
+                      type: GFButtonType.solid,
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

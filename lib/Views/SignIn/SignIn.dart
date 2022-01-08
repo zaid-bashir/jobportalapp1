@@ -7,6 +7,11 @@ import 'package:job_portal/Views/Candidate/Home.dart';
 import 'package:job_portal/Views/SignIn/Step2-BasicDetails.dart';
 import 'package:job_portal/Views/SignIn/Step6-KeySkills.dart';
 import 'package:job_portal/Views/SignIn/Step1-Otp.Dart';
+
+import 'Step3-QualificationDetails.dart';
+import 'Step7-ItSkills.dart';
+import 'Step8-CareerPreference.dart';
+import 'Step9-PersonalDetails.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({ Key key }) : super(key: key);
 
@@ -329,8 +334,12 @@ class _LoginPageState extends State<LoginPage> {
                       Text('Don\'t have an account?', style: TextStyle(color: Colors.grey.shade600, fontSize: 14.0, fontWeight: FontWeight.w400),),
                       TextButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (
-                              context) => BasicDetails()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>CareerPreference()));
+                          // Navigator.push(context, MaterialPageRoute(builder: (context)=>QualificationBlueCollar()));
+                          // Navigator.push(context, MaterialPageRoute(builder: (context)=>PersonalDetails()));
+                          // Navigator.push(context, MaterialPageRoute(builder: (context)=>ItSkills()));
+                          // Navigator.push(context, MaterialPageRoute(builder: (
+                          //     context) => BasicDetails()));
                         },
                         child: Text('Register', style: TextStyle(color:  Color(0xff2972ff), fontSize: 14.0, fontWeight: FontWeight.w400),),
                       )
