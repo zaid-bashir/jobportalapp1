@@ -5,7 +5,7 @@ class PersonalDetailsPost {
   String candidatePin;
   DateTime candidateDob;
   int candidateMaritalstatusId;
-  int candidatecasteId;
+  int candidateCasteId;
   String candidateExservicemen;
   int candidateExservicemenExp;
 
@@ -25,7 +25,7 @@ class PersonalDetailsPost {
       this.candidatePin,
       this.candidateDob,
       this.candidateMaritalstatusId,
-      this.candidatecasteId,
+      this.candidateCasteId,
       this.candidateExservicemen,
       this.candidateExservicemenExp,
       this.candidateDifferentlyAbled,
@@ -43,7 +43,7 @@ class PersonalDetailsPost {
       "candidatePin": candidatePin,
       "candidateDob": candidateDob,
       "candidateMaritalstatusId": candidateMaritalstatusId,
-      "candidatecasteId": candidatecasteId,
+      "candidatecasteId": candidateCasteId,
       "candidateExservicemen": candidateExservicemen,
       "candidateExservicemenExp": candidateExservicemenExp,
       "candidateDifferentlyAbled": candidateDifferentlyAbled,
