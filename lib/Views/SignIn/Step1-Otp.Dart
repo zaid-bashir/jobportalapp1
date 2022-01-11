@@ -167,7 +167,7 @@ class _OTPState extends State<OTP> {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => VerifyOTP(
-                              registerMobile: mobileController.text,
+                              registerMobile: '${mobileController.text}',
                               otp: _apiResponse.data,
                             ),
                           ),

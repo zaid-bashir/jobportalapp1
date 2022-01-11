@@ -28,7 +28,9 @@ import 'package:job_portal/Models/GetTitle.dart';
 import 'package:job_portal/Models/GradingSystem.dart';
 import 'package:job_portal/Models/PassingYear.dart';
 import 'package:job_portal/Models/VerifyOtp.dart';
+import 'package:job_portal/Models/keyskill.dart';
 import 'package:job_portal/Models/location.dart';
+import 'package:job_portal/Models/postkeyskills.dart';
 import 'package:job_portal/Models/qualification-post.dart';
 import 'package:job_portal/Utility/apiurls.dart';
 import 'package:logger/logger.dart';
@@ -706,4 +708,47 @@ class ApiServices {
     return ApiResponse<bool>(error: true, errorMessage: "An Error Occurred");
   }
 
+  //Post Key Skills
+  //===============
+
+    Future<ApiResponse<bool>> postSkills(List<PostKeySkills> lst) async {
+    final url = Uri.parse(ApiUrls.kpostSkill);
+    final headers = {
+      "Content-Type": "application/json",
+    };
+    final jsonData = jsonEncode(lst);
+    final response = await http.post(url, headers: headers, body: jsonData);
+    log.i(response.body);
+    log.i(response.statusCode);
+    if (response.statusCode == 200 || response.statusCode == 200) {
+      return ApiResponse<bool>(data: jsonDecode(response.body));
+    }
+    return ApiResponse<bool>(error: true, errorMessage: "An Error Occurred");
+  }
+
+
+  // KeySkills
+  Future<ApiResponse<List<KeySkills>>> getSkills({String query}) async {
+    final url = Uri.parse(ApiUrls.kKeySkills+query);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <KeySkills>[];
+      for (var item in jsonData) {
+        list.add(KeySkills.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      print(list);
+      return ApiResponse<List<KeySkills>>(data: list);
+    }
+    return ApiResponse<List<KeySkills>>(
+        error: true, errorMessage: "An error occurred");
+  }
 }

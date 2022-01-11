@@ -1,54 +1,62 @@
-import 'package:flutter/material.dart';
-import 'package:getwidget/components/button/gf_button.dart';
-import 'package:getwidget/getwidget.dart';
-import 'package:job_portal/Views/SignIn/Step7-ItSkills.dart';
-import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
-import 'package:multi_select_flutter/util/multi_select_item.dart';
-import 'package:multi_select_flutter/util/multi_select_list_type.dart';
+// ignore_for_file: prefer_const_constructors, prefer_final_fields, non_constant_identifier_names, avoid_print
 
-class KeySkills extends StatefulWidget {
-  const KeySkills({Key key}) : super(key: key);
+import 'package:dropdown_search/dropdown_search.dart';
+import 'package:flutter/material.dart';
+import 'package:getwidget/getwidget.dart';
+import 'package:job_portal/Data_Controller/apiresponse.dart';
+import 'package:job_portal/Models/keyskill.dart';
+import 'package:job_portal/Models/postkeyskills.dart';
+import 'package:job_portal/Services/ApiServices.dart';
+import 'package:job_portal/Views/SignIn/Step7-ItSkills.dart';
+
+class KeySkillsPage extends StatefulWidget {
+  const KeySkillsPage({Key key}) : super(key: key);
 
   @override
-  _KeySkillsState createState() => _KeySkillsState();
+  _KeySkillsPageState createState() => _KeySkillsPageState();
 }
 
-class Skills {
-  final int id;
-  final String name;
+class _KeySkillsPageState extends State<KeySkillsPage> {
+  var formKey = GlobalKey<FormState>();
+  List<KeySkills> selectedSkills = [];
+  bool isSelected = false;
+  bool isLoading = false;
+  ApiServices apiServices = ApiServices();
+  ApiResponse<List<KeySkills>> _apiResponse;
 
-  Skills({
-    this.id,
-    this.name,
-  });
-}
+  bool isLoadingPost = false;
+  ApiResponse<List<PostKeySkills>> _apiResponsePostKeySkills;
 
-class _KeySkillsState extends State<KeySkills> {
-  // List<String> dropList = [
-  //  "HTML",
-  //   "CSS",
-  //   "PYTHON",
-  //   "FLUTTER",
-  //   "JAVA"
-  // ];
-  static List<Skills> _skills = [
-    Skills(id: 1, name: "Html"),
-    Skills(id: 2, name: "Python"),
-    Skills(id: 3, name: "Java"),
-    Skills(id: 4, name: "React"),
-    Skills(id: 5, name: "Flutter"),
-    Skills(id: 6, name: "Dart"),
-  ];
-  final _items = _skills
-      .map((animal) => MultiSelectItem<Skills>(animal, animal.name))
-      .toList();
+  var jobCategorySearchCon = TextEditingController();
+  String SkillId = "0";
+  String query = "";
 
-  List<Skills> _selectedAnimals5 = [];
-  final _multiSelectKey = GlobalKey<FormFieldState>();
+  fetchCompany({String query}) async {
+    setState(() {
+      isLoading = true;
+    });
+    _apiResponse = await apiServices.getSkills(query: query);
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  List<PostKeySkills> createPostList() {
+    List<PostKeySkills> postItems = [];
+    for (var i = 0; i < selectedSkills.length; i++) {
+      var obj = PostKeySkills(
+          candidateUuid: "a95b3837-819b-46a6-b660-6a6935e588b4",
+          candidatekeyskilKeyskillId: int.parse(selectedSkills[i].keyskillId));
+      postItems.add(obj);
+      print(obj.candidatekeyskilKeyskillId);
+      print(obj.candidateUuid);
+    }
+    return postItems;
+  }
 
   @override
   void initState() {
-    _selectedAnimals5 = _skills;
+    fetchCompany(query: "");
     super.initState();
   }
 
@@ -60,108 +68,216 @@ class _KeySkillsState extends State<KeySkills> {
           child: Padding(
             padding:
                 const EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
-            child: Column(children: [
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: Row(
-                      children: [
-                        IconButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            icon: const Icon(Icons.arrow_back)),
-                      ],
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: Row(
+                        children: [
+                          IconButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              icon: const Icon(Icons.arrow_back)),
+                        ],
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text('Key Skills',
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      'Key Skills',
                       style: const TextStyle(
                           color: Colors.black,
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          fontFamily: "ProximaNova")),
-                ],
-              ),
-              Padding(
-                  padding: const EdgeInsets.only(
-                    top: 30,
-                  ),
-                  child: Card(
-                    elevation: 5,
-                    child: Padding(
-                        padding: const EdgeInsets.only(bottom: 15),
-                        child: Column(
-                          children: [
-                            Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 20.0, right: 25.0, top: 20.0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: <Widget>[
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: const <Widget>[
-                                        Text(
-                                          'Key Skills',
-                                          style: TextStyle(
-                                              fontSize: 15.0,
-                                              fontFamily: "ProximaNova",
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ],
-                                    ),
+                          fontFamily: "ProximaNova"),
+                    ),
+                  ],
+                ),
+                Padding(
+                    padding: const EdgeInsets.only(
+                      top: 30,
+                    ),
+                    child: Form(
+                      key: formKey,
+                      child: Column(
+                        children: [
+                          // isSelected == true
+                          //     ? Padding(
+                          //         padding: const EdgeInsets.all(5),
+                          //         child: Padding(
+                          //           padding: const EdgeInsets.all(8.0),
+                          //           child: Wrap(
+                          //             direction: Axis.horizontal,
+                          //             alignment: WrapAlignment.start,
+                          //             spacing: 05,
+                          //             children: selectedSkills.map((e) {
+                          //               return Container(
+                          //                 decoration: BoxDecoration(
+                          //                     borderRadius:
+                          //                         BorderRadius.circular(20),
+                          //                     color: Colors.black),
+                          //                 child: Chip(
+                          //                   // disabledColor: Colors.black,
+                          //                   // selectedColor: Colors.blue[400],
+                          //                   backgroundColor: Colors.white,
+                          //                   labelPadding: EdgeInsets.all(5),
+                          //                   labelStyle: TextStyle(
+                          //                       color: Colors.black,
+                          //                       fontSize: 12),
+                          //                   label: Text(e.keyskillName),
+                          //                   // selected: true,
+                          //                   avatar: Icon(Iconsax.tick_circle),
+                          //                 ),
+                          //               );
+                          //             }).toList(),
+                          //           ),
+                          //         ),
+                          //       )
+                          //     : Padding(
+                          //         padding: const EdgeInsets.all(8.0),
+                          //         child: Center(
+                          //           child: Text(
+                          //             "No Skills Selected",
+                          //             style: TextStyle(
+                          //                 fontSize: 18,
+                          //                 fontWeight: FontWeight.w900),
+                          //           ),
+                          //         ),
+                          //       ),
+                          Card(
+                            elevation: 5,
+                            child: Padding(
+                                padding: const EdgeInsets.only(bottom: 15),
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 20.0, right: 25.0, top: 20.0),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: <Widget>[
+                                            Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: const <Widget>[
+                                                Text(
+                                                  'Key Skills',
+                                                  style: TextStyle(
+                                                      fontSize: 15.0,
+                                                      fontFamily: "ProximaNova",
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        )),
+                                    Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 10.0, right: 10.0, top: 2.0),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: <Widget>[
+                                            Flexible(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: DropdownSearch<
+                                                    KeySkills>.multiSelection(
+                                                  autoValidateMode:
+                                                      AutovalidateMode
+                                                          .onUserInteraction,
+                                                  validator: (value) {
+                                                    if (value.isEmpty) {
+                                                      return "Please Select Key Skill/Skills";
+                                                    }
+                                                    return null;
+                                                  },
+                                                  mode: Mode.DIALOG,
+                                                  items: isLoading
+                                                      ? [KeySkills()]
+                                                      : _apiResponse.data,
+                                                  itemAsString:
+                                                      (KeySkills obj) {
+                                                    return obj.keyskillName;
+                                                  },
+                                                  onChanged: (val) {
+                                                    setState(() {
+                                                      isSelected = true;
+                                                      selectedSkills = val;
+                                                    });
+                                                  },
+                                                  onFind: (val) async {
+                                                    setState(() {
+                                                      query = val;
+                                                    });
+                                                    fetchCompany(query: query);
+                                                    return _apiResponse.data;
+                                                  },
+                                                  // ignore: deprecated_member_use
+                                                  hint: "Select Key Skills",
+                                                  showSearchBox: true,
+                                                  popupItemBuilder: (context,
+                                                      KeySkills item,
+                                                      bool isSelected) {
+                                                    return Container(
+                                                      margin:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: 8),
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsets.all(8.0),
+                                                        child: Text(
+                                                            item.keyskillName),
+                                                      ),
+                                                    );
+                                                  },
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        )),
                                   ],
                                 )),
-                            Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 10.0, right: 10.0, top: 2.0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: <Widget>[
-                                    Flexible(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: MultiSelectDialogField(
-                                          items: _skills
-                                              .map((e) =>
-                                                  MultiSelectItem(e, e.name))
-                                              .toList(),
-                                          listType: MultiSelectListType.CHIP,
-                                          onConfirm: (values) {
-                                            _skills = values;
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                )),
-                          
-                          ],
-                        )),
-                  )),
-
-
-                   const SizedBox(height: 20,),
-                  Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Align(
-                alignment: Alignment.centerRight,
-                child: GFButton(
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const ItSkills(),),);
-                  },
-                  text: "Next",
-                  type: GFButtonType.solid,
-                )),
-          ),
-            ],
-            
+                          ),
+                        ],
+                      ),
+                    )),
+                const SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Align(
+                      alignment: Alignment.centerRight,
+                      child: GFButton(
+                        onPressed: () {
+                          bool check = false;
+                          if (formKey.currentState.validate()) {
+                            apiServices.postSkills(createPostList()).then((value){
+                               check = value.data;
+                            });
+                            if (check) {
+                               Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => const ItSkills(),
+                                ),
+                              );
+                            } else {
+                             
+                            }
+                          } else {}
+                        },
+                        text: "Next",
+                        type: GFButtonType.solid,
+                      )),
+                ),
+              ],
             ),
           ),
         ),

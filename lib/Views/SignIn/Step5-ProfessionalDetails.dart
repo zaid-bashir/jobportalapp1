@@ -684,7 +684,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => KeySkills()));
+                                      builder: (context) => KeySkillsPage()));
                             }
                           });
                         },
