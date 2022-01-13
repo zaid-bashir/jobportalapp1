@@ -405,10 +405,10 @@ class _ItSkillsState extends State<ItSkills> {
                           });
                           final insert = PostItSkills(
                               candidateUuid: widget.uuid,
-                              candidiateitskillItskillId: int.parse(itSkillId),
-                              candidiateitskillVersion: int.parse(versionCont.text),
-                              candidiateitskillExperience: totalworkexp,
-                              candidiateitskillLastused: int.parse(myYear.yearId));
+                              candidateitskillItskillId: int.parse(itSkillId),
+                              candidateitskillVersion: int.parse(versionCont.text),
+                              candidateitskillExperience: totalworkexp,
+                              candidateitskillLastused: int.parse(myYear.yearId));
                           final result = await apiServices.ItSkillsPost(insert);
                           setState(() {
                             isLoading = false;
