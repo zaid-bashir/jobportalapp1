@@ -745,7 +745,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                     // candidateexpOrganizationName: "2",
                                     candidateexpDesignation:currentCompanyCntrl.text,
                                     candidateexpSalary: int.parse(salaryCount.text),
-                                    candidateexpStartdate: "20100310",
+                                    candidateexpStartdate: "2010-03-10",
                                     // candidateexpEnddate: 6,
                                     // candidateIndustryId: 21
                                     );
