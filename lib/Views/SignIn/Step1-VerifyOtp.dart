@@ -49,7 +49,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
         children: [
           Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              height: MediaQuery.of(context).size.height,
+              // height: MediaQuery.of(context).size.height,
               width: double.infinity,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
