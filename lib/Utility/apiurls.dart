@@ -1,6 +1,6 @@
 class ApiUrls{
-  static String kgetOTP = "http://192.168.0.20:9004/jobportal-app/app/api/generate-otp";
-  static String kverifyOTP = "http://192.168.0.20:9004/jobportal-app/app/api/validate-otp";
+  static String kgetOTP = "http://192.168.0.20:9004/jobportal-app/api/generate-otp";
+  static String kverifyOTP = "http://192.168.0.20:9004/jobportal-app/api/validate-otp";
   static String ktitles = "http://192.168.0.20:9004/jobportal-app/api/populate/title";
   static String kgender = "http://192.168.0.20:9004/jobportal-app/api/populate/gender";
   static String kPassingYear = "http://192.168.0.20:9004/jobportal-app/api/populate/year";
@@ -23,7 +23,7 @@ class ApiUrls{
   static String kMarital = "http://192.168.0.20:9004/jobportal-app/api/populate/marital-status";
   static String kInstitute = "http://192.168.0.20:9004/jobportal-app/api/populate/institute?query=";
   static String kProfession ="http://192.168.0.20:9004/jobportal-app/api/candidate-registration/candidate-experience?candidateId=9";
-  static String kQualify = "http://192.168.0.20:9004/jobportal-app/api/candidate-registration/qualification-detail?candidateId=3";
+  static String kQualify = "http://192.168.0.20:9004/jobportal-app/api/candidate-registration/step3-qualificationdetail";
   static String kItskill = "http://192.168.0.20:9004/jobportal-app/api/populate/itskill?query=";
   static String kPersonal = "http://192.168.0.20:9004/jobportal-app/api/candidate-registration/personal-detail?candidateId=5";
   static String kKeySkills = "http://192.168.0.20:9004/jobportal-app/api/populate/keyskill?query=";

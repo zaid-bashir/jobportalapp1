@@ -1,7 +1,9 @@
+// ignore_for_file: must_be_immutable
+
 import 'dart:io';
 
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:find_dropdown/find_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
@@ -15,9 +17,9 @@ import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Views/SignIn/Step5-ProfessionalDetails.dart';
 
 class QualificationBlueCollar extends StatefulWidget {
-  QualificationBlueCollar({Key key, this.uuid}) : super(key: key);
+   QualificationBlueCollar({Key key, this.uuid,this.experienceValue}) : super(key: key);
   String uuid;
-
+  int experienceValue;
   @override
   _QualificationBlueCollarState createState() =>
       _QualificationBlueCollarState();
@@ -44,6 +46,9 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
     loadingController.forward();
   }
 
+  TextEditingController qualificationSearchCon = TextEditingController();
+  var formKey = GlobalKey<FormState>();
+
   var highestQualificationSelect;
   var courseSelect;
   var streamSelect;
@@ -53,64 +58,18 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
   String highQual;
   String Courses;
   String Stream;
-
-  List<String> highestQualification = [
-    "PG",
-    "UG",
-    "HSE 10+2",
-    "Matriculation 10th",
-    "Below 10th"
-  ];
-  List<String> course = [
-    "MBA",
-    "M.Tech",
-    "BBA",
-    "B.Tech",
-    "MCA",
-    "BCA",
-  ];
-  List<String> stream = [
-    "Finance",
-    "Operations",
-    "Computer Science",
-    "Civil Enginering",
-    "Mechanical",
-    "Human Resource",
-  ];
+  String highQualID = "";
+  String courseId = "";
+  String streamId = "";
+  String instituteId = "";
+  String yearID = "";
 
   int courseTypeGroupValue = 0;
 
-  List<String> instituteQualifiedFrom = [
-    "University Of Kashmir",
-    "SSM College Of Enginering",
-    "Cluster University",
-    "Central University",
-    "IUST",
-  ];
+  GradingSystem myGradingSystem;
 
-  String myGradingSystem;
+  PassingYear myPassingYear;
 
-  List<String> gradingSystem = [
-    "CGPA",
-    "Percentile",
-    "Grades",
-    "Score",
-  ];
-
-  String myPassingYear;
-
-  List<String> myPassingYearList = [
-    "1971",
-    "1972",
-    "1973",
-    "1974",
-    "1975",
-    "1976",
-    "1977",
-    "1978",
-    "1979",
-    "1980"
-  ];
   bool isLoading = false;
   ApiServices apiServices = ApiServices();
   ApiResponse<List<Institute>> _apiResponseInstitute;
@@ -123,6 +82,10 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
 
   TextEditingController profileCont = TextEditingController();
   TextEditingController gradeCont = TextEditingController();
+  TextEditingController courseSearchCont = TextEditingController();
+  TextEditingController streamSearchCont = TextEditingController();
+  TextEditingController instituteSearchCont = TextEditingController();
+  TextEditingController yearSearchCont = TextEditingController();
 
   @override
   void initState() {
@@ -223,6 +186,7 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
   String query;
   String querys;
   String queryss;
+  String querysss;
 
   fetchGradingSystem() async {
     setState(() {
@@ -247,687 +211,1008 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        // ignore: prefer_const_literals_to_create_immutables
-        children: [
-          const SizedBox(
-            height: 10,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Row(
-              // ignore: prefer_const_literals_to_create_immutables
-              children: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  icon: Icon(Icons.arrow_back),
-                ),
-                const SizedBox(
-                  width: 30,
-                ),
-                Text(
-                  "Qualification Details",
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontFamily: "ProximaNova",
-                      fontWeight: FontWeight.bold),
-                ),
-              ],
+      body: Form(
+        key: formKey,
+        child: ListView(
+          // ignore: prefer_const_literals_to_create_immutables
+          children: [
+            const SizedBox(
+              height: 10,
             ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Card(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                // ignore: prefer_const_literals_to_create_immutables
                 children: [
-                  Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Text(
-                      "Upload Resume",
-                      style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "ProximaNova"),
-                    ),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    icon: Icon(Icons.arrow_back),
                   ),
                   const SizedBox(
-                    height: 10,
+                    width: 30,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: 10, right: 10, left: 10, bottom: 10),
-                    child: GestureDetector(
-                      onTap: () {
-                        selectFile();
-                      },
-                      child: Row(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                border:
-                                    Border.all(color: Colors.grey, width: 2.5),
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Icon(
-                              Icons.add,
-                              color: Colors.grey,
-                              size: 25,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 30,
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              Text(
-                                "Attach File From Phone",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: "ProximaNova",
-                                    fontSize: 15),
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                "pdf,docx",
-                                style: TextStyle(
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.w500,
-                                    fontFamily: "ProximaNova",
-                                    fontSize: 15),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
+                  Text(
+                    "Qualification Details",
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontFamily: "ProximaNova",
+                        fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
             ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Card(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Text(
-                      "Profile Headline",
-                      style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "ProximaNova"),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: TextFormField(
-                      maxLines: 2,
-                      decoration: InputDecoration(
-                        labelText: "Profile Headline",
-                        border: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.grey,
-                          ),
-                        ),
+            const SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Card(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Text(
+                        "Upload Resume",
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "ProximaNova"),
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Text(
-                      "Highest Qualification",
-                      style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "ProximaNova"),
+                    const SizedBox(
+                      height: 10,
                     ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: FindDropdown(
-                      searchBoxDecoration: InputDecoration(
-                        border: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ),
-                      items: getData(),
-                      searchHint: "Highest Qualification",
-                      onFind: (val) async {
-                        setState(() {
-                          query = val;
-                        });
-                        await fetchHighestQualification(query: query);
-                        getData();
-                        return [""];
-                      },
-                      onChanged: (item) {
-                        setState(() {
-                          highQual = item;
-                        });
-                      },
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.all(10),
-                        child: Text(
-                          "Course",
-                          style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: FindDropdown(
-                          searchBoxDecoration: InputDecoration(
-                            border: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ),
-                          items: getCourses(),
-                          searchHint: "Course",
-                          onFind: (val) async {
-                            setState(() {
-                              querys = val;
-                            });
-                            await fetchCourses(query: querys);
-                            getCourses();
-                            return [""];
-                          },
-                          onChanged: (item) {
-                            setState(() {
-                              Courses = item;
-                            });
-                          },
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(10),
-                        child: Text(
-                          "Stream",
-                          style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: FindDropdown(
-                          searchBoxDecoration: InputDecoration(
-                            border: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ),
-                          items: getStream(),
-                          searchHint: "Streams",
-                          onFind: (val) async {
-                            setState(() {
-                              queryss = val;
-                            });
-                            await fetchStream(query: queryss);
-
-                            getStream();
-                            return [""];
-                          },
-                          onChanged: (item) {
-                            setState(() {
-                              Stream = item;
-                            });
-                          },
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(10),
-                        child: Text(
-                          "Course Type",
-                          style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          top: 10, right: 10, left: 10, bottom: 10),
+                      child: GestureDetector(
+                        onTap: () {
+                          selectFile();
+                        },
+                        child: Row(
                           children: [
-                            Row(
-                              children: [
-                                GFRadio(
-                                  size: 20,
-                                  activeBorderColor: Color(0xff2972ff),
-                                  value: 0,
-                                  groupValue: courseTypeGroupValue,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      courseTypeGroupValue = value;
-                                    });
-                                  },
-                                  inactiveIcon: null,
-                                  radioColor: Color(0xff2972ff),
-                                ),
-                                const SizedBox(
-                                  width: 7,
-                                ),
-                                const Text(
-                                  "Full Time",
+                            Container(
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: Colors.grey, width: 2.5),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Icon(
+                                Icons.add,
+                                color: Colors.grey,
+                                size: 25,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 30,
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: const [
+                                Text(
+                                  "Attach File From Phone",
                                   style: TextStyle(
-                                      fontSize: 15,
                                       fontWeight: FontWeight.bold,
-                                      fontFamily: "ProximaNova"),
+                                      fontFamily: "ProximaNova",
+                                      fontSize: 15),
                                 ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 7,
-                            ),
-                            Row(
-                              children: [
-                                GFRadio(
-                                  size: 20,
-                                  value: 1,
-                                  groupValue: courseTypeGroupValue,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      courseTypeGroupValue = value;
-                                    });
-                                  },
-                                  inactiveIcon: null,
-                                  activeBorderColor: Color(0xff2972ff),
-                                  radioColor: Color(0xff2972ff),
+                                SizedBox(
+                                  height: 5,
                                 ),
-                                const SizedBox(
-                                  width: 7,
-                                ),
-                                const Text(
-                                  "Correspondance",
+                                Text(
+                                  "pdf,docx",
                                   style: TextStyle(
-                                    fontFamily: "ProximaNova",
-                                    fontWeight: FontWeight.bold,
-                                    letterSpacing: 1.5,
-                                    fontSize: 15,
-                                  ),
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: "ProximaNova",
+                                      fontSize: 15),
                                 ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 7,
-                            ),
-                            Row(
-                              children: [
-                                GFRadio(
-                                  size: 20,
-                                  activeBorderColor: Color(0xff2972ff),
-                                  value: 2,
-                                  groupValue: courseTypeGroupValue,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      courseTypeGroupValue = value;
-                                    });
-                                  },
-                                  inactiveIcon: null,
-                                  radioColor: Color(0xff2972ff),
+                                SizedBox(
+                                  height: 5,
                                 ),
-                                const SizedBox(
-                                  width: 7,
-                                ),
-                                const Text(
-                                  "Distance",
+                                Text(
+                                  "File should be 2MB",
                                   style: TextStyle(
-                                    fontFamily: "ProximaNova",
-                                    fontWeight: FontWeight.bold,
-                                    letterSpacing: 1.5,
-                                    fontSize: 15,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 7,
-                            ),
-                            Row(
-                              children: [
-                                GFRadio(
-                                  size: 20,
-                                  activeBorderColor: Color(0xff2972ff),
-                                  value: 3,
-                                  groupValue: courseTypeGroupValue,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      courseTypeGroupValue = value;
-                                    });
-                                  },
-                                  inactiveIcon: null,
-                                  radioColor: Color(0xff2972ff),
-                                ),
-                                const SizedBox(
-                                  width: 7,
-                                ),
-                                const Text(
-                                  "Online",
-                                  style: TextStyle(
-                                    fontFamily: "ProximaNova",
-                                    fontWeight: FontWeight.bold,
-                                    letterSpacing: 1.5,
-                                    fontSize: 15,
-                                  ),
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: "ProximaNova",
+                                      fontSize: 15),
                                 ),
                               ],
                             ),
                           ],
                         ),
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(10),
-                        child: Text(
-                          "Institute Qualified From",
-                          style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                        child: FindDropdown(
-                          searchBoxDecoration: const InputDecoration(
-                            border: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ),
-                          items: parseInstitute(),
-                          searchHint: "Institute Name",
-                          onFind: (val) async {
-                            setState(() {
-                              queries = val;
-                            });
-                            await fetchInstitute(query: queries);
-                            parseInstitute();
-                            return [""];
-                          },
-                          onChanged: (item) {
-                            setState(() {
-                              myInstitute = item;
-                            });
-                          },
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(10),
-                        child: Text(
-                          "Passing Year",
-                          style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 6),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(color: Colors.grey),
-                            ),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: GFDropdown(
-                              hint: Text("Select Year"),
-                              value: myPassingYear,
-                              onChanged: (newValue) {
-                                setState(() {
-                                  myPassingYear = newValue;
-                                });
-                              },
-                              items: isLoading
-                                  ? ["Please Wait"]
-                                      .map(
-                                        (value) => DropdownMenuItem(
-                                            value: value,
-                                            child: Text(
-                                              value,
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.normal,
-                                                  fontFamily: "ProximaNova"),
-                                            )),
-                                      )
-                                      .toList()
-                                  : _apiResponse2.data
-                                      .map(
-                                        (data) => DropdownMenuItem(
-                                            value: data.yearId,
-                                            child: Text(data.yearName)),
-                                      )
-                                      .toList(),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(10),
-                        child: Text(
-                          "Grading System",
-                          style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 6),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(color: Colors.grey),
-                            ),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: GFDropdown(
-                              hint: Text("Select Grading System"),
-                              value: myGradingSystem,
-                              onChanged: (newValue) {
-                                setState(() {
-                                  myGradingSystem = newValue;
-                                });
-                              },
-                              items: isLoading
-                                  ? ["Please Wait"]
-                                      .map(
-                                        (value) => DropdownMenuItem(
-                                            value: value,
-                                            child: Text(
-                                              value,
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.normal,
-                                                  fontFamily: "ProximaNova"),
-                                            )),
-                                      )
-                                      .toList()
-                                  : _apiResponse.data
-                                      .map(
-                                        (data) => DropdownMenuItem(
-                                            value: data.gradingsystemId,
-                                            child:
-                                                Text(data.gradingsystemName)),
-                                      )
-                                      .toList(),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(10),
-                        child: Text(
-                          "Grade Value",
-                          style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: TextFormField(
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                            labelText: "Grade Value",
-                            border: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                    ],
-                  )
-                ],
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Align(
-                alignment: Alignment.centerRight,
-                child: GFButton(
-                  onPressed: () async {
-                    setState(() {
-                      isLoading = true;
-                    });
-                    final insert = QualificationPost(
-                        candidatequalCandidateId: 1,
-                        candidatequalQualificationId: 2,
-                        candidatequalCourseId: 3,
-                        candidatequalStreamId: 4,
-                        candidatequalCoursetypeId: 5,
-                        candidatequalInstituteId: 6,
-                        candidatequalCompletionYear: 7,
-                        candidatequalGradingsystemId: 8,
-                        candidatequalMarks: 71);
-                    final result = await apiServices.PostQualification(insert);
-                    setState(() {
-                      isLoading = false;
-                    });
-                    const title = "Done";
-                    final text = result.error
-                        ? (result.errorMessage ?? "An Error Occurred")
-                        : "Successfully Created";
-                    showDialog(
-                      context: context,
-                      builder: (_) => AlertDialog(
-                        title: const Text(title),
-                        content: Text(text),
-                        actions: [
-                          ElevatedButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Text("OK"))
-                        ],
+            const SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Card(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Text(
+                        "Profile Headline",
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "ProximaNova"),
                       ),
-                    ).then((data) {
-                      if (result.data) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => WorkingProfession()));
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: TextFormField(
+                        maxLines: 2,
+                        decoration: InputDecoration(
+                          labelText: "Profile Headline",
+                          border: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Text(
+                        "Highest Qualification",
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "ProximaNova"),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: DropdownSearch<Qualification>(
+                        dropdownSearchDecoration: InputDecoration(
+                            border: UnderlineInputBorder(
+                            )
+                        ),
+                        validator: (value) {
+                          if (value == null) {
+                            return "Please Select Qualification";
+                          }
+                          return null;
+                        },
+                        mode: Mode.DIALOG,
+                        items: isLoading
+                            ? Qualification()
+                            : _apiResponsequalification.data,
+                        itemAsString: (Qualification obj) {
+                          return obj.qualName;
+                        },
+                        onFind: (val) async {
+                          setState(() {
+                            query = val;
+                          });
+                          return _apiResponsequalification.data;
+                        },
+                        hint: "Select Highest Qualification",
+                        onChanged: (value) {
+                          qualificationSearchCon.text = value.qualId.toString();
+                          highQualID = value.qualId;
+                          print(value.qualId);
+                        },
+                        showSearchBox: true,
+                        popupItemBuilder:
+                            (context, Qualification item, bool isSelected) {
+                          return Container(
+                            margin: EdgeInsets.symmetric(horizontal: 8),
+                            child: Card(
+                              child: Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text(item.qualName),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                      // FindDropdown(
+                      //   searchBoxDecoration: InputDecoration(
+                      //     border: UnderlineInputBorder(
+                      //       borderSide: BorderSide(
+                      //         color: Colors.grey,
+                      //       ),
+                      //     ),
+                      //   ),
+                      //   items: getData(),
+                      //   searchHint: "Highest Qualification",
+                      //   onFind: (val) async {
+                      //     setState(() {
+                      //       query = val;
+                      //     });
+                      //     await fetchHighestQualification(query: query);
+                      //     getData();
+                      //     return [""];
+                      //   },
+                      //   onChanged: (item) {
+                      //     setState(() {
+                      //       highQual = item;
+                      //     });
+                      //   },
+                      // ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Text(
+                            "Course",
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "ProximaNova"),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: DropdownSearch<Qualification>(
+                            dropdownSearchDecoration: InputDecoration(
+                                border: UnderlineInputBorder(
+                                )
+                            ),
+                            validator: (value) {
+                              if (value == null) {
+                                return "Please Select Course";
+                              }
+                              return null;
+                            },
+                            mode: Mode.DIALOG,
+                            items: isLoading
+                                ? [Qualification()]
+                                : _apiResponsecourse.data,
+                            itemAsString: (Qualification obj) {
+                              return obj.courseName;
+                            },
+                            onFind: (val) async {
+                              setState(() {
+                                querys = val;
+                              });
+                              return _apiResponsecourse.data;
+                            },
+                            hint: "Select Course",
+                            onChanged: (value) {
+                              courseSearchCont.text = value.qualId.toString();
+                              courseId = value.courseId;
+                              print(value.courseId);
+                            },
+                            showSearchBox: true,
+                            popupItemBuilder:
+                                (context, Qualification item, bool isSelected) {
+                              return Container(
+                                margin: EdgeInsets.symmetric(horizontal: 8),
+                                child: Card(
+                                  child: Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Text(item.courseName),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                          // FindDropdown(
+                          //   searchBoxDecoration: InputDecoration(
+                          //     border: UnderlineInputBorder(
+                          //       borderSide: BorderSide(
+                          //         color: Colors.grey,
+                          //       ),
+                          //     ),
+                          //   ),
+                          //   items: getCourses(),
+                          //   searchHint: "Course",
+                          //   onFind: (val) async {
+                          //     setState(() {
+                          //       querys = val;
+                          //     });
+                          //     await fetchCourses(query: querys);
+                          //     getCourses();
+                          //     return [""];
+                          //   },
+                          //   onChanged: (item) {
+                          //     setState(() {
+                          //       Courses = item;
+                          //     });
+                          //   },
+                          // ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Text(
+                            "Stream",
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "ProximaNova"),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: DropdownSearch<Streams>(
+                            dropdownSearchDecoration: InputDecoration(
+                                border: UnderlineInputBorder(
+                                )
+                            ),
+                            validator: (value) {
+                              if (value == null) {
+                                return "Please Select Stream";
+                              }
+                              return null;
+                            },
+                            mode: Mode.DIALOG,
+                            items:
+                                isLoading ? Streams() : _apiResponsestream.data,
+                            itemAsString: (Streams obj) {
+                              return obj.streamName;
+                            },
+                            onFind: (val) async {
+                              setState(() {
+                                queryss = val;
+                              });
+                              return _apiResponsestream.data;
+                            },
+                            hint: "Select Streams",
+                            onChanged: (value) {
+                              streamSearchCont.text = value.streamId.toString();
+                              streamId = value.streamId;
+                              print(value.streamId);
+                            },
+                            showSearchBox: true,
+                            popupItemBuilder:
+                                (context, Streams item, bool isSelected) {
+                              return Container(
+                                margin: EdgeInsets.symmetric(horizontal: 8),
+                                child: Card(
+                                  child: Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Text(item.streamName),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                          // FindDropdown(
+                          //   searchBoxDecoration: InputDecoration(
+                          //     border: UnderlineInputBorder(
+                          //       borderSide: BorderSide(
+                          //         color: Colors.grey,
+                          //       ),
+                          //     ),
+                          //   ),
+                          //   items: getStream(),
+                          //   searchHint: "Streams",
+                          //   onFind: (val) async {
+                          //     setState(() {
+                          //       queryss = val;
+                          //     });
+                          //     await fetchStream(query: queryss);
+                          //
+                          //     getStream();
+                          //     return [""];
+                          //   },
+                          //   onChanged: (item) {
+                          //     setState(() {
+                          //       Stream = item;
+                          //     });
+                          //   },
+                          // ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Text(
+                            "Course Type",
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "ProximaNova"),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              _radioButtons(context),
+                              // Row(
+                              //   children: [
+                              //     Radio(
+                              //
+                              //       // size: 20,
+                              //       // activeBorderColor: Color(0xff2972ff),
+                              //       value: 1,
+                              //       groupValue: courseTypeGroupValue,
+                              //       onChanged: (value) {
+                              //         setState(() {
+                              //           courseTypeGroupValue = value;
+                              //         });
+                              //       },
+                              //       // inactiveIcon: null,
+                              //       // radioColor: Color(0xff2972ff),
+                              //     ),
+                              //     const SizedBox(
+                              //       width: 7,
+                              //     ),
+                              //     const Text(
+                              //       "Full Time",
+                              //       style: TextStyle(
+                              //           fontSize: 15,
+                              //           fontWeight: FontWeight.bold,
+                              //           fontFamily: "ProximaNova"),
+                              //     ),
+                              //   ],
+                              // ),
+                              // const SizedBox(
+                              //   height: 7,
+                              // ),
+                              // Row(
+                              //   children: [
+                              //     GFRadio(
+                              //       size: 20,
+                              //       value: 2,
+                              //       groupValue: courseTypeGroupValue,
+                              //       onChanged: (value) {
+                              //         setState(() {
+                              //           courseTypeGroupValue = value;
+                              //         });
+                              //       },
+                              //       inactiveIcon: null,
+                              //       activeBorderColor: Color(0xff2972ff),
+                              //       radioColor: Color(0xff2972ff),
+                              //     ),
+                              //     const SizedBox(
+                              //       width: 7,
+                              //     ),
+                              //     const Text(
+                              //       "Correspondance",
+                              //       style: TextStyle(
+                              //         fontFamily: "ProximaNova",
+                              //         fontWeight: FontWeight.bold,
+                              //         letterSpacing: 1.5,
+                              //         fontSize: 15,
+                              //       ),
+                              //     ),
+                              //   ],
+                              // ),
+                              // const SizedBox(
+                              //   height: 7,
+                              // ),
+                              // Row(
+                              //   children: [
+                              //     GFRadio(
+                              //       size: 20,
+                              //       activeBorderColor: Color(0xff2972ff),
+                              //       value: 3,
+                              //       groupValue: courseTypeGroupValue,
+                              //       onChanged: (value) {
+                              //         setState(() {
+                              //           courseTypeGroupValue = value;
+                              //         });
+                              //       },
+                              //       inactiveIcon: null,
+                              //       radioColor: Color(0xff2972ff),
+                              //     ),
+                              //     const SizedBox(
+                              //       width: 7,
+                              //     ),
+                              //     const Text(
+                              //       "Distance",
+                              //       style: TextStyle(
+                              //         fontFamily: "ProximaNova",
+                              //         fontWeight: FontWeight.bold,
+                              //         letterSpacing: 1.5,
+                              //         fontSize: 15,
+                              //       ),
+                              //     ),
+                              //   ],
+                              // ),
+                              // const SizedBox(
+                              //   height: 7,
+                              // ),
+                              // Row(
+                              //   children: [
+                              //     GFRadio(
+                              //       size: 20,
+                              //       activeBorderColor: Color(0xff2972ff),
+                              //       value: 4,
+                              //       groupValue: courseTypeGroupValue,
+                              //       onChanged: (value) {
+                              //         setState(() {
+                              //           courseTypeGroupValue = value;
+                              //         });
+                              //       },
+                              //       inactiveIcon: null,
+                              //       radioColor: Color(0xff2972ff),
+                              //     ),
+                              //     const SizedBox(
+                              //       width: 7,
+                              //     ),
+                              //     const Text(
+                              //       "Online",
+                              //       style: TextStyle(
+                              //         fontFamily: "ProximaNova",
+                              //         fontWeight: FontWeight.bold,
+                              //         letterSpacing: 1.5,
+                              //         fontSize: 15,
+                              //       ),
+                              //     ),
+                              //   ],
+                              // ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Text(
+                            "Institute Qualified From",
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "ProximaNova"),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                          child: DropdownSearch<Institute>(
+                            dropdownSearchDecoration: InputDecoration(
+                                border: UnderlineInputBorder(
+
+                                )
+                            ),
+                            validator: (value) {
+                              if (value == null) {
+                                return "Please Select Institute";
+                              }
+                              return null;
+                            },
+                            mode: Mode.DIALOG,
+                            items: isLoading
+                                ? Institute()
+                                : _apiResponseInstitute.data,
+                            itemAsString: (Institute obj) {
+                              return obj.instituteName;
+                            },
+                            onFind: (val) async {
+                              setState(() {
+                                querysss = val;
+                              });
+                              return _apiResponseInstitute.data;
+                            },
+                            hint: "Select Institute",
+                            onChanged: (value) {
+                              instituteSearchCont.text =
+                                  value.instituteId.toString();
+                              instituteId = value.instituteId;
+                              print(value.instituteId);
+                            },
+                            showSearchBox: true,
+                            popupItemBuilder:
+                                (context, Institute item, bool isSelected) {
+                              return Container(
+                                margin: EdgeInsets.symmetric(horizontal: 8),
+                                child: Card(
+                                  child: Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Text(item.instituteName),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                          // FindDropdown(
+                          //   searchBoxDecoration: const InputDecoration(
+                          //     border: UnderlineInputBorder(
+                          //       borderSide: BorderSide(
+                          //         color: Colors.grey,
+                          //       ),
+                          //     ),
+                          //   ),
+                          //   items: parseInstitute(),
+                          //   searchHint: "Institute Name",
+                          //   onFind: (val) async {
+                          //     setState(() {
+                          //       queries = val;
+                          //     });
+                          //     await fetchInstitute(query: queries);
+                          //     parseInstitute();
+                          //     return [""];
+                          //   },
+                          //   onChanged: (item) {
+                          //     setState(() {
+                          //       myInstitute = item;
+                          //     });
+                          //   },
+                          // ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Text(
+                            "Passing Year",
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "ProximaNova"),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 6),
+                          child: DropdownButtonFormField<PassingYear>(
+                            hint: Text("Select Year",style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "ProximaNova"),),
+                            value: myPassingYear,
+                            onChanged: (PassingYear newValue) {
+                              setState(() {
+                                myPassingYear = newValue;
+                              });
+                            },
+                            validator: (value) =>
+                            value == null ? 'Please fill Year' : null,
+                            items: _apiResponse2.data.map((PassingYear user) {
+                              return DropdownMenuItem<PassingYear>(
+                                value: user,
+                                child: Text(
+                                  user.yearName,
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Text(
+                            "Grading System",
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "ProximaNova"),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 6),
+                          child: DropdownButtonFormField<GradingSystem>(
+
+                            hint: Text("Grading Value",style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "ProximaNova"),),
+                            value: myGradingSystem,
+                            onChanged: (GradingSystem newValue) {
+                              setState(() {
+                                myGradingSystem = newValue;
+                              });
+                            },
+                            validator: (value) =>
+                            value == null ? 'Please fill Grading Value' : null,
+                            items: _apiResponse.data.map((GradingSystem user) {
+                              return DropdownMenuItem<GradingSystem>(
+                                value: user,
+                                child: Text(
+                                  user.gradingsystemName,
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Text(
+                            "Grade Value",
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "ProximaNova"),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return "Please Enter Grade Value";
+                              } else {
+                                return null;
+                              }
+                            },
+                            controller: gradeCont,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              hintText: "Grade Value",
+                              border: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Align(
+                  alignment: Alignment.centerRight,
+                  child: GFButton(
+                    onPressed: () async {
+                      print("#############");
+                      print(widget.uuid);
+                      print("#############");
+                      if (formKey.currentState.validate()) {
+                        print(yearID);
+                        print(myGradingSystem.gradingsystemId);
+                        setState(() {
+                          isLoading = true;
+                        });
+                        final insert = QualificationPost(
+                            candidateUuId: widget.uuid,
+                            candidatequalQualificationId: int.parse(highQualID),
+                            candidatequalCourseId: int.parse(courseId),
+                            candidatequalStreamId: int.parse(streamId),
+                            candidatequalCoursetypeId: courseTypeGroupValue,
+                            candidatequalInstituteId: int.parse(instituteId),
+                            candidatequalCompletionYear: int.parse(myPassingYear.yearId),
+                            candidatequalGradingsystemId: int.parse(myGradingSystem.gradingsystemId),
+                            candidatequalMarks: int.parse(gradeCont.text));
+                        final result =
+                            await apiServices.PostQualification(insert);
+                        setState(() {
+                          isLoading = false;
+                        });
+                        const title = "Done";
+                        final text = result.error
+                            ? (result.errorMessage ?? "An Error Occurred")
+                            : "Successfully Created";
+                        showDialog(
+                          context: context,
+                          builder: (_) => AlertDialog(
+                            title: const Text(title),
+                            content: Text(text),
+                            actions: [
+                              ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text("OK"))
+                            ],
+                          ),
+                        ).then((data) {
+                          if (result.data) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => WorkingProfession()));
+                          }
+                        });
                       }
-                    });
-                  },
-                  text: "Next",
-                  type: GFButtonType.solid,
-                )),
-          ),
-        ],
+                    },
+                    text: "Next",
+                    type: GFButtonType.solid,
+                  )),
+            ),
+          ],
+        ),
       ),
     );
+  }
+  Widget _radioButtons (BuildContext context){
+  return FormField(builder: (state){
+    return Column(
+      children: [
+        Row(
+          children: [
+            GFRadio(
+              size: 20,
+              inactiveIcon: null,
+              activeBorderColor: Color(0xff2972ff),
+              radioColor: Color(0xff2972ff),
+              value: 1,
+              groupValue: courseTypeGroupValue,
+              onChanged: (value) {
+                setState(() {
+                  courseTypeGroupValue = value;
+                });
+              },
+            ),
+            const SizedBox(
+              width: 7,
+            ),
+            const Text(
+              "Full Time",
+              style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "ProximaNova"),
+            ),
+
+          ],
+        ),
+        const SizedBox(
+          height: 7,
+        ),
+        Row(
+          children: [
+            GFRadio(
+              size: 20,
+              value: 2,
+              groupValue: courseTypeGroupValue,
+              onChanged: (value) {
+                setState(() {
+                  courseTypeGroupValue = value;
+                });
+              },
+              inactiveIcon: null,
+              activeBorderColor: Color(0xff2972ff),
+              radioColor: Color(0xff2972ff),
+            ),
+            const SizedBox(
+              width: 7,
+            ),
+            const Text(
+              "Correspondance",
+              style: TextStyle(
+                fontFamily: "ProximaNova",
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1.5,
+                fontSize: 15,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(
+          height: 7,
+        ),
+        Row(
+          children: [
+            GFRadio(
+              size: 20,
+              activeBorderColor: Color(0xff2972ff),
+              value: 3,
+              groupValue: courseTypeGroupValue,
+              onChanged: (value) {
+                setState(() {
+                  courseTypeGroupValue = value;
+                });
+              },
+              inactiveIcon: null,
+              radioColor: Color(0xff2972ff),
+            ),
+            const SizedBox(
+              width: 7,
+            ),
+            const Text(
+              "Distance",
+              style: TextStyle(
+                fontFamily: "ProximaNova",
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1.5,
+                fontSize: 15,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(
+          height: 7,
+        ),
+        Row(
+          children: [
+            GFRadio(
+              size: 20,
+              activeBorderColor: Color(0xff2972ff),
+              value: 4,
+              groupValue: courseTypeGroupValue,
+              onChanged: (value) {
+                setState(() {
+                  courseTypeGroupValue = value;
+                });
+              },
+              radioColor: Color(0xff2972ff),
+            ),
+            const SizedBox(
+              width: 7,
+            ),
+            const Text(
+              "Online",
+              style: TextStyle(
+                fontFamily: "ProximaNova",
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1.5,
+                fontSize: 15,
+              ),
+            ),
+          ],
+        ),
+        Text(
+          state.errorText ?? "",
+          style: TextStyle(
+            color:Theme.of(context).errorColor,
+          ),
+        )
+      ],
+    );
+  },
+  validator: (value){
+    if(courseTypeGroupValue == 0) {
+      return "Choose one of the option";
+    }
+    return null;
+  }
+  );
   }
 }

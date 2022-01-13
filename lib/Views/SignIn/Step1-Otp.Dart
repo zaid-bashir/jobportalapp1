@@ -18,7 +18,6 @@ class OTP extends StatefulWidget {
 class _OTPState extends State<OTP> {
   bool isLoading = false;
   ApiServices apiServices = ApiServices();
-
   ApiResponse<int> _apiResponse;
 
   fetchOTP(String mobileNumber) async {
@@ -142,8 +141,8 @@ class _OTPState extends State<OTP> {
             padding: const EdgeInsets.all(10.0),
             child: GFButton(
               onPressed: () async {
-                await fetchOTP(mobileController.text);
                 if (formKey.currentState.validate()) {
+                  await fetchOTP(mobileController.text);
                   if (isLoading) {
                     AwesomeDialog(
                       context: context,

@@ -1,5 +1,5 @@
 class QualificationPost {
-  int candidatequalCandidateId;
+  String candidateUuId;
   int candidatequalQualificationId;
   int candidatequalCourseId;
   int candidatequalStreamId;
@@ -10,7 +10,7 @@ class QualificationPost {
   int candidatequalMarks;
 
   QualificationPost(
-      {this.candidatequalCandidateId,
+      {this.candidateUuId,
       this.candidatequalQualificationId,
       this.candidatequalCourseId,
       this.candidatequalStreamId,
@@ -23,7 +23,7 @@ class QualificationPost {
 
   Map<String, dynamic> toJson() {
     return {
-      "candidatequalCandidateId": candidatequalCandidateId,
+      "candidatequalCandidateId": candidateUuId,
       "candidatequalQualificationId": candidatequalQualificationId,
       "candidatequalCourseId": candidatequalCourseId,
       "candidatequalStreamId": candidatequalStreamId,

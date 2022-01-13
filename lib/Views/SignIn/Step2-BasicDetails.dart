@@ -673,7 +673,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                           },
                           mode: Mode.DIALOG,
                           items: isLoadingJobCategory
-                              ? JobCategory()
+                              ? [JobCategory()]
                               : _apiResponseJobCategory.data,
                           itemAsString: (JobCategory obj) {
                             return obj.jobroleName;
@@ -733,7 +733,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                         },
                         mode: Mode.DIALOG,
                         items: isLoadingCurrentLocation
-                            ? CurrentLocation()
+                            ? [CurrentLocation()]
                             : _apiResponseCurrentLocation.data,
                         itemAsString: (CurrentLocation obj) {
                           return obj.cityName;
@@ -843,6 +843,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                               MaterialPageRoute(
                                 builder: (context) => QualificationBlueCollar(
                                   uuid: response.axelaCandidateUuId,
+                                  experienceValue: experienceGroupValue,
                                 ),
                               ),
                             );

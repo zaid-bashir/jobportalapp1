@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, avoid_single_cascade_in_expression_statements, must_be_immutable
+// ignore_for_file: prefer_const_constructors, avoid_single_cascade_in_expression_statements, must_be_immutable, unnecessary_string_interpolations, avoid_print, unnecessary_const
 
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +22,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
   bool isLoading = false;
   ApiServices apiServices = ApiServices();
   ApiResponse<String> _apiResponse;
+  var key = GlobalKey<FormState>();
 
   verifyOTP() async {
     setState(() {
@@ -42,11 +43,11 @@ class _VerifyOTPState extends State<VerifyOTP> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.white,
-        body: ListView(
-          children: [
-            Container(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.white,
+      body: ListView(
+        children: [
+          Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               height: MediaQuery.of(context).size.height,
               width: double.infinity,
@@ -91,12 +92,13 @@ class _VerifyOTPState extends State<VerifyOTP> {
                   const SizedBox(
                     height: 30,
                   ),
-
                   // Verification Code Input
                   FadeInDown(
+                    key: key,
                     child: VerificationCode(
                       length: 6,
-                      textStyle: const TextStyle(fontSize: 20, color: Colors.black),
+                      textStyle:
+                          const TextStyle(fontSize: 20, color: Colors.black),
                       underlineColor: Colors.black,
                       keyboardType: TextInputType.number,
                       underlineUnfocusedColor: Colors.black,
@@ -145,34 +147,36 @@ class _VerifyOTPState extends State<VerifyOTP> {
                     child: MaterialButton(
                       elevation: 0,
                       onPressed: () {
-                          if (isLoading) {
-                            AwesomeDialog(
-                              context: context,
-                              animType: AnimType.SCALE,
-                              dialogType: DialogType.ERROR,
-                              title: 'JobPortalApp',
-                              desc: '${_apiResponse.errorMessage}',
-                              btnOkOnPress: () {
-                                Navigator.of(context).pop();
-                              },
-                            ).show();
-                          } else {
-                            AwesomeDialog(
-                              context: context,
-                              animType: AnimType.SCALE,
-                              dialogType: DialogType.SUCCES,
-                              title: 'JobPortalApp',
-                              desc:
-                                  'Mobile Number +91-${widget.registerMobile} Successfully Verified',
-                              btnOkOnPress: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => BasicDetails(mobileNo: widget.registerMobile,),
+                        if (isLoading) {
+                          AwesomeDialog(
+                            context: context,
+                            animType: AnimType.SCALE,
+                            dialogType: DialogType.ERROR,
+                            title: 'JobPortalApp',
+                            desc: '${_apiResponse.errorMessage}',
+                            btnOkOnPress: () {
+                              Navigator.of(context).pop();
+                            },
+                          ).show();
+                        } else {
+                          AwesomeDialog(
+                            context: context,
+                            animType: AnimType.SCALE,
+                            dialogType: DialogType.SUCCES,
+                            title: 'JobPortalApp',
+                            desc:
+                                'Mobile Number +91-${widget.registerMobile} Successfully Verified',
+                            btnOkOnPress: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => BasicDetails(
+                                    mobileNo: widget.registerMobile,
                                   ),
-                                );
-                              },
-                            ).show();
-                          }
+                                ),
+                              );
+                            },
+                          ).show();
+                        }
                       },
                       color: Colors.orange.shade400,
                       minWidth: MediaQuery.of(context).size.width * 0.8,
@@ -182,7 +186,8 @@ class _VerifyOTPState extends State<VerifyOTP> {
                   ),
                 ],
               )),
-          ],
-        ),);
+        ],
+      ),
+    );
   }
 }
