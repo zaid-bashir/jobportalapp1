@@ -16,8 +16,8 @@ import 'package:job_portal/Models/location.dart';
 
 
 class PersonalDetails extends StatefulWidget {
-  const PersonalDetails({Key key}) : super(key: key);
-
+   PersonalDetails({Key key, this.uuid}) : super(key: key);
+   String uuid;
   @override
   _PersonalDetailsState createState() => _PersonalDetailsState();
 }

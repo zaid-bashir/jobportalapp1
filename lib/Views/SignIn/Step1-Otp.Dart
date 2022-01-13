@@ -18,7 +18,6 @@ class OTP extends StatefulWidget {
 class _OTPState extends State<OTP> {
   bool isLoading = false;
   ApiServices apiServices = ApiServices();
-
   ApiResponse<int> _apiResponse;
 
   fetchOTP(String mobileNumber) async {
@@ -26,7 +25,7 @@ class _OTPState extends State<OTP> {
       isLoading = true;
     });
     _apiResponse =
-        await apiServices.getOTP(GetOTP(registerMobile: mobileNumber));
+    await apiServices.getOTP(GetOTP(registerMobile: mobileNumber));
     setState(() {
       isLoading = false;
     });
@@ -142,8 +141,8 @@ class _OTPState extends State<OTP> {
             padding: const EdgeInsets.all(10.0),
             child: GFButton(
               onPressed: () async {
-                await fetchOTP(mobileController.text);
                 if (formKey.currentState.validate()) {
+                  await fetchOTP(mobileController.text);
                   if (isLoading) {
                     AwesomeDialog(
                       context: context,
@@ -162,12 +161,12 @@ class _OTPState extends State<OTP> {
                       dialogType: DialogType.SUCCES,
                       title: 'JobPortalApp',
                       desc:
-                          'OTP Successfully Sent to Mobile Number +91-${mobileController.text}',
+                      'OTP Successfully Sent to Mobile Number +91-${mobileController.text}',
                       btnOkOnPress: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => VerifyOTP(
-                              registerMobile: mobileController.text,
+                              registerMobile: '${mobileController.text}',
                               otp: _apiResponse.data,
                             ),
                           ),

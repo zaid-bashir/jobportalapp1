@@ -1,8 +1,8 @@
 class EmploymentType{
-  String  employmenttypeId;
+  int  employmenttypeId;
   String  employmenttypeName;
-
-  EmploymentType({this.employmenttypeName,this.employmenttypeId});
+  bool value = false;
+  EmploymentType({this.employmenttypeId,this.employmenttypeName,this.value});
 
   factory EmploymentType.fromJson(Map<String,dynamic> item){
     return EmploymentType(

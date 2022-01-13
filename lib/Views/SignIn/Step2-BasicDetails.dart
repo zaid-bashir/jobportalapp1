@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, deprecated_member_use, prefer_final_fields, unused_field, unnecessary_string_interpolations, avoid_print, prefer_const_constructors_in_immutables, must_be_immutable, avoid_unnecessary_containers
+// ignore_for_file: prefer_const_constructors, deprecated_member_use, prefer_final_fields, unused_field, unnecessary_string_interpolations, avoid_print, prefer_const_constructors_in_immutables, must_be_immutable, avoid_unnecessary_containers, unused_local_variable
 
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
@@ -6,10 +6,10 @@ import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/CurerntLocation.dart';
 import 'package:job_portal/Models/GetTitle.dart';
+import 'package:job_portal/Models/JobRole.dart';
 import 'package:job_portal/Models/basicdetailresponse.dart';
 import 'package:job_portal/Models/basicdetials.dart';
 import 'package:job_portal/Models/custumradiomodel.dart';
-import 'package:job_portal/Models/getjobcategory.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -244,7 +244,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                             padding: const EdgeInsets.only(top: 0, left: 13),
                             child: DropdownButtonFormField<GetTitle>(
                               hint: Text(
-                                "Title",
+                                "Title:",
                                 style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,
@@ -279,8 +279,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                             controller: fnameController,
                             decoration: InputDecoration(
                               contentPadding: EdgeInsets.all(8.0),
-                              alignLabelWithHint: true,
-                              labelText: "First Name",
+                              labelText: 'First Name:',
                               labelStyle: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold,
@@ -298,6 +297,9 @@ class _BasicDetailsState extends State<BasicDetails> {
                                 ),
                               ),
                             ),
+                            keyboardType: TextInputType.name,
+                            autovalidateMode:
+                            AutovalidateMode.onUserInteraction,
                             validator: (value) {
                               if (value.isEmpty) {
                                 return "Please Enter First Name";
@@ -325,7 +327,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                               controller: mnameController,
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(8.0),
-                                labelText: 'Middle Name',
+                                labelText: 'Middle Name:',
                                 labelStyle: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,
@@ -343,6 +345,9 @@ class _BasicDetailsState extends State<BasicDetails> {
                                   ),
                                 ),
                               ),
+                              keyboardType: TextInputType.name,
+                              autovalidateMode:
+                              AutovalidateMode.onUserInteraction,
                             ),
                           ),
                           const SizedBox(
@@ -353,7 +358,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                               controller: lnameController,
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(8.0),
-                                labelText: 'Last Name',
+                                labelText: 'Last Name:',
                                 labelStyle: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,
@@ -371,6 +376,9 @@ class _BasicDetailsState extends State<BasicDetails> {
                                   ),
                                 ),
                               ),
+                              keyboardType: TextInputType.name,
+                              autovalidateMode:
+                              AutovalidateMode.onUserInteraction,
                               validator: (value) {
                                 if (value.isEmpty) {
                                   return "Please Enter Last Name";
@@ -391,7 +399,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                         controller: emailController,
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.all(8.0),
-                          labelText: 'E-mail',
+                          labelText: 'E-mail:',
                           labelStyle: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
@@ -409,6 +417,8 @@ class _BasicDetailsState extends State<BasicDetails> {
                             ),
                           ),
                         ),
+                        keyboardType: TextInputType.emailAddress,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
                           if (value.isEmpty) {
                             return "Please Enter Email";
@@ -426,7 +436,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                     const Padding(
                       padding: EdgeInsets.all(8),
                       child: Text(
-                        "Gender",
+                        "Gender:",
                         textAlign: TextAlign.left,
                         style: TextStyle(
                             fontSize: 15,
@@ -440,6 +450,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                     Padding(
                       padding: const EdgeInsets.all(8),
                       child: FormBuilderRadioGroup<CustumRadioButtons>(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         options: genderItems
                             .map((lang) => FormBuilderFieldOption(
                           value: lang,
@@ -468,7 +479,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                     const Padding(
                       padding: EdgeInsets.all(8),
                       child: Text(
-                        "Experience",
+                        "Experience:",
                         textAlign: TextAlign.left,
                         style: TextStyle(
                             fontSize: 15,
@@ -482,6 +493,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                     Padding(
                       padding: const EdgeInsets.all(8),
                       child: FormBuilderRadioGroup<CustumRadioButtons>(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         options: experienceItems
                             .map((lang) => FormBuilderFieldOption(
                           value: lang,
@@ -507,62 +519,6 @@ class _BasicDetailsState extends State<BasicDetails> {
                         name: "Experience",
                       ),
                     ),
-                    // Row(
-                    //     crossAxisAlignment: CrossAxisAlignment.start,
-                    //     children: [
-                    //       GFRadio(
-                    //         size: 20,
-                    //         activeBorderColor: const Color(0xff2972ff),
-                    //         value: 1,
-                    //         groupValue: experienceGroupValue,
-                    //         onChanged: (value) {
-                    //           setState(() {
-                    //             experienceGroupValue = value;
-                    //           });
-                    //         },
-                    //         inactiveIcon: null,
-                    //         radioColor: const Color(0xff2972ff),
-                    //       ),
-                    //       const SizedBox(
-                    //         width: 7,
-                    //       ),
-                    //       const Text(
-                    //         "Yes",
-                    //         style: TextStyle(
-                    //             fontSize: 15,
-                    //             fontWeight: FontWeight.bold,
-                    //             fontFamily: "ProximaNova"),
-                    //       ),
-                    //       const SizedBox(
-                    //         width: 20,
-                    //       ),
-                    //       GFRadio(
-                    //         size: 20,
-                    //         value: 2,
-                    //         groupValue: experienceGroupValue,
-                    //         onChanged: (value) {
-                    //           setState(() {
-                    //             experienceGroupValue = value;
-                    //           });
-                    //         },
-                    //         inactiveIcon: null,
-                    //         activeBorderColor: const Color(0xff2972ff),
-                    //         radioColor: const Color(0xff2972ff),
-                    //       ),
-                    //       const SizedBox(
-                    //         width: 7,
-                    //       ),
-                    //       const Text(
-                    //         "No",
-                    //         style: TextStyle(
-                    //             fontSize: 15,
-                    //             fontWeight: FontWeight.bold,
-                    //             fontFamily: "ProximaNova"),
-                    //       ),
-                    //     ],
-                    //   ),
-
-                    // ),
                     const SizedBox(
                       height: 10,
                     ),
@@ -570,7 +526,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                         ? const Padding(
                       padding: EdgeInsets.all(8),
                       child: Text(
-                        "Experience Tenure",
+                        "Experience Tenure:",
                         textAlign: TextAlign.left,
                         style: TextStyle(
                             fontSize: 15,
@@ -591,6 +547,8 @@ class _BasicDetailsState extends State<BasicDetails> {
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
                               child: DropdownButtonFormField<String>(
+                                autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                                 hint: Text("Years"),
                                 value: mySelectionYear,
                                 onChanged: (newValue) {
@@ -640,6 +598,8 @@ class _BasicDetailsState extends State<BasicDetails> {
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
                               child: DropdownButtonFormField<String>(
+                                autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                                 hint: Text("Months"),
                                 value: mySelectionMonth,
                                 onChanged: (newValue) {
@@ -692,7 +652,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                     const Padding(
                       padding: EdgeInsets.all(8),
                       child: Text(
-                        "Job Role",
+                        "Job Role:",
                         textAlign: TextAlign.left,
                         style: TextStyle(
                             fontSize: 15,
@@ -704,6 +664,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: DropdownSearch<JobCategory>(
+                          autoValidateMode: AutovalidateMode.onUserInteraction,
                           validator: (value) {
                             if (value == null) {
                               return "Please Enter Job Role";
@@ -712,7 +673,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                           },
                           mode: Mode.DIALOG,
                           items: isLoadingJobCategory
-                              ? JobCategory()
+                              ? [JobCategory()]
                               : _apiResponseJobCategory.data,
                           itemAsString: (JobCategory obj) {
                             return obj.jobroleName;
@@ -752,7 +713,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                     const Padding(
                       padding: EdgeInsets.all(8),
                       child: Text(
-                        "Current Location",
+                        "Current Location:",
                         textAlign: TextAlign.left,
                         style: TextStyle(
                             fontSize: 15,
@@ -763,6 +724,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: DropdownSearch<CurrentLocation>(
+                        autoValidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
                           if (value == null) {
                             return "Please Select Current Location";
@@ -771,7 +733,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                         },
                         mode: Mode.DIALOG,
                         items: isLoadingCurrentLocation
-                            ? CurrentLocation()
+                            ? [CurrentLocation()]
                             : _apiResponseCurrentLocation.data,
                         itemAsString: (CurrentLocation obj) {
                           return obj.cityName;
@@ -821,22 +783,23 @@ class _BasicDetailsState extends State<BasicDetails> {
                   blockButton: false,
                   onPressed: () async {
                     if (_fbKey.currentState.saveAndValidate()) {
-                      print(int.parse(selectedUser.titleId));
-                      print(widget.mobileNo);
-                      print(fnameController.text);
-                      print(mnameController.text);
-                      print(lnameController.text);
-                      print(emailController.text);
-                      print(fnameController.text +
+                      print("TitleId+${int.parse(selectedUser.titleId)}");
+                      print("MobileNo : ${widget.mobileNo}");
+                      print("FirstName : ${fnameController.text}");
+                      print("MiddleName : ${mnameController.text}");
+                      print("LastName : ${lnameController.text}");
+                      print("Email : ${emailController.text}");
+                      print("FullName : ${fnameController.text +
                           " " +
                           " " +
-                          lnameController.text);
-                      print(genderRadioId);
-                      print(totalExp == 0 ? totalExp : totalWorkExp());
-                      print(int.parse(jobRoleID));
-                      print(int.parse(cityID));
-                      await apiServices
-                          .postBasicDetials(BasicDetialModel(
+                          lnameController.text}");
+                      print("GenderId : ${genderRadioId}");
+                      print("TotalExperience:");
+                      print(experienceRadioId == 2 ? totalExp : totalWorkExp());
+                      print("JobId : ${int.parse(jobRoleID)}");
+                      print("CityId : ${int.parse(cityID)}");
+
+                      final insert = BasicDetialModel(
                         candidateTitleId: int.parse(selectedUser.titleId),
                         candidateMobile1: widget.mobileNo,
                         candidateFirstName: fnameController.text,
@@ -850,19 +813,33 @@ class _BasicDetailsState extends State<BasicDetails> {
                             lnameController.text,
                         candidateGenderId: genderRadioId,
                         candidateTotalworkexp:
-                        totalExp == 0 ? totalExp : totalWorkExp(),
+                        experienceRadioId == 2 ? totalExp : totalWorkExp(),
                         candidateJobroleId: int.parse(jobRoleID),
                         candidateCityId: int.parse(cityID),
-                      ))
-                          .then((value) {
-                        response = value.data;
-                        // return response;
-                      });
+                      );
+
+                      final result = await apiServices.postBasicDetials(insert);
                       print("#######################");
+                      response = result.data;
                       print(response);
                       print("#######################");
                       storeDataToSharedPref();
-                      Navigator.of(context).push(
+                      result.error
+                          ? showDialog(
+                        context: context,
+                        builder: (_) => AlertDialog(
+                          title: Text("Error"),
+                          content: Text("Something went wrong"),
+                          actions: [
+                            ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text("OK"))
+                          ],
+                        ),
+                      )
+                          : Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => QualificationBlueCollar(
                             uuid: response.axelaCandidateUuId,
@@ -887,10 +864,48 @@ class _BasicDetailsState extends State<BasicDetails> {
   }
 
   void storeDataToSharedPref() {
-    pref.setString(keyUuid,response.axelaCandidateUuId);
-    pref.setInt(keyCandiadateId,response.axelaCandidateId);
-    pref.setString(keyCandidateName,response.axelaCandidateName);
-    pref.setString(keyCandidateEmail,response.axelaCandidateEmail1);
-    pref.setString(keyCandiadteMobile,response.axelaCandidateMobile);
+    pref.setString(keyUuid, response.axelaCandidateUuId);
+    pref.setInt(keyCandiadateId, response.axelaCandidateId);
+    pref.setString(keyCandidateName, response.axelaCandidateName);
+    pref.setString(keyCandidateEmail, response.axelaCandidateEmail1);
+    pref.setString(keyCandiadteMobile, response.axelaCandidateMobile);
   }
 }
+
+
+
+
+
+
+// setState(() {
+//                       isLoading = false;
+//                     });
+//                     const title = "Done";
+//                     final text = result.error
+//                         ? (result.errorMessage ?? "An Error Occurred")
+//                         : "Successfully Created";
+//                     showDialog(
+//                       context: context,
+//                       builder: (_) => AlertDialog(
+//                         title: const Text(title),
+//                         content: Text(text),
+//                         actions: [
+//                           ElevatedButton(
+//                               onPressed: () {
+//                                 Navigator.pop(context);
+//                               },
+//                               child: const Text("OK"))
+//                         ],
+//                       ),
+//                     ).then((data) {
+//                       if (result.data) {
+//                         Navigator.push(
+//                             context,
+//                             MaterialPageRoute(
+//                                 builder: (context) => WorkingProfession()));
+//                       }
+//                     });
+//                   },
+//                   text: "Next",
+//                   type: GFButtonType.solid,
+//                 )),

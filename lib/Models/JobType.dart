@@ -1,5 +1,5 @@
 class JobType{
-  String  jobtypeId;
+  int  jobtypeId;
   String  jobtypeName;
 
   JobType({this.jobtypeId,this.jobtypeName});

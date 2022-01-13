@@ -2,16 +2,19 @@ import 'dart:io';
 
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:find_dropdown/find_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/GradingSystem.dart';
 import 'package:job_portal/Models/InstituteQualified.dart';
-import 'package:job_portal/Models/JobCategory.dart';
 import 'package:job_portal/Models/PassingYear.dart';
+import 'package:job_portal/Models/QualificationDetails.dart';
+import 'package:job_portal/Models/Stream.dart';
+import 'package:job_portal/Models/qualification-post.dart';
 import 'package:job_portal/Services/ApiServices.dart';
-import 'package:job_portal/Theme/colors.dart';
 import 'package:job_portal/Views/SignIn/Step5-ProfessionalDetails.dart';
+import 'package:job_portal/Views/SignIn/Step6-KeySkills.dart';
 
 class QualificationBlueCollar extends StatefulWidget {
    QualificationBlueCollar({Key key, this.uuid}) : super(key: key);
@@ -489,7 +492,7 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                             },
                             mode: Mode.DIALOG,
                             items: isLoading
-                                ? Qualification()
+                                ? [Qualification()]
                                 : _apiResponsecourse.data,
                             itemAsString: (Qualification obj) {
                               return obj.courseName;
@@ -1018,11 +1021,11 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                           isLoading = true;
                         });
                         final insert = QualificationPost(
-                            candidatequalCandidateId: 3,
+                            candidateUuid: widget.uuid,
                             candidatequalQualificationId: int.parse(highQualID),
                             candidatequalCourseId: int.parse(courseId),
                             candidatequalStreamId: int.parse(streamId),
-                            candidatequalCoursetypeId: courseTypeGroupValue,
+                            candidatequalCousetypeId: courseTypeGroupValue,
                             candidatequalInstituteId: int.parse(instituteId),
                             candidatequalCompletionYear: int.parse(myPassingYear.yearId),
                             candidatequalGradingsystemId: int.parse(myGradingSystem.gradingsystemId),
@@ -1036,28 +1039,32 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                         final text = result.error
                             ? (result.errorMessage ?? "An Error Occurred")
                             : "Successfully Created";
-                        showDialog(
-                          context: context,
-                          builder: (_) => AlertDialog(
-                            title: const Text(title),
-                            content: Text(text),
-                            actions: [
-                              ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text("OK"))
-                            ],
-                          ),
-                        ).then((data) {
-                          if (result.data) {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => WorkingProfession()));
-                          }
-                        });
+                        // showDialog(
+                        //   context: context,
+                        //   builder: (_) => AlertDialog(
+                        //     title: const Text(title),
+                        //     content: Text(text),
+                        //     actions: [
+                        //       ElevatedButton(
+                        //           onPressed: () {
+                        //             Navigator.pop(context);
+                        //           },
+                        //           child: const Text("OK"))
+                        //     ],
+                        //   ),
+                        // ).then((data) {
+                        //   if (result.data) {
+                        //     Navigator.push(
+                        //         context,
+                        //         MaterialPageRoute(
+                        //             builder: (context) => KeySkillsPage(uuid: widget.uuid,)));
+                        //   }
+                        // });
                       }
+                      Navigator.of(context).push(
+                          MaterialPageRoute(
+                                       builder: (context) => WorkingProfession(uuid: widget.uuid,)));
+
                     },
                     text: "Next",
                     type: GFButtonType.solid,

@@ -1,38 +1,41 @@
 
 class CareerPreferencePost {
+  String candidateUuid;
   int candidateIndustryId;
-  String candidateJobtypeIds;
-  String candidateEmploymenttypeIds;
-  String candidatePreferredCityIds;
+  List<String>  candidateJobtypeIdsList;
+  List<String>  candidateEmploymenttypeIdsList;
+  List<String> candidatePreferredCityIdsList;
   int candidateExpectedctc;
   int candidateShiftId;
   String candidateJoinimmediate;
-  DateTime candidateJoinDate;
+  DateTime candidateJoindate;
 
 
   CareerPreferencePost(
-  {
-    this.candidateIndustryId,
-    this.candidateJobtypeIds,
-    this.candidateEmploymenttypeIds,
-    this.candidatePreferredCityIds,
-    this.candidateExpectedctc,
-    this.candidateShiftId,
-    this.candidateJoinimmediate,
-    this.candidateJoinDate
+      {
+        this.candidateUuid,
+        this.candidateIndustryId,
+        this.candidateJobtypeIdsList,
+        this.candidateEmploymenttypeIdsList,
+        this.candidatePreferredCityIdsList,
+        this.candidateExpectedctc,
+        this.candidateShiftId,
+        this.candidateJoinimmediate,
+        this.candidateJoindate
 
-});
+      });
 
   Map<String, dynamic> toJson() {
     return {
+      "candidateUuid":candidateUuid,
       "candidateIndustryId": candidateIndustryId,
-      "candidateJobtypeIds": candidateJobtypeIds,
-      "candidateEmploymenttypeIds": candidateEmploymenttypeIds,
-      "candidatePreferredCityIds": candidatePreferredCityIds,
+      "candidateJobtypeIdsList": candidateJobtypeIdsList,
+      "candidateEmploymenttypeIdsList": candidateEmploymenttypeIdsList,
+      "candidatePreferredCityIdsList": candidatePreferredCityIdsList,
       "candidateExpectedctc": candidateExpectedctc,
       "candidateShiftId": candidateShiftId,
       "candidateJoinimmediate": candidateJoinimmediate,
-      "candidateJoinDate": candidateJoinDate,
+      "candidateJoindate": candidateJoindate,
 
     };
   }

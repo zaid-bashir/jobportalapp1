@@ -12,8 +12,8 @@ import 'package:job_portal/Services/ApiServices.dart';
 import 'Step8-CareerPreference.dart';
 
 class ItSkills extends StatefulWidget {
-  const ItSkills({Key key}) : super(key: key);
-
+   ItSkills({Key key,this.uuid}) : super(key: key);
+   String uuid;
   @override
   _ItSkillsState createState() => _ItSkillsState();
 }
@@ -404,7 +404,7 @@ class _ItSkillsState extends State<ItSkills> {
                             isLoading = true;
                           });
                           final insert = PostItSkills(
-                              candidiateitskillCandidateId: 3,
+                              candidateUuid: widget.uuid,
                               candidiateitskillItskillId: int.parse(itSkillId),
                               candidiateitskillVersion: int.parse(versionCont.text),
                               candidiateitskillExperience: totalworkexp,
@@ -417,29 +417,34 @@ class _ItSkillsState extends State<ItSkills> {
                           final text = result.error
                               ? (result.errorMessage ?? "An Error Occurred")
                               : "Successfully Created";
-                          showDialog(
-                            context: context,
-                            builder: (_) => AlertDialog(
-                              title: const Text(title),
-                              content: Text(text),
-                              actions: [
-                                ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Text("OK"))
-                              ],
-                            ),
-                          ).then((data) {
-                            if (result.data) {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          CareerPreference()));
-                            }
-                          });
+                          // showDialog(
+                          //   context: context,
+                          //   builder: (_) => AlertDialog(
+                          //     title: const Text(title),
+                          //     content: Text(text),
+                          //     actions: [
+                          //       ElevatedButton(
+                          //           onPressed: () {
+                          //             Navigator.pop(context);
+                          //           },
+                          //           child: const Text("OK"))
+                          //     ],
+                          //   ),
+                          // ).then((data) {
+                          //   if (result.data) {
+                          //     Navigator.push(
+                          //         context,
+                          //         MaterialPageRoute(
+                          //             builder: (context) =>
+                          //                 CareerPreference(uuid: widget.uuid,)));
+                          //   }
+                          // });
                         }
+                        Navigator.push(
+                                   context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            CareerPreference(uuid: widget.uuid,)));
                       },
                       text: "Next",
                       type: GFButtonType.solid,

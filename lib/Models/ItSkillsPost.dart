@@ -1,5 +1,5 @@
 class PostItSkills {
-  int candidiateitskillCandidateId;
+  String candidateUuid;
   int candidiateitskillItskillId;
   int candidiateitskillVersion;
   int candidiateitskillLastused;
@@ -7,12 +7,12 @@ class PostItSkills {
 
 
 
-  PostItSkills({this.candidiateitskillCandidateId, this.candidiateitskillItskillId, this.candidiateitskillVersion,
+  PostItSkills({this.candidateUuid, this.candidiateitskillItskillId, this.candidiateitskillVersion,
     this.candidiateitskillLastused, this.candidiateitskillExperience});
 
   Map<String, dynamic> toJson() {
     return {
-      "candidiateitskillCandidateId": candidiateitskillCandidateId,
+      "candidateUuid": candidateUuid,
       "candidiateitskillItskillId": candidiateitskillItskillId,
       "candidiateitskillVersion": candidiateitskillVersion,
       "candidiateitskillLastused": candidiateitskillLastused,
