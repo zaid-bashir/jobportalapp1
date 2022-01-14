@@ -49,7 +49,7 @@ class PostProfession {
 
       "candidateexpEnddate":
       "${candidateexpEnddate.year.toString().padLeft(4, '0')}-${candidateexpEnddate.month.toString().padLeft(2, '0')}-${candidateexpEnddate.day.toString().padLeft(2, '0')}",
-      // "candidateexpUuid": candidateexpUuid,
+
     };
   }
 }

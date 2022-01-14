@@ -297,6 +297,10 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                 height: 8,
                               ),
                               DropdownSearch<Cities>(
+                                dropdownSearchDecoration: InputDecoration(
+                                    border: UnderlineInputBorder(
+                                    )
+                                ),
 
                                 mode: Mode.DIALOG,
                                 items: isLoading ? Cities() : _apiResponse.data,
@@ -872,6 +876,10 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                 height: 8,
                               ),
                               DropdownSearch<Nationality>(
+                                dropdownSearchDecoration: InputDecoration(
+                                    border: UnderlineInputBorder(
+                                    )
+                                ),
 
                                 mode: Mode.DIALOG,
                                 items: isLoading

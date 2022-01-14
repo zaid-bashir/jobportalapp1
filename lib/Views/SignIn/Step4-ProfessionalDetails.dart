@@ -254,6 +254,10 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                   ? Padding(
                                 padding: const EdgeInsets.only(top: 8.0),
                                 child: DropdownSearch<Company>(
+                                  dropdownSearchDecoration: InputDecoration(
+                                      border: UnderlineInputBorder(
+                                      )
+                                  ),
                                   validator: (value) {
                                     if (value == null) {
                                       return "Please Select Company Name";
@@ -475,6 +479,10 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                   ? Padding(
                                 padding: const EdgeInsets.only(top: 8.0),
                                 child: DropdownSearch<Company>(
+                                  dropdownSearchDecoration: InputDecoration(
+                                      border: UnderlineInputBorder(
+                                      )
+                                  ),
                                   validator: (value) {
                                     if (value == null) {
                                       return "Please Select Company Name";
@@ -773,13 +781,12 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                     candidateUuid: widget.uuid,
                                     candidateexpIscurrentcompany: groupValue.toString(),
                                     candidateexpOrganizationId: int.parse(currentCompanyID),
-                                    // candidateexpOrganizationName: "2",
+
                                     candidateexpDesignation:currentCompanyCntrl.text,
                                     candidateexpSalary: int.parse(salaryCount.text),
                                     candidateexpStartdate: selectedDate,
                                     candidateexpEnddate: selectedDate3,
-                                    // candidateexpEnddate: 6,
-                                    // candidateIndustryId: 21
+
                                     );
                                 final result =
                                 await apiServices.ProfessionPost(insert);
