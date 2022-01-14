@@ -1,19 +1,19 @@
 
 class Company {
-  String companyId;
-  String companyName;
+  String organizationId;
+  String organizationName;
 
-  Company({this.companyId, this.companyName});
+  Company({this.organizationId, this.organizationName});
 
   Company.fromJson(Map<String, dynamic> json) {
-    companyId = json['companyId'];
-    companyName = json['companyName'];
+    organizationId = json['organizationId'];
+    organizationName = json['organizationName'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data =  <String, dynamic>{};
-    data['companyId'] = this.companyId;
-    data['companyName'] = this.companyName;
+    data['organizationId'] = this.organizationId;
+    data['organizationName'] = this.organizationName;
     return data;
   }
 }

@@ -1,15 +1,11 @@
-// ignore_for_file: prefer_const_constructors, prefer_final_fields, unused_field
+// ignore_for_file: prefer_const_constructors, prefer_final_fields, unused_field, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/button/gf_button.dart';
 import 'package:job_portal/Views/Candidate/BottomNavbar.dart';
-import 'package:job_portal/Views/Candidate/Home.dart';
-import 'package:job_portal/Views/SignIn/Step2-BasicDetails.dart';
-import 'package:job_portal/Views/SignIn/Step6-KeySkills.dart';
 import 'package:job_portal/Views/SignIn/Step1-Otp.Dart';
-import 'package:job_portal/testradio.dart';
-
-import 'Step9-PersonalDetails.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:overlay_support/overlay_support.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({ Key key }) : super(key: key);
 
@@ -19,7 +15,23 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool _isLoading = false;
+  bool hasInternet = false;
 
+  @override
+  void initState() {
+    super.initState();
+
+  }
+
+  void checkInternetStatus() async {
+    hasInternet = await InternetConnectionChecker().hasConnection;
+    final color = hasInternet ? Colors.green : Colors.red;
+    final text = hasInternet ? "Connected with Internet" : "Disconnected from Internet";
+    showSimpleNotification(
+      Text(text,style: TextStyle(color: Colors.white,fontSize: 20,),),
+      background : color,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,46 +83,6 @@ class _LoginPageState extends State<LoginPage> {
                              ),
                            ),
                          ),
-                  // TextField(
-                  //   cursorColor: Colors.blue,
-                  //   decoration: InputDecoration(
-                  //     contentPadding: const EdgeInsets.all(0.0),
-                  //     labelText: 'Email',
-                  //     hintText: 'Username or e-mail',
-                  //     labelStyle: const TextStyle(
-                  //       color: Colors.blue,
-                  //       fontFamily: "ProximaNova",
-                  //       fontWeight: FontWeight.w500,
-                  //       letterSpacing: 1.5,
-                  //       fontSize: 14.5,
-                  //     ),
-                  //     hintStyle: const TextStyle(
-                  //       fontFamily: "ProximaNova",
-                  //       fontWeight: FontWeight.w500,
-                  //       letterSpacing: 1.5,
-                  //       fontSize: 14.5,
-                  //     ),
-                  //     prefixIcon: const Icon(
-                  //       Iconsax.user, color: Colors.lightBlue, size: 18,),
-                  //     enabledBorder: OutlineInputBorder(
-                  //       borderSide: BorderSide(
-                  //           color: Colors.grey.shade200, width: 2),
-                  //       borderRadius: BorderRadius.circular(10.0),
-                  //     ),
-                  //     floatingLabelStyle: const TextStyle(
-                  //       color: Colors.blue,
-                  //       fontFamily: "ProximaNova",
-                  //       fontWeight: FontWeight.bold,
-                  //       letterSpacing: 1.5,
-                  //       fontSize: 14.5,
-                  //     ),
-                  //     focusedBorder: OutlineInputBorder(
-                  //       borderSide: const BorderSide(
-                  //           color: Colors.lightBlueAccent, width: 1.5),
-                  //       borderRadius: BorderRadius.circular(10.0),
-                  //     ),
-                  //   ),
-                  // ),
                   const SizedBox(height: 20,),
                   const TextField(
                     decoration: InputDecoration(
@@ -136,52 +108,12 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
-                  // TextField(
-                  //   cursorColor: Colors.black,
-                  //   decoration: InputDecoration(
-                  //     contentPadding: const EdgeInsets.all(0.0),
-                  //     labelText: 'Password',
-                  //     hintText: 'Password',
-                  //     hintStyle: const  TextStyle(
-                  //       fontFamily: "ProximaNova",
-                  //       fontWeight: FontWeight.w500,
-                  //       letterSpacing: 1.5,
-                  //       fontSize: 14.5,
-                  //     ),
-                  //     labelStyle:  TextStyle(
-                  //       color: Colors.blue,
-                  //       fontFamily: "ProximaNova",
-                  //       fontWeight: FontWeight.w500,
-                  //       letterSpacing: 1.5,
-                  //       fontSize: 14.5,
-                  //     ),
-                  //     prefixIcon: const Icon(
-                  //       Iconsax.key, color: Colors.lightBlue, size: 18,),
-                  //     enabledBorder: OutlineInputBorder(
-                  //       borderSide: BorderSide(
-                  //           color: Colors.grey.shade200, width: 2),
-                  //       borderRadius: BorderRadius.circular(10.0),
-                  //     ),
-                  //     floatingLabelStyle: const  TextStyle(
-                  //       color: Colors.blue,
-                  //       fontFamily: "ProximaNova",
-                  //       fontWeight: FontWeight.bold,
-                  //       letterSpacing: 1.5,
-                  //       fontSize: 14.5,
-                  //     ),
-                  //     focusedBorder: OutlineInputBorder(
-                  //       borderSide: const BorderSide(
-                  //           color: Colors.lightBlueAccent, width: 1.5),
-                  //       borderRadius: BorderRadius.circular(10.0),
-                  //     ),
-                  //   ),
-                  // ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>KeySkills()));
+                          // Navigator.push(context, MaterialPageRoute(builder: (context)=>KeySkills()));
                         },
                         child: const Text('Forgot Password?', style: TextStyle(
                             color: Colors.black,
@@ -205,124 +137,7 @@ class _LoginPageState extends State<LoginPage> {
                       fontSize: 14.5,
                     ),),
                   ),
-                  // FadeInDown(
-                  //   delay: const Duration(milliseconds: 600),
-                  //   child: GFButton(
-                  //
-                  //     onPressed: () {
-                  //       setState(() {
-                  //         _isLoading = true;
-                  //       });
-                  //
-                  //       Future.delayed(const Duration(seconds: 2), () {
-                  //         setState(() {
-                  //           _isLoading = false;
-                  //         });
-                  //       }).then((value) =>
-                  //           Navigator.push(context, MaterialPageRoute(
-                  //               builder: (context) => Verification()))
-                  //       );
-                  //     },
-                  //     color: Colors.blue,
-                  //
-                  //     padding: const EdgeInsets.symmetric(
-                  //         vertical: 15, horizontal: 30),
-                  //     child: _isLoading ? const SizedBox(
-                  //       width: 20,
-                  //       height: 20,
-                  //       child: CircularProgressIndicator(
-                  //         backgroundColor: Colors.white,
-                  //         color: Colors.black,
-                  //         strokeWidth: 2,
-                  //       ),
-                  //     ) :
-                  //     const Text(
-                  //       "Request OTP", style: TextStyle(
-                  //       color: Colors.white,
-                  //       fontFamily: "ProximaNova",
-                  //       fontWeight: FontWeight.bold,
-                  //       letterSpacing: 1.5,
-                  //       fontSize: 14.5,
-                  //     ),),
-                  //   ),
-                  // ),
-                   SizedBox(height: 20,),
-                  // Row(
-                  //   children: const [
-                  //     Expanded(child: Divider(
-                  //       endIndent: 20,
-                  //       indent: 10,
-                  //
-                  //       thickness: 1.3,
-                  //     )),
-                  //     Text("OR"),
-                  //     Expanded(child: Divider(
-                  //       indent: 20,
-                  //       endIndent: 10,
-                  //       thickness: 1.3,
-                  //
-                  //     )),
-                  //   ],
-                  // ),
-                  // const SizedBox(height: 10,),
-                  //
-                  // FlatButton(
-                  //   shape: RoundedRectangleBorder(
-                  //     borderRadius: BorderRadius.circular(36),
-                  //     side: const BorderSide(color: Colors.black),
-                  //   ),
-                  //   onPressed: () {
-                  //     // Navigator.push(context, MaterialPageRoute(builder: (context) => Recruiter()));
-                  //   },
-                  //   child: Container(
-                  //     padding: const EdgeInsets.symmetric(vertical: 8),
-                  //     child: Row(
-                  //       mainAxisAlignment: MainAxisAlignment.center,
-                  //       children: const <Widget>[
-                  //         Image(
-                  //           height: 30,
-                  //           width: 20,
-                  //           image: AssetImage(
-                  //             'assets/google.png',
-                  //           ),
-                  //         ),
-                  //         SizedBox(
-                  //           width: 20,
-                  //         ),
-                  //         Text('Join with Google')
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
-                  // const SizedBox(height: 15),
-                  // FlatButton(
-                  //   shape: RoundedRectangleBorder(
-                  //     borderRadius: BorderRadius.circular(36),
-                  //     side: const BorderSide(color: Colors.black),
-                  //   ),
-                  //   onPressed: () {
-                  //    // Navigator.push(context, MaterialPageRoute(builder: (context) => UploadTest()));
-                  //   },
-                  //   child: Container(
-                  //     padding: const EdgeInsets.symmetric(vertical: 8),
-                  //     child: Row(
-                  //       mainAxisAlignment: MainAxisAlignment.center,
-                  //       children: const <Widget>[
-                  //         Image(
-                  //           height: 30,
-                  //           width: 30,
-                  //           image: AssetImage(
-                  //             'assets/apple-logo.png',
-                  //           ),
-                  //         ),
-                  //         SizedBox(
-                  //           width: 20,
-                  //         ),
-                  //         Text('Join with Apple')
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
+                  SizedBox(height: 20,),
                   const SizedBox(
                     height: 20,
                   ),
@@ -332,18 +147,22 @@ class _LoginPageState extends State<LoginPage> {
                       Text('Don\'t have an account?', style: TextStyle(color: Colors.grey.shade600, fontSize: 14.0, fontWeight: FontWeight.w400),),
                       TextButton(
                         onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context)=> PersonalDetails(),),);
-                          // Navigator.push(context, MaterialPageRoute(builder: (
-                          //     context) =>
-                          //     BasicDetails(mobileNo: "9055448696",)
-                          //     // MyHomePage(),
-                          //     ));
+                          // Navigator.push(context, MaterialPageRoute(builder: (context)=>CareerPreference()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>OTP()));
+                          // Navigator.push(context, MaterialPageRoute(builder: (context)=>WorkingProfession()));
+                          // Navigator.push(context, MaterialPageRoute(builder: (context)=>BasicDetails()));
+                          // Navigator.push(context, MaterialPageRoute(builder: (context)=>listCheck()));
+                          // Navigator.push(context, MaterialPageRoute(builder: (context)=>QualificationBlueCollar()));
+                          // Navigator.push(context, MaterialPageRoute(builder: (6644
+                          //     context) => BasicDetails()));
                         },
                         child: Text('Register', style: TextStyle(color:  Color(0xff2972ff), fontSize: 14.0, fontWeight: FontWeight.w400),),
                       )
                     ],
                   ),
                 ],
+                // Navigator.push(context, MaterialPageRoute(builder: (context)=>PersonalDetails()));
+                // Navigator.push(context, MaterialPageRoute(builder: (context)=>WorkingProfession()));
               ),
             ),
           )

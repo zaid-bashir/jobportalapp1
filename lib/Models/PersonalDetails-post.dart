@@ -1,11 +1,11 @@
 class PersonalDetailsPost {
-  int candidateId;
+  String candidateUuid;
   String candidateAddress;
   int candidateCityId;
   String candidatePin;
   DateTime candidateDob;
   int candidateMaritalstatusId;
-  int candidateCasteId;
+  int candidateReservedcategoryId;
   String candidateExservicemen;
   int candidateExservicemenExp;
   String candidateDifferentlyAbled;
@@ -17,33 +17,32 @@ class PersonalDetailsPost {
   int candidateWorkpermitcountryId;
 
   PersonalDetailsPost(
-      {this.candidateId,
-      this.candidateAddress,
-      this.candidateCityId,
-      this.candidatePin,
-      this.candidateDob,
-      this.candidateMaritalstatusId,
-      this.candidateCasteId,
-      this.candidateExservicemen,
-      this.candidateExservicemenExp,
-      this.candidateDifferentlyAbled,
-      this.candidateDisabilitType,
-      this.candidateDisabilityAssistance,
-      this.candidatePancard,
-      this.candidatePassportno,
-      this.candidateNationalityId,
-      this.candidateWorkpermitcountryId});
 
+      {this.candidateUuid,
+        this.candidateAddress,
+        this.candidateCityId,
+        this.candidatePin,
+        this.candidateDob,
+        this.candidateMaritalstatusId,
+        this.candidateReservedcategoryId,
+        this.candidateExservicemen,
+        this.candidateExservicemenExp,
+        this.candidateDifferentlyAbled,
+        this.candidateDisabilitType,
+        this.candidateDisabilityAssistance,
+        this.candidatePancard,
+        this.candidatePassportno,
+        this.candidateNationalityId,
+        this.candidateWorkpermitcountryId});
   Map<String, dynamic> toJson() {
     return {
-      "candidateId": candidateId,
+      "candidateUuid":candidateUuid,
       "candidateAddress": candidateAddress,
       "candidateCityId": candidateCityId,
       "candidatePin": candidatePin,
-      "candidateDob":
-          "${candidateDob.year.toString().padLeft(4, '0')}-${candidateDob.month.toString().padLeft(2, '0')}-${candidateDob.day.toString().padLeft(2, '0')}",
+      "candidateDob": "${candidateDob.year.toString().padLeft(4, '0')}-${candidateDob.month.toString().padLeft(2, '0')}-${candidateDob.day.toString().padLeft(2, '0')}",
       "candidateMaritalstatusId": candidateMaritalstatusId,
-      "candidateCasteId": candidateCasteId,
+      "candidateReservedcategoryId": candidateReservedcategoryId,
       "candidateExservicemen": candidateExservicemen,
       "candidateExservicemenExp": candidateExservicemenExp,
       "candidateDifferentlyAbled": candidateDifferentlyAbled,
