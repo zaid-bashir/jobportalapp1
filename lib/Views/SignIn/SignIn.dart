@@ -8,6 +8,8 @@ import 'package:job_portal/Views/SignIn/Step2-BasicDetails.dart';
 import 'package:job_portal/Views/SignIn/Step6-KeySkills.dart';
 import 'package:job_portal/Views/SignIn/Step1-Otp.Dart';
 import 'package:job_portal/testradio.dart';
+
+import 'Step9-PersonalDetails.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({ Key key }) : super(key: key);
 
@@ -330,11 +332,12 @@ class _LoginPageState extends State<LoginPage> {
                       Text('Don\'t have an account?', style: TextStyle(color: Colors.grey.shade600, fontSize: 14.0, fontWeight: FontWeight.w400),),
                       TextButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (
-                              context) => 
-                              BasicDetails(mobileNo: "9055448696",)
-                              // MyHomePage(),
-                              ));
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context)=> PersonalDetails(),),);
+                          // Navigator.push(context, MaterialPageRoute(builder: (
+                          //     context) =>
+                          //     BasicDetails(mobileNo: "9055448696",)
+                          //     // MyHomePage(),
+                          //     ));
                         },
                         child: Text('Register', style: TextStyle(color:  Color(0xff2972ff), fontSize: 14.0, fontWeight: FontWeight.w400),),
                       )

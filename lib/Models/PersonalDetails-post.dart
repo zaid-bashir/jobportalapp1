@@ -8,7 +8,6 @@ class PersonalDetailsPost {
   int candidateCasteId;
   String candidateExservicemen;
   int candidateExservicemenExp;
-
   String candidateDifferentlyAbled;
   String candidateDisabilitType;
   String candidateDisabilityAssistance;
@@ -18,9 +17,8 @@ class PersonalDetailsPost {
   int candidateWorkpermitcountryId;
 
   PersonalDetailsPost(
-
       {this.candidateId,
-        this.candidateAddress,
+      this.candidateAddress,
       this.candidateCityId,
       this.candidatePin,
       this.candidateDob,
@@ -35,15 +33,17 @@ class PersonalDetailsPost {
       this.candidatePassportno,
       this.candidateNationalityId,
       this.candidateWorkpermitcountryId});
+
   Map<String, dynamic> toJson() {
     return {
-      "candidateId":candidateId,
+      "candidateId": candidateId,
       "candidateAddress": candidateAddress,
       "candidateCityId": candidateCityId,
       "candidatePin": candidatePin,
-      "candidateDob": candidateDob,
+      "candidateDob":
+          "${candidateDob.year.toString().padLeft(4, '0')}-${candidateDob.month.toString().padLeft(2, '0')}-${candidateDob.day.toString().padLeft(2, '0')}",
       "candidateMaritalstatusId": candidateMaritalstatusId,
-      "candidatecasteId": candidateCasteId,
+      "candidateCasteId": candidateCasteId,
       "candidateExservicemen": candidateExservicemen,
       "candidateExservicemenExp": candidateExservicemenExp,
       "candidateDifferentlyAbled": candidateDifferentlyAbled,
