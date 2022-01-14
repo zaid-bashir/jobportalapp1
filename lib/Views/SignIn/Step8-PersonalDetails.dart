@@ -273,13 +273,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                               ),
                               TextFormField(
                                 controller: addressController,
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return "Please Enter Address";
-                                  } else {
-                                    return null;
-                                  }
-                                },
+
                                 decoration: InputDecoration(
                                   hintText: "Address",
                                   hintStyle: TextStyle(
@@ -303,12 +297,11 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                 height: 8,
                               ),
                               DropdownSearch<Cities>(
-                                validator: (value) {
-                                  if (value == null) {
-                                    return "Please Select City";
-                                  }
-                                  return null;
-                                },
+                                dropdownSearchDecoration: InputDecoration(
+                                    border: UnderlineInputBorder(
+                                    )
+                                ),
+
                                 mode: Mode.DIALOG,
                                 items: isLoading ? Cities() : _apiResponse.data,
                                 itemAsString: (Cities obj) {
@@ -349,13 +342,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                       fontWeight: FontWeight.bold,
                                       fontFamily: "ProximaNova")),
                               TextFormField(
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return "Please Enter Pin-Code";
-                                  } else {
-                                    return null;
-                                  }
-                                },
+
                                 controller: pincodeController,
                                 decoration: InputDecoration(
                                   hintText: "Pin Code",
@@ -432,9 +419,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                     Marial = newValue;
                                   });
                                 },
-                                validator: (value) => value == null
-                                    ? 'Please Enter Status'
-                                    : null,
+
                                 items: _apiResponse5.data.map((Marital user) {
                                   return DropdownMenuItem<Marital>(
                                     value: user,
@@ -470,9 +455,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                     Caste = newValue;
                                   });
                                 },
-                                validator: (value) => value == null
-                                    ? 'Please Select Category'
-                                    : null,
+
                                 items: _apiResponse4.data.map((Category user) {
                                   return DropdownMenuItem<Category>(
                                     value: user,
@@ -502,58 +485,58 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    _radioButtonss(context),
-                                    // GFRadio(
-                                    //   size: 20,
-                                    //   activeBorderColor:
-                                    //       const Color(0xff2972ff),
-                                    //   value: 1,
-                                    //   groupValue: exservicemenGroupValue,
-                                    //   onChanged: (value) {
-                                    //     setState(() {
-                                    //       exservicemenGroupValue = value;
-                                    //     });
-                                    //   },
-                                    //   inactiveIcon: null,
-                                    //   radioColor: const Color(0xff2972ff),
-                                    // ),
-                                    // const SizedBox(
-                                    //   width: 7,
-                                    // ),
-                                    // const Text(
-                                    //   "Yes",
-                                    //   style: TextStyle(
-                                    //       fontSize: 15,
-                                    //       fontWeight: FontWeight.bold,
-                                    //       fontFamily: "ProximaNova"),
-                                    // ),
-                                    // const SizedBox(
-                                    //   width: 20,
-                                    // ),
-                                    // GFRadio(
-                                    //   size: 20,
-                                    //   value: 2,
-                                    //   groupValue: exservicemenGroupValue,
-                                    //   onChanged: (value) {
-                                    //     setState(() {
-                                    //       exservicemenGroupValue = value;
-                                    //     });
-                                    //   },
-                                    //   inactiveIcon: null,
-                                    //   activeBorderColor:
-                                    //       const Color(0xff2972ff),
-                                    //   radioColor: const Color(0xff2972ff),
-                                    // ),
-                                    // const SizedBox(
-                                    //   width: 7,
-                                    // ),
-                                    // const Text(
-                                    //   "No",
-                                    //   style: TextStyle(
-                                    //       fontSize: 15,
-                                    //       fontWeight: FontWeight.bold,
-                                    //       fontFamily: "ProximaNova"),
-                                    // ),
+
+                                    GFRadio(
+                                      size: 20,
+                                      activeBorderColor:
+                                          const Color(0xff2972ff),
+                                      value: 1,
+                                      groupValue: exservicemenGroupValue,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          exservicemenGroupValue = value;
+                                        });
+                                      },
+                                      inactiveIcon: null,
+                                      radioColor: const Color(0xff2972ff),
+                                    ),
+                                    const SizedBox(
+                                      width: 7,
+                                    ),
+                                    const Text(
+                                      "Yes",
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: "ProximaNova"),
+                                    ),
+                                    const SizedBox(
+                                      width: 20,
+                                    ),
+                                    GFRadio(
+                                      size: 20,
+                                      value: 2,
+                                      groupValue: exservicemenGroupValue,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          exservicemenGroupValue = value;
+                                        });
+                                      },
+                                      inactiveIcon: null,
+                                      activeBorderColor:
+                                          const Color(0xff2972ff),
+                                      radioColor: const Color(0xff2972ff),
+                                    ),
+                                    const SizedBox(
+                                      width: 7,
+                                    ),
+                                    const Text(
+                                      "No",
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: "ProximaNova"),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -737,57 +720,57 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                 padding: const EdgeInsets.only(left: 10),
                                 child: Row(
                                   children: [
-                                    _radioButtonss2(context),
-                                    // GFRadio(
-                                    //   size: 20,
-                                    //   activeBorderColor:
-                                    //       const Color(0xff3e61ed),
-                                    //   value: 1,
-                                    //   groupValue: groupValue,
-                                    //   onChanged: (value) {
-                                    //     setState(() {
-                                    //       groupValue = value;
-                                    //     });
-                                    //   },
-                                    //   inactiveIcon: null,
-                                    //   radioColor: const Color(0xff3e61ed),
-                                    // ),
-                                    // const SizedBox(
-                                    //   width: 7,
-                                    // ),
-                                    // const Text(
-                                    //   "Yes",
-                                    //   style: TextStyle(
-                                    //       fontSize: 16.0,
-                                    //       fontWeight: FontWeight.bold),
-                                    // ),
-                                    // const SizedBox(
-                                    //   width: 20,
-                                    // ),
-                                    // GFRadio(
-                                    //   size: 20,
-                                    //   value: 2,
-                                    //   groupValue: groupValue,
-                                    //   onChanged: (value) {
-                                    //     setState(() {
-                                    //       groupValue = value;
-                                    //     });
-                                    //   },
-                                    //   inactiveIcon: null,
-                                    //   activeBorderColor:
-                                    //       const Color(0xff3e61ed),
-                                    //   radioColor: const Color(0xff3e61ed),
-                                    // ),
-                                    // const SizedBox(
-                                    //   width: 7,
-                                    // ),
-                                    // const Text(
-                                    //   "No",
-                                    //   style: TextStyle(
-                                    //       fontSize: 16.0,
-                                    //       fontWeight: FontWeight.bold),
-                                    // ),
-                                  ],
+
+                                    GFRadio(
+                                      size: 20,
+                                      activeBorderColor:
+                                          const Color(0xff3e61ed),
+                                      value: 1,
+                                      groupValue: groupValue,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          groupValue = value;
+                                        });
+                                      },
+                                      inactiveIcon: null,
+                                      radioColor: const Color(0xff3e61ed),
+                                    ),
+                                    const SizedBox(
+                                      width: 7,
+                                    ),
+                                    const Text(
+                                      "Yes",
+                                      style: TextStyle(
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    const SizedBox(
+                                      width: 20,
+                                    ),
+                                    GFRadio(
+                                      size: 20,
+                                      value: 2,
+                                      groupValue: groupValue,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          groupValue = value;
+                                        });
+                                      },
+                                      inactiveIcon: null,
+                                      activeBorderColor:
+                                          const Color(0xff3e61ed),
+                                      radioColor: const Color(0xff3e61ed),
+                                    ),
+                                    const SizedBox(
+                                      width: 7,
+                                    ),
+                                    const Text(
+                                      "No",
+                                      style: TextStyle(
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                   ],
                                 ),
                               ),
                               groupValue == 1
@@ -809,13 +792,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                   : Container(),
                               groupValue == 1
                                   ? TextFormField(
-                                      validator: (value) {
-                                        if (value.isEmpty) {
-                                          return "Please Enter Type";
-                                        } else {
-                                          return null;
-                                        }
-                                      },
+
                                       controller: disabilityController,
                                       decoration: InputDecoration(
                                         hintText: "Disability Type",
@@ -848,13 +825,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                   : Container(),
                               groupValue == 1
                                   ? TextFormField(
-                                      validator: (value) {
-                                        if (value.isEmpty) {
-                                          return "Please Enter  Value";
-                                        } else {
-                                          return null;
-                                        }
-                                      },
+
                                       controller: assistanceController,
                                       decoration: InputDecoration(
                                         hintText: "Is Assistance Required",
@@ -880,13 +851,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                               ),
                               // EDit
                               TextFormField(
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return "Please Enter PAN Number";
-                                  } else {
-                                    return null;
-                                  }
-                                },
+
                                 controller: panController,
                                 decoration: InputDecoration(
                                   hintText: "PAN Number",
@@ -911,12 +876,11 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                 height: 8,
                               ),
                               DropdownSearch<Nationality>(
-                                validator: (value) {
-                                  if (value.countryNationality.isEmpty) {
-                                    return "Please Select Nationality";
-                                  }
-                                  return null;
-                                },
+                                dropdownSearchDecoration: InputDecoration(
+                                    border: UnderlineInputBorder(
+                                    )
+                                ),
+
                                 mode: Mode.DIALOG,
                                 items: isLoading
                                     ? Nationality()
@@ -962,13 +926,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                         fontFamily: "ProximaNova")),
                               ),
                               TextFormField(
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return "Please Enter Passport number";
-                                  } else {
-                                    return null;
-                                  }
-                                },
+
                                 controller: passportController,
                                 decoration: InputDecoration(
                                   hintText: "Passport Number",
@@ -998,56 +956,56 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                 padding: const EdgeInsets.only(left: 10),
                                 child: Row(
                                   children: [
-                                    _radioButtonss3(context),
-                                    // GFRadio(
-                                    //   size: 20,
-                                    //   activeBorderColor:
-                                    //       const Color(0xff3e61ed),
-                                    //   value: 1,
-                                    //   groupValue: groupValue2,
-                                    //   onChanged: (value) {
-                                    //     setState(() {
-                                    //       groupValue2 = value;
-                                    //     });
-                                    //   },
-                                    //   inactiveIcon: null,
-                                    //   radioColor: const Color(0xff3e61ed),
-                                    // ),
-                                    // const SizedBox(
-                                    //   width: 7,
-                                    // ),
-                                    // const Text(
-                                    //   "Yes",
-                                    //   style: TextStyle(
-                                    //       fontSize: 16.0,
-                                    //       fontWeight: FontWeight.bold),
-                                    // ),
-                                    // const SizedBox(
-                                    //   width: 20,
-                                    // ),
-                                    // GFRadio(
-                                    //   size: 20,
-                                    //   value: 2,
-                                    //   groupValue: groupValue2,
-                                    //   onChanged: (value) {
-                                    //     setState(() {
-                                    //       groupValue2 = value;
-                                    //     });
-                                    //   },
-                                    //   inactiveIcon: null,
-                                    //   activeBorderColor:
-                                    //       const Color(0xff3e61ed),
-                                    //   radioColor: const Color(0xff3e61ed),
-                                    // ),
-                                    // const SizedBox(
-                                    //   width: 7,
-                                    // ),
-                                    // const Text(
-                                    //   "No",
-                                    //   style: TextStyle(
-                                    //       fontSize: 16.0,
-                                    //       fontWeight: FontWeight.bold),
-                                    // ),
+
+                                    GFRadio(
+                                      size: 20,
+                                      activeBorderColor:
+                                          const Color(0xff3e61ed),
+                                      value: 1,
+                                      groupValue: groupValue2,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          groupValue2 = value;
+                                        });
+                                      },
+                                      inactiveIcon: null,
+                                      radioColor: const Color(0xff3e61ed),
+                                    ),
+                                    const SizedBox(
+                                      width: 7,
+                                    ),
+                                    const Text(
+                                      "Yes",
+                                      style: TextStyle(
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    const SizedBox(
+                                      width: 20,
+                                    ),
+                                    GFRadio(
+                                      size: 20,
+                                      value: 2,
+                                      groupValue: groupValue2,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          groupValue2 = value;
+                                        });
+                                      },
+                                      inactiveIcon: null,
+                                      activeBorderColor:
+                                          const Color(0xff3e61ed),
+                                      radioColor: const Color(0xff3e61ed),
+                                    ),
+                                    const SizedBox(
+                                      width: 7,
+                                    ),
+                                    const Text(
+                                      "No",
+                                      style: TextStyle(
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.bold),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -1055,12 +1013,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                   ? Padding(
                                       padding: const EdgeInsets.only(top: 8.0),
                                       child: DropdownSearch<Country>(
-                                        validator: (value) {
-                                          if (value.countryName.isEmpty) {
-                                            return "Please Select Country";
-                                          }
-                                          return null;
-                                        },
+
                                         mode: Mode.DIALOG,
                                         items: isLoading
                                             ? Country()
@@ -1182,18 +1135,21 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                       ),
                                     );
                                   }
-                                });
+                                }
+                                );
                               }
                             },
                             text: "Next",
                             type: GFButtonType.solid,
-                          )),
+                          )
+                      ),
                     ),
                   ],
                 ),
               ),
             ),
-          ));
+          )
+    );
   }
 
   int totalWorkExp() {
@@ -1201,201 +1157,6 @@ class _PersonalDetailsState extends State<PersonalDetails> {
     return totalExp;
   }
 
-  // Radio Buttons with Validation
-  Widget _radioButtonss(BuildContext context) {
-    return FormField(builder: (state) {
-      return Column(children: [
-        Row(children: [
-          GFRadio(
-            size: 20,
-            inactiveIcon: null,
-            activeBorderColor: Color(0xff2972ff),
-            radioColor: Color(0xff2972ff),
-            value: 1,
-            groupValue: exservicemenGroupValue,
-            onChanged: (value) {
-              setState(() {
-                exservicemenGroupValue = value;
-              });
-            },
-          ),
-          const SizedBox(
-            width: 7,
-          ),
-          const Text(
-            "Yes",
-            style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-                fontFamily: "ProximaNova"),
-          ),
-          const SizedBox(
-            width: 20,
-          ),
-          GFRadio(
-            size: 20,
-            value: 2,
-            groupValue: exservicemenGroupValue,
-            onChanged: (value) {
-              setState(() {
-                exservicemenGroupValue = value;
-              });
-            },
-            inactiveIcon: null,
-            activeBorderColor: Color(0xff2972ff),
-            radioColor: Color(0xff2972ff),
-          ),
-          const SizedBox(
-            width: 7,
-          ),
-          const Text(
-            "No",
-            style: TextStyle(
-              fontFamily: "ProximaNova",
-              fontWeight: FontWeight.bold,
-              letterSpacing: 1.5,
-              fontSize: 15,
-            ),
-          ),
-        ])
-      ]);
-    }, validator: (value) {
-      if (exservicemenGroupValue == 0) {
-        return "Choose one of the option";
-      }
-      return null;
-    });
-  }
 
-// radio button Disability
-  Widget _radioButtonss2(BuildContext context) {
-    return FormField(builder: (state) {
-      return Column(children: [
-        Row(children: [
-          GFRadio(
-            size: 20,
-            inactiveIcon: null,
-            activeBorderColor: Color(0xff2972ff),
-            radioColor: Color(0xff2972ff),
-            value: 1,
-            groupValue: groupValue,
-            onChanged: (value) {
-              setState(() {
-                groupValue = value;
-              });
-            },
-          ),
-          const SizedBox(
-            width: 7,
-          ),
-          const Text(
-            "Yes",
-            style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-                fontFamily: "ProximaNova"),
-          ),
-          const SizedBox(
-            width: 20,
-          ),
-          GFRadio(
-            size: 20,
-            value: 2,
-            groupValue: groupValue,
-            onChanged: (value) {
-              setState(() {
-                groupValue = value;
-              });
-            },
-            inactiveIcon: null,
-            activeBorderColor: Color(0xff2972ff),
-            radioColor: Color(0xff2972ff),
-          ),
-          const SizedBox(
-            width: 7,
-          ),
-          const Text(
-            "No",
-            style: TextStyle(
-              fontFamily: "ProximaNova",
-              fontWeight: FontWeight.bold,
-              letterSpacing: 1.5,
-              fontSize: 15,
-            ),
-          ),
-        ])
-      ]);
-    }, validator: (value) {
-      if (groupValue == 0) {
-        return "Choose one of the option";
-      }
-      return null;
-    });
-  }
 
-// radio button for work permit
-  Widget _radioButtonss3(BuildContext context) {
-    return FormField(builder: (state) {
-      return Column(children: [
-        Row(children: [
-          GFRadio(
-            size: 20,
-            inactiveIcon: null,
-            activeBorderColor: Color(0xff2972ff),
-            radioColor: Color(0xff2972ff),
-            value: 1,
-            groupValue: groupValue2,
-            onChanged: (value) {
-              setState(() {
-                groupValue2 = value;
-              });
-            },
-          ),
-          const SizedBox(
-            width: 7,
-          ),
-          const Text(
-            "Yes",
-            style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-                fontFamily: "ProximaNova"),
-          ),
-          const SizedBox(
-            width: 20,
-          ),
-          GFRadio(
-            size: 20,
-            value: 2,
-            groupValue: groupValue2,
-            onChanged: (value) {
-              setState(() {
-                groupValue2 = value;
-              });
-            },
-            inactiveIcon: null,
-            activeBorderColor: Color(0xff2972ff),
-            radioColor: Color(0xff2972ff),
-          ),
-          const SizedBox(
-            width: 7,
-          ),
-          const Text(
-            "No",
-            style: TextStyle(
-              fontFamily: "ProximaNova",
-              fontWeight: FontWeight.bold,
-              letterSpacing: 1.5,
-              fontSize: 15,
-            ),
-          ),
-        ])
-      ]);
-    }, validator: (value) {
-      if (groupValue2 == 0) {
-        return "Choose one of the option";
-      }
-      return null;
-    });
-  }
 }

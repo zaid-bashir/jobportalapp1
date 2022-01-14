@@ -12,9 +12,8 @@ import 'package:job_portal/Views/SignIn/Step5-KeySkills.dart';
 import 'package:job_portal/Models/ProfessionDetails-post.dart';
 
 class WorkingProfession extends StatefulWidget {
-  WorkingProfession({Key key, this.uuid}) : super(key: key);
+   WorkingProfession({Key key, this.uuid}) : super(key: key);
   String uuid;
-
   @override
   _WorkingProfessionState createState() => _WorkingProfessionState();
 }
@@ -46,14 +45,14 @@ class _WorkingProfessionState extends State<WorkingProfession> {
     "E-Learning"
   ];
   DateTime selectedDate = DateTime.now();
-  DateTime selectedDate2 = DateTime.now();
+
+  DateTime selectedDate3 = DateTime.now();
   TextEditingController currentCompanySearchCo = TextEditingController();
   TextEditingController currentCompanyCntrl = TextEditingController();
   TextEditingController salaryCount = TextEditingController();
 
   // formkey for validation starts here
   var formKey = GlobalKey<FormState>();
-
   // formkey for validation ends her
 
   bool isLoadingCompany = false;
@@ -65,6 +64,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
   ApiResponse<List<Company>> _apiResponseCurrentCompany;
   ApiResponse<List<Industry>> _apiResponseIndustry;
   ApiResponse<List<Professional>> _apiResponseProfessional;
+
 
   @override
   void initState() {
@@ -119,7 +119,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
         body: SingleChildScrollView(
           child: Padding(
             padding:
-                const EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 20),
+            const EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 20),
             child: Form(
               key: formKey,
               child: Column(
@@ -182,7 +182,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                     GFRadio(
                                       size: 20,
                                       activeBorderColor:
-                                          const Color(0xff3e61ed),
+                                      const Color(0xff3e61ed),
                                       value: 1,
                                       groupValue: groupValue,
                                       onChanged: (value) {
@@ -216,7 +216,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                       },
                                       inactiveIcon: null,
                                       activeBorderColor:
-                                          const Color(0xff3e61ed),
+                                      const Color(0xff3e61ed),
                                       radioColor: const Color(0xff3e61ed),
                                     ),
                                     const SizedBox(
@@ -234,72 +234,74 @@ class _WorkingProfessionState extends State<WorkingProfession> {
 
                               groupValue == 1
                                   ? Padding(
-                                      padding: EdgeInsets.only(
-                                        top: 15,
-                                      ),
-                                      child: Text("Current Company Name",
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "ProximaNova")),
-                                    )
-                                  // logic for the gfbutton  Goes here
+                                padding: EdgeInsets.only(
+                                  top: 15,
+                                ),
+                                child: Text("Current Company Name",
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: "ProximaNova")),
+                              )
+                              // logic for the gfbutton  Goes here
                                   : Container(),
                               groupValue == 1
                                   ? SizedBox(
-                                      height: 5,
-                                    )
+                                height: 5,
+                              )
                                   : Container(),
                               groupValue == 1
                                   ? Padding(
-                                      padding: const EdgeInsets.only(top: 8.0),
-                                      child: DropdownSearch<Company>(
-                                        validator: (value) {
-                                          if (value == null) {
-                                            return "Please Select Company Name";
-                                          }
-                                          return null;
-                                        },
-                                        mode: Mode.DIALOG,
-                                        items: isLoadingCurrentCopmpany
-                                            ? Company()
-                                            : _apiResponseCurrentCompany.data,
-                                        itemAsString: (Company obj) {
-                                          return obj.organizationName;
-                                        },
-                                        onFind: (val) async {
-                                          setState(() {
-                                            query = val;
-                                            print(val);
-                                          });
-                                          return _apiResponseCurrentCompany
-                                              .data;
-                                        },
-                                        hint: "Select Current  company",
-                                        onChanged: (value) {
-                                          currentCompanySearchCo.text =
-                                              value.organizationId.toString();
-                                          currentCompanyID =
-                                              value.organizationId;
-                                          print(value.organizationId);
-                                        },
-                                        showSearchBox: true,
-                                        popupItemBuilder: (context,
-                                            Company item, bool isSelected) {
-                                          return Container(
-                                            margin: EdgeInsets.symmetric(
-                                                horizontal: 8),
-                                            child: Card(
-                                              child: Padding(
-                                                padding: EdgeInsets.all(8.0),
-                                                child:
-                                                    Text(item.organizationName),
-                                              ),
-                                            ),
-                                          );
-                                        },
+                                padding: const EdgeInsets.only(top: 8.0),
+                                child: DropdownSearch<Company>(
+                                  dropdownSearchDecoration: InputDecoration(
+                                      border: UnderlineInputBorder(
+                                      )
+                                  ),
+                                  validator: (value) {
+                                    if (value == null) {
+                                      return "Please Select Company Name";
+                                    }
+                                    return null;
+                                  },
+                                  mode: Mode.DIALOG,
+                                  items: isLoadingCurrentCopmpany
+                                      ? Company()
+                                      : _apiResponseCurrentCompany.data,
+                                  itemAsString: (Company obj) {
+                                    return obj.organizationName;
+                                  },
+                                  onFind: (val) async {
+                                    setState(() {
+                                      query = val;
+                                      print(val);
+                                    });
+                                    return _apiResponseCurrentCompany
+                                        .data;
+                                  },
+                                  hint: "Select Current  company",
+                                  onChanged: (value) {
+                                    currentCompanySearchCo.text =
+                                        value.organizationId.toString();
+                                    currentCompanyID = value.organizationId;
+                                    print(value.organizationId);
+                                  },
+                                  showSearchBox: true,
+                                  popupItemBuilder: (context,
+                                      Company item, bool isSelected) {
+                                    return Container(
+                                      margin: EdgeInsets.symmetric(
+                                          horizontal: 8),
+                                      child: Card(
+                                        child: Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Text(item.organizationName),
+                                        ),
                                       ),
-                                    )
+                                    );
+                                  },
+                                ),
+                              )
                                   : Container(),
                               // groupValue == 1
                               //     ? Padding(
@@ -341,231 +343,234 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                               //     : Container(),
                               groupValue == 1
                                   ? Padding(
-                                      padding: EdgeInsets.only(
-                                        top: 15,
-                                      ),
-                                      child: Text("Current Designation",
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "ProximaNova")),
-                                    )
+                                padding: EdgeInsets.only(
+                                  top: 15,
+                                ),
+                                child: Text("Current Designation",
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: "ProximaNova")),
+                              )
                                   : Container(),
                               groupValue == 1
                                   ? SizedBox(
-                                      height: 5,
-                                    )
+                                height: 5,
+                              )
                                   : Container(),
                               groupValue == 1
                                   ? TextFormField(
-                                      controller: currentCompanyCntrl,
-                                      decoration: InputDecoration(
-                                        hintText: "Current Designation",
-                                        hintStyle: TextStyle(
-                                          color: Colors.blueGrey,
-                                          fontFamily: "ProximaNova",
-                                          fontWeight: FontWeight.w500,
-                                          letterSpacing: 1.5,
-                                          fontSize: 14.5,
-                                        ),
-                                      ),
-                                      validator: (value) {
-                                        if (value.isEmpty) {
-                                          return "this field is required";
-                                        }
-                                        return null;
-                                      },
-                                    )
+                                controller: currentCompanyCntrl,
+                                decoration: InputDecoration(
+                                  hintText: "Current Designation",
+                                  hintStyle: TextStyle(
+                                    color: Colors.blueGrey,
+                                    fontFamily: "ProximaNova",
+                                    fontWeight: FontWeight.w500,
+                                    letterSpacing: 1.5,
+                                    fontSize: 14.5,
+                                  ),
+                                ),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return "this field is required";
+                                  }
+                                  return null;
+                                },
+                              )
                                   : Container(),
 
                               groupValue == 1
                                   ? Padding(
-                                      padding: EdgeInsets.only(
-                                        top: 15,
-                                      ),
-                                      child: Text("Current Salary",
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "ProximaNova")),
-                                    )
+                                padding: EdgeInsets.only(
+                                  top: 15,
+                                ),
+                                child: Text("Current Salary",
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: "ProximaNova")),
+                              )
                                   : Container(),
                               groupValue == 1
                                   ? SizedBox(
-                                      height: 5,
-                                    )
+                                height: 5,
+                              )
                                   : Container(),
                               groupValue == 1
                                   ? TextFormField(
-                                      controller: salaryCount,
-                                      decoration: InputDecoration(
-                                        hintText: "Current Salary",
-                                        hintStyle: TextStyle(
-                                          color: Colors.blueGrey,
-                                          fontFamily: "ProximaNova",
-                                          fontWeight: FontWeight.w500,
-                                          letterSpacing: 1.5,
-                                          fontSize: 14.5,
-                                        ),
-                                      ),
-                                      validator: (value) {
-                                        if (value.isEmpty) {
-                                          return "this field is required";
-                                        }
-                                        return null;
-                                      },
-                                    )
+                                controller: salaryCount,
+                                decoration: InputDecoration(
+                                  hintText: "Current Salary",
+                                  hintStyle: TextStyle(
+                                    color: Colors.blueGrey,
+                                    fontFamily: "ProximaNova",
+                                    fontWeight: FontWeight.w500,
+                                    letterSpacing: 1.5,
+                                    fontSize: 14.5,
+                                  ),
+                                ),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return "this field is required";
+                                  }
+                                  return null;
+                                },
+                              )
                                   : Container(),
                               groupValue == 1
                                   ? Padding(
-                                      padding: EdgeInsets.only(
-                                        top: 15,
-                                      ),
-                                      child: Text("Working since",
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "ProximaNova")),
-                                    )
+                                padding: EdgeInsets.only(
+                                  top: 15,
+                                ),
+                                child: Text("Working since",
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: "ProximaNova")),
+                              )
                                   : Container(),
 
                               groupValue == 1
                                   ? Padding(
-                                      padding: const EdgeInsets.all(8),
-                                      child: DateTimeFormField(
-                                        decoration: const InputDecoration(
-                                          border: const UnderlineInputBorder(
-                                            borderSide: const BorderSide(
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                          hintText: 'Working Since',
-                                          suffixIcon: Icon(Icons.event_note),
-                                        ),
-                                        // initialValue: date,
-                                        mode: DateTimeFieldPickerMode.date,
-                                        autovalidateMode:
-                                            AutovalidateMode.always,
-                                        validator: (e) => (e?.day ?? 0) == 1
-                                            ? 'Please not the first day'
-                                            : null,
-
-                                        onDateSelected: (date) {
-                                          setState(() {
-                                            selectedDate = date;
-                                          });
-                                        },
+                                padding: const EdgeInsets.all(8),
+                                child: DateTimeFormField(
+                                  decoration: const InputDecoration(
+                                    border: const UnderlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Colors.grey,
                                       ),
-                                    )
-                                  : Container(),
-
-                              groupValue == 2
-                                  ? Padding(
-                                      padding: EdgeInsets.only(
-                                        top: 15,
-                                      ),
-                                      child: Text("Previous Company Name",
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "ProximaNova")),
-                                    )
-                                  : Container(),
-
-                              groupValue == 2
-                                  ? Padding(
-                                      padding: const EdgeInsets.only(top: 8.0),
-                                      child: DropdownSearch<Company>(
-                                        validator: (value) {
-                                          if (value == null) {
-                                            return "Please Select Company Name";
-                                          }
-                                          return null;
-                                        },
-                                        mode: Mode.DIALOG,
-                                        items: isLoadingCurrentCopmpany
-                                            ? Company()
-                                            : _apiResponseCurrentCompany.data,
-                                        itemAsString: (Company obj) {
-                                          return obj.organizationName;
-                                        },
-                                        onFind: (val) async {
-                                          setState(() {
-                                            query = val;
-                                            print(val);
-                                          });
-                                          return _apiResponseCurrentCompany
-                                              .data;
-                                        },
-                                        hint: "Select Highest Qualification",
-                                        onChanged: (value) {
-                                          currentCompanySearchCo.text =
-                                              value.organizationId.toString();
-                                          currentCompanyID =
-                                              value.organizationId;
-                                          print(value.organizationId);
-                                        },
-                                        showSearchBox: true,
-                                        popupItemBuilder: (context,
-                                            Company item, bool isSelected) {
-                                          return Container(
-                                            margin: EdgeInsets.symmetric(
-                                                horizontal: 8),
-                                            child: Card(
-                                              child: Padding(
-                                                padding: EdgeInsets.all(8.0),
-                                                child:
-                                                    Text(item.organizationName),
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    )
-                                  : Container(),
-                              groupValue == 2
-                                  ? SizedBox(
-                                      height: 10,
-                                    )
-                                  : SizedBox(
-                                      height: 10,
                                     ),
+                                    hintText: 'Working Since',
+                                    // hintStyle: heading6.copyWith(color: textGrey),
+                                    // errorStyle: TextStyle(color: Colors.redAccent),
+                                    suffixIcon: Icon(Icons.event_note),
+                                  ),
+                                  // initialValue: date,
+                                  mode: DateTimeFieldPickerMode.date,
+                                  autovalidateMode: AutovalidateMode.always,
+                                  validator: (e) => (e?.day ?? 0) == 1
+                                      ? 'Please not the first day'
+                                      : null,
+
+                                  onDateSelected: (date) {
+                                    setState(() {
+                                      selectedDate = date;
+                                    });
+                                  },
+                                ),
+                              )
+                                  : Container(),
+
                               groupValue == 2
                                   ? Padding(
-                                      padding: EdgeInsets.only(
-                                        top: 15,
-                                      ),
-                                      child: Text("Previous Designation",
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "ProximaNova")),
-                                    )
+                                padding: EdgeInsets.only(
+                                  top: 15,
+                                ),
+                                child: Text("Previous Company Name",
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: "ProximaNova")),
+                              )
                                   : Container(),
+
                               groupValue == 2
-                                  ? TextFormField(
-                                      validator: (value) {
-                                        if (value.isEmpty) {
-                                          return "this field is required";
-                                        }
-                                        return null;
-                                      },
-                                      decoration: InputDecoration(
-                                        hintText: "Previous Designation",
-                                        hintStyle: TextStyle(
-                                          color: Colors.blueGrey,
-                                          fontFamily: "ProximaNova",
-                                          fontWeight: FontWeight.w500,
-                                          letterSpacing: 1.5,
-                                          fontSize: 14.5,
+                                  ? Padding(
+                                padding: const EdgeInsets.only(top: 8.0),
+                                child: DropdownSearch<Company>(
+                                  dropdownSearchDecoration: InputDecoration(
+                                      border: UnderlineInputBorder(
+                                      )
+                                  ),
+                                  validator: (value) {
+                                    if (value == null) {
+                                      return "Please Select Company Name";
+                                    }
+                                    return null;
+                                  },
+                                  mode: Mode.DIALOG,
+                                  items: isLoadingCurrentCopmpany
+                                      ? Company()
+                                      : _apiResponseCurrentCompany.data,
+                                  itemAsString: (Company obj) {
+                                    return obj.organizationName;
+                                  },
+                                  onFind: (val) async {
+                                    setState(() {
+                                      query = val;
+                                      print(val);
+                                    });
+                                    return _apiResponseCurrentCompany
+                                        .data;
+                                  },
+                                  hint: "Select Highest Qualification",
+                                  onChanged: (value) {
+                                    currentCompanySearchCo.text =
+                                        value.organizationId.toString();
+                                    currentCompanyID = value.organizationId;
+                                    print(value.organizationId);
+                                  },
+                                  showSearchBox: true,
+                                  popupItemBuilder: (context,
+                                      Company item, bool isSelected) {
+                                    return Container(
+                                      margin: EdgeInsets.symmetric(
+                                          horizontal: 8),
+                                      child: Card(
+                                        child: Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Text(item.organizationName),
                                         ),
                                       ),
-                                    )
+                                    );
+                                  },
+                                ),
+                              )
                                   : Container(),
                               groupValue == 2
                                   ? SizedBox(
-                                      height: 10,
-                                    )
+                                height: 10,
+                              )
+                                  : SizedBox(
+                                height: 10,
+                              ),
+                              groupValue == 2
+                                  ? Padding(
+                                padding: EdgeInsets.only(
+                                  top: 15,
+                                ),
+                                child: Text("Previous Designation",
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: "ProximaNova")),
+                              )
+                                  : Container(),
+                              groupValue == 2
+                                  ? TextFormField(
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return "this field is required";
+                                  }
+                                  return null;
+                                },
+                                decoration: InputDecoration(
+                                  hintText: "Previous Designation",
+                                  hintStyle: TextStyle(
+                                    color: Colors.blueGrey,
+                                    fontFamily: "ProximaNova",
+                                    fontWeight: FontWeight.w500,
+                                    letterSpacing: 1.5,
+                                    fontSize: 14.5,
+                                  ),
+                                ),
+                              )
+                                  : Container(),
+                              groupValue == 2
+                                  ? SizedBox(
+                                height: 10,
+                              )
                                   : Container(),
 
                               // const Text('Previous Designation',
@@ -598,53 +603,60 @@ class _WorkingProfessionState extends State<WorkingProfession> {
 
                               groupValue == 2
                                   ? Padding(
-                                      padding: EdgeInsets.only(
-                                        top: 15,
-                                      ),
-                                      child: Text("Previous Salary",
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "ProximaNova")),
-                                    )
+                                padding: EdgeInsets.only(
+                                  top: 15,
+                                ),
+                                child: Text("Previous Salary",
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: "ProximaNova")),
+                              )
                                   : Container(),
                               groupValue == 2
                                   ? TextFormField(
-                                      validator: (value) {
-                                        if (value.isEmpty) {
-                                          return "this field is required";
-                                        }
-                                        return null;
-                                      },
-                                      decoration: InputDecoration(
-                                        hintText: "Previous Annually Salary",
-                                        hintStyle: TextStyle(
-                                          color: Colors.blueGrey,
-                                          fontFamily: "ProximaNova",
-                                          fontWeight: FontWeight.w500,
-                                          letterSpacing: 1.5,
-                                          fontSize: 14.5,
-                                        ),
-                                      ),
-                                    )
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return "this field is required";
+                                  }
+                                  return null;
+                                },
+                                decoration: InputDecoration(
+                                  hintText: "Previous Annually Salary",
+                                  hintStyle: TextStyle(
+                                    color: Colors.blueGrey,
+                                    fontFamily: "ProximaNova",
+                                    fontWeight: FontWeight.w500,
+                                    letterSpacing: 1.5,
+                                    fontSize: 14.5,
+                                  ),
+                                ),
+                              )
                                   : Container(),
+
                               groupValue == 2
                                   ? Padding(
-                                      padding: EdgeInsets.only(
-                                        top: 15,
-                                      ),
-                                      child: Text("Tenure of last Job",
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "ProximaNova")),
-                                    )
+                                padding: EdgeInsets.only(
+                                  top: 15,
+                                ),
+                                child: Text("Tenure of last job",
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: "ProximaNova")),
+                              )
                                   : Container(),
+
                               groupValue == 2
                                   ? Padding(
-                                      padding: EdgeInsets.only(
-                                        top: 15,
-                                      ),
+                                padding: const EdgeInsets.only(
+                                    left: 25.0, right: 25.0, top: 2.0),
+                                child: Row(
+                                  children: <Widget>[
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Expanded(
                                       child: DateTimeFormField(
                                         decoration: const InputDecoration(
                                           border: const UnderlineInputBorder(
@@ -652,23 +664,100 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                               color: Colors.grey,
                                             ),
                                           ),
-                                          hintText: 'tenure of Last Job',
+                                          hintText: 'Start Date',
+                                          // hintStyle: heading6.copyWith(color: textGrey),
+                                          // errorStyle: TextStyle(color: Colors.redAccent),
                                           suffixIcon: Icon(Icons.event_note),
                                         ),
+                                        // initialValue: date,
                                         mode: DateTimeFieldPickerMode.date,
-                                        autovalidateMode:
-                                            AutovalidateMode.always,
+                                        autovalidateMode: AutovalidateMode.always,
                                         validator: (e) => (e?.day ?? 0) == 1
                                             ? 'Please not the first day'
                                             : null,
+
                                         onDateSelected: (date) {
                                           setState(() {
-                                            selectedDate2 = date;
+                                            selectedDate = date;
                                           });
                                         },
                                       ),
-                                    )
-                                  : Container()
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Expanded(
+                                      child: DateTimeFormField(
+                                        decoration: const InputDecoration(
+                                          border: const UnderlineInputBorder(
+                                            borderSide: const BorderSide(
+                                              color: Colors.grey,
+                                            ),
+                                          ),
+                                          hintText: 'End Date',
+                                          // hintStyle: heading6.copyWith(color: textGrey),
+                                          // errorStyle: TextStyle(color: Colors.redAccent),
+                                          suffixIcon: Icon(Icons.event_note),
+                                        ),
+                                        // initialValue: date,
+                                        mode: DateTimeFieldPickerMode.date,
+                                        autovalidateMode: AutovalidateMode.always,
+                                        validator: (e) => (e?.day ?? 0) == 1
+                                            ? 'Please not the first day'
+                                            : null,
+
+                                        onDateSelected: (date) {
+                                          setState(() {
+                                            selectedDate3 = date;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                                  : Container(),
+
+                              // Padding(
+                              //   padding: EdgeInsets.only(
+                              //     top: 10,
+                              //   ),
+                              //   child: Text("Industry",
+                              //       style: TextStyle(
+                              //           fontSize: 15,
+                              //           fontWeight: FontWeight.bold,
+                              //           fontFamily: "ProximaNova")),
+                              // ),
+                              // SizedBox(
+                              //   height: 5,
+                              // ),
+                              // Padding(
+                              //   padding: const EdgeInsets.only(top: 8.0),
+                              //   child: FindDropdown(
+                              //     searchBoxDecoration: const InputDecoration(
+                              //       border: UnderlineInputBorder(
+                              //         borderSide: BorderSide(
+                              //           color: Colors.grey,
+                              //         ),
+                              //       ),
+                              //     ),
+                              //     items: parseIndustry(),
+                              //     searchHint: "Industry Name",
+                              //     onFind: (val) async {
+                              //       setState(() {
+                              //         query = val;
+                              //       });
+                              //       await fetchIndustry(query: query);
+                              //       parseData();
+                              //       return [""];
+                              //     },
+                              //     onChanged: (item) {
+                              //       setState(() {
+                              //         myindustry = item;
+                              //       });
+                              //     },
+                              //   ),
+                              // )
                             ],
                           ),
                         ),
@@ -689,24 +778,18 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                   isLoading = true;
                                 });
                                 final insert = PostProfession(
-                                  candidateUuid: widget.uuid,
-                                  candidateexpIscurrentcompany:
-                                      groupValue.toString(),
-                                  candidateexpOrganizationId:
-                                      int.parse(currentCompanyID),
-                                  // candidateexpOrganizationName: "2",
-                                  candidateexpDesignation:
-                                      currentCompanyCntrl.text,
-                                  candidateexpSalary:
-                                      int.parse(salaryCount.text),
-                                  candidateexpStartdate: selectedDate,
-                                  candidateexpEnddate: selectedDate2,
+                                    candidateUuid: widget.uuid,
+                                    candidateexpIscurrentcompany: groupValue.toString(),
+                                    candidateexpOrganizationId: int.parse(currentCompanyID),
 
-                                  // candidateexpEnddate: 6,
-                                  // candidateIndustryId: 21
-                                );
+                                    candidateexpDesignation:currentCompanyCntrl.text,
+                                    candidateexpSalary: int.parse(salaryCount.text),
+                                    candidateexpStartdate: selectedDate,
+                                    candidateexpEnddate: selectedDate3,
+
+                                    );
                                 final result =
-                                    await apiServices.ProfessionPost(insert);
+                                await apiServices.ProfessionPost(insert);
                                 setState(() {
                                   isLoading = false;
                                 });
@@ -714,13 +797,34 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                 const title = "Done";
                                 final text = result.error
                                     ? (result.errorMessage ??
-                                        "An Error Occurred")
+                                    "An Error Occurred")
                                     : "Successfully Created";
+                                // showDialog(
+                                //   context: context,
+                                //   builder: (_) => AlertDialog(
+                                //     title: const Text(title),
+                                //     content: Text(text),
+                                //     actions: [
+                                //       ElevatedButton(
+                                //           onPressed: () {
+                                //             Navigator.pop(context);
+                                //           },
+                                //           child: const Text("OK"))
+                                //     ],
+                                //   ),
+                                // ).then((data) {
+                                //   if (result.data) {
+                                //     Navigator.push(
+                                //         context,
+                                //         MaterialPageRoute(
+                                //             builder: (context) => KeySkillsPage(uuid: "0c856f4f-61dc-4c70-8b21-22a932358fc1",)));
+                                //   }
+                                // });
                               }
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => KeySkillsPage(
-                                        uuid: widget.uuid,
-                                      )));
+                              Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                              builder: (context) => KeySkillsPage(uuid: widget.uuid
+                                                ,)));
                             },
                             text: "Next",
                             type: GFButtonType.solid)),

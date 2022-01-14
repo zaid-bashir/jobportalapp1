@@ -5,9 +5,8 @@ class PostProfession {
   int candidateexpOrganizationId;
   String candidateexpDesignation;
   int candidateexpSalary;
-    DateTime candidateexpStartdate ;
-    DateTime candidateexpEnddate ;
-
+  DateTime candidateexpStartdate;
+  DateTime candidateexpEnddate;
 
   // String candidateexpUuid;
 
@@ -34,7 +33,7 @@ class PostProfession {
         candidateexpSalary: item["candidateexpSalary"],
         candidateexpStartdate: item["candidateexpStartdate"],
         candidateexpEnddate: item["candidateexpEnddate"],
-
+        // candidateexpUuid: item["candidateexpUuid"],
        );
   }
 
@@ -46,8 +45,10 @@ class PostProfession {
       "candidateexpOrganizationId": candidateexpOrganizationId,
       "candidateexpDesignation": candidateexpDesignation,
       "candidateexpSalary": candidateexpSalary,
-      "candidateexpStartdate": "${candidateexpStartdate.year.toString().padLeft(4, '0')}-${candidateexpStartdate.month.toString().padLeft(2, '0')}-${candidateexpStartdate.day.toString().padLeft(2, '0')}",
-      "candidateexpEnddate": "${candidateexpStartdate.year.toString().padLeft(4, '0')}-${candidateexpStartdate.month.toString().padLeft(2, '0')}-${candidateexpStartdate.day.toString().padLeft(2, '0')}"
+      "candidateexpStartdate":"${candidateexpStartdate.year.toString().padLeft(4, '0')}-${candidateexpStartdate.month.toString().padLeft(2, '0')}-${candidateexpStartdate.day.toString().padLeft(2, '0')}",
+
+      "candidateexpEnddate":
+      "${candidateexpEnddate.year.toString().padLeft(4, '0')}-${candidateexpEnddate.month.toString().padLeft(2, '0')}-${candidateexpEnddate.day.toString().padLeft(2, '0')}",
 
     };
   }
