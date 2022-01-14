@@ -45,6 +45,8 @@ class _WorkingProfessionState extends State<WorkingProfession> {
     "E-Learning"
   ];
   DateTime selectedDate = DateTime.now();
+
+  DateTime selectedDate3 = DateTime.now();
   TextEditingController currentCompanySearchCo = TextEditingController();
   TextEditingController currentCompanyCntrl = TextEditingController();
   TextEditingController salaryCount = TextEditingController();
@@ -642,36 +644,65 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                 padding: const EdgeInsets.only(
                                     left: 25.0, right: 25.0, top: 2.0),
                                 child: Row(
-                                  mainAxisSize: MainAxisSize.max,
                                   children: <Widget>[
                                     SizedBox(
                                       width: 10,
                                     ),
                                     Expanded(
-                                      child: TextFormField(
-                                        validator: (value) {
-                                          if (value.isEmpty) {
-                                            return "this field is required";
-                                          }
-                                          return null;
+                                      child: DateTimeFormField(
+                                        decoration: const InputDecoration(
+                                          border: const UnderlineInputBorder(
+                                            borderSide: const BorderSide(
+                                              color: Colors.grey,
+                                            ),
+                                          ),
+                                          hintText: 'Start Date',
+                                          // hintStyle: heading6.copyWith(color: textGrey),
+                                          // errorStyle: TextStyle(color: Colors.redAccent),
+                                          suffixIcon: Icon(Icons.event_note),
+                                        ),
+                                        // initialValue: date,
+                                        mode: DateTimeFieldPickerMode.date,
+                                        autovalidateMode: AutovalidateMode.always,
+                                        validator: (e) => (e?.day ?? 0) == 1
+                                            ? 'Please not the first day'
+                                            : null,
+
+                                        onDateSelected: (date) {
+                                          setState(() {
+                                            selectedDate = date;
+                                          });
                                         },
-                                        decoration: InputDecoration(
-                                            hintText: "Years"),
                                       ),
                                     ),
                                     SizedBox(
                                       width: 10,
                                     ),
                                     Expanded(
-                                      child: TextFormField(
-                                        validator: (value) {
-                                          if (value.isEmpty) {
-                                            return "this field is required";
-                                          }
-                                          return null;
+                                      child: DateTimeFormField(
+                                        decoration: const InputDecoration(
+                                          border: const UnderlineInputBorder(
+                                            borderSide: const BorderSide(
+                                              color: Colors.grey,
+                                            ),
+                                          ),
+                                          hintText: 'End Date',
+                                          // hintStyle: heading6.copyWith(color: textGrey),
+                                          // errorStyle: TextStyle(color: Colors.redAccent),
+                                          suffixIcon: Icon(Icons.event_note),
+                                        ),
+                                        // initialValue: date,
+                                        mode: DateTimeFieldPickerMode.date,
+                                        autovalidateMode: AutovalidateMode.always,
+                                        validator: (e) => (e?.day ?? 0) == 1
+                                            ? 'Please not the first day'
+                                            : null,
+
+                                        onDateSelected: (date) {
+                                          setState(() {
+                                            selectedDate3 = date;
+                                          });
                                         },
-                                        decoration: InputDecoration(
-                                            hintText: "Months"),
                                       ),
                                     ),
                                   ],
@@ -745,7 +776,8 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                     // candidateexpOrganizationName: "2",
                                     candidateexpDesignation:currentCompanyCntrl.text,
                                     candidateexpSalary: int.parse(salaryCount.text),
-                                    candidateexpStartdate: "2010-03-10",
+                                    candidateexpStartdate: selectedDate,
+                                    candidateexpEnddate: selectedDate3,
                                     // candidateexpEnddate: 6,
                                     // candidateIndustryId: 21
                                     );

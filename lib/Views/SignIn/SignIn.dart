@@ -6,6 +6,8 @@ import 'package:job_portal/Views/Candidate/BottomNavbar.dart';
 import 'package:job_portal/Views/SignIn/Step1-Otp.Dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:overlay_support/overlay_support.dart';
+
+import 'Step4-ProfessionalDetails.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({ Key key }) : super(key: key);
 
@@ -148,8 +150,8 @@ class _LoginPageState extends State<LoginPage> {
                       TextButton(
                         onPressed: () {
                           // Navigator.push(context, MaterialPageRoute(builder: (context)=>CareerPreference()));
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>OTP()));
-                          // Navigator.push(context, MaterialPageRoute(builder: (context)=>WorkingProfession()));
+                          // Navigator.push(context, MaterialPageRoute(builder: (context)=>OTP()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>WorkingProfession()));
                           // Navigator.push(context, MaterialPageRoute(builder: (context)=>BasicDetails()));
                           // Navigator.push(context, MaterialPageRoute(builder: (context)=>listCheck()));
                           // Navigator.push(context, MaterialPageRoute(builder: (context)=>QualificationBlueCollar()));
