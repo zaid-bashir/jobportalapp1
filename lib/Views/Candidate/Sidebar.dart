@@ -5,9 +5,9 @@ import 'package:job_portal/Views/Candidate/JobSaved.dart';
 import 'package:job_portal/Views/Candidate/Settings.dart';
 import 'package:job_portal/Views/Candidate/JobSuggested.dart';
 import 'package:job_portal/Views/Home/constants/constants.dart';
-import 'package:job_portal/Views/SignIn/Step7-ItSkills.dart';
+import 'package:job_portal/Views/SignIn/Step6-ItSkills.dart';
 
-import 'package:job_portal/Views/SignIn/Step9-PersonalDetails.dart';
+import 'package:job_portal/Views/SignIn/Step8-PersonalDetails.dart';
 
 
 import 'JobExplore.dart';

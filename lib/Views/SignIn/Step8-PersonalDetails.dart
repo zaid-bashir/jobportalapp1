@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:date_field/date_field.dart';
-import 'package:getwidget/components/radio/gf_radio.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/Country.dart';
@@ -16,8 +15,8 @@ import 'package:job_portal/Models/location.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class PersonalDetails extends StatefulWidget {
-  const PersonalDetails({Key key}) : super(key: key);
-
+   PersonalDetails({Key key, this.uuid}) : super(key: key);
+   String uuid;
   @override
   _PersonalDetailsState createState() => _PersonalDetailsState();
 }
@@ -1129,31 +1128,30 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                 });
 
                                 final insert = PersonalDetailsPost(
-                                  candidateId: 5,
-                                  candidateAddress: addressController.text,
-                                  candidateDob: selectedDate,
-                                  candidateCityId: int.parse(cityNameID),
-                                  candidatePin: pincodeController.text,
-                                  candidateMaritalstatusId:
-                                      int.parse(Marial.maritalId),
-                                  candidateCasteId: int.parse(Caste.casteId),
-                                  candidateExservicemen:
-                                      exservicemenGroupValue.toString(),
-                                  candidatePassportno: passportController.text,
-                                  candidatePancard: panController.text,
-                                  candidateExservicemenExp:
-                                      totalExp == 0 ? totalExp : totalWorkExp(),
-                                  candidateDifferentlyAbled:
-                                      groupValue.toString(),
-                                  candidateDisabilitType:
-                                      disabilityController.text,
-                                  candidateDisabilityAssistance:
-                                      assistanceController.text,
-                                  candidateNationalityId:
-                                      int.parse(nationalityID),
-                                  candidateWorkpermitcountryId:
-                                      int.parse(countryID),
-                                );
+                                candidateUuid: widget.uuid,
+                                candidateAddress: addressController.text,
+                                candidateDob: selectedDate,
+                                candidateCityId: int.parse(cityNameID),
+                                candidatePin: pincodeController.text,
+                                candidateMaritalstatusId:
+                                int.parse(Marial.maritalId),
+                                candidateReservedcategoryId: int.parse(Caste.casteId),
+                                candidateExservicemen: exservicemenGroupValue.toString(),
+                                candidatePassportno: passportController.text,
+                                candidatePancard: panController.text,
+                                candidateExservicemenExp:
+                                totalExp == 0 ? totalExp : totalWorkExp(),
+                                candidateDifferentlyAbled:
+                                groupValue.toString(),
+                                candidateDisabilitType:
+                                disabilityController.text,
+                                candidateDisabilityAssistance:
+                                assistanceController.text,
+                                candidateNationalityId:
+                                int.parse(nationalityID),
+                                candidateWorkpermitcountryId:
+                                int.parse(countryID),
+                              );
                                 final result =
                                     await apiServices.PostPersonal(insert);
                                 setState(() {

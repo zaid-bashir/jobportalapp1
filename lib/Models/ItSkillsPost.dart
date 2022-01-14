@@ -1,19 +1,22 @@
 class PostItSkills {
-  int Id;
-  String version;
-  String year;
-  String month;
-  int lastId;
+  String candidateUuid;
+  int candidateitskillItskillId;
+  int candidateitskillVersion;
+  int candidateitskillLastused;
+  int candidateitskillExperience;
 
-  PostItSkills({this.Id, this.version, this.year, this.month, this.lastId});
+
+
+  PostItSkills({this.candidateUuid, this.candidateitskillItskillId, this.candidateitskillVersion,
+    this.candidateitskillLastused, this.candidateitskillExperience});
 
   Map<String, dynamic> toJson() {
     return {
-      "Id": Id,
-      "version": version,
-      "year": year,
-      "month": month,
-      "lastId": lastId
+      "candidateUuid": candidateUuid,
+      "candidateitskillItskillId": candidateitskillItskillId,
+      "candidateitskillVersion": candidateitskillVersion,
+      "candidateitskillLastused": candidateitskillLastused,
+      "candidateitskillExperience": candidateitskillExperience
     };
   }
 }
