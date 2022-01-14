@@ -8,12 +8,11 @@ void main() {
   RenderErrorBox.backgroundColor = Colors.transparent;
   RenderErrorBox.textStyle = ui.TextStyle(color: Colors.transparent);
   runApp(
-      OverlaySupport.global(
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          home: SplashScreen(),
-        ),
+    OverlaySupport.global(
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: SplashScreen(),
       ),
-    );
+    ),
+  );
 }
-

@@ -25,7 +25,7 @@ class _OTPState extends State<OTP> {
       isLoading = true;
     });
     _apiResponse =
-        await apiServices.getOTP(GetOTP(registerMobile: mobileNumber));
+    await apiServices.getOTP(GetOTP(registerMobile: mobileNumber));
     setState(() {
       isLoading = false;
     });
@@ -161,7 +161,7 @@ class _OTPState extends State<OTP> {
                       dialogType: DialogType.SUCCES,
                       title: 'JobPortalApp',
                       desc:
-                          'OTP Successfully Sent to Mobile Number +91-${mobileController.text}',
+                      'OTP Successfully Sent to Mobile Number +91-${mobileController.text}',
                       btnOkOnPress: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(

@@ -6,10 +6,10 @@ import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/CurerntLocation.dart';
 import 'package:job_portal/Models/GetTitle.dart';
+import 'package:job_portal/Models/JobRole.dart';
 import 'package:job_portal/Models/basicdetailresponse.dart';
 import 'package:job_portal/Models/basicdetials.dart';
 import 'package:job_portal/Models/custumradiomodel.dart';
-import 'package:job_portal/Models/getjobcategory.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -157,7 +157,7 @@ class _BasicDetailsState extends State<BasicDetails> {
       isLoadingCurrentLocation = true;
     });
     _apiResponseCurrentLocation =
-        await apiServices.getCurrentLocation(query: query);
+    await apiServices.getCurrentLocation(query: query);
     setState(() {
       isLoadingCurrentLocation = false;
     });
@@ -257,7 +257,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                                 });
                               },
                               validator: (value) =>
-                                  value == null ? 'Please fill Title' : null,
+                              value == null ? 'Please fill Title' : null,
                               items: _apiResponse.data.map((GetTitle user) {
                                 return DropdownMenuItem<GetTitle>(
                                   value: user,
@@ -299,7 +299,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                             ),
                             keyboardType: TextInputType.name,
                             autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
+                            AutovalidateMode.onUserInteraction,
                             validator: (value) {
                               if (value.isEmpty) {
                                 return "Please Enter First Name";
@@ -347,7 +347,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                               ),
                               keyboardType: TextInputType.name,
                               autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
+                              AutovalidateMode.onUserInteraction,
                             ),
                           ),
                           const SizedBox(
@@ -378,7 +378,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                               ),
                               keyboardType: TextInputType.name,
                               autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
+                              AutovalidateMode.onUserInteraction,
                               validator: (value) {
                                 if (value.isEmpty) {
                                   return "Please Enter Last Name";
@@ -453,9 +453,9 @@ class _BasicDetailsState extends State<BasicDetails> {
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         options: genderItems
                             .map((lang) => FormBuilderFieldOption(
-                                  value: lang,
-                                  child: Text(lang.text),
-                                ))
+                          value: lang,
+                          child: Text(lang.text),
+                        ))
                             .toList(growable: false),
                         onChanged: (val) {
                           setState(() {
@@ -496,9 +496,9 @@ class _BasicDetailsState extends State<BasicDetails> {
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         options: experienceItems
                             .map((lang) => FormBuilderFieldOption(
-                                  value: lang,
-                                  child: Text(lang.text),
-                                ))
+                          value: lang,
+                          child: Text(lang.text),
+                        ))
                             .toList(growable: false),
                         onChanged: (val) {
                           setState(() {
@@ -524,127 +524,127 @@ class _BasicDetailsState extends State<BasicDetails> {
                     ),
                     experienceRadioId == 1
                         ? const Padding(
-                            padding: EdgeInsets.all(8),
-                            child: Text(
-                              "Experience Tenure:",
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: "ProximaNova"),
-                            ),
-                          )
+                      padding: EdgeInsets.all(8),
+                      child: Text(
+                        "Experience Tenure:",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "ProximaNova"),
+                      ),
+                    )
                         : Container(),
                     const SizedBox(
                       height: 3,
                     ),
                     experienceRadioId == 1
                         ? Row(
-                            children: [
-                              Expanded(
-                                flex: 1,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    child: DropdownButtonFormField<String>(
-                                      autovalidateMode:
-                                          AutovalidateMode.onUserInteraction,
-                                      hint: Text("Years"),
-                                      value: mySelectionYear,
-                                      onChanged: (newValue) {
-                                        setState(() {
-                                          mySelectionYear = newValue;
-                                        });
-                                      },
-                                      validator: (value) => value == null
-                                          ? 'Please fill Year'
-                                          : null,
-                                      items: [
-                                        "0",
-                                        "1",
-                                        "2",
-                                        "3",
-                                        "4",
-                                        "5",
-                                        "6",
-                                        "7",
-                                        "8",
-                                        "9",
-                                        "10",
-                                        "11",
-                                        "12"
-                                      ]
-                                          .map(
-                                            (value) => DropdownMenuItem(
-                                                value: value,
-                                                child: Text(
-                                                  value,
-                                                  style: const TextStyle(
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontFamily:
-                                                          "ProximaNova"),
-                                                )),
-                                          )
-                                          .toList(),
-                                    ),
-                                  ),
-                                ),
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              child: DropdownButtonFormField<String>(
+                                autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                                hint: Text("Years"),
+                                value: mySelectionYear,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    mySelectionYear = newValue;
+                                  });
+                                },
+                                validator: (value) => value == null
+                                    ? 'Please fill Year'
+                                    : null,
+                                items: [
+                                  "0",
+                                  "1",
+                                  "2",
+                                  "3",
+                                  "4",
+                                  "5",
+                                  "6",
+                                  "7",
+                                  "8",
+                                  "9",
+                                  "10",
+                                  "11",
+                                  "12"
+                                ]
+                                    .map(
+                                      (value) => DropdownMenuItem(
+                                      value: value,
+                                      child: Text(
+                                        value,
+                                        style: const TextStyle(
+                                            fontSize: 15,
+                                            fontWeight:
+                                            FontWeight.bold,
+                                            fontFamily:
+                                            "ProximaNova"),
+                                      )),
+                                )
+                                    .toList(),
                               ),
-                              Expanded(
-                                flex: 1,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    child: DropdownButtonFormField<String>(
-                                      autovalidateMode:
-                                          AutovalidateMode.onUserInteraction,
-                                      hint: Text("Months"),
-                                      value: mySelectionMonth,
-                                      onChanged: (newValue) {
-                                        setState(() {
-                                          mySelectionMonth = newValue;
-                                        });
-                                      },
-                                      validator: (value) => value == null
-                                          ? 'Please fill Month'
-                                          : null,
-                                      items: [
-                                        "0",
-                                        "1",
-                                        "2",
-                                        "3",
-                                        "4",
-                                        "5",
-                                        "6",
-                                        "7",
-                                        "8",
-                                        "9",
-                                        "10",
-                                        "11",
-                                        "12"
-                                      ]
-                                          .map(
-                                            (value) => DropdownMenuItem(
-                                                value: value,
-                                                child: Text(
-                                                  value,
-                                                  style: const TextStyle(
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontFamily:
-                                                          "ProximaNova"),
-                                                )),
-                                          )
-                                          .toList(),
-                                    ),
-                                  ),
-                                ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              child: DropdownButtonFormField<String>(
+                                autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                                hint: Text("Months"),
+                                value: mySelectionMonth,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    mySelectionMonth = newValue;
+                                  });
+                                },
+                                validator: (value) => value == null
+                                    ? 'Please fill Month'
+                                    : null,
+                                items: [
+                                  "0",
+                                  "1",
+                                  "2",
+                                  "3",
+                                  "4",
+                                  "5",
+                                  "6",
+                                  "7",
+                                  "8",
+                                  "9",
+                                  "10",
+                                  "11",
+                                  "12"
+                                ]
+                                    .map(
+                                      (value) => DropdownMenuItem(
+                                      value: value,
+                                      child: Text(
+                                        value,
+                                        style: const TextStyle(
+                                            fontSize: 15,
+                                            fontWeight:
+                                            FontWeight.bold,
+                                            fontFamily:
+                                            "ProximaNova"),
+                                      )),
+                                )
+                                    .toList(),
                               ),
-                            ],
-                          )
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
                         : Container(),
                     const SizedBox(
                       height: 20,
@@ -813,7 +813,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                             lnameController.text,
                         candidateGenderId: genderRadioId,
                         candidateTotalworkexp:
-                            experienceRadioId == 2 ? totalExp : totalWorkExp(),
+                        experienceRadioId == 2 ? totalExp : totalWorkExp(),
                         candidateJobroleId: int.parse(jobRoleID),
                         candidateCityId: int.parse(cityID),
                       );
@@ -826,27 +826,26 @@ class _BasicDetailsState extends State<BasicDetails> {
                       storeDataToSharedPref();
                       result.error
                           ? showDialog(
-                              context: context,
-                              builder: (_) => AlertDialog(
-                                title: Text("Error"),
-                                content: Text("Something went wrong"),
-                                actions: [
-                                  ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: const Text("OK"))
-                                ],
-                              ),
-                            )
+                        context: context,
+                        builder: (_) => AlertDialog(
+                          title: Text("Error"),
+                          content: Text("Something went wrong"),
+                          actions: [
+                            ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text("OK"))
+                          ],
+                        ),
+                      )
                           : Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => QualificationBlueCollar(
-                                  uuid: response.axelaCandidateUuId,
-                                  experienceValue: experienceGroupValue,
-                                ),
-                              ),
-                            );
+                        MaterialPageRoute(
+                          builder: (context) => QualificationBlueCollar(
+                            uuid: response.axelaCandidateUuId,
+                          ),
+                        ),
+                      );
                     }
                   }),
             ),

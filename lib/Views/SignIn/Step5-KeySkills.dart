@@ -7,11 +7,11 @@ import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/keyskill.dart';
 import 'package:job_portal/Models/postkeyskills.dart';
 import 'package:job_portal/Services/ApiServices.dart';
-import 'package:job_portal/Views/SignIn/Step7-ItSkills.dart';
+import 'package:job_portal/Views/SignIn/Step6-ItSkills.dart';
 
 class KeySkillsPage extends StatefulWidget {
-  const KeySkillsPage({Key key}) : super(key: key);
-
+   KeySkillsPage({Key key,this.uuid}) : super(key: key);
+  String uuid;
   @override
   _KeySkillsPageState createState() => _KeySkillsPageState();
 }
@@ -45,7 +45,7 @@ class _KeySkillsPageState extends State<KeySkillsPage> {
     List<PostKeySkills> postItems = [];
     for (var i = 0; i < selectedSkills.length; i++) {
       var obj = PostKeySkills(
-          candidateUuid: "a95b3837-819b-46a6-b660-6a6935e588b4",
+          candidateUuid: widget.uuid,
           candidatekeyskilKeyskillId: int.parse(selectedSkills[i].keyskillId));
       postItems.add(obj);
       print(obj.candidatekeyskilKeyskillId);
@@ -67,7 +67,7 @@ class _KeySkillsPageState extends State<KeySkillsPage> {
         body: SingleChildScrollView(
           child: Padding(
             padding:
-                const EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
+            const EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
             child: Column(
               children: [
                 Row(
@@ -162,7 +162,7 @@ class _KeySkillsPageState extends State<KeySkillsPage> {
                                           children: <Widget>[
                                             Column(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.start,
+                                              MainAxisAlignment.start,
                                               mainAxisSize: MainAxisSize.min,
                                               children: const <Widget>[
                                                 Text(
@@ -171,7 +171,7 @@ class _KeySkillsPageState extends State<KeySkillsPage> {
                                                       fontSize: 15.0,
                                                       fontFamily: "ProximaNova",
                                                       fontWeight:
-                                                          FontWeight.bold),
+                                                      FontWeight.bold),
                                                 ),
                                               ],
                                             ),
@@ -186,12 +186,12 @@ class _KeySkillsPageState extends State<KeySkillsPage> {
                                             Flexible(
                                               child: Padding(
                                                 padding:
-                                                    const EdgeInsets.all(8.0),
+                                                const EdgeInsets.all(8.0),
                                                 child: DropdownSearch<
                                                     KeySkills>.multiSelection(
                                                   autoValidateMode:
-                                                      AutovalidateMode
-                                                          .onUserInteraction,
+                                                  AutovalidateMode
+                                                      .onUserInteraction,
                                                   validator: (value) {
                                                     if (value.isEmpty) {
                                                       return "Please Select Key Skill/Skills";
@@ -227,11 +227,11 @@ class _KeySkillsPageState extends State<KeySkillsPage> {
                                                       bool isSelected) {
                                                     return Container(
                                                       margin:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal: 8),
+                                                      EdgeInsets.symmetric(
+                                                          horizontal: 8),
                                                       child: Padding(
                                                         padding:
-                                                            EdgeInsets.all(8.0),
+                                                        EdgeInsets.all(8.0),
                                                         child: Text(
                                                             item.keyskillName),
                                                       ),
@@ -260,16 +260,16 @@ class _KeySkillsPageState extends State<KeySkillsPage> {
                           bool check = false;
                           if (formKey.currentState.validate()) {
                             apiServices.postSkills(createPostList()).then((value){
-                               check = value.data;
+                              check = value.data;
                             });
-                            if (check) {
-                               Navigator.of(context).push(
+                            if (!check) {
+                              Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) => const ItSkills(),
+                                  builder: (context) =>  ItSkills(uuid: widget.uuid,),
                                 ),
                               );
                             } else {
-                             
+
                             }
                           } else {}
                         },

@@ -49,7 +49,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
         children: [
           Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              height: MediaQuery.of(context).size.height,
+              // height: MediaQuery.of(context).size.height,
               width: double.infinity,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -113,6 +113,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
                     ),
                   ),
 
+
                   const SizedBox(
                     height: 20,
                   ),
@@ -165,13 +166,11 @@ class _VerifyOTPState extends State<VerifyOTP> {
                             dialogType: DialogType.SUCCES,
                             title: 'JobPortalApp',
                             desc:
-                                'Mobile Number +91-${widget.registerMobile} Successfully Verified',
+                            'Mobile Number +91-${widget.registerMobile} Successfully Verified',
                             btnOkOnPress: () {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) => BasicDetails(
-                                    mobileNo: widget.registerMobile,
-                                  ),
+                                  builder: (context) => BasicDetails(mobileNo: widget.registerMobile,),
                                 ),
                               );
                             },
@@ -187,7 +186,6 @@ class _VerifyOTPState extends State<VerifyOTP> {
                 ],
               )),
         ],
-      ),
-    );
+      ),);
   }
 }

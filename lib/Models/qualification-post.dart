@@ -1,20 +1,20 @@
 class QualificationPost {
-  String candidateUuId;
+  String candidateUuid;
   int candidatequalQualificationId;
   int candidatequalCourseId;
   int candidatequalStreamId;
-  int candidatequalCoursetypeId;
+  int candidatequalCousetypeId;
   int candidatequalInstituteId;
   int candidatequalCompletionYear;
   int candidatequalGradingsystemId;
   int candidatequalMarks;
 
   QualificationPost(
-      {this.candidateUuId,
+      {this.candidateUuid,
       this.candidatequalQualificationId,
       this.candidatequalCourseId,
       this.candidatequalStreamId,
-      this.candidatequalCoursetypeId,
+      this.candidatequalCousetypeId,
       this.candidatequalInstituteId,
       this.candidatequalCompletionYear,
       this.candidatequalGradingsystemId,
@@ -23,11 +23,11 @@ class QualificationPost {
 
   Map<String, dynamic> toJson() {
     return {
-      "candidatequalCandidateId": candidateUuId,
+      "candidateUuid": candidateUuid,
       "candidatequalQualificationId": candidatequalQualificationId,
       "candidatequalCourseId": candidatequalCourseId,
       "candidatequalStreamId": candidatequalStreamId,
-      "candidatequalCoursetypeId": candidatequalCoursetypeId,
+      "candidatequalCousetypeId": candidatequalCousetypeId,
       "candidatequalInstituteId": candidatequalInstituteId,
       "candidatequalCompletionYear": candidatequalCompletionYear,
       "candidatequalGradingsystemId": candidatequalGradingsystemId,
