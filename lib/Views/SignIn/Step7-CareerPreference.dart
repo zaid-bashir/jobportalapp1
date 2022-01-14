@@ -11,7 +11,7 @@ import 'package:job_portal/Models/location.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:job_portal/Views/SignIn/ListView-Job-Type.dart';
-import 'package:job_portal/Views/SignIn/Step9-PersonalDetails.dart';
+import 'package:job_portal/Views/SignIn/Step8-PersonalDetails.dart';
 import 'package:job_portal/Views/SignIn/listView-EmploymentType.dart';
 
 class CareerPreference extends StatefulWidget {

@@ -8,7 +8,7 @@ import 'package:job_portal/Models/GetCompany.dart';
 import 'package:job_portal/Models/GetIndustry.dart';
 import 'package:job_portal/Models/ProfessionalDetails.dart';
 import 'package:job_portal/Services/ApiServices.dart';
-import 'package:job_portal/Views/SignIn/Step6-KeySkills.dart';
+import 'package:job_portal/Views/SignIn/Step5-KeySkills.dart';
 import 'package:job_portal/Models/ProfessionDetails-post.dart';
 
 class WorkingProfession extends StatefulWidget {

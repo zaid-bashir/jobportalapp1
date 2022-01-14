@@ -8,7 +8,7 @@ import 'package:job_portal/Models/ItSkillsPost.dart';
 import 'package:job_portal/Models/PassingYear.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 
-import 'Step8-CareerPreference.dart';
+import 'Step7-CareerPreference.dart';
 
 class ItSkills extends StatefulWidget {
    ItSkills({Key key,this.uuid}) : super(key: key);

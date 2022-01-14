@@ -56,7 +56,6 @@ dependencies:
   provider: null
   search_choices: ^2.0.16
   shared_preferences: null
-  
 
 dev_dependencies:
   awesome_dialog: ^2.1.2

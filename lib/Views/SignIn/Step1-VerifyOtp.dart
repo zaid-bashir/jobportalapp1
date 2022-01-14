@@ -97,7 +97,8 @@ class _VerifyOTPState extends State<VerifyOTP> {
                     key: key,
                     child: VerificationCode(
                       length: 6,
-                      textStyle: const TextStyle(fontSize: 20, color: Colors.black),
+                      textStyle:
+                          const TextStyle(fontSize: 20, color: Colors.black),
                       underlineColor: Colors.black,
                       keyboardType: TextInputType.number,
                       underlineUnfocusedColor: Colors.black,

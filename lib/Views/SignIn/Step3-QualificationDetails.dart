@@ -1,8 +1,9 @@
+// ignore_for_file: must_be_immutable
+
 import 'dart:io';
 
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:find_dropdown/find_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
@@ -13,13 +14,13 @@ import 'package:job_portal/Models/QualificationDetails.dart';
 import 'package:job_portal/Models/Stream.dart';
 import 'package:job_portal/Models/qualification-post.dart';
 import 'package:job_portal/Services/ApiServices.dart';
-import 'package:job_portal/Views/SignIn/Step5-ProfessionalDetails.dart';
-import 'package:job_portal/Views/SignIn/Step6-KeySkills.dart';
+import 'package:job_portal/Views/SignIn/Step4-ProfessionalDetails.dart';
+import 'package:job_portal/Views/SignIn/Step5-KeySkills.dart';
 
 class QualificationBlueCollar extends StatefulWidget {
    QualificationBlueCollar({Key key, this.uuid}) : super(key: key);
   String uuid;
-
+  int experienceValue;
   @override
   _QualificationBlueCollarState createState() =>
       _QualificationBlueCollarState();

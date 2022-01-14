@@ -7,7 +7,7 @@ import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/keyskill.dart';
 import 'package:job_portal/Models/postkeyskills.dart';
 import 'package:job_portal/Services/ApiServices.dart';
-import 'package:job_portal/Views/SignIn/Step7-ItSkills.dart';
+import 'package:job_portal/Views/SignIn/Step6-ItSkills.dart';
 
 class KeySkillsPage extends StatefulWidget {
    KeySkillsPage({Key key,this.uuid}) : super(key: key);
