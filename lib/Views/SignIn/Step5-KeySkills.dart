@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_final_fields, non_constant_identifier_names, avoid_print
+
 
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
