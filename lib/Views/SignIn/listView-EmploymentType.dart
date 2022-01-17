@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/EmploymentType.dart';
@@ -18,7 +18,8 @@ class _listCheckState extends State<listCheck> {
   ApiServices apiServices = ApiServices();
 
   bool isLoading = false;
-  EmploymentType checkBoxValue  = null;
+  EmploymentType checkBoxValue = null;
+  bool check;
 
   fetchEmpType() async {
     setState(() {
@@ -29,8 +30,9 @@ class _listCheckState extends State<listCheck> {
       isLoading = false;
     });
   }
+
   ApiResponse<List<EmploymentType>> _apiResponse3;
-  bool check = false;
+
   bool _isChecked = true;
 
   @override
@@ -42,16 +44,12 @@ class _listCheckState extends State<listCheck> {
 
   var courseList = <EmploymentType>[];
 
-
   Future<List<EmploymentType>> fetchData() async {
     final url = Uri.parse(ApiUrls.kEmpType);
     final header = {
       "Content-Type": "application/json",
     };
-    final response = await http.get(
-        url,
-        headers: header
-    );
+    final response = await http.get(url, headers: header);
     var courses = <EmploymentType>[];
     if (response.statusCode == 200) {
       var coursesJson = jsonDecode(response.body);
@@ -66,44 +64,98 @@ class _listCheckState extends State<listCheck> {
     });
     return courseList;
   }
-
+  List<EmploymentType> selectedSkills = [];
   // final List<EmploymentType> questionList = [];
 
-  List<Widget> getList() {
-    List<Widget> childs = courseList
-        .map((e) =>
-        Row(children: <Widget>[
+  getList() {
+    for (var a in courseList) {
+      Row(
+        children: [
           Checkbox(
-              value:  checkBoxValue == e ,
-              onChanged: (newValue) {
+              value: checkBoxValue == a,
+              onChanged: (bool newValue) {
                 setState(() {
-                  checkBoxValue = e;
-
+                  checkBoxValue = a;
                 });
-              }
-          ),
-          Text(e.employmenttypeName),
-
-        ]))
-        .toList();
-    return childs;
+              }),
+          Text(a.employmenttypeName),
+        ],
+      );
+    }
+    // .toList();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-        children: getList()
+    return Column(children:[
+        Padding(
+          padding:
+          const EdgeInsets.all(8.0),
+          child: DropdownSearch<EmploymentType>.multiSelection(
+            autoValidateMode:
+            AutovalidateMode
+                .onUserInteraction,
+            validator: (value) {
+              if (value.isEmpty) {
+                return "Please Select Key Skill/Skills";
+              }
+              return null;
+            },
+            mode: Mode.DIALOG,
+            items: isLoading
+                ? [EmploymentType()]
+                : _apiResponse3.data,
+            itemAsString:
+                (EmploymentType obj) {
+              return obj.employmenttypeName;
+            },
+            onChanged: (val) {
+              setState(() {
+                isLoading = true;
+                selectedSkills = val;
+              });
+            },
+            // onFind: (val) async {
+            //   setState(() {
+            //     query = val;
+            //   });
+            //   fetchCompany(query: query);
+            //   return _apiResponse.data;
+            // },
+            // ignore: deprecated_member_use
+            hint: "Select Key Skills",
+            showSearchBox: true,
+            popupItemBuilder: (context,
+           EmploymentType item,
+                bool isSelected) {
+              return Container(
+                margin:
+                EdgeInsets.symmetric(
+                    horizontal: 8),
+                child: Padding(
+                  padding:
+                  EdgeInsets.all(8.0),
+                  child: Text(
+                      item.employmenttypeName),
+                ),
+              );
+            },
+          ),
+        ),
+
+
+
+      ]
 
     );
-
   }
-  // Widget buildCheck(CheckBoxModel checkBoxModel ) => CheckboxListTile(
-  //     value:checkBoxModel.value,
-  //     controlAffinity: ListTileControlAffinity.leading,
-  //     title: Text(checkBoxModel.title),
-  //     onChanged: (value) {
-  //       setState(() {
-  //         checkBoxModel.value = value;
-  //       });
-  //     });
+// Widget buildCheck(CheckBoxModel checkBoxModel ) => CheckboxListTile(
+//     value:checkBoxModel.value,
+//     controlAffinity: ListTileControlAffinity.leading,
+//     title: Text(checkBoxModel.title),
+//     onChanged: (value) {
+//       setState(() {
+//         checkBoxModel.value = value;
+//       });
+//     });
 }
