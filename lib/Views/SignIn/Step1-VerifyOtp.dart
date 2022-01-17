@@ -21,15 +21,17 @@ class VerifyOTP extends StatefulWidget {
 class _VerifyOTPState extends State<VerifyOTP> {
   bool isLoading = false;
   ApiServices apiServices = ApiServices();
-  ApiResponse<String> _apiResponse;
+  ApiResponse<int> _apiResponse;
+  bool _onEditing = true;
+  String _code = "0";
   var key = GlobalKey<FormState>();
 
-  verifyOTP() async {
+  verifyOTP(String otp) async {
     setState(() {
       isLoading = true;
     });
-    _apiResponse = await apiServices.otpVerify(
-        OTPVerify(registerMobile: widget.registerMobile, otp: widget.otp));
+    _apiResponse = await apiServices.otpVerifyGet(
+        OTPVerify(registerMobile: widget.registerMobile, otp: int.parse(otp)));
     setState(() {
       isLoading = false;
     });
@@ -59,7 +61,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child: Image.asset("assets/19873.jpg"),
+                    child: Image.asset("assets/ebook.png"),
                   ),
                   const SizedBox(
                     height: 30,
@@ -81,7 +83,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
                     delay: const Duration(milliseconds: 500),
                     duration: const Duration(milliseconds: 500),
                     child: Text(
-                      "Please enter the 4 digit code sent to \n +91-${widget.registerMobile}",
+                      "Please enter the 6 digit code sent to \n +91-${widget.registerMobile}",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 16,
@@ -96,23 +98,44 @@ class _VerifyOTPState extends State<VerifyOTP> {
                   FadeInDown(
                     key: key,
                     child: VerificationCode(
-                      length: 6,
-                      textStyle:
-                          const TextStyle(fontSize: 20, color: Colors.black),
-                      underlineColor: Colors.black,
+                      textStyle: TextStyle(fontSize: 20.0, color: Colors.red[900]),
+                      underlineColor: Colors.amber,
                       keyboardType: TextInputType.number,
-                      underlineUnfocusedColor: Colors.black,
-                      onCompleted: (value) {
+                      length: 6,
+                      clearAll: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'clear all',
+                          style: TextStyle(
+                              fontSize: 14.0,
+                              decoration: TextDecoration.underline,
+                              color: Colors.blue[700]),
+                        ),
+                      ),
+                      onCompleted: (String value) {
                         setState(() {
-                          print(value);
+                          _code = value;
                         });
                       },
-                      onEditing: (value) {
-                        print(value);
+                      onEditing: (bool value) {
+                        setState(() {
+                          _onEditing = value;
+                        });
                       },
                     ),
                   ),
+                  const SizedBox(
+                    height: 20,
+                  ),
 
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Center(
+                      child: _onEditing
+                          ? Text('Please enter full code')
+                          : Text('Your code: $_code'),
+                    ),
+                  ),
 
                   const SizedBox(
                     height: 20,
@@ -147,26 +170,79 @@ class _VerifyOTPState extends State<VerifyOTP> {
                     duration: const Duration(milliseconds: 500),
                     child: MaterialButton(
                       elevation: 0,
-                      onPressed: () {
-                        if (isLoading) {
+                      onPressed: () async {
+                        print("======================");
+                        print(_code);
+                        print("======================");
+
+                        await verifyOTP(_code);
+                        if (_apiResponse.data == 1) {
+                          AwesomeDialog(
+                            context: context,
+                            animType: AnimType.SCALE,
+                            dialogType: DialogType.INFO,
+                            title: 'JobPortalApp',
+                            desc: 'Please enter your OTP',
+                            // btnOkOnPress: () {
+                            //   Navigator.of(context).pop();
+                            // },
+                          ).show();
+                        }
+                        if (_apiResponse.data == 2) {
+                          AwesomeDialog(
+                            context: context,
+                            animType: AnimType.SCALE,
+                            dialogType: DialogType.INFO,
+                            title: 'JobPortalApp',
+                            desc: 'OTP Length not valid',
+                            // btnOkOnPress: () {
+                            //   Navigator.of(context).pop();
+                            // },
+                          ).show();
+                        }
+                        if (_apiResponse.data == 4) {
                           AwesomeDialog(
                             context: context,
                             animType: AnimType.SCALE,
                             dialogType: DialogType.ERROR,
                             title: 'JobPortalApp',
-                            desc: '${_apiResponse.errorMessage}',
-                            btnOkOnPress: () {
-                              Navigator.of(context).pop();
-                            },
+                            desc: 'Incorrect OTP Entered',
+                            // btnOkOnPress: () {
+                            //   Navigator.of(context).pop();
+                            // },
                           ).show();
-                        } else {
+                        }
+                        if (_apiResponse.data == 5) {
+                          AwesomeDialog(
+                            context: context,
+                            animType: AnimType.SCALE,
+                            dialogType: DialogType.INFO,
+                            title: 'JobPortalApp',
+                            desc: 'OTP Expired',
+                            // btnOkOnPress: () {
+                            //   Navigator.of(context).pop();
+                            // },
+                          ).show();
+                        }
+                        if (_apiResponse.data == 6) {
+                          AwesomeDialog(
+                            context: context,
+                            animType: AnimType.SCALE,
+                            dialogType: DialogType.ERROR,
+                            title: 'JobPortalApp',
+                            desc: "Register with different Mobile Number\n Mobile Number Banned!",
+                            // btnOkOnPress: () {
+                            //   Navigator.of(context).pop();
+                            // },
+                          ).show();
+                        }
+                        if (_apiResponse.data == 3) {
                           AwesomeDialog(
                             context: context,
                             animType: AnimType.SCALE,
                             dialogType: DialogType.SUCCES,
                             title: 'JobPortalApp',
-                            desc:
-                            'Mobile Number +91-${widget.registerMobile} Successfully Verified',
+                            desc: 'Mobile Number +91-${widget.registerMobile} Successfully Verified',
                             btnOkOnPress: () {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
@@ -174,6 +250,16 @@ class _VerifyOTPState extends State<VerifyOTP> {
                                 ),
                               );
                             },
+                          ).show();
+                        }
+                        if(int.parse(_code) == 0) {
+                          AwesomeDialog(
+                            context: context,
+                            animType: AnimType.SCALE,
+                            dialogType: DialogType.ERROR,
+                            title: 'JobPortalApp',
+                            desc:
+                            'Please enter Valid OTP',
                           ).show();
                         }
                       },

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, deprecated_member_use, prefer_final_fields, unused_field, unnecessary_string_interpolations, avoid_print, prefer_const_constructors_in_immutables, must_be_immutable, avoid_unnecessary_containers, unused_local_variable
+
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
@@ -5,7 +7,6 @@ import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/CurerntLocation.dart';
 import 'package:job_portal/Models/GetTitle.dart';
 import 'package:job_portal/Models/JobRole.dart';
-import 'package:job_portal/Models/basicdetailresponse.dart';
 import 'package:job_portal/Models/basicdetials.dart';
 import 'package:job_portal/Models/custumradiomodel.dart';
 import 'package:job_portal/Services/ApiServices.dart';
@@ -47,12 +48,16 @@ class _BasicDetailsState extends State<BasicDetails> {
   String keyCandiadteMobile = "keyCandiadteMobile";
 
   //GetTtile Instance
+  //=================
   GetTitle selectedUser;
 
   //Global Form Key
+  //===============
   var formKey = GlobalKey<FormState>();
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
+
   //Controllers for TextField
+  //=========================
   TextEditingController fnameController = TextEditingController();
   TextEditingController mnameController = TextEditingController();
   TextEditingController lnameController = TextEditingController();
@@ -60,12 +65,13 @@ class _BasicDetailsState extends State<BasicDetails> {
   TextEditingController jobCategorySearchCon = TextEditingController();
 
   //RadioButtons
+  //============
+
   final List<CustumRadioButtons> genderItems = [
     CustumRadioButtons(value: 1, text: "Male"),
     CustumRadioButtons(value: 2, text: "Female"),
     CustumRadioButtons(value: 3, text: "Others"),
   ];
-
   int genderRadioId = 0;
   String genderRadioadioValue = "";
 
@@ -77,12 +83,13 @@ class _BasicDetailsState extends State<BasicDetails> {
   String experienceRadioValue = "";
 
   //ID's for Fields
+  //===============
   String titleID = "";
   String genderID = "";
   String jobRoleID = "";
   String cityID = "";
   int totalExp = 0;
-  BasicDetailResponse response;
+  Map<String,dynamic> response;
 
   //Normal Fiels Variables
   //======================
@@ -90,7 +97,6 @@ class _BasicDetailsState extends State<BasicDetails> {
   String query;
   String myLocation = "";
   bool _isLoading = false;
-  // int genderGroupValue = 0;
   int experienceGroupValue = 0;
   String dropdownValue;
   String mySelection;
@@ -782,23 +788,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                   type: GFButtonType.solid,
                   blockButton: false,
                   onPressed: () async {
-                    if (_fbKey.currentState.saveAndValidate()) {
-                      print("TitleId+${int.parse(selectedUser.titleId)}");
-                      print("MobileNo : ${widget.mobileNo}");
-                      print("FirstName : ${fnameController.text}");
-                      print("MiddleName : ${mnameController.text}");
-                      print("LastName : ${lnameController.text}");
-                      print("Email : ${emailController.text}");
-                      print("FullName : ${fnameController.text +
-                          " " +
-                          " " +
-                          lnameController.text}");
-                      print("GenderId : ${genderRadioId}");
-                      print("TotalExperience:");
-                      print(experienceRadioId == 2 ? totalExp : totalWorkExp());
-                      print("JobId : ${int.parse(jobRoleID)}");
-                      print("CityId : ${int.parse(cityID)}");
-
+                    // if (_fbKey.currentState.saveAndValidate()) {
                       final insert = BasicDetialModel(
                         candidateTitleId: int.parse(selectedUser.titleId),
                         candidateMobile1: widget.mobileNo,
@@ -808,11 +798,9 @@ class _BasicDetailsState extends State<BasicDetails> {
                         candidateEmail1: emailController.text,
                         candidateName: fnameController.text +
                             " " +
-
                             mnameController.text +
                             " " +
                             lnameController.text,
-
                         candidateGenderId: genderRadioId,
                         candidateTotalworkexp:
                         experienceRadioId == 2 ? totalExp : totalWorkExp(),
@@ -825,6 +813,11 @@ class _BasicDetailsState extends State<BasicDetails> {
                       response = result.data;
                       print(response);
                       print("#######################");
+                      if(response['errors']){
+                        print(response['errors'].toString());
+                      }else{
+                        return;
+                      }
                       storeDataToSharedPref();
                       result.error
                           ? showDialog(
@@ -844,11 +837,11 @@ class _BasicDetailsState extends State<BasicDetails> {
                           : Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => QualificationBlueCollar(
-                            uuid: response.axelaCandidateUuId,
+                            uuid: response['axelaCandidateUuId'],
                           ),
                         ),
                       );
-                    }
+                    // }
                   }),
             ),
           ),
@@ -866,12 +859,10 @@ class _BasicDetailsState extends State<BasicDetails> {
   }
 
   void storeDataToSharedPref() {
-    pref.setString(keyUuid, response.axelaCandidateUuId);
-    pref.setInt(keyCandiadateId, response.axelaCandidateId);
-    pref.setString(keyCandidateName, response.axelaCandidateName);
-    pref.setString(keyCandidateEmail, response.axelaCandidateEmail1);
-    pref.setString(keyCandiadteMobile, response.axelaCandidateMobile);
+    pref.setString(keyUuid, response['axelaCandidateUuId']);
+    pref.setInt(keyCandiadateId, response['axelaCandidateId']);
+    pref.setString(keyCandidateName, response['axelaCandidateName']);
+    pref.setString(keyCandidateEmail, response['axelaCandidateEmail1']);
+    pref.setString(keyCandiadteMobile, response['axelaCandidateMobile']);
   }
 }
-
-
