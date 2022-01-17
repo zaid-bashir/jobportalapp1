@@ -19,6 +19,7 @@ class _OTPState extends State<OTP> {
   bool isLoading = false;
   ApiServices apiServices = ApiServices();
   ApiResponse<int> _apiResponse;
+  String prefix = "91-";
 
   fetchOTP(String mobileNumber) async {
     setState(() {
@@ -141,6 +142,7 @@ class _OTPState extends State<OTP> {
             padding: const EdgeInsets.all(10.0),
             child: GFButton(
               onPressed: () async {
+                print((prefix+mobileController.text).toString());
                 if (formKey.currentState.validate()) {
                   await fetchOTP(mobileController.text);
                   if (isLoading) {
@@ -166,7 +168,7 @@ class _OTPState extends State<OTP> {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => VerifyOTP(
-                              registerMobile: '${mobileController.text}',
+                              registerMobile: (prefix+mobileController.text).toString(),
                               otp: _apiResponse.data,
                             ),
                           ),

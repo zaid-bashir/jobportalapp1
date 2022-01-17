@@ -5,6 +5,7 @@ import 'package:getwidget/components/button/gf_button.dart';
 import 'package:job_portal/Views/Candidate/BottomNavbar.dart';
 import 'package:job_portal/Views/SignIn/Step1-Otp.Dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:job_portal/Views/SignIn/Step3-QualificationDetails.dart';
 import 'package:job_portal/Views/SignIn/Step6-ItSkills.dart';
 import 'package:job_portal/Views/SignIn/Step8-PersonalDetails.dart';
 import 'package:overlay_support/overlay_support.dart';
@@ -155,10 +156,10 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: () {
                           Navigator.push(context, MaterialPageRoute(builder: (context)=>PersonalDetails()));
                           // Navigator.push(context, MaterialPageRoute(builder: (context)=>OTP()));
-                          // Navigator.push(context, MaterialPageRoute(builder: (context)=>ItSkills()));
+                          // Navigator.push(context, MaterialPageRoute(builder: (context)=>QualificationBlueCollar()));
                           // Navigator.push(context, MaterialPageRoute(builder: (context)=>BasicDetails()));
                           // Navigator.push(context, MaterialPageRoute(builder: (context)=>listCheck()));
-                          // Navigator.push(context, MaterialPageRoute(builder: (context)=>QualificationBlueCollar()));
+                          // Navigator.push(context, MaterialPageRoute(builder: (context)=>CareerPreference()));
                           // Navigator.push(context, MaterialPageRoute(builder: (6644
                           //     context) => BasicDetails()));
                         },

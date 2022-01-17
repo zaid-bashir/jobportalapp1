@@ -237,7 +237,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                 padding: EdgeInsets.only(
                                   top: 15,
                                 ),
-                                child: Text("Current Company Name",
+                                child: Text("Current Organization Name",
                                     style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
@@ -260,7 +260,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                   ),
                                   validator: (value) {
                                     if (value == null) {
-                                      return "Please Select Company Name";
+                                      return "  Please Select Organization ";
                                     }
                                     return null;
                                   },
@@ -279,7 +279,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                     return _apiResponseCurrentCompany
                                         .data;
                                   },
-                                  hint: "Select Current  company",
+                                  hint: "Select Current  Organization",
                                   onChanged: (value) {
                                     currentCompanySearchCo.text =
                                         value.organizationId.toString();
@@ -467,7 +467,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                 padding: EdgeInsets.only(
                                   top: 15,
                                 ),
-                                child: Text("Previous Company Name",
+                                child: Text("Previous Organization Name",
                                     style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
@@ -485,7 +485,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                   ),
                                   validator: (value) {
                                     if (value == null) {
-                                      return "Please Select Company Name";
+                                      return "Please Select Organization";
                                     }
                                     return null;
                                   },
@@ -504,7 +504,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                     return _apiResponseCurrentCompany
                                         .data;
                                   },
-                                  hint: "Select Highest Qualification",
+                                  hint: "Select Organization",
                                   onChanged: (value) {
                                     currentCompanySearchCo.text =
                                         value.organizationId.toString();
