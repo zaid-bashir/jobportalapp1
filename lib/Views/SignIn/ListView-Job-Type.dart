@@ -72,8 +72,7 @@ class _ListJobState extends State<ListJob> {
   // final List<EmploymentType> questionList = [];
 
   List<Widget> getList() {
-    List<Widget> childs = courseList
-        .map((e) =>
+    List<Widget> childs = courseList.map((e) =>
         Row(children: <Widget>[
           Checkbox(
               value:  checkBoxValue == e ,
