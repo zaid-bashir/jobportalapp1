@@ -12,8 +12,9 @@ import 'package:overlay_support/overlay_support.dart';
 import 'Step2-BasicDetails.dart';
 import 'Step4-ProfessionalDetails.dart';
 import 'Step7-CareerPreference.dart';
+
 class LoginPage extends StatefulWidget {
-  const LoginPage({ Key key }) : super(key: key);
+  const LoginPage({Key key}) : super(key: key);
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -26,16 +27,22 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-
   }
 
   void checkInternetStatus() async {
     hasInternet = await InternetConnectionChecker().hasConnection;
     final color = hasInternet ? Colors.green : Colors.red;
-    final text = hasInternet ? "Connected with Internet" : "Disconnected from Internet";
+    final text =
+        hasInternet ? "Connected with Internet" : "Disconnected from Internet";
     showSimpleNotification(
-      Text(text,style: TextStyle(color: Colors.white,fontSize: 20,),),
-      background : color,
+      Text(
+        text,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 20,
+        ),
+      ),
+      background: color,
     );
   }
 
@@ -51,45 +58,50 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 children: [
                   Row(
-
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
-                      Text("Login to your\naccount ",style:  TextStyle(
-                        fontFamily: "OpenSans",
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1.5,
-                        fontSize: 20.5,
-                      ),),
-
+                      Text(
+                        "Login to your\naccount ",
+                        style: TextStyle(
+                          fontFamily: "OpenSans",
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.5,
+                          fontSize: 20.5,
+                        ),
+                      ),
                     ],
                   ),
-
-                  const SizedBox(height: 20,),
-                         const TextField(
-                           decoration: InputDecoration(
-                             contentPadding: EdgeInsets.all(0.0),
-                             labelText: 'Email Or Phone',
-                             labelStyle: TextStyle(
-                               color: Colors.blueGrey,
-                               fontFamily: "ProximaNova",
-                               fontWeight: FontWeight.w500,
-                               letterSpacing: 1.5,
-                               fontSize: 15.5,
-                             ),
-                             floatingLabelStyle: TextStyle(
-                               color:  Color(0xff3e61ed),
-                               fontFamily: "ProximaNova",
-                               fontWeight: FontWeight.bold,
-                               // letterSpacing: 1.5,
-                               fontSize: 17.5,
-                             ),
-                             focusedBorder: UnderlineInputBorder(
-                               borderSide: BorderSide(
-                                   color:  Color(0xff3e61ed),),
-                             ),
-                           ),
-                         ),
-                  const SizedBox(height: 20,),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const TextField(
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.all(0.0),
+                      labelText: 'Email Or Phone',
+                      labelStyle: TextStyle(
+                        color: Colors.blueGrey,
+                        fontFamily: "ProximaNova",
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: 1.5,
+                        fontSize: 15.5,
+                      ),
+                      floatingLabelStyle: TextStyle(
+                        color: Color(0xff3e61ed),
+                        fontFamily: "ProximaNova",
+                        fontWeight: FontWeight.bold,
+                        // letterSpacing: 1.5,
+                        fontSize: 17.5,
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0xff3e61ed),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   const TextField(
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.all(0.0),
@@ -110,7 +122,8 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
-                          color: Color(0xff2972ff),),
+                          color: Color(0xff2972ff),
+                        ),
                       ),
                     ),
                   ),
@@ -121,48 +134,74 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: () {
                           // Navigator.push(context, MaterialPageRoute(builder: (context)=>KeySkills()));
                         },
-                        child: const Text('Forgot Password?', style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.w400),),
+                        child: const Text(
+                          'Forgot Password?',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w400),
+                        ),
                       )
                     ],
                   ),
-                  const SizedBox(height: 20,),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   Container(
                     width: double.infinity,
                     child: GFButton(
                       color: Color(0xff3e61ed),
-                      onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Navbar()));
-                      },text: "Login",textStyle:TextStyle(
-                      color: Colors.white,
-                      fontFamily: "ProximaNova",
-                      fontWeight: FontWeight.bold,
-                      // letterSpacing: 1.5,
-                      fontSize: 14.5,
-                    ),),
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Navbar()));
+                      },
+                      text: "Login",
+                      textStyle: TextStyle(
+                        color: Colors.white,
+                        fontFamily: "ProximaNova",
+                        fontWeight: FontWeight.bold,
+                        // letterSpacing: 1.5,
+                        fontSize: 14.5,
+                      ),
+                    ),
                   ),
-                  SizedBox(height: 20,),
+                  SizedBox(
+                    height: 20,
+                  ),
                   const SizedBox(
                     height: 20,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Don\'t have an account?', style: TextStyle(color: Colors.grey.shade600, fontSize: 14.0, fontWeight: FontWeight.w400),),
+                      Text(
+                        'Don\'t have an account?',
+                        style: TextStyle(
+                            color: Colors.grey.shade600,
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.w400),
+                      ),
                       TextButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>PersonalDetails()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => WorkingProfession()));
                           // Navigator.push(context, MaterialPageRoute(builder: (context)=>OTP()));
                           // Navigator.push(context, MaterialPageRoute(builder: (context)=>ItSkills()));
                           // Navigator.push(context, MaterialPageRoute(builder: (context)=>BasicDetails()));
                           // Navigator.push(context, MaterialPageRoute(builder: (context)=>listCheck()));
                           // Navigator.push(context, MaterialPageRoute(builder: (context)=>QualificationBlueCollar()));
                           // Navigator.push(context, MaterialPageRoute(builder: (6644
-                          //     context) => BasicDetails()));
+                          // context) => BasicDetails()));
                         },
-                        child: Text('Register', style: TextStyle(color:  Color(0xff2972ff), fontSize: 14.0, fontWeight: FontWeight.w400),),
+                        child: Text(
+                          'Register',
+                          style: TextStyle(
+                              color: Color(0xff2972ff),
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w400),
+                        ),
                       )
                     ],
                   ),
@@ -171,8 +210,7 @@ class _LoginPageState extends State<LoginPage> {
                 // Navigator.push(context, MaterialPageRoute(builder: (context)=>WorkingProfession()));
               ),
             ),
-          )
-      ),
+          )),
     );
   }
 }

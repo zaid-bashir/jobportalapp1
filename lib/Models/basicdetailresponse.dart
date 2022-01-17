@@ -7,10 +7,10 @@ class BasicDetailResponse {
 
   BasicDetailResponse(
       {this.axelaCandidateUuId,
-        this.axelaCandidateId,
-        this.axelaCandidateEmail1,
-        this.axelaCandidateName,
-        this.axelaCandidateMobile});
+      this.axelaCandidateId,
+      this.axelaCandidateEmail1,
+      this.axelaCandidateName,
+      this.axelaCandidateMobile});
 
   BasicDetailResponse.fromJson(Map<String, dynamic> json) {
     axelaCandidateUuId = json['axelaCandidateUuId'];

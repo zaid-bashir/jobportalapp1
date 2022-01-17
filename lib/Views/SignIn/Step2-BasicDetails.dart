@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, deprecated_member_use, prefer_final_fields, unused_field, unnecessary_string_interpolations, avoid_print, prefer_const_constructors_in_immutables, must_be_immutable, avoid_unnecessary_containers, unused_local_variable
-
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
@@ -49,16 +47,12 @@ class _BasicDetailsState extends State<BasicDetails> {
   String keyCandiadteMobile = "keyCandiadteMobile";
 
   //GetTtile Instance
-  //=================
   GetTitle selectedUser;
 
   //Global Form Key
-  //===============
   var formKey = GlobalKey<FormState>();
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
-
   //Controllers for TextField
-  //=========================
   TextEditingController fnameController = TextEditingController();
   TextEditingController mnameController = TextEditingController();
   TextEditingController lnameController = TextEditingController();
@@ -66,13 +60,12 @@ class _BasicDetailsState extends State<BasicDetails> {
   TextEditingController jobCategorySearchCon = TextEditingController();
 
   //RadioButtons
-  //============
-
   final List<CustumRadioButtons> genderItems = [
     CustumRadioButtons(value: 1, text: "Male"),
     CustumRadioButtons(value: 2, text: "Female"),
     CustumRadioButtons(value: 3, text: "Others"),
   ];
+
   int genderRadioId = 0;
   String genderRadioadioValue = "";
 
@@ -84,7 +77,6 @@ class _BasicDetailsState extends State<BasicDetails> {
   String experienceRadioValue = "";
 
   //ID's for Fields
-  //===============
   String titleID = "";
   String genderID = "";
   String jobRoleID = "";
@@ -816,9 +808,11 @@ class _BasicDetailsState extends State<BasicDetails> {
                         candidateEmail1: emailController.text,
                         candidateName: fnameController.text +
                             " " +
+
                             mnameController.text +
                             " " +
                             lnameController.text,
+
                         candidateGenderId: genderRadioId,
                         candidateTotalworkexp:
                         experienceRadioId == 2 ? totalExp : totalWorkExp(),
@@ -881,39 +875,3 @@ class _BasicDetailsState extends State<BasicDetails> {
 }
 
 
-
-
-
-
-// setState(() {
-//                       isLoading = false;
-//                     });
-//                     const title = "Done";
-//                     final text = result.error
-//                         ? (result.errorMessage ?? "An Error Occurred")
-//                         : "Successfully Created";
-//                     showDialog(
-//                       context: context,
-//                       builder: (_) => AlertDialog(
-//                         title: const Text(title),
-//                         content: Text(text),
-//                         actions: [
-//                           ElevatedButton(
-//                               onPressed: () {
-//                                 Navigator.pop(context);
-//                               },
-//                               child: const Text("OK"))
-//                         ],
-//                       ),
-//                     ).then((data) {
-//                       if (result.data) {
-//                         Navigator.push(
-//                             context,
-//                             MaterialPageRoute(
-//                                 builder: (context) => WorkingProfession()));
-//                       }
-//                     });
-//                   },
-//                   text: "Next",
-//                   type: GFButtonType.solid,
-//                 )),
