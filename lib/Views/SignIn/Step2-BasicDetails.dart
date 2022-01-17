@@ -662,6 +662,10 @@ class _BasicDetailsState extends State<BasicDetails> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: DropdownSearch<JobCategory>(
+                          dropdownSearchDecoration: InputDecoration(
+                              border: UnderlineInputBorder(
+                              )
+                          ),
                           autoValidateMode: AutovalidateMode.onUserInteraction,
                           validator: (value) {
                             if (value == null) {
@@ -722,6 +726,10 @@ class _BasicDetailsState extends State<BasicDetails> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: DropdownSearch<CurrentLocation>(
+                        dropdownSearchDecoration: InputDecoration(
+                            border: UnderlineInputBorder(
+                            )
+                        ),
                         autoValidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
                           if (value == null) {
