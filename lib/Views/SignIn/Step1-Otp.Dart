@@ -1,4 +1,3 @@
-// ignore_for_file: prefer_const_constructors, unnecessary_const, unused_field, unnecessary_new, curly_braces_in_flow_control_structures, sized_box_for_whitespace, unused_local_variable, avoid_print, unnecessary_string_interpolations, avoid_single_cascade_in_expression_statements
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
@@ -10,7 +9,6 @@ import 'package:job_portal/Views/SignIn/Step1-VerifyOtp.dart';
 
 class OTP extends StatefulWidget {
   const OTP({Key key}) : super(key: key);
-
   @override
   _OTPState createState() => _OTPState();
 }
@@ -25,7 +23,7 @@ class _OTPState extends State<OTP> {
       isLoading = true;
     });
     _apiResponse =
-    await apiServices.getOTP(GetOTP(registerMobile: mobileNumber));
+    await apiServices.otpGet(GetOTP(registerMobile: "91-$mobileNumber"));
     setState(() {
       isLoading = false;
     });
@@ -43,33 +41,33 @@ class _OTPState extends State<OTP> {
             height: 180,
             fit: BoxFit.contain,
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
-          Padding(
-            padding: const EdgeInsets.all(15.0),
+          const Padding(
+            padding: EdgeInsets.all(15.0),
             child: Text(
               "Register with a Mobile Number",
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style:  TextStyle(
                   fontSize: 20,
                   fontFamily: "ProximaNova",
                   fontWeight: FontWeight.w900),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
-          Center(
+          const Center(
             child: Text(
               "Enter Your Mobile Number we will send you OTP to Verify",
-              style: TextStyle(
+              style:  TextStyle(
                   fontSize: 12,
                   fontFamily: "ProximaNova",
                   fontWeight: FontWeight.w600),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Padding(
@@ -87,12 +85,12 @@ class _OTPState extends State<OTP> {
                         height: 47,
                         width: 50,
                         margin: const EdgeInsets.fromLTRB(0, 10, 3, 30),
-                        decoration: BoxDecoration(
-                          border: Border(
+                        decoration: const BoxDecoration(
+                          border:  Border(
                             bottom: BorderSide(color: Colors.grey),
                           ),
                         ),
-                        child: Center(
+                        child: const Center(
                           child: Text(
                             "+91",
                             style: TextStyle(
@@ -111,8 +109,9 @@ class _OTPState extends State<OTP> {
                           controller: mobileController,
                           maxLines: 1,
                           maxLength: 10,
+
                           decoration: const InputDecoration(
-                            contentPadding: const EdgeInsetsDirectional.all(10),
+                            contentPadding:  EdgeInsetsDirectional.all(10),
                             hintText: "Enter Your Mobile Number",
                           ),
                           keyboardType: TextInputType.number,
@@ -134,6 +133,7 @@ class _OTPState extends State<OTP> {
               ),
             ),
           ),
+          // ignore: prefer_const_constructors
           SizedBox(
             height: 20,
           ),
@@ -141,20 +141,58 @@ class _OTPState extends State<OTP> {
             padding: const EdgeInsets.all(10.0),
             child: GFButton(
               onPressed: () async {
+                // ignore: avoid_print
                 if (formKey.currentState.validate()) {
                   await fetchOTP(mobileController.text);
-                  if (isLoading) {
+                  if (_apiResponse.data == 1) {
+                    AwesomeDialog(
+                      context: context,
+                      animType: AnimType.SCALE,
+                      dialogType: DialogType.INFO,
+                      title: 'JobPortalApp',
+                      desc: "Mobile Number Not Received,Please enter your Mobile Number",
+                      // btnOkOnPress: () {
+                      //   Navigator.of(context).pop();
+                      // },
+                    ).show();
+                  }
+                  if (_apiResponse.data == 2) {
+                    AwesomeDialog(
+                      context: context,
+                      animType: AnimType.SCALE,
+                      dialogType: DialogType.INFO,
+                      title: 'JobPortalApp',
+                      desc: "Please enter your Mobile Number",
+                      // btnOkOnPress: () {
+                      //   Navigator.of(context).pop();
+                      // },
+                    ).show();
+                  }
+                  if (_apiResponse.data == 3) {
                     AwesomeDialog(
                       context: context,
                       animType: AnimType.SCALE,
                       dialogType: DialogType.ERROR,
                       title: 'JobPortalApp',
-                      desc: '${_apiResponse.errorMessage}',
-                      btnOkOnPress: () {
-                        Navigator.of(context).pop();
-                      },
-                    )..show();
-                  } else {
+                      desc: "Invalid Mobile Number",
+                      // btnOkOnPress: () {
+                      //   Navigator.of(context).pop();
+                      // },
+                    ).show();
+                  }
+                  if (_apiResponse.data == 4) {
+                    AwesomeDialog(
+                      context: context,
+                      animType: AnimType.SCALE,
+                      dialogType: DialogType.INFO,
+                      title: 'JobPortalApp',
+                      desc: "Number Already Present",
+                      // btnOkOnPress: () {
+                      //   Navigator.of(context).pop();
+                      // },
+                    ).show();
+                  }
+                  if(_apiResponse.data.toString().length == 6){
                     AwesomeDialog(
                       context: context,
                       animType: AnimType.SCALE,
@@ -166,24 +204,24 @@ class _OTPState extends State<OTP> {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => VerifyOTP(
-                              registerMobile: '${mobileController.text}',
+                              registerMobile: mobileController.text,
                               otp: _apiResponse.data,
                             ),
                           ),
                         );
                       },
-                    )..show();
+                    ).show();
                   }
-                } else {
-                  Fluttertoast.showToast(
-                      msg: "Phone Number Not Valid",
-                      toastLength: Toast.LENGTH_LONG,
-                      gravity: ToastGravity.BOTTOM,
-                      timeInSecForIosWeb: 2,
-                      backgroundColor: Colors.red,
-                      textColor: Colors.white,
-                      fontSize: 16.0);
-                }
+                 } else {
+                   Fluttertoast.showToast(
+                       msg: "Phone Number Not Valid",
+                       toastLength: Toast.LENGTH_LONG,
+                       gravity: ToastGravity.BOTTOM,
+                       timeInSecForIosWeb: 2,
+                       backgroundColor: Colors.red,
+                       textColor: Colors.white,
+                       fontSize: 16.0);
+                 }
               },
               text: "Get OTP",
               type: GFButtonType.solid,

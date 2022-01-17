@@ -40,7 +40,7 @@ import 'package:logger/logger.dart';
 class ApiServices {
   var log = Logger();
 
-  Future<ApiResponse<int>> getOTP(GetOTP objGetOtp) async {
+  Future<ApiResponse<int>> otpGet(GetOTP objGetOtp) async {
     final url = Uri.parse(ApiUrls.kgetOTP);
     final headers = {
       "Content-Type": "application/json",
@@ -58,22 +58,22 @@ class ApiServices {
         errorMessage: "Failed to Receive the OTP, Please try Again");
   }
 
-  Future<ApiResponse<String>> otpVerify(OTPVerify objOtpVerify) async {
-    final url = Uri.parse(ApiUrls.kverifyOTP + "/" + "${objOtpVerify.otp}");
+  Future<ApiResponse<int>> otpVerifyGet(OTPVerify objOtpVerify) async {
+    final url = Uri.parse(ApiUrls.kverifyOTP+"/"+objOtpVerify.otp.toString());
     final headers = {
       "Content-Type": "application/json",
     };
     final jsonData = jsonEncode(OTPVerify.fromJson({
-      "registerMobile": "${objOtpVerify.registerMobile}",
+      "registerMobile": "91-${objOtpVerify.registerMobile}",
       "otp": objOtpVerify.otp
     }));
     final response = await http.post(url, headers: headers, body: jsonData);
     if (response.statusCode == 200 || response.statusCode == 201) {
       final jsonData = jsonDecode(response.body);
-      final String data = jsonData;
-      return ApiResponse<String>(data: data);
+      final int data = jsonData;
+      return ApiResponse<int>(data: data);
     }
-    return ApiResponse<String>(error: true, errorMessage: "An Error Occurred");
+    return ApiResponse<int>(error: true, errorMessage: "An Error Occurred");
   }
 
   // industry in Professional details page
@@ -642,7 +642,7 @@ class ApiServices {
   }
 
 
-  Future<ApiResponse<BasicDetailResponse>> postBasicDetials(
+  Future<ApiResponse<Map<String,String>>> postBasicDetials(
       BasicDetialModel obj) async {
     final url = Uri.parse(ApiUrls.kBasicDetial);
     final header = {
@@ -667,12 +667,12 @@ class ApiServices {
       body: jsonData,
     );
     if (response.statusCode == 201 || response.statusCode == 200) {
-      final BasicDetailResponse basicDetailResponse = BasicDetailResponse.fromJson(jsonDecode(response.body));
-      log.i(response.body);
+      Map<String,dynamic> data = jsonDecode(response.body);
+      log.i(data);
       log.i(response.statusCode);
-      return ApiResponse<BasicDetailResponse>(data: basicDetailResponse);
+      return ApiResponse<Map<String,String>>(data: data);
     }
-    return ApiResponse<BasicDetailResponse>(
+    return ApiResponse<Map<String,String>>(
         error: true, errorMessage: "Something went wrong, please try again...");
   }
 

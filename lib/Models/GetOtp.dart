@@ -1,6 +1,5 @@
 class GetOTP{
   String registerMobile;
-
   GetOTP({this.registerMobile});
 
   GetOTP.fromJson(Map<String,dynamic> json){
