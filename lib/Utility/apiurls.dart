@@ -31,7 +31,7 @@ class ApiUrls{
   static String kProfession = baseUrl+"candidate-registration/step4-professionaldetail";
   static String kKeySkills = baseUrl+"populate/keyskill?query=";
   static String kpostSkill =  baseUrl+"candidate-registration/step5-keyskill";
-  static  String Login = "http:192.168.0.20:9030/jobportal-app/candidate/candidate-overview";
+  static String kLogin = "http://192.168.0.20:9030/jobportal-app/candidate/candidate-overview";
 
 
 
