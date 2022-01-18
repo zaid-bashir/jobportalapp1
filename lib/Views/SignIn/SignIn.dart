@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/button/gf_button.dart';
+import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Views/Candidate/BottomNavbar.dart';
 import 'package:job_portal/Views/SignIn/Step1-Otp.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -13,20 +14,16 @@ import 'Step4-ProfessionalDetails.dart';
 import 'Step7-CareerPreference.dart';
 import 'listView-EmploymentType.dart';
 class LoginPage extends StatefulWidget {
-  const LoginPage({ Key key }) : super(key: key);
-
+  // const LoginPage({ Key key }) : super(key: key);
   @override
   _LoginPageState createState() => _LoginPageState();
 }
-
 class _LoginPageState extends State<LoginPage> {
   bool _isLoading = false;
   bool hasInternet = false;
-
   @override
   void initState() {
     super.initState();
-
   }
 
   void checkInternetStatus() async {
@@ -38,6 +35,17 @@ class _LoginPageState extends State<LoginPage> {
       background : color,
     );
   }
+  bool passwordVisible = false;
+  void togglePassword() {
+    setState(() {
+      passwordVisible = !passwordVisible;
+    });
+  }
+
+  bool isLoading = false;
+  TextEditingController usernameCont = TextEditingController();
+  TextEditingController passwordCont = TextEditingController();
+  ApiServices apiServices = ApiServices();
 
   @override
   Widget build(BuildContext context) {
@@ -133,8 +141,23 @@ class _LoginPageState extends State<LoginPage> {
                     width: double.infinity,
                     child: GFButton(
                       color: Color(0xff3e61ed),
-                      onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Navbar()));
+                      onPressed: () async {
+                        setState(() {
+                          isLoading = true;
+                        });
+                        final result = await apiServices.login(
+                            username: usernameCont.text,
+                            password: passwordCont.text);
+                        setState(() {
+                          isLoading = false;
+                        });
+                        if (result.data) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Navbar()));
+                        }
+                        // Navigator.push(context, MaterialPageRoute(builder: (context) => Navbar()));
                       },text: "Login",textStyle:TextStyle(
                       color: Colors.white,
                       fontFamily: "ProximaNova",
