@@ -154,8 +154,8 @@ class _LoginPageState extends State<LoginPage> {
                       TextButton(
                         onPressed: () {
                           // Navigator.push(context, MaterialPageRoute(builder: (context)=>CareerPreference()));
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>PieChartSample2()));
-                          // Navigator.push(context, MaterialPageRoute(builder: (context)=>OTP()));
+                          // Navigator.push(context, MaterialPageRoute(builder: (context)=>PieChartSample2()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>OTP()));
                           // Navigator.push(context, MaterialPageRoute(builder: (context)=>WorkingProfession()));
                           // Navigator.push(context, MaterialPageRoute(builder: (context)=>BasicDetails()));
                           // Navigator.push(context, MaterialPageRoute(builder: (context)=>listCheck()));
