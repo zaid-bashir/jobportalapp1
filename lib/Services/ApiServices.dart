@@ -10,6 +10,7 @@ import 'package:job_portal/Models/GetCompany.dart';
 import 'package:job_portal/Models/GetIndustry.dart';
 import 'package:job_portal/Models/GetMarital.dart';
 import 'package:job_portal/Models/InstituteQualified.dart';
+
 import 'package:job_portal/Models/ItSkills.dart';
 import 'package:job_portal/Models/ItSkillsPost.dart';
 import 'package:job_portal/Models/CareerPreference-post.dart';
@@ -771,5 +772,6 @@ class ApiServices {
     return ApiResponse<List<KeySkills>>(
         error: true, errorMessage: "An error occurred");
   }
+
 
 }

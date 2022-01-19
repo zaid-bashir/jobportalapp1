@@ -12,6 +12,7 @@ import 'package:job_portal/Views/Candidate/Sidebar.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
 import '../Candidate/Inbox.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 class ProfilePage extends StatefulWidget {
    ProfilePage({Key key,this.basic}) : super(key: key);
@@ -238,304 +239,338 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                     ),
                     GestureDetector(
                       onTap: () => showDialog(context: context, builder: (_) => AlertDialog(
-                          title:Text("Basic Information"),
-                          content:    Padding(
-                              padding: const EdgeInsets.only(bottom: 15),
-                              child: Column(
-                                  children: [
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 25.0),
-                                        child:  Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: const <Widget>[
-                                                Text(
-                                                  ' Name',
-                                                  style: TextStyle(
-                                                      fontSize: 16.0,
-                                                      fontWeight: FontWeight.bold),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        )),
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 2.0),
-                                        child:  Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            Flexible(
-                                              child:  TextField(
-                                                decoration: const InputDecoration(
-                                                    hintText: "Full Name"),
-
-                                              ),
-                                            ),
-                                          ],
-                                        )),
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 25.0),
-                                        child:  Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: const <Widget>[
-                                                Text(
-                                                  'Email ID',
-                                                  style: TextStyle(
-                                                      fontSize: 16.0,
-                                                      fontWeight: FontWeight.bold),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        )),
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 2.0),
-                                        child:  Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            Flexible(
-                                              child:  TextField(
-                                                decoration: const InputDecoration(
-                                                    hintText: "Enter Email ID"),
-                                                enabled: !_status,
-                                              ),
-                                            ),
-                                          ],
-                                        )),
-                                    Padding(
+                        title:Text("Basic Information"),
+                        content:    Padding(
+                            padding: const EdgeInsets.only(bottom: 15),
+                            child: Column(
+                                children: [
+                                  Padding(
                                       padding: const EdgeInsets.only(
                                           top: 25.0),
-                                      child: Row(
-                                        children: [
-                                          const Text(
-                                            "Gender",
-                                            style: TextStyle(
-                                                fontSize: 16.0,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          const SizedBox(
-                                            width: 30,
-                                          ),
-                                          GFRadio(
-                                            size: 20,
-                                            activeBorderColor: const Color(0xff3e61ed),
-                                            value: 0,
-                                            groupValue: groupValue,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                groupValue = value;
-                                              });
-                                            },
-                                            inactiveIcon: null,
-                                            radioColor: const Color(0xff3e61ed),
-                                          ),
-                                          const SizedBox(
-                                            width: 7,
-                                          ),
-                                          const Text(
-                                            "Male",
-                                            style: TextStyle(
-                                                fontSize: 16.0,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          const SizedBox(
-                                            width: 20,
-                                          ),
-                                          GFRadio(
-                                            size: 20,
-                                            value: 1,
-                                            groupValue: groupValue,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                groupValue = value;
-                                              });
-                                            },
-                                            inactiveIcon: null,
-                                            activeBorderColor: const Color(0xff3e61ed),
-                                            radioColor: const Color(0xff3e61ed),
-                                          ),
-                                          const SizedBox(
-                                            width: 7,
-                                          ),
-                                          const Text(
-                                            "Female",
-                                            style: TextStyle(
-                                                fontSize: 16.0,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          const SizedBox(
-                                            width: 20,
-                                          ),
-                                          GFRadio(
-                                            size: 20,
-                                            activeBorderColor: const Color(0xff3e61ed),
-                                            value: 3,
-                                            groupValue: groupValue,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                groupValue = value;
-                                              });
-                                            },
-                                            inactiveIcon: null,
-                                            radioColor: const Color(0xff3e61ed),
-                                          ),
-                                          const SizedBox(
-                                            width: 7,
-                                          ),
-                                          const Text(
-                                            "Others",
-                                            style: TextStyle(
-                                                fontSize: 16.0,
-                                                fontWeight: FontWeight.bold),
+                                      child:  Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: <Widget>[
+                                          Column(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: const <Widget>[
+                                              Text(
+                                                ' Name',
+                                                style: TextStyle(
+                                                    fontSize: 16.0,
+                                                    fontWeight: FontWeight.bold),
+                                              ),
+                                            ],
                                           ),
                                         ],
-                                      ),
+                                      )),
+                                  Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 2.0),
+                                      child:  Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: <Widget>[
+                                          Flexible(
+                                            child:  TextField(
+                                              decoration: const InputDecoration(
+                                                  hintText: "Full Name"),
+
+                                            ),
+                                          ),
+                                        ],
+                                      )),
+                                  Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 25.0),
+                                      child:  Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: <Widget>[
+                                          Column(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: const <Widget>[
+                                              Text(
+                                                'Email ID',
+                                                style: TextStyle(
+                                                    fontSize: 16.0,
+                                                    fontWeight: FontWeight.bold),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      )),
+                                  Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 2.0),
+                                      child:  Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: <Widget>[
+                                          Flexible(
+                                            child:  TextField(
+                                              decoration: const InputDecoration(
+                                                  hintText: "Enter Email ID"),
+                                              enabled: !_status,
+                                            ),
+                                          ),
+                                        ],
+                                      )),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 25.0),
+                                    child: Row(
+                                      children: [
+                                        const Text(
+                                          "Gender",
+                                          style: TextStyle(
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        const SizedBox(
+                                          width: 30,
+                                        ),
+                                        GFRadio(
+                                          size: 20,
+                                          activeBorderColor: const Color(0xff3e61ed),
+                                          value: 0,
+                                          groupValue: groupValue,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              groupValue = value;
+                                            });
+                                          },
+                                          inactiveIcon: null,
+                                          radioColor: const Color(0xff3e61ed),
+                                        ),
+                                        const SizedBox(
+                                          width: 7,
+                                        ),
+                                        const Text(
+                                          "Male",
+                                          style: TextStyle(
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        const SizedBox(
+                                          width: 20,
+                                        ),
+                                        GFRadio(
+                                          size: 20,
+                                          value: 1,
+                                          groupValue: groupValue,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              groupValue = value;
+                                            });
+                                          },
+                                          inactiveIcon: null,
+                                          activeBorderColor: const Color(0xff3e61ed),
+                                          radioColor: const Color(0xff3e61ed),
+                                        ),
+                                        const SizedBox(
+                                          width: 7,
+                                        ),
+                                        const Text(
+                                          "Female",
+                                          style: TextStyle(
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        const SizedBox(
+                                          width: 20,
+                                        ),
+                                        GFRadio(
+                                          size: 20,
+                                          activeBorderColor: const Color(0xff3e61ed),
+                                          value: 3,
+                                          groupValue: groupValue,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              groupValue = value;
+                                            });
+                                          },
+                                          inactiveIcon: null,
+                                          radioColor: const Color(0xff3e61ed),
+                                        ),
+                                        const SizedBox(
+                                          width: 7,
+                                        ),
+                                        const Text(
+                                          "Others",
+                                          style: TextStyle(
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
                                     ),
-                                    // Padding(
-                                    //     padding: const EdgeInsets.only(
-                                    //         top: 25.0),
-                                    //     child:  Row(
-                                    //       mainAxisSize: MainAxisSize.max,
-                                    //       children: <Widget>[
-                                    //         Column(
-                                    //           mainAxisAlignment: MainAxisAlignment.start,
-                                    //           mainAxisSize: MainAxisSize.min,
-                                    //           children: const <Widget>[
-                                    //             Text(
-                                    //               'Date Of Birth',
-                                    //               style: TextStyle(
-                                    //                   fontSize: 16.0,
-                                    //                   fontWeight: FontWeight.bold),
-                                    //             ),
-                                    //           ],
-                                    //         ),
-                                    //       ],
-                                    //     )),
-                                    // Padding(
-                                    //     padding: const EdgeInsets.only(
-                                    //         top: 2.0),
-                                    //     child:  Row(
-                                    //       mainAxisSize: MainAxisSize.max,
-                                    //       children: <Widget>[
-                                    //         Flexible(
-                                    //           child:  TextField(
-                                    //             decoration: const InputDecoration(
-                                    //                 hintText: "Date Of Birth"),
-                                    //             enabled: !_status,
-                                    //           ),
-                                    //         ),
-                                    //       ],
-                                    //     )),
+                                  ),
+                                  // Padding(
+                                  //     padding: const EdgeInsets.only(
+                                  //         top: 25.0),
+                                  //     child:  Row(
+                                  //       mainAxisSize: MainAxisSize.max,
+                                  //       children: <Widget>[
+                                  //         Column(
+                                  //           mainAxisAlignment: MainAxisAlignment.start,
+                                  //           mainAxisSize: MainAxisSize.min,
+                                  //           children: const <Widget>[
+                                  //             Text(
+                                  //               'Date Of Birth',
+                                  //               style: TextStyle(
+                                  //                   fontSize: 16.0,
+                                  //                   fontWeight: FontWeight.bold),
+                                  //             ),
+                                  //           ],
+                                  //         ),
+                                  //       ],
+                                  //     )),
+                                  // Padding(
+                                  //     padding: const EdgeInsets.only(
+                                  //         top: 2.0),
+                                  //     child:  Row(
+                                  //       mainAxisSize: MainAxisSize.max,
+                                  //       children: <Widget>[
+                                  //         Flexible(
+                                  //           child:  TextField(
+                                  //             decoration: const InputDecoration(
+                                  //                 hintText: "Date Of Birth"),
+                                  //             enabled: !_status,
+                                  //           ),
+                                  //         ),
+                                  //       ],
+                                  //     )),
 
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 25.0),
-                                        child:  Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: const <Widget>[
-                                                Text(
-                                                  ' Experience Tenure',
-                                                  style: TextStyle(
-                                                      fontSize: 16.0,
-                                                      fontWeight: FontWeight.bold),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        )),
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 2.0),
-                                        child:  Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            Flexible(
-                                              child:  TextField(
-                                                decoration: const InputDecoration(
-                                                    hintText: "Enter Tenure"),
-                                                enabled: !_status,
+                                  Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 25.0),
+                                      child:  Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: <Widget>[
+                                          Column(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: const <Widget>[
+                                              Text(
+                                                ' Experience Tenure',
+                                                style: TextStyle(
+                                                    fontSize: 16.0,
+                                                    fontWeight: FontWeight.bold),
                                               ),
+                                            ],
+                                          ),
+                                        ],
+                                      )),
+                                  Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 2.0),
+                                      child:  Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: <Widget>[
+                                          Flexible(
+                                            child:  TextField(
+                                              decoration: const InputDecoration(
+                                                  hintText: "Enter Tenure"),
+                                              enabled: !_status,
                                             ),
-                                          ],
-                                        )),
+                                          ),
+                                        ],
+                                      )),
 
 
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 25.0),
-                                        child:  Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: const <Widget>[
-                                                Text(
-                                                  ' Job Role',
-                                                  style: TextStyle(
-                                                      fontSize: 16.0,
-                                                      fontWeight: FontWeight.bold),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        )),
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 2.0),
-                                        child:  Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            Flexible(
-                                              child:  TextField(
-                                                decoration: const InputDecoration(
-                                                    hintText: "Enter Role"),
-                                                enabled: !_status,
+                                  Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 25.0),
+                                      child:  Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: <Widget>[
+                                          Column(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: const <Widget>[
+                                              Text(
+                                                ' Job Role',
+                                                style: TextStyle(
+                                                    fontSize: 16.0,
+                                                    fontWeight: FontWeight.bold),
                                               ),
+                                            ],
+                                          ),
+                                        ],
+                                      )),
+                                  Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 2.0),
+                                      child:  Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: <Widget>[
+                                          Flexible(
+                                            child:  TextField(
+                                              decoration: const InputDecoration(
+                                                  hintText: "Enter Role"),
+                                              enabled: !_status,
                                             ),
-                                          ],
-                                        )),
-                                  ]
-                              )
-                          ),
-                      actions: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 20,top: 20,bottom: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              GFButton(
-                                  color: const Color(0xff3e61ed),
-                                  onPressed: () {
-                                   // Navigator.pop(context);
-                                  }, child: const Text("Save",style:TextStyle(
-                                fontFamily: "ProximaNova",
-                                fontWeight: FontWeight.bold,
-                                // letterSpacing: 1.5,
-                                fontSize: 13.5,
-                              ),)),
-                            ],
-                          ),
-                        )
-                      ],),),
-
-                        child:Icon(Icons.edit,color: Color(0xff3e61ed),),
-                    ),
+                                          ),
+                                        ],
+                                      )),
+                                  Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 25.0),
+                                      child:  Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: <Widget>[
+                                          Column(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: const <Widget>[
+                                              Text(
+                                                'Mobile No ',
+                                                style: TextStyle(
+                                                    fontSize: 16.0,
+                                                    fontWeight: FontWeight.bold),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      )),
+                                  Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 2.0),
+                                      child:  Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: <Widget>[
+                                          Flexible(
+                                            child:  TextField(
+                                              decoration: const InputDecoration(
+                                                  hintText: "Enter Mobile No"),
+                                              enabled: !_status,
+                                            ),
+                                          ),
+                                        ],
+                                      )),
+                                ]
+                            )
+                        ),
+                        actions: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 20,top: 20,bottom: 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                GFButton(
+                                    color: const Color(0xff3e61ed),
+                                    onPressed: () {
+                                      // Navigator.pop(context);
+                                    }, child: const Text("Save",style:TextStyle(
+                                  fontFamily: "ProximaNova",
+                                  fontWeight: FontWeight.bold,
+                                  // letterSpacing: 1.5,
+                                  fontSize: 13.5,
+                                ),)),
+                              ],
+                            ),
+                          )
+                        ],),),
+                      child: Icon(Icons.edit,color:Color(0xff3e61ed)),
+                    )
                   ],
                 ),
               ),
@@ -550,7 +585,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                       children: [
                         Padding(
                             padding: const EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 25.0),
+                                left: 22.0, right: 25.0, top: 25.0),
                             child:  Row(
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
@@ -559,7 +594,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      ' Name :-',
+                                      ' Name :',
                                       style: TextStyle(
                                           fontSize: 14.0,
                                          ),
@@ -594,7 +629,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Email ID :-',
+                                      'Email ID :',
                                       style: TextStyle(
                                         fontSize: 14.0,
                                       ),
@@ -620,7 +655,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                           child: Row(
                             children: [
                               const Text(
-                                "Gender :-",
+                                "Gender :",
                                 style: TextStyle(
                                     fontSize: 14.0,
                                     ),
@@ -646,7 +681,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
 
                         Padding(
                             padding: const EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 25.0),
+                                left: 22.0, right: 25.0, top: 25.0),
                             child:  Row(
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
@@ -655,7 +690,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      ' Experience Tenure :-',
+                                      ' Experience Tenure :',
                                       style: TextStyle(
                                           fontSize: 14.0,
                                           ),
@@ -678,7 +713,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
 
                         Padding(
                             padding: const EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 25.0),
+                                left: 22.0, right: 25.0, top: 25.0),
                             child:  Row(
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
@@ -687,7 +722,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      ' Job Role :-',
+                                      ' Job Role :',
                                       style: TextStyle(
                                         fontSize: 14.0,
                                       ),
@@ -704,6 +739,37 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                               children: <Widget>[
                                 Flexible(
                                     child:  Text('Front End  ',style: TextStyle(fontSize:15, fontWeight: FontWeight.bold,color: Colors.black87))
+                                ),
+                              ],
+                            )),
+                        Padding(
+                            padding: const EdgeInsets.only(
+                                left: 25.0, right: 25.0, top: 25.0),
+                            child:  Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: <Widget>[
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: const <Widget>[
+                                    Text(
+                                      'Mobile No :',
+                                      style: TextStyle(
+                                        fontSize: 14.0,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            )),
+                        Padding(
+                            padding: const EdgeInsets.only(
+                                left: 25.0, right: 25.0, top: 5.0),
+                            child:  Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: <Widget>[
+                                Flexible(
+                                    child:  Text('123456789',style: TextStyle(fontSize:15, fontWeight: FontWeight.bold))
                                 ),
                               ],
                             )),
@@ -731,347 +797,343 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                     ),
                      GestureDetector(
                       onTap: () => showDialog(context: context, builder: (_)=> AlertDialog(
-                        title: SingleChildScrollView(
-                          scrollDirection: Axis.vertical,
-                          child:
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                top: 10, ),
-                              child: Padding(
-                                padding: const EdgeInsets.only(bottom: 15),
-                                child: Column(
+                        title: Text('Qualification Details'),
+                        content:
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            top: 10, ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 15),
+                            child: Column(
 
-                                  children: [
-                                    Text('Qualification Details'),
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 25.0),
-                                        child:  Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: const <Widget>[
-                                                Text(
-                                                  'Profile Headline',
-                                                  style: TextStyle(
-                                                      fontSize: 16.0,
-                                                      fontWeight: FontWeight.bold),
-                                                ),
-                                              ],
+                              children: [
+                                Text('Qualification Details'),
+                                Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 25.0),
+                                    child:  Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: <Widget>[
+                                        Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: const <Widget>[
+                                            Text(
+                                              'Profile Headline',
+                                              style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                           ],
-                                        )),
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 2.0),
-                                        child:  Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            Flexible(
-                                              child:  TextField(
-                                                decoration: const InputDecoration(
-                                                    hintText: "Enter Summary"),
+                                        ),
+                                      ],
+                                    )),
+                                Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 2.0),
+                                    child:  Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: <Widget>[
+                                        Flexible(
+                                          child:  TextField(
+                                            decoration: const InputDecoration(
+                                                hintText: "Enter Summary"),
 
-                                              ),
+                                          ),
+                                        ),
+                                      ],
+                                    )),
+
+                                Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 25.0),
+                                    child:  Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: <Widget>[
+                                        Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: const <Widget>[
+                                            Text(
+                                              'Highest Qualification',
+                                              style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                           ],
-                                        )),
+                                        ),
+                                      ],
+                                    )),
+                                Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 2.0),
+                                    child:  Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: <Widget>[
+                                        Flexible(
+                                          child:  TextField(
+                                            decoration: const InputDecoration(
+                                                hintText: " Enter Qualification"),
 
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 25.0),
-                                        child:  Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: const <Widget>[
-                                                Text(
-                                                  'Highest Qualification',
-                                                  style: TextStyle(
-                                                      fontSize: 16.0,
-                                                      fontWeight: FontWeight.bold),
-                                                ),
-                                              ],
+                                          ),
+                                        ),
+                                      ],
+                                    )),
+                                Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 25.0),
+                                    child:  Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: <Widget>[
+                                        Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: const <Widget>[
+                                            Text(
+                                              'Course',
+                                              style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                           ],
-                                        )),
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 2.0),
-                                        child:  Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            Flexible(
-                                              child:  TextField(
-                                                decoration: const InputDecoration(
-                                                    hintText: " Enter Qualification"),
+                                        ),
+                                      ],
+                                    )),
+                                Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 2.0),
+                                    child:  Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: <Widget>[
+                                        Flexible(
+                                          child:  TextField(
+                                            decoration: const InputDecoration(
+                                                hintText: "Enter Course"),
 
-                                              ),
+                                          ),
+                                        ),
+                                      ],
+                                    )),
+                                Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 25.0),
+                                    child:  Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: <Widget>[
+                                        Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: const <Widget>[
+                                            Text(
+                                              'Stream',
+                                              style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                           ],
-                                        )),
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 25.0),
-                                        child:  Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: const <Widget>[
-                                                Text(
-                                                  'Course',
-                                                  style: TextStyle(
-                                                      fontSize: 16.0,
-                                                      fontWeight: FontWeight.bold),
-                                                ),
-                                              ],
+                                        ),
+                                      ],
+                                    )),
+                                Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 2.0),
+                                    child:  Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: <Widget>[
+                                        Flexible(
+                                          child:  TextField(
+                                            decoration: const InputDecoration(
+                                                hintText: "Enter Stream"),
+
+                                          ),
+                                        ),
+                                      ],
+                                    )),
+
+                                Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 25.0),
+                                    child:  Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: <Widget>[
+                                        Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: const <Widget>[
+                                            Text(
+                                              'Course Type',
+                                              style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                           ],
-                                        )),
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 2.0),
-                                        child:  Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            Flexible(
-                                              child:  TextField(
-                                                decoration: const InputDecoration(
-                                                    hintText: "Enter Course"),
+                                        ),
+                                      ],
+                                    )),
+                                Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 2.0),
+                                    child:  Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: <Widget>[
+                                        Flexible(
+                                          child:  TextField(
+                                            decoration: const InputDecoration(
+                                                hintText: "Enter Type"),
 
-                                              ),
+                                          ),
+                                        ),
+                                      ],
+                                    )),
+                                Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 25.0),
+                                    child:  Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: <Widget>[
+                                        Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: const <Widget>[
+                                            Text(
+                                              'Institute Qualified From',
+                                              style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                           ],
-                                        )),
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 25.0),
-                                        child:  Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: const <Widget>[
-                                                Text(
-                                                  'Stream',
-                                                  style: TextStyle(
-                                                      fontSize: 16.0,
-                                                      fontWeight: FontWeight.bold),
-                                                ),
-                                              ],
+                                        ),
+                                      ],
+                                    )),
+                                Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 2.0),
+                                    child:  Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: <Widget>[
+                                        Flexible(
+                                          child:  TextField(
+                                            decoration: const InputDecoration(
+                                                hintText: "Institute Name"),
+
+                                          ),
+                                        ),
+                                      ],
+                                    )),
+
+
+                                Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 25.0),
+                                    child:  Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: <Widget>[
+                                        Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: const <Widget>[
+                                            Text(
+                                              'Passing Year',
+                                              style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                           ],
-                                        )),
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 2.0),
-                                        child:  Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            Flexible(
-                                              child:  TextField(
-                                                decoration: const InputDecoration(
-                                                    hintText: "Enter Stream"),
+                                        ),
+                                      ],
+                                    )),
+                                Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 2.0),
+                                    child:  Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: <Widget>[
+                                        Flexible(
+                                          child:  TextField(
+                                            decoration: const InputDecoration(
+                                                hintText: "Enter Year"),
 
-                                              ),
+                                          ),
+                                        ),
+                                      ],
+                                    )),
+
+                                Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 25.0),
+                                    child:  Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: <Widget>[
+                                        Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: const <Widget>[
+                                            Text(
+                                              'Grading System',
+                                              style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                           ],
-                                        )),
+                                        ),
+                                      ],
+                                    )),
+                                Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 2.0),
+                                    child:  Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: <Widget>[
+                                        Flexible(
+                                          child:  TextField(
+                                            decoration: const InputDecoration(
+                                                hintText: "Enter Grading"),
 
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 25.0),
-                                        child:  Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: const <Widget>[
-                                                Text(
-                                                  'Course Type',
-                                                  style: TextStyle(
-                                                      fontSize: 16.0,
-                                                      fontWeight: FontWeight.bold),
-                                                ),
-                                              ],
+                                          ),
+                                        ),
+                                      ],
+                                    )),
+
+
+                                Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 25.0),
+                                    child:  Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: <Widget>[
+                                        Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: const <Widget>[
+                                            Text(
+                                              'Grade Value',
+                                              style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                           ],
-                                        )),
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 2.0),
-                                        child:  Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            Flexible(
-                                              child:  TextField(
-                                                decoration: const InputDecoration(
-                                                    hintText: "Enter Type"),
+                                        ),
+                                      ],
+                                    )),
+                                Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 2.0),
+                                    child:  Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: <Widget>[
+                                        Flexible(
+                                          child:  TextField(
+                                            decoration: const InputDecoration(
+                                                hintText: "Enter Value"),
 
-                                              ),
-                                            ),
-                                          ],
-                                        )),
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 25.0),
-                                        child:  Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: const <Widget>[
-                                                Text(
-                                                  'Institute Qualified From',
-                                                  style: TextStyle(
-                                                      fontSize: 16.0,
-                                                      fontWeight: FontWeight.bold),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        )),
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 2.0),
-                                        child:  Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            Flexible(
-                                              child:  TextField(
-                                                decoration: const InputDecoration(
-                                                    hintText: "Institute Name"),
+                                          ),
+                                        ),
+                                      ],
+                                    )),
 
-                                              ),
-                                            ),
-                                          ],
-                                        )),
-
-
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 25.0),
-                                        child:  Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: const <Widget>[
-                                                Text(
-                                                  'Passing Year',
-                                                  style: TextStyle(
-                                                      fontSize: 16.0,
-                                                      fontWeight: FontWeight.bold),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        )),
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 2.0),
-                                        child:  Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            Flexible(
-                                              child:  TextField(
-                                                decoration: const InputDecoration(
-                                                    hintText: "Enter Year"),
-
-                                              ),
-                                            ),
-                                          ],
-                                        )),
-
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 25.0),
-                                        child:  Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: const <Widget>[
-                                                Text(
-                                                  'Grading System',
-                                                  style: TextStyle(
-                                                      fontSize: 16.0,
-                                                      fontWeight: FontWeight.bold),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        )),
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 2.0),
-                                        child:  Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            Flexible(
-                                              child:  TextField(
-                                                decoration: const InputDecoration(
-                                                    hintText: "Enter Grading"),
-
-                                              ),
-                                            ),
-                                          ],
-                                        )),
-
-
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 25.0),
-                                        child:  Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: const <Widget>[
-                                                Text(
-                                                  'Grade Value',
-                                                  style: TextStyle(
-                                                      fontSize: 16.0,
-                                                      fontWeight: FontWeight.bold),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        )),
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 2.0),
-                                        child:  Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            Flexible(
-                                              child:  TextField(
-                                                decoration: const InputDecoration(
-                                                    hintText: "Enter Value"),
-
-                                              ),
-                                            ),
-                                          ],
-                                        )),
-
-                                  ],
-                                ),
-                              ),
+                              ],
                             ),
-
-
+                          ),
                         ),
                         actions: [Padding(
                           padding: const EdgeInsets.only(right: 20,top: 20,bottom: 20),
@@ -1119,7 +1181,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Profile Headline',
+                                      'Profile Headline :-',
                                       style: TextStyle(
                                           fontSize: 14.0,
                                           ),
@@ -1151,7 +1213,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Highest Qualification',
+                                      'Highest Qualification :-',
                                       style: TextStyle(
                                           fontSize: 14.0,
                                           ),
@@ -1182,7 +1244,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Course',
+                                      'Course :-',
                                       style: TextStyle(
                                           fontSize: 14.0,
                                           ),
@@ -1213,7 +1275,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Course Type',
+                                      'Course Type :-',
                                       style: TextStyle(
                                           fontSize: 14.0,
                                           ),
@@ -1246,7 +1308,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Institute Qualified From',
+                                      'Institute Qualified From :-',
                                       style: TextStyle(
                                         fontSize: 14.0,
                                       ),
@@ -1278,7 +1340,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Passing Year',
+                                      'Passing Year :-',
                                       style: TextStyle(
                                         fontSize: 14.0,
                                       ),
@@ -1310,7 +1372,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Grading System',
+                                      'Grading System :-',
                                       style: TextStyle(
                                         fontSize: 14.0,
                                       ),
@@ -1342,7 +1404,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Grade Value',
+                                      'Grade Value :-',
                                       style: TextStyle(
                                         fontSize: 14.0,
                                       ),
@@ -1584,7 +1646,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Current Organization Name',
+                                      'Current Organization Name :-',
                                       style: TextStyle(
                                           fontSize: 14.0,
                                         ),
@@ -1614,7 +1676,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Current Designation',
+                                      'Current Designation:-',
                                       style: TextStyle(
                                           fontSize: 14.0,
                                           ),
@@ -1645,7 +1707,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Current Salary',
+                                      'Current Salary :-',
                                       style: TextStyle(
                                           fontSize: 14.0,
                                          ),
@@ -1676,7 +1738,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Working Since',
+                                      'Working Since :-',
                                       style: TextStyle(
                                           fontSize: 14.0,
                                           ),
@@ -1818,7 +1880,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Key Skills',
+                                      'Key Skills :-',
                                       style: TextStyle(
                                           fontSize: 14.0,
                                           ),
@@ -2063,7 +2125,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'IT Skills:-',
+                                      'IT Skills :-',
                                       style: TextStyle(
                                           fontSize: 14.0,
                                           ),
@@ -2093,7 +2155,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      "Version:-",
+                                      "Version :-",
                                       style: TextStyle(
                                           fontSize: 14.0,
                                          ),
@@ -2124,7 +2186,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Experience:- ',
+                                      'Experience :- ',
                                       style: TextStyle(
                                           fontSize: 14.0,
                                           ),
@@ -2155,7 +2217,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Last Used:-',
+                                      'Last Used :-',
                                       style: TextStyle(
                                           fontSize: 14.0,
                                           ),
