@@ -1,4 +1,5 @@
 import 'package:dotted_border/dotted_border.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,10 @@ import 'package:getwidget/components/radio/gf_radio.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:job_portal/Controllers/menucontroller.dart';
+import 'package:job_portal/Data_Controller/apiresponse.dart';
+import 'package:job_portal/Models/ItSkillRetrive.dart';
+import 'package:job_portal/Models/ItSkills.dart';
+import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Theme/colors.dart';
 import 'package:job_portal/Theme/images.dart';
 import 'package:job_portal/Views/Candidate/Sidebar.dart';
@@ -15,7 +20,7 @@ import '../Candidate/Inbox.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 class ProfilePage extends StatefulWidget {
-   ProfilePage({Key key,this.basic}) : super(key: key);
+  ProfilePage({Key key,this.basic}) : super(key: key);
   String basic ;
 
   @override
@@ -61,6 +66,8 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
 
   @override
   void initState() {
+    getItSkill();
+    fetchITSkill(query: "");
     // if(widget.basic != null){
     //   setState(() {
     //     scrollToItem();
@@ -76,6 +83,60 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
     });
 
     super.initState();
+  }
+  List<Widget> getItSkills() {
+    List<Widget> childs = _apiResponse.data.map((e) =>
+        Wrap(children: <Widget>[
+
+          Padding(
+            padding:  EdgeInsets.only(top: 10),
+            child: Container(
+              padding: EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: Color(0xff3e61ed))
+                ),
+                child: Text(e.itkillName ?? "",style: TextStyle(
+                  fontFamily: "ProximaNova",
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1.5,
+                  fontSize: 16.5,
+                ),)),
+          ),
+
+        ]))
+        .toList();
+    return childs;
+  }
+  ApiResponse<List<ItSkillProfile>> _apiResponse;
+  ApiServices apiServices =ApiServices();
+
+  bool isLoading;
+
+
+
+  getItSkill()async{
+    setState(() {
+      isLoading = true;
+    });
+    _apiResponse = await apiServices.PopulateItSkill();
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  TextEditingController skillSearchCont = TextEditingController();
+  String queries;
+  ApiResponse<List<ITSkill>> _apiResponseITSkill;
+  String itSkillId = "";
+  fetchITSkill({String query}) async {
+    setState(() {
+      isLoading = true;
+    });
+    _apiResponseITSkill = await apiServices.getITSkill(query: query);
+    setState(() {
+      isLoading = false;
+    });
   }
   @override
   Widget build(BuildContext context) {
@@ -111,7 +172,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                         child: const Text(
                           "What are you looking for?",
                           style:
-                              TextStyle(fontSize: 15, color: KColors.subtitle),
+                          TextStyle(fontSize: 15, color: KColors.subtitle),
                         ),
                       ),
                     ),
@@ -576,7 +637,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                    top: 10, left: 20, right: 20,),
+                  top: 10, left: 20, right: 20,),
                 child: Card(
                   elevation: 5,
                   child: Padding(
@@ -596,8 +657,8 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                     Text(
                                       ' Name :',
                                       style: TextStyle(
-                                          fontSize: 14.0,
-                                         ),
+                                        fontSize: 14.0,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -657,8 +718,8 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                               const Text(
                                 "Gender :",
                                 style: TextStyle(
-                                    fontSize: 14.0,
-                                    ),
+                                  fontSize: 14.0,
+                                ),
                               ),
                             ],
                           ),
@@ -692,8 +753,8 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                     Text(
                                       ' Experience Tenure :',
                                       style: TextStyle(
-                                          fontSize: 14.0,
-                                          ),
+                                        fontSize: 14.0,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -706,7 +767,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 Flexible(
-                                  child:  Text('1 year ',style: TextStyle(fontSize:15, fontWeight: FontWeight.bold,color: Colors.black87))
+                                    child:  Text('1 year ',style: TextStyle(fontSize:15, fontWeight: FontWeight.bold,color: Colors.black87))
                                 ),
                               ],
                             )),
@@ -795,7 +856,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                         fontSize: 16.5,
                       ),
                     ),
-                     GestureDetector(
+                    GestureDetector(
                       onTap: () => showDialog(context: context, builder: (_)=> AlertDialog(
                         title: Text('Qualification Details'),
                         content:
@@ -1176,15 +1237,16 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                             child:  Row(
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
+
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Profile Headline :-',
+                                      'Profile Headline :',
                                       style: TextStyle(
-                                          fontSize: 14.0,
-                                          ),
+                                        fontSize: 14.0,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -1197,7 +1259,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 Flexible(
-                                  child:  Text('Summary of the Profile',style:TextStyle(fontSize: 15.0,fontWeight: FontWeight.bold))
+                                    child:  Text('Summary of the Profile',style:TextStyle(fontSize: 15.0,fontWeight: FontWeight.bold))
                                 ),
                               ],
                             )),
@@ -1213,10 +1275,10 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Highest Qualification :-',
+                                      'Highest Qualification :',
                                       style: TextStyle(
-                                          fontSize: 14.0,
-                                          ),
+                                        fontSize: 14.0,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -1229,7 +1291,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 Flexible(
-                                  child:  Text('MBA',style:TextStyle(fontSize: 15.0,fontWeight: FontWeight.bold))
+                                    child:  Text('MBA',style:TextStyle(fontSize: 15.0,fontWeight: FontWeight.bold))
                                 ),
                               ],
                             )),
@@ -1244,10 +1306,10 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Course :-',
+                                      'Course :',
                                       style: TextStyle(
-                                          fontSize: 14.0,
-                                          ),
+                                        fontSize: 14.0,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -1260,7 +1322,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 Flexible(
-                                  child: Text('Btech',style:TextStyle(fontSize: 15.0,fontWeight: FontWeight.bold))
+                                    child: Text('Btech',style:TextStyle(fontSize: 15.0,fontWeight: FontWeight.bold))
                                 ),
                               ],
                             )),
@@ -1275,10 +1337,10 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Course Type :-',
+                                      'Course Type :',
                                       style: TextStyle(
-                                          fontSize: 14.0,
-                                          ),
+                                        fontSize: 14.0,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -1291,7 +1353,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 Flexible(
-                                  child:  Text('Correspondence',style:TextStyle(fontSize: 15.0,fontWeight: FontWeight.bold))
+                                    child:  Text('Correspondence',style:TextStyle(fontSize: 15.0,fontWeight: FontWeight.bold))
                                 ),
                               ],
                             )),
@@ -1308,7 +1370,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Institute Qualified From :-',
+                                      'Institute Qualified From :',
                                       style: TextStyle(
                                         fontSize: 14.0,
                                       ),
@@ -1340,7 +1402,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Passing Year :-',
+                                      'Passing Year :',
                                       style: TextStyle(
                                         fontSize: 14.0,
                                       ),
@@ -1372,7 +1434,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Grading System :-',
+                                      'Grading System :',
                                       style: TextStyle(
                                         fontSize: 14.0,
                                       ),
@@ -1393,7 +1455,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                               ],
                             )),
 
-                         Padding(
+                        Padding(
                             padding: const EdgeInsets.only(
                                 left: 25.0, right: 25.0, top: 25.0),
                             child:  Row(
@@ -1404,7 +1466,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Grade Value :-',
+                                      'Grade Value :',
                                       style: TextStyle(
                                         fontSize: 14.0,
                                       ),
@@ -1445,183 +1507,183 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                       ),
                     ),
                     GestureDetector(
-                      onTap: () =>showDialog(context: context, builder: (_)=> AlertDialog(
-                        title:Text('Professional Details'),
-                        content: Padding(
-                          padding: const EdgeInsets.only(
-                            top: 10,),
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 15),
-                            child: Column(
-                              children: [
-                                Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 25.0),
-                                    child:  Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: <Widget>[
-                                        Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: const <Widget>[
-                                            Text(
-                                              'Current Organization Name',
-                                              style: TextStyle(
-                                                  fontSize: 16.0,
-                                                  fontWeight: FontWeight.bold),
+                        onTap: () =>showDialog(context: context, builder: (_)=> AlertDialog(
+                            title:Text('Professional Details'),
+                            content: Padding(
+                              padding: const EdgeInsets.only(
+                                top: 10,),
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 15),
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 25.0),
+                                        child:  Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: <Widget>[
+                                            Column(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: const <Widget>[
+                                                Text(
+                                                  'Current Organization Name',
+                                                  style: TextStyle(
+                                                      fontSize: 16.0,
+                                                      fontWeight: FontWeight.bold),
+                                                ),
+                                              ],
                                             ),
                                           ],
-                                        ),
-                                      ],
-                                    )),
-                                Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 2.0),
-                                    child:  Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: <Widget>[
-                                        Flexible(
-                                          child:  TextField(
-                                            decoration: const InputDecoration(
-                                                hintText: "Add Organization"),
+                                        )),
+                                    Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 2.0),
+                                        child:  Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: <Widget>[
+                                            Flexible(
+                                              child:  TextField(
+                                                decoration: const InputDecoration(
+                                                    hintText: "Add Organization"),
 
-                                          ),
-                                        ),
-                                      ],
-                                    )), Padding(
-                                    padding: const EdgeInsets.only(
-                                         top: 25.0),
-                                    child:  Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: <Widget>[
-                                        Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: const <Widget>[
-                                            Text(
-                                              'Current Designation',
-                                              style: TextStyle(
-                                                  fontSize: 16.0,
-                                                  fontWeight: FontWeight.bold),
+                                              ),
                                             ),
                                           ],
-                                        ),
-                                      ],
-                                    )),
-                                Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 2.0),
-                                    child:  Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: <Widget>[
-                                        Flexible(
-                                          child:  TextField(
-                                            decoration: const InputDecoration(
-                                                hintText: "Add Designation"),
-
-                                          ),
-                                        ),
-                                      ],
-                                    )),
-                                Padding(
-                                    padding: const EdgeInsets.only(
-                                         top: 25.0),
-                                    child:  Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: <Widget>[
-                                        Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: const <Widget>[
-                                            Text(
-                                              'Current Salary',
-                                              style: TextStyle(
-                                                  fontSize: 16.0,
-                                                  fontWeight: FontWeight.bold),
+                                        )), Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 25.0),
+                                        child:  Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: <Widget>[
+                                            Column(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: const <Widget>[
+                                                Text(
+                                                  'Current Designation',
+                                                  style: TextStyle(
+                                                      fontSize: 16.0,
+                                                      fontWeight: FontWeight.bold),
+                                                ),
+                                              ],
                                             ),
                                           ],
-                                        ),
-                                      ],
-                                    )),
-                                Padding(
-                                    padding: const EdgeInsets.only(
-                                         top: 2.0),
-                                    child:  Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: <Widget>[
-                                        Flexible(
-                                          child:  TextField(
-                                            decoration: const InputDecoration(
-                                                hintText: "Add Salary"),
+                                        )),
+                                    Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 2.0),
+                                        child:  Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: <Widget>[
+                                            Flexible(
+                                              child:  TextField(
+                                                decoration: const InputDecoration(
+                                                    hintText: "Add Designation"),
 
-                                          ),
-                                        ),
-                                      ],
-                                    )),
-                                Padding(
-                                    padding: const EdgeInsets.only(
-                                         top: 25.0),
-                                    child:  Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: <Widget>[
-                                        Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: const <Widget>[
-                                            Text(
-                                              'Working Since',
-                                              style: TextStyle(
-                                                  fontSize: 16.0,
-                                                  fontWeight: FontWeight.bold),
+                                              ),
                                             ),
                                           ],
-                                        ),
-                                      ],
-                                    )),
-                                Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 2.0),
-                                    child:  Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: <Widget>[
-                                        Flexible(
-                                          child:  TextField(
-                                            decoration: const InputDecoration(
-                                                hintText: "Add Detail"),
+                                        )),
+                                    Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 25.0),
+                                        child:  Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: <Widget>[
+                                            Column(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: const <Widget>[
+                                                Text(
+                                                  'Current Salary',
+                                                  style: TextStyle(
+                                                      fontSize: 16.0,
+                                                      fontWeight: FontWeight.bold),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        )),
+                                    Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 2.0),
+                                        child:  Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: <Widget>[
+                                            Flexible(
+                                              child:  TextField(
+                                                decoration: const InputDecoration(
+                                                    hintText: "Add Salary"),
 
-                                          ),
-                                        ),
-                                      ],
-                                    )),
-                              ],
-                            ),
-                          ),
-                        ),
-                          actions: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 20,top: 20,bottom: 20),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  GFButton(
-                                      color: const Color(0xff3e61ed),
-                                      onPressed: () {
-                                        // Navigator.pop(context);
-                                      }, child: const Text("Save",style:TextStyle(
-                                    fontFamily: "ProximaNova",
-                                    fontWeight: FontWeight.bold,
-                                    // letterSpacing: 1.5,
-                                    fontSize: 13.5,
-                                  ),)),
-                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        )),
+                                    Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 25.0),
+                                        child:  Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: <Widget>[
+                                            Column(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: const <Widget>[
+                                                Text(
+                                                  'Working Since',
+                                                  style: TextStyle(
+                                                      fontSize: 16.0,
+                                                      fontWeight: FontWeight.bold),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        )),
+                                    Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 2.0),
+                                        child:  Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: <Widget>[
+                                            Flexible(
+                                              child:  TextField(
+                                                decoration: const InputDecoration(
+                                                    hintText: "Add Detail"),
+
+                                              ),
+                                            ),
+                                          ],
+                                        )),
+                                  ],
+                                ),
                               ),
-                            )]
+                            ),
+                            actions: [
+                              Padding(
+                                padding: const EdgeInsets.only(right: 20,top: 20,bottom: 20),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    GFButton(
+                                        color: const Color(0xff3e61ed),
+                                        onPressed: () {
+                                          // Navigator.pop(context);
+                                        }, child: const Text("Save",style:TextStyle(
+                                      fontFamily: "ProximaNova",
+                                      fontWeight: FontWeight.bold,
+                                      // letterSpacing: 1.5,
+                                      fontSize: 13.5,
+                                    ),)),
+                                  ],
+                                ),
+                              )]
 
 
 
-                      )
-                      ),
-                      child:Icon(Icons.edit,color:Color(0xff3e61ed))
+                        )
+                        ),
+                        child:Icon(Icons.edit,color:Color(0xff3e61ed))
                     )
                   ],
                 ),
@@ -1646,10 +1708,10 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Current Organization Name :-',
+                                      'Current Organization Name :',
                                       style: TextStyle(
-                                          fontSize: 14.0,
-                                        ),
+                                        fontSize: 14.0,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -1662,7 +1724,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 Flexible(
-                                  child: Text('Clustech',style:TextStyle(fontSize: 15.0,fontWeight: FontWeight.bold))
+                                    child: Text('Clustech',style:TextStyle(fontSize: 15.0,fontWeight: FontWeight.bold))
                                 ),
                               ],
                             )), Padding(
@@ -1676,10 +1738,10 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Current Designation:-',
+                                      'Current Designation:',
                                       style: TextStyle(
-                                          fontSize: 14.0,
-                                          ),
+                                        fontSize: 14.0,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -1692,7 +1754,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 Flexible(
-                                  child:  Text('Developer',style:TextStyle(fontSize: 15.0,fontWeight: FontWeight.bold))
+                                    child:  Text('Developer',style:TextStyle(fontSize: 15.0,fontWeight: FontWeight.bold))
                                 ),
                               ],
                             )),
@@ -1707,10 +1769,10 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Current Salary :-',
+                                      'Current Salary :',
                                       style: TextStyle(
-                                          fontSize: 14.0,
-                                         ),
+                                        fontSize: 14.0,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -1723,7 +1785,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 Flexible(
-                                  child:  Text('10000',style:TextStyle(fontSize: 15.0,fontWeight: FontWeight.bold))
+                                    child:  Text('10000',style:TextStyle(fontSize: 15.0,fontWeight: FontWeight.bold))
                                 ),
                               ],
                             )),
@@ -1738,10 +1800,10 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Working Since :-',
+                                      'Working Since :',
                                       style: TextStyle(
-                                          fontSize: 14.0,
-                                          ),
+                                        fontSize: 14.0,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -1754,7 +1816,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 Flexible(
-                                  child: Text('2021',style:TextStyle(fontSize: 15.0,fontWeight: FontWeight.bold))
+                                    child: Text('2021',style:TextStyle(fontSize: 15.0,fontWeight: FontWeight.bold))
                                 ),
                               ],
                             )),
@@ -1783,59 +1845,59 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                         fontSize: 16.5,
                       ),
                     ),
-                     GestureDetector(
-                      onTap: () =>showDialog(context: context, builder:(_)=> AlertDialog(
-                        title:
-                 Padding(
-                          padding: const EdgeInsets.only(
-                            top: 10, ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 15),
-                            child: Column(
-                              children: [
-                                Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 25.0),
-                                    child:  Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: <Widget>[
-                                        Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: const <Widget>[
-                                            Text(
-                                              'Key Skills',
-                                              style: TextStyle(
-                                                  fontSize: 16.0,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    )),
-                                Padding(
-                                    padding: const EdgeInsets.only(
-                                         top: 2.0),
-                                    child:  Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: <Widget>[
-                                        Flexible(
-                                          child:  TextField(
-                                            decoration: const InputDecoration(
-                                                hintText: "Add Skills"),
-
+                    GestureDetector(
+                        onTap: () =>showDialog(context: context, builder:(_)=> AlertDialog(
+                          title:
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              top: 10, ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 15),
+                              child: Column(
+                                children: [
+                                  Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 25.0),
+                                      child:  Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: <Widget>[
+                                          Column(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: const <Widget>[
+                                              Text(
+                                                'Key Skills',
+                                                style: TextStyle(
+                                                    fontSize: 16.0,
+                                                    fontWeight: FontWeight.bold),
+                                              ),
+                                            ],
                                           ),
-                                        ),
-                                      ],
-                                    )),
+                                        ],
+                                      )),
+                                  Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 2.0),
+                                      child:  Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: <Widget>[
+                                          Flexible(
+                                            child:  TextField(
+                                              decoration: const InputDecoration(
+                                                  hintText: "Add Skills"),
+
+                                            ),
+                                          ),
+                                        ],
+                                      )),
 
 
 
 
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
                           actions: [Padding(
                             padding: const EdgeInsets.only(right: 20,top: 20,bottom: 20),
                             child: Row(
@@ -1854,8 +1916,8 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                               ],
                             ),
                           )],
-                      )),
-                      child: Icon(Icons.edit,color:Color(0xff3e61ed))
+                        )),
+                        child: Icon(Icons.edit,color:Color(0xff3e61ed))
                     )
                   ],
                 ),
@@ -1880,10 +1942,10 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Key Skills :-',
+                                      'Key Skills :',
                                       style: TextStyle(
-                                          fontSize: 14.0,
-                                          ),
+                                        fontSize: 14.0,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -1896,7 +1958,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 Flexible(
-                                  child:  Text('Add Skills',style:TextStyle(fontSize: 15.0,fontWeight: FontWeight.bold))
+                                    child:  Text('Add Skills',style:TextStyle(fontSize: 15.0,fontWeight: FontWeight.bold))
                                 ),
                               ],
                             )),
@@ -1923,163 +1985,204 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                         fontSize: 16.5,
                       ),
                     ),
-                     GestureDetector(
-                      onTap: () => showDialog(context: context, builder:(_)=>AlertDialog(
-                        title:Text('IT-Skills'),
-                        content:    Padding(
-                          padding: const EdgeInsets.only(
-                            top: 10,),
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 15),
-                            child: Column(
-                              children: [
-                                Padding(
-                                    padding: const EdgeInsets.only(
-                                       top: 25.0),
-                                    child:  Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: <Widget>[
-                                        Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: const <Widget>[
-                                            Text(
-                                              'IT Skills',
-                                              style: TextStyle(
-                                                  fontSize: 16.0,
-                                                  fontWeight: FontWeight.bold),
+                    GestureDetector(
+                        onTap: () => showDialog(context: context, builder:(_)=>AlertDialog(
+                            // insetPadding:  EdgeInsets.all(40),
+                          title:Text('IT-Skills'),
+                          content:    SingleChildScrollView(
+
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                top: 10,),
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 15),
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 25.0),
+                                        child:  Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: <Widget>[
+                                            Column(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: const <Widget>[
+                                                Text(
+                                                  'IT Skills',
+                                                  style: TextStyle(
+                                                      fontSize: 16.0,
+                                                      fontWeight: FontWeight.bold),
+                                                ),
+                                              ],
                                             ),
                                           ],
-                                        ),
-                                      ],
-                                    )),
-                                Padding(
-                                    padding: const EdgeInsets.only(
-                                      top: 2.0),
-                                    child:  Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: <Widget>[
-                                        Flexible(
-                                          child:  TextField(
-                                            decoration: const InputDecoration(
-                                                hintText: "Add Skills"),
-
-                                          ),
-                                        ),
-                                      ],
-                                    )), Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 25.0),
-                                    child:  Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: <Widget>[
-                                        Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: const <Widget>[
-                                            Text(
-                                              'Version',
-                                              style: TextStyle(
-                                                  fontSize: 16.0,
-                                                  fontWeight: FontWeight.bold),
+                                        )),
+                                    Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 2.0),
+                                        child:  Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: <Widget>[
+                                            Flexible(
+                                                 child: DropdownSearch<ITSkill>(
+                                                validator: (value) {
+                                                  if (value == null) {
+                                                    return "Please Select Your Skill";
+                                                  }
+                                                  return null;
+                                                },
+                                                dropdownSearchDecoration:
+                                                InputDecoration(border: UnderlineInputBorder()),
+                                                mode: Mode.DIALOG,
+                                                items: isLoading
+                                                    ? [ITSkill()]
+                                                    : _apiResponseITSkill.data,
+                                                itemAsString: (ITSkill obj) {
+                                                  return obj.itskillName;
+                                                },
+                                                onFind: (val) async {
+                                                  setState(() {
+                                                    queries = val;
+                                                  });
+                                                  return _apiResponseITSkill.data;
+                                                },
+                                                hint: "Select Skill",
+                                                onChanged: (value) {
+                                                  skillSearchCont.text = value.itskillId.toString();
+                                                  itSkillId = value.itskillId;
+                                                  print(value.itskillId);
+                                                },
+                                                showSearchBox: true,
+                                                popupItemBuilder:
+                                                    (context, ITSkill item, bool isSelected) {
+                                                  return Container(
+                                                    margin: EdgeInsets.symmetric(horizontal: 8),
+                                                    child: Card(
+                                                      child: Padding(
+                                                        padding: EdgeInsets.all(8.0),
+                                                        child: Text(item.itskillName),
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                              ),
                                             ),
                                           ],
-                                        ),
-                                      ],
-                                    )),
-                                Padding(
-                                    padding: const EdgeInsets.only(
-                                         top: 2.0),
-                                    child:  Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: <Widget>[
-                                        Flexible(
-                                          child:  TextField(
-                                            decoration: const InputDecoration(
-                                                hintText: "Add Version"),
-
-                                          ),
-                                        ),
-                                      ],
-                                    )),
-                                Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 25.0),
-                                    child:  Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: <Widget>[
-                                        Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: const <Widget>[
-                                            Text(
-                                              'Experience',
-                                              style: TextStyle(
-                                                  fontSize: 16.0,
-                                                  fontWeight: FontWeight.bold),
+                                        )), Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 25.0),
+                                        child:  Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: <Widget>[
+                                            Column(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: const <Widget>[
+                                                Text(
+                                                  'Version',
+                                                  style: TextStyle(
+                                                      fontSize: 16.0,
+                                                      fontWeight: FontWeight.bold),
+                                                ),
+                                              ],
                                             ),
                                           ],
-                                        ),
-                                      ],
-                                    )),
-                                Padding(
-                                    padding: const EdgeInsets.only(
-                                         top: 2.0),
-                                    child:  Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: <Widget>[
-                                        Flexible(
-                                          child:  TextField(
-                                            decoration: const InputDecoration(
-                                                hintText: "Add Experience"),
+                                        )),
+                                    Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 2.0),
+                                        child:  Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: <Widget>[
+                                            Flexible(
+                                              child:  TextField(
+                                                decoration: const InputDecoration(
+                                                    hintText: "Add Version"),
 
-                                          ),
-                                        ),
-                                      ],
-                                    )),
-                                Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 25.0),
-                                    child:  Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: <Widget>[
-                                        Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: const <Widget>[
-                                            Text(
-                                              'Last Used',
-                                              style: TextStyle(
-                                                  fontSize: 16.0,
-                                                  fontWeight: FontWeight.bold),
+                                              ),
                                             ),
                                           ],
-                                        ),
-                                      ],
-                                    )),
-                                Padding(
-                                    padding: const EdgeInsets.only(
-                                         top: 2.0),
-                                    child:  Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: <Widget>[
-                                        Flexible(
-                                          child:  TextField(
-                                            decoration: const InputDecoration(
-                                                hintText: "Mention Duration"),
+                                        )),
+                                    Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 25.0),
+                                        child:  Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: <Widget>[
+                                            Column(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: const <Widget>[
+                                                Text(
+                                                  'Experience',
+                                                  style: TextStyle(
+                                                      fontSize: 16.0,
+                                                      fontWeight: FontWeight.bold),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        )),
+                                    Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 2.0),
+                                        child:  Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: <Widget>[
+                                            Flexible(
+                                              child:  TextField(
+                                                decoration: const InputDecoration(
+                                                    hintText: "Add Experience"),
 
-                                          ),
-                                        ),
-                                      ],
-                                    )),
+                                              ),
+                                            ),
+                                          ],
+                                        )),
+                                    Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 25.0),
+                                        child:  Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: <Widget>[
+                                            Column(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: const <Widget>[
+                                                Text(
+                                                  'Last Used',
+                                                  style: TextStyle(
+                                                      fontSize: 16.0,
+                                                      fontWeight: FontWeight.bold),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        )),
+                                    Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 2.0),
+                                        child:  Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: <Widget>[
+                                            Flexible(
+                                              child:  TextField(
+                                                decoration: const InputDecoration(
+                                                    hintText: "Mention Duration"),
+
+                                              ),
+                                            ),
+                                          ],
+                                        )),
 
 
 
 
-                              ],
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
-                        ),
                           actions: [Padding(
                             padding: const EdgeInsets.only(right: 20,top: 20,bottom: 20),
                             child: Row(
@@ -2098,13 +2201,14 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                               ],
                             ),
                           )],
-                      )),
+                        )),
 
-                      child: Icon(Icons.edit,color:Color(0xff3e61ed))
+                        child: Icon(Icons.edit,color:Color(0xff3e61ed))
                     )
                   ],
                 ),
               ),
+
               Padding(
                 padding: const EdgeInsets.only(
                   top: 10, left: 20, right: 20,),
@@ -2125,56 +2229,38 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'IT Skills :-',
+                                      'IT Skills :',
                                       style: TextStyle(
-                                          fontSize: 14.0,
-                                          ),
+                                        fontSize: 14.0,
+                                      ),
                                     ),
                                   ],
                                 ),
                               ],
                             )),
-                        Padding(
-                            padding: const EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 5.0),
-                            child:  Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                Flexible(
-                                  child:  Text('Flutter',style:TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0))
-                                ),
-                              ],
-                            )), Padding(
-                            padding: const EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 25.0),
-                            child:  Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: const <Widget>[
-                                    Text(
-                                      "Version :-",
-                                      style: TextStyle(
-                                          fontSize: 14.0,
-                                         ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            )),
-                        Padding(
-                            padding: const EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 5.0),
-                            child:  Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                Flexible(
-                                  child:  Text('2 ',style:TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0))
-                                ),
-                              ],
-                            )),
+                        Wrap(
+                          children: [
+                            Wrap(
+                              spacing: 8.0, // gap between adjacent chips
+                              runSpacing: 4.0,
+                              children:    getItSkills(),
+                            ),
+                          ],
+                        ),
+                        // ListView.builder( itemCount: _apiResponse.data.length, itemBuilder: (context, index){
+                        //   return   Padding(
+                        //       padding: const EdgeInsets.only(
+                        //           left: 25.0, right: 25.0, top: 5.0),
+                        //       child:  Row(
+                        //         mainAxisSize: MainAxisSize.max,
+                        //         children: <Widget>[
+                        //           Flexible(
+                        //               child:  Text(_apiResponse.data[index].itkillName,style:TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0))
+                        //           ),
+                        //         ],
+                        //       ));
+                        // }),
+
                         Padding(
                             padding: const EdgeInsets.only(
                                 left: 25.0, right: 25.0, top: 25.0),
@@ -2186,10 +2272,10 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Experience :- ',
+                                      "Version :",
                                       style: TextStyle(
-                                          fontSize: 14.0,
-                                          ),
+                                        fontSize: 14.0,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -2202,7 +2288,39 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 Flexible(
-                                  child:  Text('3 years 4 months ',style:TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0))
+                                    child:  Text('2 ',style:TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0))
+                                ),
+                              ],
+                            )),
+
+                        Padding(
+                            padding: const EdgeInsets.only(
+                                left: 25.0, right: 25.0, top: 25.0),
+                            child:  Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: <Widget>[
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: const <Widget>[
+                                    Text(
+                                      'Experience : ',
+                                      style: TextStyle(
+                                        fontSize: 14.0,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            )),
+                        Padding(
+                            padding: const EdgeInsets.only(
+                                left: 25.0, right: 25.0, top: 5.0),
+                            child:  Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: <Widget>[
+                                Flexible(
+                                    child:  Text('3 years 4 months ',style:TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0))
                                 ),
                               ],
                             )),
@@ -2217,10 +2335,10 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Last Used :-',
+                                      'Last Used :',
                                       style: TextStyle(
-                                          fontSize: 14.0,
-                                          ),
+                                        fontSize: 14.0,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -2233,7 +2351,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 Flexible(
-                                  child: Text('2021',style:TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0))
+                                    child: Text('2021',style:TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0))
                                 ),
                               ],
                             )),
@@ -2569,7 +2687,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Preferred Industry :-',
+                                      'Preferred Industry :',
                                       style: TextStyle(
                                         fontSize: 14.0,
                                       ),
@@ -2601,7 +2719,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Preferred Job Type :-',
+                                      'Preferred Job Type :',
                                       style: TextStyle(
                                         fontSize: 14.0,
                                       ),
@@ -2632,7 +2750,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Preferred Employment Type :- ',
+                                      'Preferred Employment Type : ',
                                       style: TextStyle(
                                         fontSize: 14.0,
                                       ),
@@ -2663,7 +2781,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Preferred Job Location :-',
+                                      'Preferred Job Location :',
                                       style: TextStyle(
                                         fontSize: 14.0,
                                       ),
@@ -2694,7 +2812,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Salary Expectation :-',
+                                      'Salary Expectation :',
                                       style: TextStyle(
                                         fontSize: 14.0,
                                       ),
@@ -2725,7 +2843,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Preferred Shift :-',
+                                      'Preferred Shift :',
                                       style: TextStyle(
                                         fontSize: 14.0,
                                       ),
@@ -2756,7 +2874,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Availability To Join :-',
+                                      'Availability To Join :',
                                       style: TextStyle(
                                         fontSize: 14.0,
                                       ),
@@ -3057,7 +3175,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                       )),
 
 
-                                                                    Padding(
+                                  Padding(
                                       padding: const EdgeInsets.only(
                                           top: 25.0),
                                       child:  Row(
@@ -3248,7 +3366,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Address :-',
+                                      'Address :',
                                       style: TextStyle(
                                         fontSize: 14.0,
                                       ),
@@ -3280,7 +3398,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'City :-',
+                                      'City :',
                                       style: TextStyle(
                                         fontSize: 14.0,
                                       ),
@@ -3311,7 +3429,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Pincode :- ',
+                                      'Pincode : ',
                                       style: TextStyle(
                                         fontSize: 14.0,
                                       ),
@@ -3342,7 +3460,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'D.O.B :-',
+                                      'D.O.B :',
                                       style: TextStyle(
                                         fontSize: 14.0,
                                       ),
@@ -3373,7 +3491,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Marital Status :-',
+                                      'Marital Status :',
                                       style: TextStyle(
                                         fontSize: 14.0,
                                       ),
@@ -3404,7 +3522,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Category :-',
+                                      'Category :',
                                       style: TextStyle(
                                         fontSize: 14.0,
                                       ),
@@ -3435,7 +3553,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Ex-Servicemen Experience :-',
+                                      'Ex-Servicemen Experience :',
                                       style: TextStyle(
                                         fontSize: 14.0,
                                       ),
@@ -3467,7 +3585,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'PAN Number :-',
+                                      'PAN Number :',
                                       style: TextStyle(
                                         fontSize: 14.0,
                                       ),
@@ -3498,7 +3616,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Nationality :-',
+                                      'Nationality :',
                                       style: TextStyle(
                                         fontSize: 14.0,
                                       ),
@@ -3529,7 +3647,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Passport Number :-',
+                                      'Passport Number :',
                                       style: TextStyle(
                                         fontSize: 14.0,
                                       ),
@@ -3560,7 +3678,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                   mainAxisSize: MainAxisSize.min,
                                   children: const <Widget>[
                                     Text(
-                                      'Work Permits :-',
+                                      'Work Permits :',
                                       style: TextStyle(
                                         fontSize: 14.0,
                                       ),
@@ -3604,11 +3722,11 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                         fontSize: 16.5,
                       ),
                     ),
-                   GestureDetector(
-                      onTap: () {
+                    GestureDetector(
+                        onTap: () {
 
-                      },
-                       child: Icon(Icons.edit,color:Color(0xff3e61ed))
+                        },
+                        child: Icon(Icons.edit,color:Color(0xff3e61ed))
                     ),
                   ],
                 ),
@@ -3769,6 +3887,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
       ),
     );
   }
+
   @override
   void dispose() {
     // Clean up the Controllers when the Widget is disposed

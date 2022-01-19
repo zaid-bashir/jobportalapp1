@@ -35,6 +35,12 @@ dependencies:
   file_picker: ^4.1.6
   find_dropdown: null
   fl_chart: ^0.40.6
+  url_launcher: ^6.0.18
+  flutter_speed_dial: ^5.0.0+1
+  shimmer: ^2.0.0
+
+
+
 
   flutter:
     sdk: flutter

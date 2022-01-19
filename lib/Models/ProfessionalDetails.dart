@@ -1,6 +1,6 @@
 class Professional {
   String working;
-  int companyId;
+  int  companyId;
   String companyName;
   int designationId;
   String designationName;

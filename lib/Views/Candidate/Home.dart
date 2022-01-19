@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/button/gf_button.dart';
@@ -15,8 +17,8 @@ import 'Inbox.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key key}) : super(key: key);
-
+  HomePage({Key key,this.payLoadData}) : super(key: key);
+  Map<String,dynamic> payLoadData;
   Widget _appBar(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
@@ -153,7 +155,7 @@ class HomePage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text("Hello Isra",
+          Text("Hello Isra",
               style: TextStyle(
                 fontSize: 15,
                 fontFamily: "ProximaNova",

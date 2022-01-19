@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:job_portal/Controllers/menucontroller.dart';
 import 'package:job_portal/Views/Profile/Profile.dart';
@@ -11,8 +13,8 @@ import 'Notification.dart';
 
 
 class Navbar extends StatelessWidget {
-  const Navbar({Key key}) : super(key: key);
-
+  Navbar({Key key,this.payLoadData}) : super(key: key);
+  Map<String,dynamic> payLoadData;
   @override
   Widget build(BuildContext context) {
     return
@@ -33,7 +35,7 @@ class Navbar extends StatelessWidget {
             // accentColor: const Color(0xFFC41A3B),
             accentColor:const Color(0xff3e61ed),
           ),
-          home: Navlist(),
+          home: Navlist(payLoadData: payLoadData,),
         ),
      );
 
@@ -41,8 +43,8 @@ class Navbar extends StatelessWidget {
 }
 
 class Navlist extends StatefulWidget {
-  const Navlist({Key key}) : super(key: key);
-
+  Navlist({Key key,this.payLoadData}) : super(key: key);
+  Map<String,dynamic> payLoadData;
   @override
   _NavlistState createState() => _NavlistState();
 }
@@ -74,7 +76,7 @@ class _NavlistState extends State<Navlist>
       // ),
       body: TabBarView(
         children: <Widget>[
-          HomePage(),
+          HomePage(payLoadData: widget.payLoadData,),
           Notify(),
           UploadPost(),
           JobsList(),
