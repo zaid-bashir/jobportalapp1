@@ -10,6 +10,8 @@ import 'package:overlay_support/overlay_support.dart';
 import 'Bar.dart';
 import 'Step3-QualificationDetails.dart';
 import 'Step4-ProfessionalDetails.dart';
+import 'Step5-KeySkills.dart';
+import 'Step6-ItSkills.dart';
 import 'Step7-CareerPreference.dart';
 import 'listView-EmploymentType.dart';
 class LoginPage extends StatefulWidget {
@@ -154,8 +156,10 @@ class _LoginPageState extends State<LoginPage> {
                       TextButton(
                         onPressed: () {
                           // Navigator.push(context, MaterialPageRoute(builder: (context)=>CareerPreference()));
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>PieChartSample2()));
+                          // Navigator.push(context, MaterialPageRoute(builder: (context)=>PieChartSample2()));
                           // Navigator.push(context, MaterialPageRoute(builder: (context)=>OTP()));
+                          // Navigator.push(context, MaterialPageRoute(builder: (context)=>ItSkills()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>KeySkillsPage()));
                           // Navigator.push(context, MaterialPageRoute(builder: (context)=>WorkingProfession()));
                           // Navigator.push(context, MaterialPageRoute(builder: (context)=>BasicDetails()));
                           // Navigator.push(context, MaterialPageRoute(builder: (context)=>listCheck()));

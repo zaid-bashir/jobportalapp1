@@ -35,10 +35,12 @@ class _ItSkillsState extends State<ItSkills> {
 
   String myskill;
   String queries;
+  ApiResponse<List<ITSkill>> _apiResponseITSkill;
+  String itSkillId = "";
+
   var formKey = GlobalKey<FormState>();
 
   TextEditingController skillSearchCont = TextEditingController();
-  String itSkillId = "";
 
   fetchITSkill({String query}) async {
     setState(() {
@@ -50,7 +52,6 @@ class _ItSkillsState extends State<ItSkills> {
     });
   }
 
-  ApiResponse<List<ITSkill>> _apiResponseITSkill;
 
   List<String> parseITSkill() {
     List<ITSkill> itskill = _apiResponseITSkill.data;

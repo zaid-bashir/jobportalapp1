@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:job_portal/Theme/colors.dart';
 import 'package:job_portal/Theme/images.dart';
 
@@ -403,14 +404,38 @@ class _JobDetailPageState extends State<JobDetailPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+
         appBar: AppBar(
           backgroundColor: KColors.background,
           iconTheme: const IconThemeData(color: KColors.primary),
           elevation: 1,
-          actions: [
-            IconButton(icon: const Icon(Icons.share_outlined), onPressed: () {})
-          ],
+
+          // actions: [
+          //   IconButton(icon: const Icon(Icons.share_outlined), onPressed: () {})
+          // ],
         ),
+        floatingActionButton: SpeedDial(
+          direction: SpeedDialDirection.left,
+            child: const Icon(Icons.add),
+            children:[
+              SpeedDialChild(
+                  backgroundColor: Colors.grey,
+                  child:Icon(Icons.mail,color: Colors.black,),
+                  onTap:(){
+                    // Navigator.push(context, MaterialPageRoute(builder: (context) => CreateStudent()));
+                  }
+              ),
+              SpeedDialChild(
+                  backgroundColor: Colors.grey,
+                  child:Icon(Icons.send,color: Colors.black,),
+                  onTap:(){
+
+                  }
+              ),
+            ]
+        ),
+
+        floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.only(left: 20,right: 10),

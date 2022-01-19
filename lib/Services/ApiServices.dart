@@ -8,8 +8,10 @@ import 'package:job_portal/Models/EmploymentType.dart';
 import 'package:job_portal/Models/GetCategory.dart';
 import 'package:job_portal/Models/GetCompany.dart';
 import 'package:job_portal/Models/GetIndustry.dart';
+import 'package:job_portal/Models/GetJobList.dart';
 import 'package:job_portal/Models/GetMarital.dart';
 import 'package:job_portal/Models/InstituteQualified.dart';
+import 'package:job_portal/Models/ItSkillRetrive.dart';
 import 'package:job_portal/Models/ItSkills.dart';
 import 'package:job_portal/Models/ItSkillsPost.dart';
 import 'package:job_portal/Models/CareerPreference-post.dart';
@@ -35,6 +37,7 @@ import 'package:job_portal/Models/location.dart';
 import 'package:job_portal/Models/postkeyskills.dart';
 import 'package:job_portal/Models/qualification-post.dart';
 import 'package:job_portal/Utility/apiurls.dart';
+import 'package:job_portal/Views/SignIn/listView-EmploymentType.dart';
 import 'package:logger/logger.dart';
 
 class ApiServices {
@@ -772,4 +775,52 @@ class ApiServices {
         error: true, errorMessage: "An error occurred");
   }
 
+  Future<ApiResponse<List<GetJobList>>> getJobList() async {
+    final url = Uri.parse(ApiUrls.kGetJobList);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = jsonData["listData"];
+      final listData = <GetJobList>[];
+      for (var item in list) {
+        listData.add(GetJobList.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      return ApiResponse<List<GetJobList>>(data: listData);
+    }
+    return ApiResponse<List<GetJobList>>(
+        error: true, errorMessage: "An error occurred");
+  }
+
+
+  Future<ApiResponse<List<ItSkillProfile>>> PopulateItSkill() async {
+    final url = Uri.parse(ApiUrls.kGetItSkill);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <ItSkillProfile>[];
+      for (var item in jsonData) {
+        list.add(ItSkillProfile.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      print(list);
+      return ApiResponse<List<ItSkillProfile>>(data: list);
+    }
+    return ApiResponse<List<ItSkillProfile>>(
+        error: true, errorMessage: "An error occurred");
+  }
 }
