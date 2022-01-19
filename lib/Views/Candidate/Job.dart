@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:job_portal/Controllers/menucontroller.dart';
+import 'package:job_portal/Data_Controller/apiresponse.dart';
+import 'package:job_portal/Models/GetJobList.dart';
+import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Theme/colors.dart';
 import 'package:job_portal/Theme/images.dart';
 import 'package:job_portal/Views/Candidate/Sidebar.dart';
 import 'package:provider/src/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 import 'Inbox.dart';
+import 'JobApply.dart';
 
 class JobsList extends StatefulWidget {
   const JobsList({Key key}) : super(key: key);
@@ -14,7 +19,32 @@ class JobsList extends StatefulWidget {
   _JobsListState createState() => _JobsListState();
 }
 
+
 class _JobsListState extends State<JobsList> {
+
+  ApiResponse<List<GetJobList>> _apiResponse;
+  ApiServices apiServices =ApiServices();
+
+  bool isLoading;
+
+  @override
+  void initState() {
+    print("--------");
+
+    getJob();
+    print("--------");
+    super.initState();
+  }
+
+    getJob()async{
+      setState(() {
+        isLoading = true;
+      });
+      _apiResponse = await apiServices.getJobList();
+      setState(() {
+        isLoading = false;
+      });
+    }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -77,47 +107,64 @@ class _JobsListState extends State<JobsList> {
                             const SizedBox(
                               height: 20.0,
                             ),
-                            ListView.builder(
-                              itemCount: 5,
-                              scrollDirection: Axis.vertical,
-                              shrinkWrap: true,
-                              physics: ScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                return Card(
-                                  //elevation: 0.0,
-                                  // margin: const EdgeInsets.only(right: 10.0,top: 10.0),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.horizontal(),
-                                    ),
-                                    child: ListTile(
-                                      leading: CircleAvatar(
-                                        backgroundColor: Colors.grey.shade100,
-                                        child: Icon(
-                                          Icons.work,
-                                          color:  Color(0xff3e61ed),
+                              Builder(builder: (_) {
+                                if (isLoading) {
+                                  return  Center(
+                                    child: Shimmer.fromColors( baseColor: Colors.grey, highlightColor: Colors.white)
+                                  );
+                                }
+                                if (_apiResponse.error) {
+                                  return Center(
+                                    child: Text(_apiResponse.errorMessage),
+                                  );
+                                }
+                                return
+                                  ListView.builder(
+                                  itemCount: _apiResponse.data.length,
+                                  scrollDirection: Axis.vertical,
+                                  shrinkWrap: true,
+                                  physics: ScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    return Card(
+                                      //elevation: 0.0,
+                                      // margin: const EdgeInsets.only(right: 10.0,top: 10.0),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.horizontal(),
                                         ),
-                                      ),
-                                      // Container(
-                                      //     width: 50.0,
-                                      //     height: 50.0,
-                                      //     decoration: BoxDecoration(
-                                      //
-                                      //       borderRadius: BorderRadius.circular(12.0),
-                                      //       image:DecorationImage(
-                                      //         image: AssetImage('assets/user/user1.jpg'),fit: BoxFit.cover
-                                      //     )
-                                      // ),
-                                      // ),
-                                      trailing: const Icon(
-                                        Icons.more_vert,
-                                        color: Colors.black,
-                                      ),
+                                        child: ListTile(
+                                          leading: CircleAvatar(
+                                            backgroundColor: Colors.grey.shade100,
+                                            child: Icon(
+                                              Icons.work,
+                                              color:  Color(0xff3e61ed),
+                                            ),
+                                          ),
+                                          // Container(
+                                          //     width: 50.0,
+                                          //     height: 50.0,
+                                          //     decoration: BoxDecoration(
+                                          //
+                                          //       borderRadius: BorderRadius.circular(12.0),
+                                          //       image:DecorationImage(
+                                          //         image: AssetImage('assets/user/user1.jpg'),fit: BoxFit.cover
+                                          //     )
+                                          // ),
+                                          // ),
+                                          trailing: const Icon(
+                                            Icons.more_vert,
+                                            color: Colors.black,
+                                          ),
 
-                                      title: Text('Frontend Web Developer',style: TextStyle(fontFamily: "ProximaNova"),),
-                                      subtitle: Text('Crediometer',style: TextStyle(fontFamily: "ProximaNova")),
-                                    ));
-                              },
-                            )
+                                          title: Text(_apiResponse.data[index].jobHeadline,style: TextStyle(fontFamily: "ProximaNova"),),
+                                          subtitle: Text(_apiResponse.data[index].companyName,style: TextStyle(fontFamily: "ProximaNova")),
+                                          onTap: (){
+                                            Navigator.push(context, JobDetailPage.getJobDetail());
+                                          },
+                                        ));
+                                  },
+                                );
+                              })
+
                           ]
                       )
 

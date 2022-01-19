@@ -1,4 +1,5 @@
 class ApiUrls{
+
   static const String baseUrl = "http://192.168.0.20:9030/jobportal-app/api/";
   static String kgetOTP = baseUrl+"generate-otp";
   static String kverifyOTP =  baseUrl+"validate-otp";
@@ -31,8 +32,9 @@ class ApiUrls{
   static String kProfession = baseUrl+"candidate-registration/step4-professionaldetail";
   static String kKeySkills = baseUrl+"populate/keyskill?query=";
   static String kpostSkill =  baseUrl+"candidate-registration/step5-keyskill";
-  static String kLogin = "http://192.168.0.20:9030/jobportal-app/candidate/candidate-overview";
-
+  static String kGetJobList =  "http://192.168.0.20:9030/jobportal-app/test/job-list";
+  static String kGetItSkill =  "http://192.168.0.20:7038/jobportal-app/profile/it-skill";
+  static String kBasicDetails =  "http://192.168.0.20:9030/jobportal-app/candidate/candidate-overview";
 
 
 
