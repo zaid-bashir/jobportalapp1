@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, deprecated_member_use, prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'package:job_portal/Controllers/menucontroller.dart';
@@ -29,10 +29,7 @@ class Navbar extends StatelessWidget {
           title: 'Flutter Demo',
 
           theme: ThemeData(
-            // primaryColor: Color(0xFFC41A3B),
-            // primaryColorDark:  Color(0xFFC41A3B),
             primaryColorLight: const Color(0xFFFBE0E6),
-            // accentColor: const Color(0xFFC41A3B),
             accentColor:const Color(0xff3e61ed),
           ),
           home: Navlist(payLoadData: payLoadData,),
@@ -70,10 +67,6 @@ class _NavlistState extends State<Navlist>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text(title),
-      //   centerTitle: true,
-      // ),
       body: TabBarView(
         children: <Widget>[
           HomePage(payLoadData: widget.payLoadData,),

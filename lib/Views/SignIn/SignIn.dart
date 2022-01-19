@@ -214,7 +214,7 @@ class _LoginPageState extends State<LoginPage> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => Navbar()));
+                                          builder: (context) => Navbar(payLoadData: apiResponse.data,)));
                                 }).show();
                         } else {
                           AwesomeDialog(

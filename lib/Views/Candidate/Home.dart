@@ -155,9 +155,19 @@ class HomePage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Hello Isra",
-              style: TextStyle(
+          Text("Hello ${payLoadData['populatecandidateData'][0]['candidateName']}",
+              style: const TextStyle(
                 fontSize: 15,
+                fontFamily: "ProximaNova",
+                color: KColors.subtitle,
+                fontWeight: FontWeight.w900,
+              )),
+          const SizedBox(
+            height: 6,
+          ),
+              Text("${payLoadData['populatecandidateData'][0]['candidateEmail1']}",
+              style: const TextStyle(
+                fontSize: 12,
                 fontFamily: "ProximaNova",
                 color: KColors.subtitle,
                 fontWeight: FontWeight.w500,
@@ -677,8 +687,8 @@ class HomePage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      "Isra Riaz",
+                     Text(
+                      "${payLoadData['populatecandidateData'][0]['candidateName']}",
                       style: TextStyle(
                           fontSize: 20,
                           fontFamily: "ProximaNova",
@@ -966,6 +976,7 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
+
 
   @override
   Widget build(BuildContext context) {
