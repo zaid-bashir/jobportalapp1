@@ -35,7 +35,7 @@ class ApiUrls{
   static String kGetJobList =  "http://192.168.0.20:9030/jobportal-app/test/job-list";
   static String kGetItSkill =  "http://192.168.0.20:7038/jobportal-app/profile/it-skill";
   static String kBasicDetails =  "http://192.168.0.20:9030/jobportal-app/candidate/candidate-overview";
-
+  static String kLogin = "http://192.168.0.20:9030/jobportal-app/candidate/candidate-overview";
 
 
 

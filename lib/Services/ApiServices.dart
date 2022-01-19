@@ -42,7 +42,7 @@ import 'package:logger/logger.dart';
 
 class ApiServices {
   var log = Logger();
-
+  String key = "";
   Future<ApiResponse<int>> otpGet(GetOTP objGetOtp) async {
     final url = Uri.parse(ApiUrls.kgetOTP);
     final headers = {
@@ -823,4 +823,31 @@ class ApiServices {
     return ApiResponse<List<ItSkillProfile>>(
         error: true, errorMessage: "An error occurred");
   }
+
+  
+  // service for login through base64
+  Future<ApiResponse<Map<String,dynamic>>> login({String username, String password}) async {
+    log.i(username);
+    log.i(password);
+    String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    log.i(basicAuth);
+    http.Response response;
+    try{
+      response = await http.get(Uri.parse(ApiUrls.kLogin),headers: <String, String>{'Authorization': basicAuth});
+    }catch(e){
+      print(e.toString());
+    }
+    log.i("Printing Response Here.....");
+    print(response.body);
+    print(response.statusCode);
+    Map<String,dynamic> jsonData = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      key = basicAuth;
+      print("Successfully Logged In...");
+      return ApiResponse<Map<String,dynamic>>(data: jsonData);
+    }
+    return ApiResponse<Map<String,dynamic>>(error: true, errorMessage: "An error occurred");
+  }
+
 }
