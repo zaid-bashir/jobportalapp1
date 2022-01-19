@@ -1,11 +1,10 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/button/gf_button.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Controllers/menucontroller.dart';
-import 'package:job_portal/Data_Controller/apiresponse.dart';
-import 'package:job_portal/Models/GetJobList.dart';
-import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Theme/colors.dart';
 import 'package:job_portal/Theme/images.dart';
 import 'package:job_portal/Views/Candidate/Sidebar.dart';
@@ -17,38 +16,9 @@ import 'JobApply.dart';
 import 'Inbox.dart';
 import 'package:fl_chart/fl_chart.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key key}) : super(key: key);
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-
-  ApiResponse<List<GetJobList>> _apiResponse;
-  ApiServices apiServices =ApiServices();
-
-  bool isLoading;
-
-  @override
-  void initState() {
-    print("--------");
-
-    getJob();
-    print("--------");
-    super.initState();
-  }
-
-  getJob()async{
-    setState(() {
-      isLoading = true;
-    });
-    _apiResponse = await apiServices.getJobList();
-    setState(() {
-      isLoading = false;
-    });
-  }
+class HomePage extends StatelessWidget {
+  HomePage({Key key,this.payLoadData}) : super(key: key);
+  Map<String,dynamic> payLoadData;
   Widget _appBar(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
@@ -185,7 +155,7 @@ class _HomePageState extends State<HomePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text("Hello Isra",
+          Text("Hello Isra",
               style: TextStyle(
                 fontSize: 15,
                 fontFamily: "ProximaNova",
@@ -566,7 +536,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _recommendedSection(BuildContext context) {
-
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       margin: const EdgeInsets.symmetric(vertical: 12),
@@ -578,77 +547,48 @@ class _HomePageState extends State<HomePage> {
           const Text(
             "Suggestions for you",
             style: TextStyle(
-              fontSize: 20,
                 fontWeight: FontWeight.bold,
                 fontFamily: "ProximaNova",
                 color: KColors.title),
           ),
           const SizedBox(height: 10),
-          Builder(builder: (_) {
-            if (isLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            if (_apiResponse.error) {
-              return Center(
-                child: Text(_apiResponse.errorMessage),
-              );
-            }
-            return       Expanded(
-              child: ListView.builder(
-                itemCount: _apiResponse.data.length,
-                scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
-                physics: ScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return         _recommendedJob(context,
-                      company: _apiResponse.data[index].companyName,
-                      img: Images.google,
-                      title: _apiResponse.data[index].jobHeadline,
-                      sub: _apiResponse.data[index].recruiterName,
-                     );
-                },
-              ),
-            );
-          }),
-          // Expanded(
-          //   child: ListView(
-          //     scrollDirection: Axis.horizontal,
-          //     children: [
-          //       _recommendedJob(context,
-          //           company: "Google",
-          //           img: Images.google,
-          //           title: "UX Designer",
-          //           sub: "\$45,000 Remote",
-          //           isActive: true),
-          //       _recommendedJob(context,
-          //           company: "DropBox",
-          //           img: Images.dropbox,
-          //           title: "Reserch Assist",
-          //           sub: "\$45,000 Remote",
-          //           isActive: false),
-          //       _recommendedJob(context,
-          //           company: "DropBox",
-          //           img: Images.dropbox,
-          //           title: "Reserch Assist",
-          //           sub: "\$45,000 Remote",
-          //           isActive: false),
-          //       _recommendedJob(context,
-          //           company: "DropBox",
-          //           img: Images.dropbox,
-          //           title: "Reserch Assist",
-          //           sub: "\$45,000 Remote",
-          //           isActive: false),
-          //       _recommendedJob(context,
-          //           company: "DropBox",
-          //           img: Images.dropbox,
-          //           title: "Reserch Assist",
-          //           sub: "\$45,000 Remote",
-          //           isActive: false)
-          //     ],
-          //   ),
-          // ),
+          Expanded(
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: [
+                _recommendedJob(context,
+                    company: "Google",
+                    img: Images.google,
+                    title: "UX Designer",
+                    sub: "\$45,000 Remote",
+                    isActive: true),
+                _recommendedJob(context,
+                    company: "DropBox",
+                    img: Images.dropbox,
+                    title: "Reserch Assist",
+                    sub: "\$45,000 Remote",
+                    isActive: false),
+                _recommendedJob(context,
+                    company: "DropBox",
+                    img: Images.dropbox,
+                    title: "Reserch Assist",
+                    sub: "\$45,000 Remote",
+                    isActive: false),
+                _recommendedJob(context,
+                    company: "DropBox",
+                    img: Images.dropbox,
+                    title: "Reserch Assist",
+                    sub: "\$45,000 Remote",
+                    isActive: false),
+                _recommendedJob(context,
+                    company: "DropBox",
+                    img: Images.dropbox,
+                    title: "Reserch Assist",
+                    sub: "\$45,000 Remote",
+                    isActive: false)
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -724,7 +664,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _strenght(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 10),
+      padding: const EdgeInsets.only(left: 5, right: 5, top: 20, bottom: 10),
       child: SizedBox(
         width: double.infinity,
         child: Card(
@@ -1044,7 +984,7 @@ class _HomePageState extends State<HomePage> {
                 _header(context),
                 _recommendedSection(context),
                 _carosel(context),
-                // PieChartSample2(),
+                PieChartSample2(),
                 _warning(context),
                 _strenght(context),
 
