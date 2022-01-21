@@ -11,6 +11,7 @@ import 'package:job_portal/Models/GetIndustry.dart';
 import 'package:job_portal/Models/GetJobList.dart';
 import 'package:job_portal/Models/GetMarital.dart';
 import 'package:job_portal/Models/InstituteQualified.dart';
+import 'package:job_portal/Models/ItSkillAdd.dart';
 import 'package:job_portal/Models/ItSkillRetrive.dart';
 import 'package:job_portal/Models/ItSkills.dart';
 import 'package:job_portal/Models/ItSkillsPost.dart';
@@ -42,7 +43,7 @@ import 'package:logger/logger.dart';
 
 class ApiServices {
   var log = Logger();
-
+  String key = "";
   Future<ApiResponse<int>> otpGet(GetOTP objGetOtp) async {
     final url = Uri.parse(ApiUrls.kgetOTP);
     final headers = {
@@ -822,5 +823,46 @@ class ApiServices {
     }
     return ApiResponse<List<ItSkillProfile>>(
         error: true, errorMessage: "An error occurred");
+  }
+
+  // service for login through base64
+  Future<ApiResponse<Map<String,dynamic>>> login({String username, String password}) async {
+    log.i(username);
+    log.i(password);
+    String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    log.i(basicAuth);
+    http.Response response;
+    try{
+      response = await http.get(Uri.parse(ApiUrls.kLogin),headers: <String, String>{'Authorization': basicAuth});
+    }catch(e){
+      print(e.toString());
+    }
+    log.i("Printing Response Here.....");
+    print(response.body);
+    print(response.statusCode);
+    Map<String,dynamic> jsonData = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      key = basicAuth;
+      print("Successfully Logged In...");
+      return ApiResponse<Map<String,dynamic>>(data: jsonData);
+    }
+    return ApiResponse<Map<String,dynamic>>(error: true, errorMessage: "An error occurred");
+  }
+
+  Future<ApiResponse<bool>> itSkillAdd(ItSkillAdd skillAdd) async {
+    final url = Uri.parse(ApiUrls.kItSkillAdd);
+    final headers = {
+      "Content-Type": "application/json",
+    };
+    final jsonData = jsonEncode(skillAdd);
+
+    final response = await http.post(url, headers: headers, body: jsonData);
+    log.i(response.body);
+    log.i(response.statusCode);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return ApiResponse<bool>(data: true);
+    }
+    return ApiResponse<bool>(error: true, errorMessage: "An Error Occurred");
   }
 }
