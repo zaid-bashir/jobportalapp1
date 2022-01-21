@@ -14,15 +14,17 @@ import 'package:job_portal/Models/InstituteQualified.dart';
 import 'package:job_portal/Models/ItSkillRetrive.dart';
 import 'package:job_portal/Models/ItSkills.dart';
 import 'package:job_portal/Models/ItSkillsPost.dart';
-import 'package:job_portal/Models/CareerPreference-post.dart';
+import 'package:job_portal/Models/CareerPreferencePost.dart';
 import 'package:job_portal/Models/JobType.dart';
+import 'package:job_portal/Models/KeySkillAdd.dart';
+import 'package:job_portal/Models/PopulateKeySkillProfileModel.dart';
 import 'package:job_portal/Models/Nationality.dart';
-import 'package:job_portal/Models/PersonalDetails-post.dart';
-import 'package:job_portal/Models/ProfessionDetails-post.dart';
+import 'package:job_portal/Models/PersonalDetailsPost.dart';
+import 'package:job_portal/Models/ProfessionDetailsPost.dart';
 import 'package:job_portal/Models/QualificationDetails.dart';
 import 'package:job_portal/Models/Stream.dart';
-import 'package:job_portal/Models/basicdetailresponse.dart';
-import 'package:job_portal/Models/basicdetials.dart';
+import 'package:job_portal/Models/BasicDetailResponse.dart';
+import 'package:job_portal/Models/BasicDetials.dart';
 import 'package:job_portal/Models/JobRole.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/getgender.dart';
@@ -32,12 +34,11 @@ import 'package:job_portal/Models/GetTitle.dart';
 import 'package:job_portal/Models/GradingSystem.dart';
 import 'package:job_portal/Models/PassingYear.dart';
 import 'package:job_portal/Models/VerifyOtp.dart';
-import 'package:job_portal/Models/keyskill.dart';
-import 'package:job_portal/Models/location.dart';
-import 'package:job_portal/Models/postkeyskills.dart';
-import 'package:job_portal/Models/qualification-post.dart';
+import 'package:job_portal/Models/KeySkill.dart';
+import 'package:job_portal/Models/Location.dart';
+import 'package:job_portal/Models/PostkeySkills.dart';
+import 'package:job_portal/Models/QualificationPost.dart';
 import 'package:job_portal/Utility/apiurls.dart';
-import 'package:job_portal/Views/SignIn/listView-EmploymentType.dart';
 import 'package:logger/logger.dart';
 
 class ApiServices {
@@ -848,6 +849,43 @@ class ApiServices {
       return ApiResponse<Map<String,dynamic>>(data: jsonData);
     }
     return ApiResponse<Map<String,dynamic>>(error: true, errorMessage: "An error occurred");
+  }
+
+    // service for KeySkillAdd
+    Future<ApiResponse<Map<String,String>>> keySkillAddProfile(KeySkillAdd obj) async {
+    final url = Uri.parse(ApiUrls.kKeySkillAddProfile);
+    final headers = {
+      "Content-Type": "application/json",
+    };
+    final jsonData = jsonEncode(obj);
+    final response = await http.post(url, headers: headers, body: jsonData);
+    log.i(response.body);
+    log.i(response.statusCode);
+    if (response.statusCode == 200 || response.statusCode == 200) {
+      return ApiResponse<Map<String,String>>(data: jsonDecode(response.body));
+    }
+    return ApiResponse<Map<String,String>>(error: true, errorMessage: "An Error Occurred");
+  }
+
+  Future<ApiResponse<List<PopulateKeySkillsProfileModel>>> populateKeySkillProfile() async {
+    final url = Uri.parse(ApiUrls.kgetKeySkillsProfile);
+    final headers = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(url, headers: headers,);
+     if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <PopulateKeySkillsProfileModel>[];
+      for (var item in jsonData) {
+        list.add(PopulateKeySkillsProfileModel.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      return ApiResponse<List<PopulateKeySkillsProfileModel>>(data: list);
+    }
+    return ApiResponse<List<PopulateKeySkillsProfileModel>>(
+        error: true,
+        errorMessage: "Error Occured");
   }
 
 }
