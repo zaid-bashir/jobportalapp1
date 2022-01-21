@@ -19,6 +19,8 @@ import 'dart:io';
 import '../Candidate/Inbox.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
+import 'AddItskill.dart';
+
 class ProfilePage extends StatefulWidget {
   ProfilePage({Key key,this.basic}) : super(key: key);
   String basic ;
@@ -89,19 +91,99 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
         Wrap(children: <Widget>[
 
           Padding(
-            padding:  EdgeInsets.only(top: 10),
+            padding:  EdgeInsets.only(top: 10,left: 20,right: 20),
             child: Container(
               padding: EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(color: Color(0xff3e61ed))
                 ),
-                child: Text(e.itkillName ?? "",style: TextStyle(
-                  fontFamily: "ProximaNova",
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.5,
-                  fontSize: 16.5,
-                ),)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                      Text(e.itskillName,style: TextStyle(
+                        fontFamily: "ProximaNova",
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1.5,
+                        fontSize: 15.0,
+                      ),),
+
+                      Column(
+                        children: [
+                          Row(
+                            children: [
+                              Icon(Icons.edit_outlined,color: KColors.primary),
+                              Icon(Icons.delete_outlined,
+                                  color: Colors.red),
+                            ],
+                          ),
+
+                        ],
+                      ),
+
+                    ],),
+                  //   RichText(text: TextSpan(text:e.itskillName,style: TextStyle(
+                  //   fontFamily: "ProximaNova",
+                  //   fontWeight: FontWeight.bold,
+                  //   letterSpacing: 1.5,
+                  //   fontSize: 13.5,
+                  // ),
+                  // children: [
+                  //           WidgetSpan(child: Align(
+                  //             alignment:Alignment.topRight,
+                  //               child: Icon(Icons.edit_outlined,color: KColors.primary)),)
+                  //   ]),),
+
+                            Text(e.candidateitskillExperience ,
+                              style: TextStyle(
+                              fontFamily: "ProximaNova",
+                              color: Colors.grey,
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 1.5,
+                              fontSize: 10.5,
+                            ),),
+
+
+
+                    RichText(text: TextSpan(text:"Last Used:",style: TextStyle(
+                      fontFamily: "ProximaNova",
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 1.5,
+                      fontSize: 12.5,
+                    ),
+                        children: [
+
+                         TextSpan(text: e.candidateitskillLastused.toString(), style: TextStyle(
+                           fontFamily: "ProximaNova",
+                           color: Colors.grey,
+                           fontWeight: FontWeight.w500,
+                           letterSpacing: 1.5,
+                           fontSize: 14.5,
+                         ),),
+                        ]),),
+
+                    RichText(text: TextSpan(text:"Version:",style: TextStyle(
+                      fontFamily: "ProximaNova",
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 1.5,
+                      fontSize: 12.5,
+                    ),
+                        children: [
+
+                          TextSpan(text: e.itSkillVersion.toString(), style: TextStyle(
+                            fontFamily: "ProximaNova",
+                            color: Colors.grey,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 1.5,
+                            fontSize: 14.5,
+                          ),),
+                        ]),),
+
+                  ],
+                )),
           ),
 
         ]))
@@ -1986,224 +2068,11 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                       ),
                     ),
                     GestureDetector(
-                        onTap: () => showDialog(context: context, builder:(_)=>AlertDialog(
-                            // insetPadding:  EdgeInsets.all(40),
-                          title:Text('IT-Skills'),
-                          content:    SingleChildScrollView(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>ItSkillAdds()));
+                        },
 
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                top: 10,),
-                              child: Padding(
-                                padding: const EdgeInsets.only(bottom: 15),
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 25.0),
-                                        child:  Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: const <Widget>[
-                                                Text(
-                                                  'IT Skills',
-                                                  style: TextStyle(
-                                                      fontSize: 16.0,
-                                                      fontWeight: FontWeight.bold),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        )),
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 2.0),
-                                        child:  Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            Flexible(
-                                                 child: DropdownSearch<ITSkill>(
-                                                validator: (value) {
-                                                  if (value == null) {
-                                                    return "Please Select Your Skill";
-                                                  }
-                                                  return null;
-                                                },
-                                                dropdownSearchDecoration:
-                                                InputDecoration(border: UnderlineInputBorder()),
-                                                mode: Mode.DIALOG,
-                                                items: isLoading
-                                                    ? [ITSkill()]
-                                                    : _apiResponseITSkill.data,
-                                                itemAsString: (ITSkill obj) {
-                                                  return obj.itskillName;
-                                                },
-                                                onFind: (val) async {
-                                                  setState(() {
-                                                    queries = val;
-                                                  });
-                                                  return _apiResponseITSkill.data;
-                                                },
-                                                hint: "Select Skill",
-                                                onChanged: (value) {
-                                                  skillSearchCont.text = value.itskillId.toString();
-                                                  itSkillId = value.itskillId;
-                                                  print(value.itskillId);
-                                                },
-                                                showSearchBox: true,
-                                                popupItemBuilder:
-                                                    (context, ITSkill item, bool isSelected) {
-                                                  return Container(
-                                                    margin: EdgeInsets.symmetric(horizontal: 8),
-                                                    child: Card(
-                                                      child: Padding(
-                                                        padding: EdgeInsets.all(8.0),
-                                                        child: Text(item.itskillName),
-                                                      ),
-                                                    ),
-                                                  );
-                                                },
-                                              ),
-                                            ),
-                                          ],
-                                        )), Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 25.0),
-                                        child:  Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: const <Widget>[
-                                                Text(
-                                                  'Version',
-                                                  style: TextStyle(
-                                                      fontSize: 16.0,
-                                                      fontWeight: FontWeight.bold),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        )),
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 2.0),
-                                        child:  Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            Flexible(
-                                              child:  TextField(
-                                                decoration: const InputDecoration(
-                                                    hintText: "Add Version"),
-
-                                              ),
-                                            ),
-                                          ],
-                                        )),
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 25.0),
-                                        child:  Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: const <Widget>[
-                                                Text(
-                                                  'Experience',
-                                                  style: TextStyle(
-                                                      fontSize: 16.0,
-                                                      fontWeight: FontWeight.bold),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        )),
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 2.0),
-                                        child:  Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            Flexible(
-                                              child:  TextField(
-                                                decoration: const InputDecoration(
-                                                    hintText: "Add Experience"),
-
-                                              ),
-                                            ),
-                                          ],
-                                        )),
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 25.0),
-                                        child:  Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: const <Widget>[
-                                                Text(
-                                                  'Last Used',
-                                                  style: TextStyle(
-                                                      fontSize: 16.0,
-                                                      fontWeight: FontWeight.bold),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        )),
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 2.0),
-                                        child:  Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            Flexible(
-                                              child:  TextField(
-                                                decoration: const InputDecoration(
-                                                    hintText: "Mention Duration"),
-
-                                              ),
-                                            ),
-                                          ],
-                                        )),
-
-
-
-
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          actions: [Padding(
-                            padding: const EdgeInsets.only(right: 20,top: 20,bottom: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                GFButton(
-                                    color: const Color(0xff3e61ed),
-                                    onPressed: () {
-                                      // Navigator.pop(context);
-                                    }, child: const Text("Save",style:TextStyle(
-                                  fontFamily: "ProximaNova",
-                                  fontWeight: FontWeight.bold,
-                                  // letterSpacing: 1.5,
-                                  fontSize: 13.5,
-                                ),)),
-                              ],
-                            ),
-                          )],
-                        )),
-
-                        child: Icon(Icons.edit,color:Color(0xff3e61ed))
+                        child: Icon(Icons.add,color:Color(0xff3e61ed))
                     )
                   ],
                 ),
@@ -2238,14 +2107,18 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                 ),
                               ],
                             )),
-                        Wrap(
-                          children: [
-                            Wrap(
-                              spacing: 8.0, // gap between adjacent chips
-                              runSpacing: 4.0,
-                              children:    getItSkills(),
-                            ),
-                          ],
+                        // Wrap(
+                        //   children: [
+                        //     Wrap(
+                        //       spacing: 8.0, // gap between adjacent chips
+                        //       runSpacing: 4.0,
+                        //       children:    getItSkills(),
+                        //     ),
+                        //   ],
+                        // ),
+                        Padding(
+                          padding: const EdgeInsets.only(left:15,right:15,top: 10),
+                          child: ItSkillGrid(context),
                         ),
                         // ListView.builder( itemCount: _apiResponse.data.length, itemBuilder: (context, index){
                         //   return   Padding(
@@ -2260,101 +2133,101 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                         //         ],
                         //       ));
                         // }),
-
-                        Padding(
-                            padding: const EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 25.0),
-                            child:  Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: const <Widget>[
-                                    Text(
-                                      "Version :",
-                                      style: TextStyle(
-                                        fontSize: 14.0,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            )),
-                        Padding(
-                            padding: const EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 5.0),
-                            child:  Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                Flexible(
-                                    child:  Text('2 ',style:TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0))
-                                ),
-                              ],
-                            )),
-
-                        Padding(
-                            padding: const EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 25.0),
-                            child:  Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: const <Widget>[
-                                    Text(
-                                      'Experience : ',
-                                      style: TextStyle(
-                                        fontSize: 14.0,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            )),
-                        Padding(
-                            padding: const EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 5.0),
-                            child:  Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                Flexible(
-                                    child:  Text('3 years 4 months ',style:TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0))
-                                ),
-                              ],
-                            )),
-                        Padding(
-                            padding: const EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 25.0),
-                            child:  Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: const <Widget>[
-                                    Text(
-                                      'Last Used :',
-                                      style: TextStyle(
-                                        fontSize: 14.0,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            )),
-                        Padding(
-                            padding: const EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 5.0),
-                            child:  Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                Flexible(
-                                    child: Text('2021',style:TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0))
-                                ),
-                              ],
-                            )),
+                        //
+                        // Padding(
+                        //     padding: const EdgeInsets.only(
+                        //         left: 25.0, right: 25.0, top: 25.0),
+                        //     child:  Row(
+                        //       mainAxisSize: MainAxisSize.max,
+                        //       children: <Widget>[
+                        //         Column(
+                        //           mainAxisAlignment: MainAxisAlignment.start,
+                        //           mainAxisSize: MainAxisSize.min,
+                        //           children: const <Widget>[
+                        //             Text(
+                        //               "Version :",
+                        //               style: TextStyle(
+                        //                 fontSize: 14.0,
+                        //               ),
+                        //             ),
+                        //           ],
+                        //         ),
+                        //       ],
+                        //     )),
+                        // Padding(
+                        //     padding: const EdgeInsets.only(
+                        //         left: 25.0, right: 25.0, top: 5.0),
+                        //     child:  Row(
+                        //       mainAxisSize: MainAxisSize.max,
+                        //       children: <Widget>[
+                        //         Flexible(
+                        //             child:  Text('2 ',style:TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0))
+                        //         ),
+                        //       ],
+                        //     )),
+                        //
+                        // Padding(
+                        //     padding: const EdgeInsets.only(
+                        //         left: 25.0, right: 25.0, top: 25.0),
+                        //     child:  Row(
+                        //       mainAxisSize: MainAxisSize.max,
+                        //       children: <Widget>[
+                        //         Column(
+                        //           mainAxisAlignment: MainAxisAlignment.start,
+                        //           mainAxisSize: MainAxisSize.min,
+                        //           children: const <Widget>[
+                        //             Text(
+                        //               'Experience : ',
+                        //               style: TextStyle(
+                        //                 fontSize: 14.0,
+                        //               ),
+                        //             ),
+                        //           ],
+                        //         ),
+                        //       ],
+                        //     )),
+                        // Padding(
+                        //     padding: const EdgeInsets.only(
+                        //         left: 25.0, right: 25.0, top: 5.0),
+                        //     child:  Row(
+                        //       mainAxisSize: MainAxisSize.max,
+                        //       children: <Widget>[
+                        //         Flexible(
+                        //             child:  Text('3 years 4 months ',style:TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0))
+                        //         ),
+                        //       ],
+                        //     )),
+                        // Padding(
+                        //     padding: const EdgeInsets.only(
+                        //         left: 25.0, right: 25.0, top: 25.0),
+                        //     child:  Row(
+                        //       mainAxisSize: MainAxisSize.max,
+                        //       children: <Widget>[
+                        //         Column(
+                        //           mainAxisAlignment: MainAxisAlignment.start,
+                        //           mainAxisSize: MainAxisSize.min,
+                        //           children: const <Widget>[
+                        //             Text(
+                        //               'Last Used :',
+                        //               style: TextStyle(
+                        //                 fontSize: 14.0,
+                        //               ),
+                        //             ),
+                        //           ],
+                        //         ),
+                        //       ],
+                        //     )),
+                        // Padding(
+                        //     padding: const EdgeInsets.only(
+                        //         left: 25.0, right: 25.0, top: 5.0),
+                        //     child:  Row(
+                        //       mainAxisSize: MainAxisSize.max,
+                        //       children: <Widget>[
+                        //         Flexible(
+                        //             child: Text('2021',style:TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0))
+                        //         ),
+                        //       ],
+                        //     )),
 
 
 
@@ -3885,6 +3758,97 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
           ),
         ),
       ),
+    );
+
+  }
+  Widget ItSkillGrid (BuildContext context){
+    final orientation = MediaQuery.of(context).orientation;
+    return GridView.builder(
+
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+
+      itemCount: _apiResponse.data.length,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          childAspectRatio:(1/.43),
+          crossAxisSpacing: 5,
+          mainAxisSpacing: 6,
+          crossAxisCount: (orientation == Orientation.portrait) ? 2 : 3),
+      itemBuilder: (BuildContext context, int index) {
+        return
+            Container(
+                padding: EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6),
+                    border: Border.all(color: Color(0xff3e61ed))
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(_apiResponse.data[index].itskillName,style: TextStyle(
+                          fontFamily: "ProximaNova",
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.5,
+                          fontSize: 15.0,
+                        ),),
+
+                        Icon(Icons.edit_outlined,color: KColors.primary),
+
+                      ],),
+
+
+                    Text(_apiResponse.data[index].candidateitskillExperience,
+                      style: TextStyle(
+                        fontFamily: "ProximaNova",
+                        color: Colors.grey,
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: 1.5,
+                        fontSize: 10.5,
+                      ),),
+
+
+
+                    RichText(text: TextSpan(text:"Last Used:",style: TextStyle(
+                      fontFamily: "ProximaNova",
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 1.5,
+                      fontSize: 12.5,
+                    ),
+                        children: [
+
+                          TextSpan(text: _apiResponse.data[index].candidateitskillLastused.toString(), style: TextStyle(
+                            fontFamily: "ProximaNova",
+                            color: Colors.grey,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 1.5,
+                            fontSize: 14.5,
+                          ),),
+                        ]),),
+
+                    RichText(text: TextSpan(text:"Version:",style: TextStyle(
+                      fontFamily: "ProximaNova",
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 1.5,
+                      fontSize: 12.5,
+                    ),
+                        children: [
+
+                          TextSpan(text: _apiResponse.data[index].itSkillVersion.toString(), style: TextStyle(
+                            fontFamily: "ProximaNova",
+                            color: Colors.grey,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 1.5,
+                            fontSize: 14.5,
+                          ),),
+                        ]),),
+
+                  ],
+                ));
+
+      },
     );
   }
 
