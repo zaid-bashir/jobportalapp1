@@ -173,7 +173,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                     ),
                         children: [
 
-                          TextSpan(text: e.itSkillVersion.toString(), style: TextStyle(
+                          TextSpan(text: e.candidateitskillVersion.toString(), style: TextStyle(
                             fontFamily: "ProximaNova",
                             color: Colors.grey,
                             fontWeight: FontWeight.w500,
@@ -3836,7 +3836,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                     ),
                         children: [
 
-                          TextSpan(text: _apiResponse.data[index].itSkillVersion.toString(), style: TextStyle(
+                          TextSpan(text: _apiResponse.data[index].candidateitskillVersion.toString(), style: TextStyle(
                             fontFamily: "ProximaNova",
                             color: Colors.grey,
                             fontWeight: FontWeight.w500,

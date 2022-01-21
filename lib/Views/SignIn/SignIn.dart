@@ -8,7 +8,6 @@ import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Views/Candidate/BottomNavbar.dart';
 import 'package:job_portal/Views/SignIn/Step1-Otp.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:job_portal/Views/SignIn/Step2-BasicDetails.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 
@@ -258,7 +257,7 @@ class _LoginPageState extends State<LoginPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => BasicDetails()));
+                                  builder: (context) => Navbar()));
                         },
                         child: Text(
                           'Register',
