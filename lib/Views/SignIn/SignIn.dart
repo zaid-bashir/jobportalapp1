@@ -22,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
 
   bool isLoading = false;
   ApiServices apiServices = ApiServices();
-  ApiResponse<Map<String, dynamic>> apiResponse;
+  ApiResponse<String> apiResponse;
 
   var formKey = GlobalKey<FormState>();
 
@@ -200,32 +200,32 @@ class _LoginPageState extends State<LoginPage> {
                     child: GFButton(
                       color: Color(0xff3e61ed),
                       onPressed: () async {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Navbar(),),);
-                        // if (formKey.currentState.validate()) {
-                        //   print(usernameCont.text);
-                        //   print(passwordCont.text);
-                        //   fetchAuth(usernameCont.text, passwordCont.text);
-                        //   AwesomeDialog(
-                        //         context: context,
-                        //         animType: AnimType.SCALE,
-                        //         dialogType: DialogType.SUCCES,
-                        //         title: 'JobPortalApp',
-                        //         desc: 'Successfully Logged In...',
-                        //         btnOkOnPress: () {
-                        //           Navigator.push(
-                        //               context,
-                        //               MaterialPageRoute(
-                        //                   builder: (context) => Navbar(payLoadData: apiResponse.data,)));
-                        //         }).show();
-                        // } else {
-                        //   AwesomeDialog(
-                        //     context: context,
-                        //     animType: AnimType.SCALE,
-                        //     dialogType: DialogType.ERROR,
-                        //     title: 'JobPortalApp',
-                        //     desc: 'Please enter your correct credentials',
-                        //   ).show();
-                        // }
+                        // Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Navbar(),),);
+                        if (formKey.currentState.validate()) {
+                          print(usernameCont.text);
+                          print(passwordCont.text);
+                          fetchAuth(usernameCont.text, passwordCont.text);
+                          AwesomeDialog(
+                                context: context,
+                                animType: AnimType.SCALE,
+                                dialogType: DialogType.SUCCES,
+                                title: 'JobPortalApp',
+                                desc: 'Successfully Logged In...',
+                                btnOkOnPress: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Navbar(jwtToken: apiResponse.data,)));
+                                }).show();
+                        } else {
+                          AwesomeDialog(
+                            context: context,
+                            animType: AnimType.SCALE,
+                            dialogType: DialogType.ERROR,
+                            title: 'JobPortalApp',
+                            desc: 'Please enter your correct credentials',
+                          ).show();
+                        }
                       },
                       text: "Login",
                       textStyle: TextStyle(

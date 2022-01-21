@@ -828,28 +828,24 @@ class ApiServices {
 
   
   // service for login through base64
-  Future<ApiResponse<Map<String,dynamic>>> login({String username, String password}) async {
+  Future<ApiResponse<String>> login({String username, String password}) async {
     log.i(username);
     log.i(password);
-    String basicAuth =
-        'Basic ' + base64Encode(utf8.encode('$username:$password'));
-    log.i(basicAuth);
     http.Response response;
     try{
-      response = await http.get(Uri.parse(ApiUrls.kLogin),headers: <String, String>{'Authorization': basicAuth});
+      response = await http.get(Uri.parse(ApiUrls.kLogin),);
     }catch(e){
       print(e.toString());
     }
     log.i("Printing Response Here.....");
     print(response.body);
     print(response.statusCode);
-    Map<String,dynamic> jsonData = jsonDecode(response.body);
+    String jsonData = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      key = basicAuth;
       print("Successfully Logged In...");
-      return ApiResponse<Map<String,dynamic>>(data: jsonData);
+      return ApiResponse<String>(data: jsonData);
     }
-    return ApiResponse<Map<String,dynamic>>(error: true, errorMessage: "An error occurred");
+    return ApiResponse<String>(error: true, errorMessage: "An error occurred");
   }
     Future<ApiResponse<Map<String,String>>> keySkillAddProfile(KeySkillAdd obj) async {
     final url = Uri.parse(ApiUrls.kKeySkillAddProfile);

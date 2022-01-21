@@ -13,8 +13,8 @@ import 'Notification.dart';
 
 
 class Navbar extends StatelessWidget {
-  Navbar({Key key,this.payLoadData}) : super(key: key);
-  Map<String,dynamic> payLoadData;
+  Navbar({Key key,this.jwtToken}) : super(key: key);
+  String jwtToken;
   @override
   Widget build(BuildContext context) {
     return
@@ -32,7 +32,7 @@ class Navbar extends StatelessWidget {
             primaryColorLight: const Color(0xFFFBE0E6),
             accentColor:const Color(0xff3e61ed),
           ),
-          home: Navlist(payLoadData: payLoadData,),
+          home: Navlist(jwtToken: jwtToken,),
         ),
      );
 
@@ -40,8 +40,8 @@ class Navbar extends StatelessWidget {
 }
 
 class Navlist extends StatefulWidget {
-  Navlist({Key key,this.payLoadData}) : super(key: key);
-  Map<String,dynamic> payLoadData;
+  Navlist({Key key,this.jwtToken}) : super(key: key);
+  String jwtToken;
   @override
   _NavlistState createState() => _NavlistState();
 }
@@ -69,7 +69,7 @@ class _NavlistState extends State<Navlist>
     return Scaffold(
       body: TabBarView(
         children: <Widget>[
-          HomePage(payLoadData: widget.payLoadData,),
+          HomePage(jwtToken: widget.jwtToken,),
           Notify(),
           UploadPost(),
           JobsList(),
