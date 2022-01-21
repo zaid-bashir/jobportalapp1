@@ -11,6 +11,7 @@ import 'package:job_portal/Models/GetIndustry.dart';
 import 'package:job_portal/Models/GetJobList.dart';
 import 'package:job_portal/Models/GetMarital.dart';
 import 'package:job_portal/Models/InstituteQualified.dart';
+import 'package:job_portal/Models/ItSkillAdd.dart';
 import 'package:job_portal/Models/ItSkillRetrive.dart';
 import 'package:job_portal/Models/ItSkills.dart';
 import 'package:job_portal/Models/ItSkillsPost.dart';
@@ -850,8 +851,6 @@ class ApiServices {
     }
     return ApiResponse<Map<String,dynamic>>(error: true, errorMessage: "An error occurred");
   }
-
-    // service for KeySkillAdd
     Future<ApiResponse<Map<String,String>>> keySkillAddProfile(KeySkillAdd obj) async {
     final url = Uri.parse(ApiUrls.kKeySkillAddProfile);
     final headers = {
@@ -887,5 +886,19 @@ class ApiServices {
         error: true,
         errorMessage: "Error Occured");
   }
+  Future<ApiResponse<bool>> itSkillAdd(ItSkillAdd skillAdd) async {
+    final url = Uri.parse(ApiUrls.kItSkillAdd);
+    final headers = {
+      "Content-Type": "application/json",
+    };
+    final jsonData = jsonEncode(skillAdd);
 
+    final response = await http.post(url, headers: headers, body: jsonData);
+    log.i(response.body);
+    log.i(response.statusCode);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return ApiResponse<bool>(data: true);
+    }
+    return ApiResponse<bool>(error: true, errorMessage: "An Error Occurred");
+  }
 }

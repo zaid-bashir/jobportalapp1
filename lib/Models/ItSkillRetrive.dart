@@ -1,17 +1,20 @@
 class ItSkillProfile {
-  String requestType;
-  int candidateId;
-  int itskillId;
-  String itkillName;
+  int candidateitskillItskillId;
+   int candidateitskillVersion;
+   int candidateitskillLastused;
+   String candidateitskillExperience;
+   String itskillName;
 
-  ItSkillProfile({this.requestType,this.candidateId,this.itskillId,this.itkillName});
+  ItSkillProfile({this.candidateitskillItskillId,this.candidateitskillVersion,this.candidateitskillLastused,this.candidateitskillExperience,
+    this.itskillName});
 
   factory ItSkillProfile.fromJson(Map<String,dynamic> item){
     return ItSkillProfile(
-      requestType: item["requestType"],
-      candidateId: item["candidateId"],
-      itskillId: item["itskillId"],
-      itkillName: item["itkillName"],
+      candidateitskillItskillId: item["candidateitskillItskillId"],
+      candidateitskillVersion: item["candidateitskillVersion"],
+      candidateitskillLastused: item["candidateitskillLastused"],
+      candidateitskillExperience: item["candidateitskillExperience"],
+      itskillName: item["itskillName"],
     );
   }
 }
