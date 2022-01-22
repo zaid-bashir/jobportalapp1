@@ -9,7 +9,7 @@ import 'package:job_portal/Theme/colors.dart';
 import 'package:job_portal/Theme/images.dart';
 import 'package:job_portal/Views/Candidate/Sidebar.dart';
 import 'package:job_portal/Others/bluecollar.dart';
-import 'package:job_portal/Views/SignIn/Bar.dart';
+import 'package:job_portal/Charts/Bar.dart';
 import 'package:provider/provider.dart';
 
 import 'JobApply.dart';
