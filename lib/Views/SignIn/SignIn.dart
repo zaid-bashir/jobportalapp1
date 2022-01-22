@@ -22,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
 
   bool isLoading = false;
   ApiServices apiServices = ApiServices();
-  ApiResponse<Map<String, dynamic>> apiResponse;
+  ApiResponse<String> apiResponse;
 
   var formKey = GlobalKey<FormState>();
 
@@ -200,6 +200,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: GFButton(
                       color: Color(0xff3e61ed),
                       onPressed: () async {
+                        // Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Navbar(),),);
                         if (formKey.currentState.validate()) {
                           print(usernameCont.text);
                           print(passwordCont.text);
@@ -214,7 +215,7 @@ class _LoginPageState extends State<LoginPage> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => Navbar()));
+                                          builder: (context) => Navbar(jwtToken: apiResponse.data,)));
                                 }).show();
                         } else {
                           AwesomeDialog(

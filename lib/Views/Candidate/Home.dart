@@ -17,8 +17,8 @@ import 'Inbox.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class HomePage extends StatelessWidget {
-  HomePage({Key key,this.payLoadData}) : super(key: key);
-  Map<String,dynamic> payLoadData;
+  HomePage({Key key,this.jwtToken}) : super(key: key);
+  String jwtToken;
   Widget _appBar(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
@@ -155,9 +155,19 @@ class HomePage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Hello Isra",
-              style: TextStyle(
+          Text("Hello Zaid Bashir",
+              style: const TextStyle(
                 fontSize: 15,
+                fontFamily: "ProximaNova",
+                color: KColors.subtitle,
+                fontWeight: FontWeight.w900,
+              )),
+          const SizedBox(
+            height: 6,
+          ),
+              Text("zaidbashir@clusttech.com",
+              style: const TextStyle(
+                fontSize: 12,
                 fontFamily: "ProximaNova",
                 color: KColors.subtitle,
                 fontWeight: FontWeight.w500,
@@ -677,8 +687,10 @@ class HomePage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      "Isra Riaz",
+                     // ignore: prefer_const_constructors
+                     Text(
+                      "Hello Zaid Bashir",
+                      // ignore: prefer_const_constructors
                       style: TextStyle(
                           fontSize: 20,
                           fontFamily: "ProximaNova",
@@ -966,6 +978,7 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
+
 
   @override
   Widget build(BuildContext context) {

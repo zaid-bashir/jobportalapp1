@@ -36,14 +36,8 @@ class ApiUrls{
   static String kGetItSkill =  "http://192.168.0.20:9030/jobportal-app/profile/itskill-list";
   static String kBasicDetails =  "http://192.168.0.20:9030/jobportal-app/candidate/candidate-overview";
   static String kLogin = "http://192.168.0.20:9030/jobportal-app/candidate/candidate-overview";
-  static String kItSkillAdd = "http://192.168.0.20:7038/jobportal-app/profile/itskill";
-
-
-
-
-
-
-
-
+  static String kKeySkillAddProfile = "http://192.168.0.20:9030/jobportal-app/profile/keyskill";
+  static String kgetKeySkillsProfile = "http://192.168.0.20:9030/jobportal-app/profile/keyskill-list";
+  static String kItSkillAdd = "http://192.168.0.20:9030/jobportal-app/profile/itskill";
 
 }

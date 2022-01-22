@@ -38,7 +38,7 @@ import 'package:job_portal/Models/location.dart';
 import 'package:job_portal/Models/postkeyskills.dart';
 import 'package:job_portal/Models/qualification-post.dart';
 import 'package:job_portal/Utility/apiurls.dart';
-import 'package:job_portal/Charts/listView-EmploymentType.dart';
+import 'package:job_portal/Views/SignIn/listView-EmploymentType.dart';
 import 'package:logger/logger.dart';
 
 class ApiServices {

@@ -1,13 +1,13 @@
 import 'package:date_field/date_field.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
-import 'package:job_portal/Models/CareerPreference-post.dart';
+import 'package:job_portal/Models/CareerPreferencePost.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/GetIndustry.dart';
 import 'package:job_portal/Models/GetShift.dart';
 import 'package:job_portal/Models/JobType.dart';
-import 'package:job_portal/Models/location.dart';
+import 'package:job_portal/Models/Location.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:job_portal/Charts/ListView-Job-Type.dart';

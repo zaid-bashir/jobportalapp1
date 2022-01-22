@@ -8,10 +8,10 @@ import 'package:job_portal/Models/Country.dart';
 import 'package:job_portal/Models/GetCategory.dart';
 import 'package:job_portal/Models/GetMarital.dart';
 import 'package:job_portal/Models/Nationality.dart';
-import 'package:job_portal/Models/PersonalDetails-post.dart';
+import 'package:job_portal/Models/PersonalDetailsPost.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Views/Candidate/BottomNavbar.dart';
-import 'package:job_portal/Models/location.dart';
+import 'package:job_portal/Models/Location.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class PersonalDetails extends StatefulWidget {

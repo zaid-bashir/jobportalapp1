@@ -12,7 +12,7 @@ import 'package:job_portal/Models/InstituteQualified.dart';
 import 'package:job_portal/Models/PassingYear.dart';
 import 'package:job_portal/Models/QualificationDetails.dart';
 import 'package:job_portal/Models/Stream.dart';
-import 'package:job_portal/Models/qualification-post.dart';
+import 'package:job_portal/Models/QualificationPost.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Views/SignIn/Step4-ProfessionalDetails.dart';
 import 'package:job_portal/Views/SignIn/Step5-KeySkills.dart';
