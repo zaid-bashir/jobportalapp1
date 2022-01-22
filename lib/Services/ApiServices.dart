@@ -18,6 +18,7 @@ import 'package:job_portal/Models/ItSkillsPost.dart';
 import 'package:job_portal/Models/CareerPreferencePost.dart';
 import 'package:job_portal/Models/JobType.dart';
 import 'package:job_portal/Models/KeySkillAdd.dart';
+import 'package:job_portal/Models/Login.dart';
 import 'package:job_portal/Models/PopulateKeySkillProfileModel.dart';
 import 'package:job_portal/Models/Nationality.dart';
 import 'package:job_portal/Models/PersonalDetailsPost.dart';
@@ -827,23 +828,26 @@ class ApiServices {
   }
 
   
-  // service for login through base64
-  Future<ApiResponse<String>> login({String username, String password}) async {
-    log.i(username);
-    log.i(password);
-    http.Response response;
-    try{
-      response = await http.get(Uri.parse(ApiUrls.kLogin),);
-    }catch(e){
-      print(e.toString());
-    }
+  // service for login through JWT
+  Future<ApiResponse<String>> login({Login obj}) async {
+    log.i(obj.candidateEmail1);
+    log.i(obj.candidatePassword);
+    final headers = {
+      "Content-Type": "application/json",
+    };
+    final jsonData = jsonEncode(obj);
+    var response = await http.post(Uri.parse(ApiUrls.kLogin),headers: headers,body: jsonData);
     log.i("Printing Response Here.....");
     print(response.body);
     print(response.statusCode);
-    String jsonData = jsonDecode(response.body);
+    String data = response.body;
+    if (response.statusCode == 401) {
+      print("Invalid User 401 Unauthorised...");
+      return ApiResponse<String>(data: "true");
+    }
     if (response.statusCode == 200) {
       print("Successfully Logged In...");
-      return ApiResponse<String>(data: jsonData);
+      return ApiResponse<String>(data: data);
     }
     return ApiResponse<String>(error: true, errorMessage: "An error occurred");
   }

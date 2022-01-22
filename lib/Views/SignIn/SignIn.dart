@@ -4,6 +4,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/button/gf_button.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
+import 'package:job_portal/Models/Login.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Views/Candidate/BottomNavbar.dart';
 import 'package:job_portal/Views/SignIn/Step1-Otp.dart';
@@ -19,7 +20,6 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool hasInternet = false;
-
   bool isLoading = false;
   ApiServices apiServices = ApiServices();
   ApiResponse<String> apiResponse;
@@ -31,12 +31,12 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
   }
 
-  fetchAuth(String username, String password) async {
+  fetchAuth({String username, String password}) async {
     setState(() {
       isLoading = true;
     });
     apiResponse =
-        await apiServices.login(username: username, password: password);
+        await apiServices.login(obj: Login(candidateEmail1: username,candidatePassword: password));
     setState(() {
       isLoading = false;
     });
@@ -200,23 +200,34 @@ class _LoginPageState extends State<LoginPage> {
                     child: GFButton(
                       color: Color(0xff3e61ed),
                       onPressed: () async {
-                        // Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Navbar(),),);
                         if (formKey.currentState.validate()) {
                           print(usernameCont.text);
                           print(passwordCont.text);
-                          fetchAuth(usernameCont.text, passwordCont.text);
-                          AwesomeDialog(
-                                context: context,
-                                animType: AnimType.SCALE,
-                                dialogType: DialogType.SUCCES,
-                                title: 'JobPortalApp',
-                                desc: 'Successfully Logged In...',
-                                btnOkOnPress: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Navbar(jwtToken: apiResponse.data,)));
-                                }).show();
+                          fetchAuth(username: usernameCont.text,password: passwordCont.text);
+                          print("Response Data : ${apiResponse.data}");
+                          String val = "true";
+                          bool b = val.toLowerCase() == apiResponse.data;
+                          print(b);
+                          if(b){
+                            AwesomeDialog(
+                            context: context,
+                            animType: AnimType.SCALE,
+                            dialogType: DialogType.ERROR,
+                            title: 'JobPortalApp',
+                            desc: 'Invalid User,Please enter your correct credentials',
+                          ).show();
+                          }else{
+                            AwesomeDialog(
+                            context: context,
+                            animType: AnimType.SCALE,
+                            dialogType: DialogType.SUCCES,
+                            title: 'JobPortalApp',
+                            desc: 'Successfully Logged In...',
+                            btnOkOnPress: (){
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Navbar(),),);
+                            },
+                          ).show();
+                          }
                         } else {
                           AwesomeDialog(
                             context: context,
@@ -258,7 +269,7 @@ class _LoginPageState extends State<LoginPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Navbar()));
+                                  builder: (context) => OTP()));
                         },
                         child: Text(
                           'Register',
