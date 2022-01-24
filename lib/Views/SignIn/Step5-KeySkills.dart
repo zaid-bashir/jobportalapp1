@@ -1,13 +1,11 @@
 
 
-// ignore_for_file: must_be_immutable, prefer_const_constructors
-
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
-import 'package:job_portal/Models/KeySkill.dart';
-import 'package:job_portal/Models/PostkeySkills.dart';
+import 'package:job_portal/Models/keyskill.dart';
+import 'package:job_portal/Models/postkeyskills.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Views/SignIn/Step6-ItSkills.dart';
 
@@ -107,6 +105,49 @@ class _KeySkillsPageState extends State<KeySkillsPage> {
                       key: formKey,
                       child: Column(
                         children: [
+                          // isSelected == true
+                          //     ? Padding(
+                          //         padding: const EdgeInsets.all(5),
+                          //         child: Padding(
+                          //           padding: const EdgeInsets.all(8.0),
+                          //           child: Wrap(
+                          //             direction: Axis.horizontal,
+                          //             alignment: WrapAlignment.start,
+                          //             spacing: 05,
+                          //             children: selectedSkills.map((e) {
+                          //               return Container(
+                          //                 decoration: BoxDecoration(
+                          //                     borderRadius:
+                          //                         BorderRadius.circular(20),
+                          //                     color: Colors.black),
+                          //                 child: Chip(
+                          //                   // disabledColor: Colors.black,
+                          //                   // selectedColor: Colors.blue[400],
+                          //                   backgroundColor: Colors.white,
+                          //                   labelPadding: EdgeInsets.all(5),
+                          //                   labelStyle: TextStyle(
+                          //                       color: Colors.black,
+                          //                       fontSize: 12),
+                          //                   label: Text(e.keyskillName),
+                          //                   // selected: true,
+                          //                   avatar: Icon(Iconsax.tick_circle),
+                          //                 ),
+                          //               );
+                          //             }).toList(),
+                          //           ),
+                          //         ),
+                          //       )
+                          //     : Padding(
+                          //         padding: const EdgeInsets.all(8.0),
+                          //         child: Center(
+                          //           child: Text(
+                          //             "No Skills Selected",
+                          //             style: TextStyle(
+                          //                 fontSize: 18,
+                          //                 fontWeight: FontWeight.w900),
+                          //           ),
+                          //         ),
+                          //       ),
                           Card(
                             elevation: 5,
                             child: Padding(

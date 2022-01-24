@@ -9,7 +9,7 @@ import 'package:job_portal/Theme/colors.dart';
 import 'package:job_portal/Theme/images.dart';
 import 'package:job_portal/Views/Candidate/Sidebar.dart';
 import 'package:job_portal/Others/bluecollar.dart';
-import 'package:job_portal/Charts/Bar.dart';
+import 'package:job_portal/Views/SignIn/Bar.dart';
 import 'package:provider/provider.dart';
 
 import 'JobApply.dart';
@@ -17,8 +17,8 @@ import 'Inbox.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class HomePage extends StatelessWidget {
-  HomePage({Key key,this.jwtToken}) : super(key: key);
-  String jwtToken;
+  HomePage({Key key,this.payLoadData}) : super(key: key);
+  Map<String,dynamic> payLoadData;
   Widget _appBar(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
@@ -155,19 +155,9 @@ class HomePage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Hello Zaid Bashir",
-              style: const TextStyle(
+          Text("Hello Isra",
+              style: TextStyle(
                 fontSize: 15,
-                fontFamily: "ProximaNova",
-                color: KColors.subtitle,
-                fontWeight: FontWeight.w900,
-              )),
-          const SizedBox(
-            height: 6,
-          ),
-              Text("zaidbashir@clusttech.com",
-              style: const TextStyle(
-                fontSize: 12,
                 fontFamily: "ProximaNova",
                 color: KColors.subtitle,
                 fontWeight: FontWeight.w500,
@@ -687,10 +677,8 @@ class HomePage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                     // ignore: prefer_const_constructors
-                     Text(
-                      "Hello Zaid Bashir",
-                      // ignore: prefer_const_constructors
+                    const Text(
+                      "Isra Riaz",
                       style: TextStyle(
                           fontSize: 20,
                           fontFamily: "ProximaNova",
@@ -978,7 +966,6 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
-
 
   @override
   Widget build(BuildContext context) {

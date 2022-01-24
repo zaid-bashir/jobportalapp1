@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, deprecated_member_use, prefer_const_constructors
+// ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:job_portal/Controllers/menucontroller.dart';
@@ -13,8 +13,8 @@ import 'Notification.dart';
 
 
 class Navbar extends StatelessWidget {
-  Navbar({Key key,this.jwtToken}) : super(key: key);
-  String jwtToken;
+  Navbar({Key key,this.payLoadData}) : super(key: key);
+  Map<String,dynamic> payLoadData;
   @override
   Widget build(BuildContext context) {
     return
@@ -29,10 +29,13 @@ class Navbar extends StatelessWidget {
           title: 'Flutter Demo',
 
           theme: ThemeData(
+            // primaryColor: Color(0xFFC41A3B),
+            // primaryColorDark:  Color(0xFFC41A3B),
             primaryColorLight: const Color(0xFFFBE0E6),
+            // accentColor: const Color(0xFFC41A3B),
             accentColor:const Color(0xff3e61ed),
           ),
-          home: Navlist(jwtToken: jwtToken,),
+          home: Navlist(payLoadData: payLoadData,),
         ),
      );
 
@@ -40,8 +43,8 @@ class Navbar extends StatelessWidget {
 }
 
 class Navlist extends StatefulWidget {
-  Navlist({Key key,this.jwtToken}) : super(key: key);
-  String jwtToken;
+  Navlist({Key key,this.payLoadData}) : super(key: key);
+  Map<String,dynamic> payLoadData;
   @override
   _NavlistState createState() => _NavlistState();
 }
@@ -67,9 +70,13 @@ class _NavlistState extends State<Navlist>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // appBar: AppBar(
+      //   title: Text(title),
+      //   centerTitle: true,
+      // ),
       body: TabBarView(
         children: <Widget>[
-          HomePage(jwtToken: widget.jwtToken,),
+          HomePage(payLoadData: widget.payLoadData,),
           Notify(),
           UploadPost(),
           JobsList(),

@@ -203,17 +203,17 @@ class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
             padding: const EdgeInsets.only(left: 20, top: 10),
             child: Row(
               children: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  icon: const Icon(Icons.arrow_back),
-                ),
+                // IconButton(
+                //   onPressed: () {
+                //     Navigator.of(context).pop();
+                //   },
+                //   icon: const Icon(Icons.arrow_back),
+                // ),
                 const SizedBox(
                   width: 10,
                 ),
                 const Text(
-                  "Register New Account",
+                  "Basic Information",
                   style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -709,73 +709,121 @@ class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
                         ),
                       ),
                     ),
-
                     const SizedBox(
-                      height: 50,
+                      height: 20,
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Text(
+                        "Current Location:",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "ProximaNova"),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: DropdownSearch<CurrentLocation>(
+                        dropdownSearchDecoration: InputDecoration(
+                            border: UnderlineInputBorder(
+                            )
+                        ),
+                        autoValidateMode: AutovalidateMode.onUserInteraction,
+                        validator: (value) {
+                          if (value == null) {
+                            return "Please Select Current Location";
+                          }
+                          return null;
+                        },
+                        mode: Mode.DIALOG,
+                        items: isLoadingCurrentLocation
+                            ? [CurrentLocation()]
+                            : _apiResponseCurrentLocation.data,
+                        itemAsString: (CurrentLocation obj) {
+                          return obj.cityName;
+                        },
+                        onFind: (val) async {
+                          setState(() {
+                            query = val;
+                          });
+                          return _apiResponseCurrentLocation.data;
+                        },
+                        hint: "Select City",
+                        onChanged: (value) {
+                          jobCategorySearchCon.text = value.cityName.toString();
+                          cityID = value.cityId;
+                          print(value.cityId);
+                        },
+                        showSearchBox: true,
+                        popupItemBuilder:
+                            (context, CurrentLocation item, bool isSelected) {
+                          return Container(
+                            margin: EdgeInsets.symmetric(horizontal: 8),
+                            child: Card(
+                              child: Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text(item.cityName),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 40,
                     ),
                   ],
                 ),
               ),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              GFButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                text: "Cancel",
-                type: GFButtonType.solid,
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: GFButton(
-                    text: "Save",
-                    type: GFButtonType.solid,
-                    blockButton: false,
-                    onPressed: () async {
-                      // if (_fbKey.currentState.saveAndValidate()) {
-                      final insert = BasicDetialModel(
-                        candidateTitleId: int.parse(selectedUser.titleId),
-                        candidateMobile1: widget.mobileNo,
-                        candidateFirstName: fnameController.text,
-                        candidateMiddleName: mnameController.text,
-                        candidateLastName: lnameController.text,
-                        candidateEmail1: emailController.text,
-                        candidateName: fnameController.text +
-                            " " +
-                            mnameController.text +
-                            " " +
-                            lnameController.text,
-                        candidateGenderId: genderRadioId,
-                        candidateTotalworkexp:
-                        experienceRadioId == 2 ? totalExp : totalWorkExp(),
-                        candidateJobroleId: int.parse(jobRoleID),
-                        candidateCityId: int.parse(cityID),
-                      );
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: GFButton(
+                  text: "Save",
+                  type: GFButtonType.solid,
+                  blockButton: false,
+                  onPressed: () async {
+                    // if (_fbKey.currentState.saveAndValidate()) {
+                    final insert = BasicDetialModel(
+                      candidateTitleId: int.parse(selectedUser.titleId),
+                      candidateMobile1: widget.mobileNo,
+                      candidateFirstName: fnameController.text,
+                      candidateMiddleName: mnameController.text,
+                      candidateLastName: lnameController.text,
+                      candidateEmail1: emailController.text,
+                      candidateName: fnameController.text +
+                          " " +
+                          mnameController.text +
+                          " " +
+                          lnameController.text,
+                      candidateGenderId: genderRadioId,
+                      candidateTotalworkexp:
+                      experienceRadioId == 2 ? totalExp : totalWorkExp(),
+                      candidateJobroleId: int.parse(jobRoleID),
+                      candidateCityId: int.parse(cityID),
+                    );
 
-                      final result = await apiServices.postBasicDetials(insert);
-                      print("#######################");
-                      response = result.data;
-                      print(response);
-                      print("#######################");
-                      if(response['errors']){
-                        print(response['errors'].toString());
-                      }else{
-                        return;
-                      }
-                      storeDataToSharedPref();
-                    Navigator.of(context).pop();
+                    final result = await apiServices.postBasicDetials(insert);
+                    print("#######################");
+                    response = result.data;
+                    print(response);
+                    print("#######################");
+                    if(response['errors']){
+                      print(response['errors'].toString());
+                    }else{
+                      return;
+                    }
+                    storeDataToSharedPref();
 
-
-                      // }
-                    }),
-              ),
-            ],
+                         Navigator.of(context).pop();
+                    // }
+                  }),
+            ),
           ),
           const SizedBox(
             height: 40,
