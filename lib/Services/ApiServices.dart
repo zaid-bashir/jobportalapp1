@@ -17,10 +17,12 @@ import 'package:job_portal/Models/ItSkills.dart';
 import 'package:job_portal/Models/ItSkillsPost.dart';
 import 'package:job_portal/Models/CareerPreference-post.dart';
 import 'package:job_portal/Models/JobType.dart';
+import 'package:job_portal/Models/Login.dart';
 import 'package:job_portal/Models/Nationality.dart';
 import 'package:job_portal/Models/PersonalDetails-post.dart';
 import 'package:job_portal/Models/ProfessionDetails-post.dart';
 import 'package:job_portal/Models/QualificationDetails.dart';
+import 'package:job_portal/Models/QualificationPopulate.dart';
 import 'package:job_portal/Models/Stream.dart';
 import 'package:job_portal/Models/basicdetailresponse.dart';
 import 'package:job_portal/Models/basicdetials.dart';
@@ -43,6 +45,7 @@ import 'package:logger/logger.dart';
 
 class ApiServices {
   var log = Logger();
+   var token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxLGNhbmRAZ21haWwuY29tIiwiaXNzIjoiSm9iUG9ydGFsLmNvbSIsImlhdCI6MTY0Mjg0MDkwMiwiZXhwIjoxNjQzNDQ1NzAyfQ.H2QNYWvoRJzAMbjMEl4-t_umB44fLrZt8e_TU9MtxzrBwSCY-9TDh0BRGnnPcKJeOdM669uPfB6d2xKcFFfzXQ" ;
   String key = "";
   Future<ApiResponse<int>> otpGet(GetOTP objGetOtp) async {
     final url = Uri.parse(ApiUrls.kgetOTP);
@@ -804,7 +807,9 @@ class ApiServices {
   Future<ApiResponse<List<ItSkillProfile>>> PopulateItSkill() async {
     final url = Uri.parse(ApiUrls.kGetItSkill);
     final header = {
+
       "Content-Type": "application/json",
+      'Authorization': 'Bearer $token',
     };
     final response = await http.get(
       url,
@@ -825,35 +830,13 @@ class ApiServices {
         error: true, errorMessage: "An error occurred");
   }
 
-  // service for login through base64
-  Future<ApiResponse<Map<String,dynamic>>> login({String username, String password}) async {
-    log.i(username);
-    log.i(password);
-    String basicAuth =
-        'Basic ' + base64Encode(utf8.encode('$username:$password'));
-    log.i(basicAuth);
-    http.Response response;
-    try{
-      response = await http.get(Uri.parse(ApiUrls.kLogin),headers: <String, String>{'Authorization': basicAuth});
-    }catch(e){
-      print(e.toString());
-    }
-    log.i("Printing Response Here.....");
-    print(response.body);
-    print(response.statusCode);
-    Map<String,dynamic> jsonData = jsonDecode(response.body);
-    if (response.statusCode == 200) {
-      key = basicAuth;
-      print("Successfully Logged In...");
-      return ApiResponse<Map<String,dynamic>>(data: jsonData);
-    }
-    return ApiResponse<Map<String,dynamic>>(error: true, errorMessage: "An error occurred");
-  }
+
 
   Future<ApiResponse<bool>> itSkillAdd(ItSkillAdd skillAdd) async {
     final url = Uri.parse(ApiUrls.kItSkillAdd);
     final headers = {
       "Content-Type": "application/json",
+      'Authorization': 'Bearer $token',
     };
     final jsonData = jsonEncode(skillAdd);
 
@@ -864,5 +847,74 @@ class ApiServices {
       return ApiResponse<bool>(data: true);
     }
     return ApiResponse<bool>(error: true, errorMessage: "An Error Occurred");
+  }
+
+  Future<ApiResponse<bool>> itSkillDelete(ItSkillAdd skillDelete) async {
+    final url = Uri.parse(ApiUrls.kItSkillDelete);
+    final headers = {
+      "Content-Type": "application/json",
+      'Authorization': 'Bearer $token',
+
+    };
+    final jsonData = jsonEncode(skillDelete);
+
+    final response = await http.post(url, headers: headers, body: jsonData);
+    log.i(response.body);
+    log.i(response.statusCode);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return ApiResponse<bool>(data: true);
+    }
+    return ApiResponse<bool>(error: true, errorMessage: "An Error Occurred");
+  }
+
+  // service for login through JWT
+  Future<ApiResponse<String>> login({Login obj}) async {
+    log.i(obj.candidateEmail1);
+    log.i(obj.candidatePassword);
+    final headers = {
+      "Content-Type": "application/json",
+    };
+    final jsonData = jsonEncode(obj);
+    var response = await http.post(Uri.parse(ApiUrls.kLogin),headers: headers,body: jsonData);
+    log.i("Printing Response Here.....");
+    print(response.body);
+    print(response.statusCode);
+    String data = response.body;
+    if (response.statusCode == 401) {
+      print("Invalid User 401 Unauthorised...");
+      return ApiResponse<String>(data: "true");
+    }
+    if (response.statusCode == 200) {
+      print("Successfully Logged In...");
+      return ApiResponse<String>(data: data);
+    }
+    return ApiResponse<String>(error: true, errorMessage: "An error occurred");
+  }
+
+
+  Future<ApiResponse<List<QualificationPopulate>>> PopulateQualification() async {
+    final url = Uri.parse(ApiUrls.kGetQualificationPop);
+    final header = {
+
+      "Content-Type": "application/json",
+      'Authorization': 'Bearer $token',
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <QualificationPopulate>[];
+      for (var item in jsonData) {
+        list.add(QualificationPopulate.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      print(list);
+      return ApiResponse<List<QualificationPopulate>>(data: list);
+    }
+    return ApiResponse<List<QualificationPopulate>>(
+        error: true, errorMessage: "An error occurred");
   }
 }

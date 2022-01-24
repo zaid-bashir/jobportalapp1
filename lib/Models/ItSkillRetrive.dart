@@ -1,5 +1,5 @@
 class ItSkillProfile {
-  int candidateitskillItskillId;
+   int candidateitskillItskillId;
    int candidateitskillVersion;
    int candidateitskillLastused;
    String candidateitskillExperience;

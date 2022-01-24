@@ -5,14 +5,13 @@ import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/ItSkillAdd.dart';
 import 'package:job_portal/Models/ItSkills.dart';
-import 'package:job_portal/Models/ItSkillsPost.dart';
 import 'package:job_portal/Models/PassingYear.dart';
 import 'package:job_portal/Services/ApiServices.dart';
-import 'package:job_portal/Views/SignIn/Step7-CareerPreference.dart';
 
 class ItSkillAdds extends StatefulWidget {
-  ItSkillAdds({Key key, this.uuid}) : super(key: key);
+  ItSkillAdds({Key key, this.uuid,this.candiId}) : super(key: key);
   String uuid;
+  int candiId;
 
   @override
   _ItSkillAddsState createState() => _ItSkillAddsState();
@@ -29,6 +28,8 @@ class Skills {
 }
 
 class _ItSkillAddsState extends State<ItSkillAdds> {
+  bool get isEditing => widget.candiId != null;
+
   PassingYear myYear;
   String mySelection;
   String mySelection1;
@@ -389,8 +390,8 @@ class _ItSkillAddsState extends State<ItSkillAdds> {
                           });
                           final insert = ItSkillAdd(
                               requestType:"add",
-                            skillId: int.parse(itSkillId),
-                            candidateId: 1,
+                            candidateitskillItskillId: int.parse(itSkillId),
+                            candidateitskillCandidateId: 1,
                             candidateitskillVersion:
                                 int.parse(versionCont.text),
                             candidateitskillLastused: int.parse(myYear.yearId),
