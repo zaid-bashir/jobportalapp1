@@ -2,6 +2,8 @@
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:job_portal/Models/BasicInfoPopulate.dart';
+import 'package:job_portal/Models/CareerPreferencePopulate.dart';
 
 import 'package:job_portal/Models/Country.dart';
 import 'package:job_portal/Models/CurerntLocation.dart';
@@ -18,12 +20,16 @@ import 'package:job_portal/Models/ItSkills.dart';
 import 'package:job_portal/Models/ItSkillsPost.dart';
 import 'package:job_portal/Models/CareerPreference-post.dart';
 import 'package:job_portal/Models/JobType.dart';
+import 'package:job_portal/Models/KeySkillProfilePopulate.dart';
 import 'package:job_portal/Models/Login.dart';
 import 'package:job_portal/Models/Nationality.dart';
+import 'package:job_portal/Models/PersonalDetailPopulate.dart';
 import 'package:job_portal/Models/PersonalDetails-post.dart';
 import 'package:job_portal/Models/ProfessionDetails-post.dart';
 import 'package:job_portal/Models/ProfessionalPopulate.dart';
+
 import 'package:job_portal/Models/QualificationDetails.dart';
+import 'package:job_portal/Models/QualificationPopulate.dart';
 import 'package:job_portal/Models/Stream.dart';
 import 'package:job_portal/Models/basicdetailresponse.dart';
 import 'package:job_portal/Models/basicdetials.dart';
@@ -44,7 +50,7 @@ import 'package:job_portal/Utility/apiurls.dart';
 import 'package:job_portal/Views/SignIn/listView-EmploymentType.dart';
 import 'package:logger/logger.dart';
 
-String jwtToken = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxLGNhbmRAZ21haWwuY29tLCs5MS03MDY3Njc2NTY1IiwiaXNzIjoiSm9iUG9ydGFsLmNvbSIsImlhdCI6MTY0Mjg0MjYwMSwiZXhwIjoxNjQzNDQ3NDAxfQ.MxcV6fl8wVS-nrVZrFNycbpreLmsaG-cesPPJy3GOxFlirGbEMUmY4_Fn3OdlIDYDTjPVfETwvEfDsE8oHLCyA";
+String jwtToken = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxLHNhamlkQGdtYWlsLmNvbSwrOTEtNzA2NzY3NjU2NSIsImlzcyI6IkpvYlBvcnRhbC5jb20iLCJpYXQiOjE2NDMyNTg0MDEsImV4cCI6MTY0Mzg2MzIwMX0.hDS43ZJwLgRaXWYhDcGWKLOFArOXyvOw2CIO-zyDg4RMr3lEa_wbVolZp5_kObTtW7EoVzK4OJTDFuQ9YWyqqA";
 
 class ApiServices {
   var log = Logger();
@@ -813,7 +819,7 @@ class ApiServices {
         error: true, errorMessage: "An error occurred");
   }
 
-
+// Profile page populate services
   Future<ApiResponse<List<ItSkillProfile>>> PopulateItSkill() async {
     final url = Uri.parse(ApiUrls.kGetItSkill);
     final header = {
@@ -900,7 +906,87 @@ class ApiServices {
     return ApiResponse<String>(error: true, errorMessage: "An error occurred");
   }
 
-  Future<ApiResponse<List<ProfessionalPopulate>>> PopulateProfessional() async {
+
+  // populate Basic Information
+  Future<ApiResponse<List<BasicInfoPopulate>>> PopulateBasicInfo() async {
+    final url = Uri.parse(ApiUrls.kGetBasicInfoPop);
+    final header = {
+
+      "Content-Type": "application/json",
+      'Authorization': jwtToken
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <BasicInfoPopulate>[];
+      for (var item in jsonData) {
+        list.add(BasicInfoPopulate.fromJson(item));
+      }
+      print("===================");
+      log.i(response.body);
+      log.i(response.statusCode);
+      print(list);
+      return ApiResponse<List<BasicInfoPopulate>>(data: list);
+    }
+    return ApiResponse<List<BasicInfoPopulate>>(
+        error: true, errorMessage: "An error occurred");
+  }
+  // populate qualification
+  Future<ApiResponse<List<QualificationPopulate>>> PopulateQualification() async {
+    final url = Uri.parse(ApiUrls.kGetQualificationPop);
+    final header = {
+
+      "Content-Type": "application/json",
+      'Authorization': jwtToken
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <QualificationPopulate>[];
+      for (var item in jsonData) {
+        list.add(QualificationPopulate.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      print(list);
+      return ApiResponse<List<QualificationPopulate>>(data: list);
+    }
+    return ApiResponse<List<QualificationPopulate>>(
+        error: true, errorMessage: "An error occurred");
+  }
+  // populate Keyskills
+  Future<ApiResponse<List<PopulateKeySkillsProfileModel>>> getKeySkillsProfile() async {
+    final url = Uri.parse(ApiUrls.kkeySkillsProfile);
+    print(ApiUrls.kkeySkillsProfile);
+    final header = {
+      "Content-Type": "application/json",
+      "Authorization" : jwtToken,
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <PopulateKeySkillsProfileModel>[];
+      for (var item in jsonData) {
+        list.add(PopulateKeySkillsProfileModel.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      return ApiResponse<List<PopulateKeySkillsProfileModel>>(data: list);
+    }
+    return ApiResponse<List<PopulateKeySkillsProfileModel>>(
+        error: true, errorMessage: "An error occurred");
+  }
+  //Populate Professional
+  Future<ApiResponse<List<ProfessionalPopulate>>> ProfessionalDetailsPopulate() async {
     final url = Uri.parse(ApiUrls.kGetProfessionalPop);
     final header = {
 
@@ -926,5 +1012,56 @@ class ApiServices {
         error: true, errorMessage: "An error occurred");
     // }
 
+  }
+  //Populate career
+  Future<ApiResponse<List<PopulateCareerPreferenceProfileModel>>> populateCareerPreferenceProfile() async {
+    final url = Uri.parse(ApiUrls.kpopulatecareerpreferenceprofile);
+    final headers = {
+      "Content-Type": "application/json",
+      "Authorization": jwtToken
+    };
+    final response = await http.get(
+      url,
+      headers: headers,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final List<PopulateCareerPreferenceProfileModel> list = [];
+      for (var item in jsonData) {
+        list.add(PopulateCareerPreferenceProfileModel.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      print(list);
+      return ApiResponse<List<PopulateCareerPreferenceProfileModel>>(data: list);
+    }
+    return ApiResponse<List<PopulateCareerPreferenceProfileModel>>(
+        error: true, errorMessage: "An error occurred");
+  }
+  // Populate personal
+  Future<ApiResponse<List<PersonalRetrive>>> PopulatePersonal() async {
+    final url = Uri.parse(ApiUrls.kGetPersonalPop);
+    final header = {
+
+      "Content-Type": "application/json",
+      'Authorization': jwtToken
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <PersonalRetrive>[];
+      for (var item in jsonData) {
+        list.add(PersonalRetrive.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      print(list);
+      return ApiResponse<List<PersonalRetrive>>(data: list);
+    }
+    return ApiResponse<List<PersonalRetrive>>(
+        error: true, errorMessage: "An error occurred");
   }
 }
