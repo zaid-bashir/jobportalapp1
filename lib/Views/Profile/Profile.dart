@@ -13,16 +13,14 @@ import 'package:job_portal/Models/CareerPreferencePopulate.dart';
 import 'package:job_portal/Models/ItSkillAdd.dart';
 import 'package:job_portal/Models/ItSkillRetrive.dart';
 import 'package:job_portal/Models/ItSkills.dart';
+import 'package:job_portal/Models/KeySkillProfilePopulate.dart';
 import 'package:job_portal/Models/PersonalDetailPopulate.dart';
-import 'package:job_portal/Models/PopulateCareerPreferenceProfileModel.dart';
-import 'package:job_portal/Models/PopulateKeySkillsProfileModel.dart';
 import 'package:job_portal/Models/ProfessionalPopulate.dart';
 import 'package:job_portal/Models/QualificationPopulate.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Theme/colors.dart';
 import 'package:job_portal/Theme/images.dart';
 import 'package:job_portal/Views/Candidate/Sidebar.dart';
-import 'package:job_portal/Views/Profile/AddKeyskill.dart';
 import 'package:job_portal/Views/Profile/UpdateBasic%20Detail.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
@@ -76,35 +74,9 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
 
     loadingController.forward();
   }
-  bool isLoadingPopulateKeySkillsProfile = false;
-  ApiResponse<List<PopulateKeySkillsProfileModel>> _apiResponseKeySkillPopulate;
-
-  bool isLoadingPopulateCareerPreferenceProfile = false;
-  ApiResponse<List<PopulateCareerPreferenceProfileModel>> _apiResponseCareerPreferencePopulate;
-
-    populateCareerPreferenceProfile() async {
-    setState(() {
-      isLoadingPopulateCareerPreferenceProfile = true;
-    });
-    _apiResponseCareerPreferencePopulate = await apiServices.populateCareerPreferenceProfile();
-    setState(() {
-      isLoadingPopulateCareerPreferenceProfile = false;
-    });
-  }
-    populateKeySkills() async {
-    setState(() {
-      isLoadingPopulateKeySkillsProfile = true;
-    });
-    _apiResponseKeySkillPopulate = await apiServices.getKeySkillsProfile();
-    setState(() {
-      isLoadingPopulateKeySkillsProfile = false;
-    });
-  }
 
   @override
   void initState() {
-    populateKeySkills();
-    populateCareerPreferenceProfile();
     getItSkill();
     getBasicInfo();
     getQualification();
@@ -130,15 +102,15 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
     super.initState();
   }
   bool isLoading;
-  // bool isLoadingPopulateKeySkillsProfile = false;
-  // bool isLoadingPopulateCareerPreferenceProfile = false;
+  bool isLoadingPopulateKeySkillsProfile = false;
+  bool isLoadingPopulateCareerPreferenceProfile = false;
   ApiResponse<List<ItSkillProfile>> _apiResponse;
   ApiResponse<List<BasicInfoPopulate>> _apiResponse2;
   ApiResponse<List<QualificationPopulate>> _apiResponse3;
   ApiResponse<List<PersonalRetrive>> _apiResponse4;
-  // ApiResponse<List<PopulateKeySkillsProfileModel>> _apiResponseKeySkillPopulate;
+  ApiResponse<List<PopulateKeySkillsProfileModel>> _apiResponseKeySkillPopulate;
   ApiResponse<List<ProfessionalPopulate>> _apiResponse5;
-  // ApiResponse<List<PopulateCareerPreferenceProfileModel>> _apiResponseCareerPreferencePopulate;
+  ApiResponse<List<PopulateCareerPreferenceProfileModel>> _apiResponseCareerPreferencePopulate;
   ApiServices apiServices =ApiServices();
 
 
@@ -171,15 +143,15 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
     });
   }
 
-  // populateKeySkills() async {
-  //   setState(() {
-  //     isLoadingPopulateKeySkillsProfile = true;
-  //   });
-  //   _apiResponseKeySkillPopulate = await apiServices.getKeySkillsProfile();
-  //   setState(() {
-  //     isLoadingPopulateKeySkillsProfile = false;
-  //   });
-  // }
+  populateKeySkills() async {
+    setState(() {
+      isLoadingPopulateKeySkillsProfile = true;
+    });
+    _apiResponseKeySkillPopulate = await apiServices.getKeySkillsProfile();
+    setState(() {
+      isLoadingPopulateKeySkillsProfile = false;
+    });
+  }
   getProfessional() async {
     setState(() {
       isLoading = true;
@@ -189,15 +161,15 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
       isLoading = false;
     });
   }
-  // populateCareerPreferenceProfile() async {
-  //   setState(() {
-  //     isLoadingPopulateCareerPreferenceProfile = true;
-  //   });
-  //   _apiResponseCareerPreferencePopulate = await apiServices.populateCareerPreferenceProfile();
-  //   setState(() {
-  //     isLoadingPopulateCareerPreferenceProfile = false;
-  //   });
-  // }
+  populateCareerPreferenceProfile() async {
+    setState(() {
+      isLoadingPopulateCareerPreferenceProfile = true;
+    });
+    _apiResponseCareerPreferencePopulate = await apiServices.populateCareerPreferenceProfile();
+    setState(() {
+      isLoadingPopulateCareerPreferenceProfile = false;
+    });
+  }
   getPersonal() async {
     setState(() {
       isLoading = true;
@@ -1467,6 +1439,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                 ),
               ),
 
+
               Padding(
                 padding: const EdgeInsets.only(left: 25, top: 10, right: 25),
                 child: Row(
@@ -1957,7 +1930,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
       separatorBuilder: (_, __) => const SizedBox(
         height: 5,
       ),
-      itemCount: _apiResponse2.data.length,
+      itemCount: _apiResponse3.data.length,
       itemBuilder: (_, index) {
         return Container(
           padding:

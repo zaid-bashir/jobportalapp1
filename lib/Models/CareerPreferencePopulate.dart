@@ -9,12 +9,12 @@ class PopulateCareerPreferenceProfileModel {
 
   PopulateCareerPreferenceProfileModel(
       {this.industryName,
-      this.jobtypeName,
-      this.employmenttypeName,
-      this.cityName,
-      this.candidateExpectedctc,
-      this.shiftName,
-      this.candidateJoindate});
+        this.jobtypeName,
+        this.employmenttypeName,
+        this.cityName,
+        this.candidateExpectedctc,
+        this.shiftName,
+        this.candidateJoindate});
 
   PopulateCareerPreferenceProfileModel.fromJson(Map<String, dynamic> json) {
     industryName = json['industryName'];

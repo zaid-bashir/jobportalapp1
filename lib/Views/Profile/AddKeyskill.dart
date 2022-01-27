@@ -4,7 +4,7 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
-import 'package:job_portal/Models/PopulateKeySkillsProfileModel.dart';
+import 'package:job_portal/Models/KeySkillProfilePopulate.dart';
 import 'package:job_portal/Models/keyskill.dart';
 import 'package:job_portal/Models/postkeyskills.dart';
 import 'package:job_portal/Services/ApiServices.dart';
@@ -81,7 +81,7 @@ class _AddSkillsPageState extends State<AddSkillsPage> {
         body: SingleChildScrollView(
           child: Padding(
             padding:
-                const EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
+            const EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
             child: Column(
               children: [
                 Row(
@@ -123,7 +123,7 @@ class _AddSkillsPageState extends State<AddSkillsPage> {
                           alignment: Alignment.centerLeft,
                           child: Wrap(
                             children:
-                                _apiResponseKeySkillPopulate.data.map((e) {
+                            _apiResponseKeySkillPopulate.data.map((e) {
                               return Padding(
                                 padding: const EdgeInsets.only(
                                     right: 10.0, bottom: 8.0, top: 8.0),
@@ -152,7 +152,6 @@ class _AddSkillsPageState extends State<AddSkillsPage> {
                               );
                             }).toList(),
                           ),
-                        
                         ),
                       ),
                     ],
@@ -198,7 +197,7 @@ class _AddSkillsPageState extends State<AddSkillsPage> {
                                         children: <Widget>[
                                           Column(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.start,
+                                            MainAxisAlignment.start,
                                             mainAxisSize: MainAxisSize.min,
                                             children: const <Widget>[
                                               Text(
@@ -207,7 +206,7 @@ class _AddSkillsPageState extends State<AddSkillsPage> {
                                                     fontSize: 15.0,
                                                     fontFamily: "ProximaNova",
                                                     fontWeight:
-                                                        FontWeight.bold),
+                                                    FontWeight.bold),
                                               ),
                                             ],
                                           ),
@@ -222,7 +221,7 @@ class _AddSkillsPageState extends State<AddSkillsPage> {
                                           Flexible(
                                             child: Padding(
                                               padding:
-                                                  const EdgeInsets.all(8.0),
+                                              const EdgeInsets.all(8.0),
                                               child: DropdownSearch<
                                                   KeySkills>.multiSelection(
                                                 validator: (value) {
@@ -259,11 +258,11 @@ class _AddSkillsPageState extends State<AddSkillsPage> {
                                                     bool isSelected) {
                                                   return Container(
                                                     margin:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal: 8),
+                                                    EdgeInsets.symmetric(
+                                                        horizontal: 8),
                                                     child: Padding(
                                                       padding:
-                                                          EdgeInsets.all(8.0),
+                                                      EdgeInsets.all(8.0),
                                                       child: Text(
                                                           item.keyskillName),
                                                     ),

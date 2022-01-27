@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, deprecated_member_use, prefer_final_fields, unused_field, unnecessary_string_interpolations, avoid_print, prefer_const_constructors_in_immutables, must_be_immutable, avoid_unnecessary_containers, unused_local_variable
-
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
@@ -89,7 +87,7 @@ class _BasicDetailsState extends State<BasicDetails> {
   String jobRoleID = "";
   String cityID = "";
   int totalExp = 0;
-  Map<String,dynamic> response;
+  Map<String,String> response;
 
   //Normal Fiels Variables
   //======================
@@ -788,7 +786,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                   type: GFButtonType.solid,
                   blockButton: false,
                   onPressed: () async {
-                    // if (_fbKey.currentState.saveAndValidate()) {
+                    if (_fbKey.currentState.saveAndValidate()) {
                       final insert = BasicDetialModel(
                         candidateTitleId: int.parse(selectedUser.titleId),
                         candidateMobile1: widget.mobileNo,
@@ -813,11 +811,6 @@ class _BasicDetailsState extends State<BasicDetails> {
                       response = result.data;
                       print(response);
                       print("#######################");
-                      if(response['errors']){
-                        print(response['errors'].toString());
-                      }else{
-                        return;
-                      }
                       storeDataToSharedPref();
                       result.error
                           ? showDialog(
@@ -841,7 +834,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                           ),
                         ),
                       );
-                    // }
+                    }
                   }),
             ),
           ),
@@ -860,7 +853,7 @@ class _BasicDetailsState extends State<BasicDetails> {
 
   void storeDataToSharedPref() {
     pref.setString(keyUuid, response['axelaCandidateUuId']);
-    pref.setInt(keyCandiadateId, response['axelaCandidateId']);
+    pref.setInt(keyCandiadateId, int.parse(response['axelaCandidateId']));
     pref.setString(keyCandidateName, response['axelaCandidateName']);
     pref.setString(keyCandidateEmail, response['axelaCandidateEmail1']);
     pref.setString(keyCandiadteMobile, response['axelaCandidateMobile']);

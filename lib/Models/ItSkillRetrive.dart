@@ -1,7 +1,7 @@
 class ItSkillProfile {
-   int candidateitskillItskillId;
-   String candidateitskillVersion;
-   String candidateitskillLastused;
+  int candidateitskillItskillId;
+  String candidateitskillVersion;
+  String candidateitskillLastused;
    String candidateitskillExperience;
    String itskillName;
 
