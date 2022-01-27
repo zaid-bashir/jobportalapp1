@@ -1215,7 +1215,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
 
                         },
 
-                        child: Icon(Icons.edit,color:Color(0xff3e61ed))
+                        child: Icon(Iconsax.edit5,color:Color(0xff3e61ed))
                     )
                   ],
                 ),
@@ -1251,7 +1251,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                     ),
                     GestureDetector(
                       onTap: () {},
-                      child: const Icon(Icons.edit, color: Color(0xff3e61ed)),
+                      child: const Icon(Iconsax.edit5, color: Color(0xff3e61ed)),
                     )
                   ],
                 ),
@@ -1292,7 +1292,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                     ),
                     GestureDetector(
                       onTap: () {},
-                      child: const Icon(Icons.edit, color: Color(0xff3e61ed)),
+                      child: const Icon(Iconsax.edit5, color: Color(0xff3e61ed)),
                     )
                   ],
                 ),
@@ -1344,42 +1344,45 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
               Padding(
                 padding: const EdgeInsets.only(
                   top: 10, left: 20, right: 20,),
-                child: Card(
-                  elevation: 5,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 15),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 25.0, right: 25.0, top: 25.0),
-                          child:  Wrap(
-                            children: _apiResponseKeySkillPopulate.data.map((e) {
-                              return Padding(
-                                padding: const EdgeInsets.only(right : 8.0,top: 8.0),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(4),
-                                    color: Colors.white,
-                                    border: Border.all(color: Colors.black45),
+                child: Container(
+                  width:double.infinity,
+                  child: Card(
+                    elevation: 5,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 15),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 20.0, right: 20.0, top: 25.0),
+                            child:  Wrap(
+                              children: _apiResponseKeySkillPopulate.data.map((e) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(right : 8.0,top: 8.0),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(4),
+                                      color: Colors.white,
+                                      border: Border.all(color: Colors.black45),
+                                    ),
+                                    child: Wrap(children: [
+                                      Text(e.keyskillName,),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      IconButton(
+                                        onPressed: () {},
+                                        icon: Icon(Icons.close),
+                                      ),
+                                    ]),
                                   ),
-                                  child: Wrap(children: [
-                                    Text(e.keyskillName,),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    IconButton(
-                                      onPressed: () {},
-                                      icon: Icon(Icons.close),
-                                    ),
-                                  ]),
-                                ),
-                              );
-                            }).toList(),
-                          ),
+                                );
+                              }).toList(),
+                            ),
 
-                        ),
-                      ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -1444,7 +1447,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                     ),
                     GestureDetector(
                       onTap: () {},
-                      child: const Icon(Icons.edit, color: Color(0xff3e61ed)),
+                      child: const Icon(Iconsax.edit5, color: Color(0xff3e61ed)),
                     )
                   ],
                 ),
@@ -1480,7 +1483,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                     ),
                     GestureDetector(
                       onTap: () {},
-                      child: const Icon(Icons.edit, color: Color(0xff3e61ed)),
+                      child: const Icon(Iconsax.edit5, color: Color(0xff3e61ed)),
                     )
                   ],
                 ),
@@ -1698,7 +1701,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
           const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(6),
-              border: Border.all(color: const Color(0xff3e61ed))),
+              border: Border.all(color: Colors.grey[500])),
           child: Column(children: [
             Row(
               // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -1876,7 +1879,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                 padding: EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(6),
-                    border: Border.all(color: Color(0xff3e61ed))
+                    border: Border.all(color: Colors.grey[500])
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -1891,7 +1894,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                           fontSize: 15.0,
                         ),),
 
-                        Icon(Icons.edit_outlined,color: KColors.primary),
+                        Icon(Iconsax.edit5,color: KColors.primary),
 
                       ],),
 
@@ -1961,7 +1964,8 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
           const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(6),
-              border: Border.all(color: const Color(0xff3e61ed))),
+              border: Border.all(color:  Colors.grey[500])
+          ),
           child: Column(children: [
             Row(
               // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
