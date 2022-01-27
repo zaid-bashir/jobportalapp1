@@ -11,7 +11,7 @@ import 'package:job_portal/Services/ApiServices.dart';
 class ItSkillAdds extends StatefulWidget {
   ItSkillAdds({Key key, this.uuid,this.candiId}) : super(key: key);
   String uuid;
-  int candiId;
+  String candiId;
 
   @override
   _ItSkillAddsState createState() => _ItSkillAddsState();
@@ -28,8 +28,6 @@ class Skills {
 }
 
 class _ItSkillAddsState extends State<ItSkillAdds> {
-  bool get isEditing => widget.candiId != null;
-
   PassingYear myYear;
   String mySelection;
   String mySelection1;

@@ -5,11 +5,10 @@ import 'package:getwidget/components/button/gf_button.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/Login.dart';
 import 'package:job_portal/Services/ApiServices.dart';
+import 'package:job_portal/Utility/Connect.dart';
 import 'package:job_portal/Views/Candidate/BottomNavbar.dart';
-import 'package:job_portal/Views/SignIn/Step1-Otp.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:overlay_support/overlay_support.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:job_portal/Views/SignIn/Step1-Otp.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key key}) : super(key: key);
@@ -18,7 +17,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  bool hasInternet = false;
   bool isLoading = false;
   ApiServices apiServices = ApiServices();
   ApiResponse<String> apiResponse;
@@ -28,6 +26,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
+    Connect.checkInternetStatus();
   }
 
   fetchAuth({String username, String password}) async {
@@ -39,23 +38,6 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       isLoading = false;
     });
-  }
-
-  void checkInternetStatus() async {
-    hasInternet = await InternetConnectionChecker().hasConnection;
-    final color = hasInternet ? Colors.green : Colors.red;
-    final text =
-    hasInternet ? "Connected with Internet" : "Disconnected from Internet";
-    showSimpleNotification(
-      Text(
-        text,
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 20,
-        ),
-      ),
-      background: color,
-    );
   }
 
   TextEditingController usernameCont = TextEditingController();
@@ -268,7 +250,7 @@ class _LoginPageState extends State<LoginPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Navbar()));
+                                  builder: (context) => const OTP()));
                         },
                         child: Text(
                           'Register',
