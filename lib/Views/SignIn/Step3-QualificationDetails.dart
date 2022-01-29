@@ -277,18 +277,18 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                         child: Row(
                           children: [
                             Container(
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               decoration: BoxDecoration(
                                   border: Border.all(
                                       color: Colors.grey, width: 2.5),
                                   borderRadius: BorderRadius.circular(10)),
-                              child: Icon(
+                              child: const Icon(
                                 Icons.add,
                                 color: Colors.grey,
                                 size: 25,
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 30,
                             ),
                             Column(

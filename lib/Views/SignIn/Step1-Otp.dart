@@ -5,6 +5,7 @@ import 'package:job_portal/Models/GetOtp.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:job_portal/Utility/Connect.dart';
 import 'package:job_portal/Views/SignIn/Step1-VerifyOtp.dart';
 
 class OTP extends StatefulWidget {
@@ -14,6 +15,8 @@ class OTP extends StatefulWidget {
 }
 
 class _OTPState extends State<OTP> {
+
+
   bool isLoading = false;
   ApiServices apiServices = ApiServices();
   ApiResponse<int> _apiResponse;
@@ -29,8 +32,15 @@ class _OTPState extends State<OTP> {
     });
   }
 
+  @override
+  void initState() {
+    super.initState();
+    Connect.checkInternetStatus();
+  }
+
   var formKey = GlobalKey<FormState>();
   var mobileController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

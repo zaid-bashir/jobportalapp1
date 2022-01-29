@@ -17,8 +17,8 @@ import 'Inbox.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class HomePage extends StatelessWidget {
-  HomePage({Key key,this.payLoadData}) : super(key: key);
-  Map<String,dynamic> payLoadData;
+  HomePage({Key key,this.keyjwt}) : super(key: key);
+  String keyjwt;
   Widget _appBar(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),

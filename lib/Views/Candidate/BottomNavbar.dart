@@ -13,8 +13,8 @@ import 'Notification.dart';
 
 
 class Navbar extends StatelessWidget {
-  Navbar({Key key,this.payLoadData}) : super(key: key);
-  Map<String,dynamic> payLoadData;
+  Navbar({Key key,this.keyjwt}) : super(key: key);
+  String keyjwt;
   @override
   Widget build(BuildContext context) {
     return
@@ -35,7 +35,7 @@ class Navbar extends StatelessWidget {
             // accentColor: const Color(0xFFC41A3B),
             accentColor:const Color(0xff3e61ed),
           ),
-          home: Navlist(payLoadData: payLoadData,),
+          home: Navlist(keyjwt: keyjwt,),
         ),
      );
 
@@ -43,8 +43,8 @@ class Navbar extends StatelessWidget {
 }
 
 class Navlist extends StatefulWidget {
-  Navlist({Key key,this.payLoadData}) : super(key: key);
-  Map<String,dynamic> payLoadData;
+  Navlist({Key key,this.keyjwt}) : super(key: key);
+  String keyjwt;
   @override
   _NavlistState createState() => _NavlistState();
 }
@@ -58,7 +58,7 @@ class _NavlistState extends State<Navlist>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 5, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
   }
 
   @override
@@ -76,9 +76,9 @@ class _NavlistState extends State<Navlist>
       // ),
       body: TabBarView(
         children: <Widget>[
-          HomePage(payLoadData: widget.payLoadData,),
+          HomePage(keyjwt: widget.keyjwt,),
           Notify(),
-          UploadPost(),
+          // UploadPost(),
           JobsList(),
           ProfilePage(),
         ],
@@ -118,13 +118,13 @@ class _NavlistState extends State<Navlist>
                   ),
                   text: 'Notifications',
                 ),
-                Tab(
-                  icon: Icon(
-                    Icons.add,
-                    size: 24.0,
-                  ),
-                  text: 'Post',
-                ),
+                // Tab(
+                //   icon: Icon(
+                //     Icons.add,
+                //     size: 24.0,
+                //   ),
+                //   text: 'Post',
+                // ),
                 Tab(
                   icon: Icon(
                     Icons.work,

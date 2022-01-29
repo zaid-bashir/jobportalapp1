@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_print
 
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -9,17 +10,33 @@ import 'package:job_portal/Utility/Connect.dart';
 import 'package:job_portal/Views/Candidate/BottomNavbar.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:job_portal/Views/SignIn/Step1-Otp.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key key}) : super(key: key);
   @override
-  _LoginPageState createState() => _LoginPageState();
+  LoginPageState createState() => LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class LoginPageState extends State<LoginPage> {
   bool isLoading = false;
   ApiServices apiServices = ApiServices();
   ApiResponse<String> apiResponse;
+
+  //Get SharedPreference Bucket
+  //===========================
+
+  SharedPreferences prefLogin;
+
+  //Shared Preference Variables
+  //===========================
+
+  String sharedPrefJwt = "";
+
+  //Shared Preference Keys
+  //======================
+
+  String keyJwt = "keyJwt";
 
   var formKey = GlobalKey<FormState>();
 
@@ -27,14 +44,19 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
     Connect.checkInternetStatus();
+    initSharedPreference();
+  }
+
+  initSharedPreference() async {
+    prefLogin = await SharedPreferences.getInstance();
   }
 
   fetchAuth({String username, String password}) async {
     setState(() {
       isLoading = true;
     });
-    apiResponse =
-    await apiServices.login(obj: Login(candidateEmail1: username,candidatePassword: password));
+    apiResponse = await apiServices.login(
+        obj: Login(candidateEmail1: username, candidatePassword: password));
     setState(() {
       isLoading = false;
     });
@@ -90,7 +112,7 @@ class _LoginPageState extends State<LoginPage> {
                                           return "Please enter your email";
                                         }
                                       },
-                                      decoration: InputDecoration(
+                                      decoration: const InputDecoration(
                                         contentPadding: EdgeInsets.all(0.0),
                                         labelText: 'Email Or Phone',
                                         labelStyle: TextStyle(
@@ -127,7 +149,7 @@ class _LoginPageState extends State<LoginPage> {
                                           return null;
                                         }
                                       },
-                                      decoration: InputDecoration(
+                                      decoration: const InputDecoration(
                                         contentPadding: EdgeInsets.all(0.0),
                                         labelText: 'Password',
                                         labelStyle: TextStyle(
@@ -176,38 +198,49 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(
                     height: 20,
                   ),
-                  Container(
+                  SizedBox(
                     width: double.infinity,
                     child: GFButton(
-                      color: Color(0xff3e61ed),
+                      color: const Color(0xff3e61ed),
                       onPressed: () async {
                         if (formKey.currentState.validate()) {
                           print(usernameCont.text);
                           print(passwordCont.text);
-                          fetchAuth(username: usernameCont.text,password: passwordCont.text);
+                          fetchAuth(
+                              username: usernameCont.text,
+                              password: passwordCont.text);
                           print("Response Data : ${apiResponse.data}");
-                          String val = "true";
-                          bool b = val.toLowerCase() == apiResponse.data;
-                          print(b);
-                          if(b){
+                          // String val = "true";
+                          // bool b = val.toLowerCase() == apiResponse.data;
+                          if (apiResponse.data != null) {
+                            storeLoginDataToSharedPref();
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => Navbar(
+                                  keyjwt: prefLogin.getString(keyJwt),
+                                ),
+                              ),
+                            );
+                          } else {
                             AwesomeDialog(
                               context: context,
                               animType: AnimType.SCALE,
                               dialogType: DialogType.ERROR,
                               title: 'JobPortalApp',
-                              desc: 'Invalid User,Please enter your correct credentials',
+                              desc:
+                                  'Invalid User, Please enter your correct credentials',
                             ).show();
-                          }else{
-                            AwesomeDialog(
-                              context: context,
-                              animType: AnimType.SCALE,
-                              dialogType: DialogType.SUCCES,
-                              title: 'JobPortalApp',
-                              desc: 'Successfully Logged In...',
-                              btnOkOnPress: (){
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Navbar(),),);
-                              },
-                            ).show();
+                            // AwesomeDialog(
+                            //   context: context,
+                            //   animType: AnimType.SCALE,
+                            //   dialogType: DialogType.SUCCES,
+                            //   title: 'JobPortalApp',
+                            //   desc: 'Successfully Logged In...',
+                            //   btnOkOnPress: (){
+                            //     storeLoginDataToSharedPref();
+                            //     Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Navbar(keyjwt: prefLogin.getString(keyJwt),),),);
+                            //   },
+                            // ).show();
                           }
                         } else {
                           AwesomeDialog(
@@ -220,7 +253,7 @@ class _LoginPageState extends State<LoginPage> {
                         }
                       },
                       text: "Login",
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                         color: Colors.white,
                         fontFamily: "ProximaNova",
                         fontWeight: FontWeight.bold,
@@ -229,7 +262,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   const SizedBox(
@@ -250,9 +283,9 @@ class _LoginPageState extends State<LoginPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => OTP()));
+                                  builder: (context) => const OTP()));
                         },
-                        child: Text(
+                        child: const Text(
                           'Register',
                           style: TextStyle(
                               color: Color(0xff2972ff),
@@ -269,5 +302,9 @@ class _LoginPageState extends State<LoginPage> {
             ),
           )),
     );
+  }
+
+  void storeLoginDataToSharedPref() async {
+    await prefLogin.setString(keyJwt, apiResponse.data);
   }
 }

@@ -31,20 +31,20 @@ class _JobsListState extends State<JobsList> {
   void initState() {
     print("--------");
 
-    getJob();
+    // getJob();
     print("--------");
     super.initState();
   }
 
-    getJob()async{
-      setState(() {
-        isLoading = true;
-      });
-      _apiResponse = await apiServices.getJobList();
-      setState(() {
-        isLoading = false;
-      });
-    }
+    // getJob()async{
+    //   setState(() {
+    //     isLoading = true;
+    //   });
+    //   _apiResponse = await apiServices.getJobList();
+    //   setState(() {
+    //     isLoading = false;
+    //   });
+    // }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -155,8 +155,8 @@ class _JobsListState extends State<JobsList> {
                                             color: Colors.black,
                                           ),
 
-                                          title: Text(_apiResponse.data[index].jobHeadline,style: TextStyle(fontFamily: "ProximaNova"),),
-                                          subtitle: Text(_apiResponse.data[index].companyName,style: TextStyle(fontFamily: "ProximaNova")),
+                                          title: Text("Demo",style: TextStyle(fontFamily: "ProximaNova"),),
+                                          subtitle: Text("Demo",style: TextStyle(fontFamily: "ProximaNova")),
                                           onTap: (){
                                             Navigator.push(context, JobDetailPage.getJobDetail());
                                           },

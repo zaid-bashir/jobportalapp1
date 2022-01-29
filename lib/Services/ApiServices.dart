@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, unnecessary_string_interpolations
+// ignore_for_file: avoid_print, unnecessary_string_interpolations, non_constant_identifier_names
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -47,10 +47,10 @@ import 'package:job_portal/Models/location.dart';
 import 'package:job_portal/Models/postkeyskills.dart';
 import 'package:job_portal/Models/qualification-post.dart';
 import 'package:job_portal/Utility/apiurls.dart';
-import 'package:job_portal/Views/SignIn/listView-EmploymentType.dart';
+import 'package:job_portal/Views/SignIn/SignIn.dart';
 import 'package:logger/logger.dart';
 
-String jwtToken = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxLHNhamlkQGdtYWlsLmNvbSwrOTEtNzA2NzY3NjU2NSIsImlzcyI6IkpvYlBvcnRhbC5jb20iLCJpYXQiOjE2NDMyNTg0MDEsImV4cCI6MTY0Mzg2MzIwMX0.hDS43ZJwLgRaXWYhDcGWKLOFArOXyvOw2CIO-zyDg4RMr3lEa_wbVolZp5_kObTtW7EoVzK4OJTDFuQ9YWyqqA";
+String jwtToken = "Bearer ${LoginPageState().keyJwt}";
 
 class ApiServices {
   var log = Logger();
@@ -606,6 +606,7 @@ class ApiServices {
     final url = Uri.parse(ApiUrls.kQualify);
     final headers = {
       "Content-Type": "application/json",
+      "Authorization" : jwtToken,
     };
     final jsonData = jsonEncode(qualifi);
 
@@ -622,6 +623,7 @@ class ApiServices {
     final url = Uri.parse(ApiUrls.kItSkill);
     final headers = {
       "Content-Type": "application/json",
+      "Authorization" : jwtToken,
     };
     final jsonData = jsonEncode(skill);
 
@@ -660,7 +662,7 @@ class ApiServices {
         error: true, errorMessage: "An error occurred");
   }
 
-  Future<ApiResponse<Map<String, String>>> postBasicDetials(
+  Future<ApiResponse<Map<String, dynamic>>> postBasicDetials(
       BasicDetialModel obj) async {
     final url = Uri.parse(ApiUrls.kBasicDetial);
     final header = {
@@ -685,12 +687,12 @@ class ApiServices {
       body: jsonData,
     );
     if (response.statusCode == 201 || response.statusCode == 200) {
-      Map<String, String> data = jsonDecode(response.body);
+      Map<String, dynamic> data = jsonDecode(response.body);
       log.i(data);
       log.i(response.statusCode);
-      return ApiResponse<Map<String, String>>(data: data);
+      return ApiResponse<Map<String, dynamic>>(data: data);
     }
-    return ApiResponse<Map<String, String>>(
+    return ApiResponse<Map<String, dynamic>>(
         error: true, errorMessage: "Something went wrong, please try again...");
   }
   
@@ -720,9 +722,9 @@ class ApiServices {
     final url = Uri.parse(ApiUrls.kPersonal);
     final headers = {
       "Content-Type": "application/json",
+      "Authorization" : jwtToken,
     };
     final jsonData = jsonEncode(personal);
-
     final response = await http.post(url, headers: headers, body: jsonData);
     log.i(response.body);
     log.i(response.statusCode);
@@ -737,6 +739,7 @@ class ApiServices {
     final url = Uri.parse(ApiUrls.kProfession);
     final headers = {
       "Content-Type": "application/json",
+      "Authorization" : jwtToken,
     };
     final jsonData = jsonEncode(profes);
 
@@ -756,6 +759,7 @@ class ApiServices {
     final url = Uri.parse(ApiUrls.kpostSkill);
     final headers = {
       "Content-Type": "application/json",
+      "Authorization" : jwtToken,
     };
     final jsonData = jsonEncode(lst);
     final response = await http.post(url, headers: headers, body: jsonData);
@@ -793,30 +797,30 @@ class ApiServices {
         error: true, errorMessage: "An error occurred");
   }
 
-  Future<ApiResponse<List<GetJobList>>> getJobList() async {
-    final url = Uri.parse(ApiUrls.kGetJobList);
-    final header = {
-      "Content-Type": "application/json",
-      "Authorization": jwtToken
-    };
-    final response = await http.get(
-      url,
-      headers: header,
-    );
-    if (response.statusCode == 200) {
-      final jsonData = jsonDecode(response.body);
-      final list = jsonData["listData"];
-      final listData = <GetJobList>[];
-      for (var item in list) {
-        listData.add(GetJobList.fromJson(item));
-      }
-      log.i(response.body);
-      log.i(response.statusCode);
-      return ApiResponse<List<GetJobList>>(data: listData);
-    }
-    return ApiResponse<List<GetJobList>>(
-        error: true, errorMessage: "An error occurred");
-  }
+  // Future<ApiResponse<List<GetJobList>>> getJobList() async {
+  //   final url = Uri.parse(ApiUrls.kGetJobList);
+  //   final header = {
+  //     "Content-Type": "application/json",
+  //     "Authorization": jwtToken
+  //   };
+  //   final response = await http.get(
+  //     url,
+  //     headers: header,
+  //   );
+  //   if (response.statusCode == 200) {
+  //     final jsonData = jsonDecode(response.body);
+  //     final list = jsonData["listData"];
+  //     final listData = <GetJobList>[];
+  //     for (var item in list) {
+  //       listData.add(GetJobList.fromJson(item));
+  //     }
+  //     log.i(response.body);
+  //     log.i(response.statusCode);
+  //     return ApiResponse<List<GetJobList>>(data: listData);
+  //   }
+  //   return ApiResponse<List<GetJobList>>(
+  //       error: true, errorMessage: "An error occurred");
+  // }
 
 // Profile page populate services
   Future<ApiResponse<List<ItSkillProfile>>> PopulateItSkill() async {
@@ -885,7 +889,6 @@ class ApiServices {
     log.i(obj.candidatePassword);
     final headers = {
       "Content-Type": "application/json",
-      "Authorization": jwtToken
     };
     final jsonData = jsonEncode(obj);
     var response = await http.post(
