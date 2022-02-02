@@ -271,6 +271,7 @@ class _KeySkillsPageState extends State<KeySkillsPage> {
                             } else {
 
                             }
+                          
                           } else {}
                         },
                         text: "Next",

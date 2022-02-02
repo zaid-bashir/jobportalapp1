@@ -46,7 +46,7 @@ class _ItSkillsState extends State<ItSkills> {
     setState(() {
       isLoading = true;
     });
-    _apiResponseITSkill = await apiServices.getITSkill(query: query);
+    // _apiResponseITSkill = await apiServices.getITSkill(query: query);
     setState(() {
       isLoading = false;
     });

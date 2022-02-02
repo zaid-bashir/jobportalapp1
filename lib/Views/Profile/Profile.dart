@@ -1,18 +1,17 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:dotted_border/dotted_border.dart';
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:getwidget/components/radio/gf_radio.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:job_portal/Controllers/menucontroller.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/BasicInfoPopulate.dart';
 import 'package:job_portal/Models/CareerPreferencePopulate.dart';
-import 'package:job_portal/Models/ItSkillAdd.dart';
 import 'package:job_portal/Models/ItSkillRetrive.dart';
 import 'package:job_portal/Models/ItSkills.dart';
+import 'package:job_portal/Models/KeySkillDeleteProfile.dart';
 import 'package:job_portal/Models/KeySkillProfilePopulate.dart';
 import 'package:job_portal/Models/PersonalDetailPopulate.dart';
 import 'package:job_portal/Models/ProfessionalPopulate.dart';
@@ -25,8 +24,6 @@ import 'package:job_portal/Views/Profile/UpdateBasic%20Detail.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
 import '../Candidate/Inbox.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-
 import 'AddItskill.dart';
 import 'AddKeyskill.dart';
 
@@ -112,7 +109,8 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
   ApiResponse<List<ProfessionalPopulate>> _apiResponse5;
   ApiResponse<List<PopulateCareerPreferenceProfileModel>> _apiResponseCareerPreferencePopulate;
   ApiServices apiServices =ApiServices();
-
+  bool isLoadingKeySkillDeleteProfile = false;
+  ApiResponse<List<KeySkillDeleteProfile>> _apiResponseKeySkillDeleteProfile;
 
 
   getItSkill()async{
@@ -1335,12 +1333,17 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                                 padding: const EdgeInsets.only(top: 11,left: 5,bottom: 5),
                                 child: Text(e.keyskillName,),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 5,
                               ),
                               IconButton(
-                                onPressed: () {},
-                                icon: Icon(Icons.close),
+                                 icon: const Icon(Icons.close),
+                                onPressed: (){
+                                  apiServices.keySkillDeleteProfile(obj: KeySkillDeleteProfile(requestType: "delete",candidatekeyskillUuid: e.candidatekeyskillUuid));
+                                  setState(() {
+                                    populateKeySkills();
+                                  });
+                                }
                               ),
                             ]),
                           ),

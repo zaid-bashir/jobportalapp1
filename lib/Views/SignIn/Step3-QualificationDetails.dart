@@ -18,9 +18,10 @@ import 'package:job_portal/Views/SignIn/Step4-ProfessionalDetails.dart';
 import 'package:job_portal/Views/SignIn/Step5-KeySkills.dart';
 
 class QualificationBlueCollar extends StatefulWidget {
-   QualificationBlueCollar({Key key, this.uuid}) : super(key: key);
+   QualificationBlueCollar({Key key, this.uuid,this.token,this.experienceId}) : super(key: key);
   String uuid;
-  int experienceValue;
+  String token;
+  int experienceId;
   @override
   _QualificationBlueCollarState createState() =>
       _QualificationBlueCollarState();
@@ -43,7 +44,6 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
         _platformFile = file.files.first;
       });
     }
-
     loadingController.forward();
   }
 
@@ -74,7 +74,6 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
   bool isLoading = false;
   ApiServices apiServices = ApiServices();
   ApiResponse<List<Institute>> _apiResponseInstitute;
-
   ApiResponse<List<GradingSystem>> _apiResponse;
   ApiResponse<List<PassingYear>> _apiResponse2;
   ApiResponse<List<Qualification>> _apiResponsequalification;
@@ -1032,7 +1031,7 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                             candidatequalGradingsystemId: int.parse(myGradingSystem.gradingsystemId),
                             candidatequalMarks: int.parse(gradeCont.text));
                         final result =
-                            await apiServices.PostQualification(insert);
+                            await apiServices.PostQualification(insert,token: widget.token);
                         setState(() {
                           isLoading = false;
                         });
@@ -1062,7 +1061,8 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                         //   }
                         // });
                       }
-                      Navigator.of(context).push(
+                      widget.experienceId == 0 ? Navigator.of(context).push( MaterialPageRoute(
+                                       builder: (context) => KeySkillsPage(uuid: widget.uuid,))) : Navigator.of(context).push(
                           MaterialPageRoute(
                                        builder: (context) => WorkingProfession(uuid: widget.uuid,)));
 

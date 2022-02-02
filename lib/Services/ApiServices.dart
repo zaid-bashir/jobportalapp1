@@ -20,6 +20,7 @@ import 'package:job_portal/Models/ItSkills.dart';
 import 'package:job_portal/Models/ItSkillsPost.dart';
 import 'package:job_portal/Models/CareerPreference-post.dart';
 import 'package:job_portal/Models/JobType.dart';
+import 'package:job_portal/Models/KeySkillDeleteProfile.dart';
 import 'package:job_portal/Models/KeySkillProfilePopulate.dart';
 import 'package:job_portal/Models/Login.dart';
 import 'package:job_portal/Models/Nationality.dart';
@@ -50,7 +51,7 @@ import 'package:job_portal/Utility/apiurls.dart';
 import 'package:job_portal/Views/SignIn/SignIn.dart';
 import 'package:logger/logger.dart';
 
-String jwtToken = "Bearer ${LoginPageState().keyJwt}";
+String jwtToken = "";
 
 class ApiServices {
   var log = Logger();
@@ -602,7 +603,8 @@ class ApiServices {
         error: true, errorMessage: "An error occurred");
   }
 
-  Future<ApiResponse<bool>> PostQualification(QualificationPost qualifi) async {
+  Future<ApiResponse<bool>> PostQualification(QualificationPost qualifi,{String token}) async {
+    jwtToken = "Bearer "+token;
     final url = Uri.parse(ApiUrls.kQualify);
     final headers = {
       "Content-Type": "application/json",
@@ -728,7 +730,7 @@ class ApiServices {
     final response = await http.post(url, headers: headers, body: jsonData);
     log.i(response.body);
     log.i(response.statusCode);
-    if (response.statusCode == 200 || response.statusCode == 200) {
+    if (response.statusCode == 200) {
       return ApiResponse<bool>(data: true);
     }
     return ApiResponse<bool>(error: true, errorMessage: "An Error Occurred");
@@ -1066,4 +1068,27 @@ class ApiServices {
     return ApiResponse<List<PersonalRetrive>>(
         error: true, errorMessage: "An error occurred");
   }
+
+    // service for KeySkill Delete Profile
+  Future<ApiResponse<List<Map<String,String>>>> keySkillDeleteProfile({KeySkillDeleteProfile obj}) async {
+    log.i(obj.requestType);
+    log.i(obj.candidatekeyskillUuid);
+    final headers = {
+      "Content-Type": "application/json",
+      "Authorization" : jwtToken
+    };
+    final jsonData = jsonEncode([{"requestType" : "delete","candidatekeyskillUuid" : obj.candidatekeyskillUuid}]);
+    var response = await http.post(
+        Uri.parse(ApiUrls.kAddDeleteKeySkills), headers: headers, body: jsonData);
+    log.i("Printing Response Here.....");
+    print(response.body);
+    print(response.statusCode);
+    List<Map<String,String>> data = jsonDecode(response.body);
+    if (response.statusCode == 202) {
+      print("Successfully deleted...");
+      return ApiResponse<List<Map<String,String>>>(data: data);
+    }
+    return ApiResponse<List<Map<String,String>>>(error: true, errorMessage: "An error occurred");
+  }
+
 }

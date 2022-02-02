@@ -42,6 +42,7 @@ class ApiUrls extends Connect{
   static String kGetProfessionalPop = Connect.AppURL()+"candidate/professional-list";
   static String kpopulatecareerpreferenceprofile = Connect.AppURL()+"candidate/careerpreference-list";
   static String kGetPersonalPop = Connect.AppURL()+"candidate/personaldetail-list";
+  static String kAddDeleteKeySkills = Connect.AppURL()+"candidate/keyskill-add";
 
 
 
