@@ -4,6 +4,7 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
+import 'package:job_portal/Models/KeySkillAddProfile.dart';
 import 'package:job_portal/Models/KeySkillProfilePopulate.dart';
 import 'package:job_portal/Models/keyskill.dart';
 import 'package:job_portal/Models/postkeyskills.dart';
@@ -44,15 +45,15 @@ class _AddSkillsPageState extends State<AddSkillsPage> {
     });
   }
 
-  List<PostKeySkills> createPostList() {
-    List<PostKeySkills> postItems = [];
+  List<KeySkillAddProfile> createPostList() {
+    List<KeySkillAddProfile> postItems = [];
     for (var i = 0; i < selectedSkills.length; i++) {
-      var obj = PostKeySkills(
-          candidateUuid: widget.uuid,
-          candidatekeyskilKeyskillId: int.parse(selectedSkills[i].keyskillId));
+      var obj = KeySkillAddProfile(
+          requestType: "add",
+          candidatekeyskillName : selectedSkills[i].keyskillName);
       postItems.add(obj);
-      print(obj.candidatekeyskilKeyskillId);
-      print(obj.candidateUuid);
+      print(obj.candidatekeyskillName);
+      print(obj.requestType);
     }
     return postItems;
   }
@@ -66,6 +67,8 @@ class _AddSkillsPageState extends State<AddSkillsPage> {
       isLoadingPopulateKeySkillsProfile = false;
     });
   }
+
+  
 
   @override
   void initState() {
@@ -105,78 +108,79 @@ class _AddSkillsPageState extends State<AddSkillsPage> {
                     ),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 30),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    // ignore: prefer_const_literals_to_create_immutables
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text("Skills you have")),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Wrap(
-                            children:
-                            _apiResponseKeySkillPopulate.data.map((e) {
-                              return Padding(
-                                padding: const EdgeInsets.only(
-                                    right: 10.0, bottom: 8.0, top: 8.0),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(4),
-                                    color: Colors.white,
-                                    border: Border.all(color: Colors.black45),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.all(3.0),
-                                    child: Wrap(children: [
-                                      Text(e.keyskillName),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      IconButton(
-                                        onPressed: () {
+                // Padding(
+                //   padding: const EdgeInsets.only(top: 30),
+                //   child: Column(
+                //     mainAxisAlignment: MainAxisAlignment.start,
+                //     // ignore: prefer_const_literals_to_create_immutables
+                //     children: [
+                //       Padding(
+                //         padding: const EdgeInsets.all(8.0),
+                //         child: Align(
+                //             alignment: Alignment.centerLeft,
+                //             child: Text("Skills you have")),
+                //       ),
+                //       Padding(
+                //         padding: EdgeInsets.all(8.0),
+                //         child: Align(
+                //           alignment: Alignment.centerLeft,
+                //           child: Wrap(
+                //             children:
+                //             _apiResponseKeySkillPopulate.data.map((e) {
+                //               return Padding(
+                //                 padding: const EdgeInsets.only(
+                //                     right: 10.0, bottom: 8.0, top: 8.0),
+                //                 child: Container(
+                //                   decoration: BoxDecoration(
+                //                     borderRadius: BorderRadius.circular(4),
+                //                     color: Colors.white,
+                //                     border: Border.all(color: Colors.black45),
+                //                   ),
+                //                   child: Padding(
+                //                     padding: EdgeInsets.all(3.0),
+                //                     child: Wrap(children: [
+                //                       Text(e.keyskillName),
+                //                       SizedBox(
+                //                         width: 5,
+                //                       ),
+                //                       IconButton(
+                //                         onPressed: () {
 
-                                        },
-                                        icon: Icon(Icons.close),
-                                      ),
-                                    ]),
-                                  ),
-                                ),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Divider(
-                    thickness: 2,
-                    color: Colors.black45,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Wrap(
-                      // ignore: prefer_const_literals_to_create_immutables
-                      children: [
-                        Text(
-                            "Type and search for skills and then tap skills to add..."),
-                      ],
-                    ),
-                  ),
-                ),
+                //                         },
+                //                         icon: Icon(Icons.close),
+                //                       ),
+                //                     ]),
+                //                   ),
+                //                 ),
+                //               );
+                //             }).toList(),
+                //           ),
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                // Padding(
+                //   padding: const EdgeInsets.all(8.0),
+                //   child: Divider(
+                //     thickness: 2,
+                //     color: Colors.black45,
+                //   ),
+                // ),
+                // Padding(
+                //   padding: const EdgeInsets.all(8.0),
+                //   child: Align(
+                //     alignment: Alignment.centerLeft,
+                //     child: Wrap(
+                //       // ignore: prefer_const_literals_to_create_immutables
+                //       children: [
+                //         Text(
+                //             "Type and search for skills and then tap skills to add..."),
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                
                 Padding(
                     padding: const EdgeInsets.only(
                       top: 30,
@@ -287,21 +291,12 @@ class _AddSkillsPageState extends State<AddSkillsPage> {
                       alignment: Alignment.centerRight,
                       child: GFButton(
                         onPressed: () {
-                          bool check = false;
                           if (formKey.currentState.validate()) {
                             apiServices
-                                .postSkills(createPostList())
-                                .then((value) {
-                              check = value.data;
-                            });
-                            if (!check) {
-                              // Navigator.of(context).push(
-                              //   MaterialPageRoute(
-                              //     builder: (context) =>  ItSkills(uuid: widget.uuid,),
-                              //   ),
-                              // );
-                            } else {}
-                          } else {}
+                                .keySkillAddProfile(lst: createPostList());
+                          } else {
+                            
+                          }
                         },
                         text: "Save",
                         type: GFButtonType.solid,

@@ -20,6 +20,7 @@ import 'package:job_portal/Models/ItSkills.dart';
 import 'package:job_portal/Models/ItSkillsPost.dart';
 import 'package:job_portal/Models/CareerPreference-post.dart';
 import 'package:job_portal/Models/JobType.dart';
+import 'package:job_portal/Models/KeySkillAddProfile.dart';
 import 'package:job_portal/Models/KeySkillDeleteProfile.dart';
 import 'package:job_portal/Models/KeySkillProfilePopulate.dart';
 import 'package:job_portal/Models/Login.dart';
@@ -51,7 +52,7 @@ import 'package:job_portal/Utility/apiurls.dart';
 import 'package:job_portal/Views/SignIn/SignIn.dart';
 import 'package:logger/logger.dart';
 
-String jwtToken = "";
+String jwtToken = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyLGFtaXJAZ21haWwuY29tLCs5MS05OTk5OTk5OTk5YWRmcyIsImlzcyI6IkpvYlBvcnRhbC5jb20iLCJpYXQiOjE2NDM3OTc4MjQsImV4cCI6MTY0NDQwMjYyNH0.KXmffP-hZ5lvfjCFdQWL6J3xiAdvZ-XF8GdgYfjloPqMZgIWEuRF6R-c0nCco72NCb_wOI3w4yE9iYuwrRwQ9A";
 
 class ApiServices {
   var log = Logger();
@@ -1086,6 +1087,29 @@ class ApiServices {
     List<Map<String,String>> data = jsonDecode(response.body);
     if (response.statusCode == 202) {
       print("Successfully deleted...");
+      return ApiResponse<List<Map<String,String>>>(data: data);
+    }
+    return ApiResponse<List<Map<String,String>>>(error: true, errorMessage: "An error occurred");
+  }
+
+
+  // service for KeySkill Add Profile
+  Future<ApiResponse<List<Map<String,String>>>> keySkillAddProfile({List<KeySkillAddProfile> lst}) async {
+    log.i(lst[0].requestType);
+    log.i(lst[0].candidatekeyskillName);
+    final headers = {
+      "Content-Type": "application/json",
+      "Authorization" : jwtToken
+    };
+    final jsonData = jsonEncode(lst);
+    var response = await http.post(
+        Uri.parse(ApiUrls.kAddDeleteKeySkills), headers: headers, body: jsonData);
+    log.i("Printing Response Here.....");
+    print(response.body);
+    print(response.statusCode);
+    List<Map<String,String>> data = jsonDecode(response.body);
+    if (response.statusCode == 202) {
+      print("Successfully Added...");
       return ApiResponse<List<Map<String,String>>>(data: data);
     }
     return ApiResponse<List<Map<String,String>>>(error: true, errorMessage: "An error occurred");
