@@ -1,3 +1,7 @@
+// ignore_for_file: avoid_print
+
+import 'dart:developer';
+
 import 'package:date_field/date_field.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +11,7 @@ import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/GetCompany.dart';
 import 'package:job_portal/Models/GetIndustry.dart';
 import 'package:job_portal/Models/ProfessionalDetails.dart';
+import 'package:job_portal/Models/RegisterNoticePeriod.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Views/SignIn/Step5-KeySkills.dart';
 import 'package:job_portal/Models/ProfessionDetails-post.dart';
@@ -24,6 +29,9 @@ class _WorkingProfessionState extends State<WorkingProfession> {
   String mycompany = "";
   String myindustry = "";
   String currentCompanyID = "";
+
+  GetProfileNoticePeriod profileSelectedUser;
+  Company getCompany;
 
   int groupValue = 0;
   List lists = [
@@ -66,12 +74,24 @@ class _WorkingProfessionState extends State<WorkingProfession> {
   ApiResponse<List<Company>> _apiResponseCurrentCompany;
   ApiResponse<List<Industry>> _apiResponseIndustry;
   ApiResponse<List<Professional>> _apiResponseProfessional;
+  ApiResponse<List<GetProfileNoticePeriod>> _apiResponseProfile;
 
   @override
   void initState() {
     super.initState();
     fetchCompany(query: "");
     fetchIndustry(query: "");
+    fetchNoticeperiod();
+  }
+
+  fetchNoticeperiod() async {
+    setState(() {
+      isLoading = true;
+    });
+    _apiResponseProfile = await apiServices.getprofNoticeperiod();
+    setState(() {
+      isLoading = false;
+    });
   }
 
   fetchCompany({String query}) async {
@@ -298,6 +318,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                         onChanged: (value) {
                                           currentCompanySearchCo.text =
                                               value.organizationId.toString();
+                                          getCompany = value;
                                           currentCompanyID =
                                               value.organizationId;
                                           print(value.organizationId);
@@ -476,6 +497,60 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                             selectedDate = date;
                                           });
                                         },
+                                      ),
+                                    )
+                                  : Container(),
+
+                              groupValue == 1
+                                  ? Padding(
+                                      padding: EdgeInsets.only(
+                                        top: 15,
+                                      ),
+                                      child: Text("Notice Period ",
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "ProximaNova")),
+                                    )
+                                  : Container(),
+                              groupValue == 1
+                                  ? Padding(
+                                      padding: const EdgeInsets.all(8),
+                                      child: DropdownButtonFormField<
+                                          GetProfileNoticePeriod>(
+                                        hint: Text(
+                                          "Notice Period:",
+                                          style: TextStyle(
+                                              color: Colors.blueGrey,
+                                              fontSize: 14.5,
+                                              letterSpacing: 1.5,
+                                              fontWeight: FontWeight.w500,
+                                              fontFamily: "ProximaNova"),
+                                        ),
+                                        value: profileSelectedUser,
+                                        onChanged:
+                                            (GetProfileNoticePeriod newValue) {
+                                          setState(() {
+                                            profileSelectedUser = newValue;
+                                          });
+                                        },
+                                        validator: (value) => value == null
+                                            ? 'Please fill Notice Period'
+                                            : null,
+                                        items: _apiResponseProfile.data
+                                            .map((GetProfileNoticePeriod user) {
+                                          var dropdownMenuItem =
+                                              DropdownMenuItem<
+                                                  GetProfileNoticePeriod>(
+                                            value: user,
+                                            child: Text(
+                                              user.noticePeriodName,
+                                              style: TextStyle(
+                                                  color: Colors.black),
+                                            ),
+                                          );
+                                          return dropdownMenuItem;
+                                        }).toList(),
                                       ),
                                     )
                                   : Container(),
@@ -806,18 +881,36 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                 setState(() {
                                   isLoading = true;
                                 });
+                                print(
+                                    "=======================================");
+                                print("Currently Working : " +
+                                    groupValue.toString());
+                                print("Organisation Name : " +
+                                    getCompany.organizationName);
+                                print("Notice Period : " +
+                                    profileSelectedUser.noticePeriodId);
+                                print("Designation : " +
+                                    currentCompanyCntrl.text);
+                                print("Salary :" + salaryCount.text.toString());
+                                print("Start Date :" + selectedDate.toString().split(" ")[0]);
+                                print(
+                                    "=======================================");
                                 final insert = PostProfession(
                                   candidateUuid: widget.uuid,
                                   candidateexpIscurrentcompany:
                                       groupValue.toString(),
-                                  candidateexpOrganizationId:
-                                      int.parse(currentCompanyID),
+                                  candidateexpNoticeperiodId:
+                                      profileSelectedUser.noticePeriodId,
+                                  candidateexpOrganizationname:
+                                      getCompany.organizationName,
                                   candidateexpDesignation:
                                       currentCompanyCntrl.text,
                                   candidateexpSalary:
-                                      int.parse(salaryCount.text),
-                                  candidateexpStartdate: selectedDate,
-                                  candidateexpEnddate: selectedDate3,
+                                      salaryCount.text.toString(),
+                                  candidateexpStartdate: selectedDate.toString().split(" ")[0],
+                                  // candidateexpOrganizationId:
+                                  //     int.parse(currentCompanyID),
+                                  // candidateexpEnddate: selectedDate3,
                                 );
                                 final result =
                                     await apiServices.ProfessionPost(insert);

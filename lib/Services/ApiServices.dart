@@ -32,6 +32,7 @@ import 'package:job_portal/Models/ProfessionalPopulate.dart';
 
 import 'package:job_portal/Models/QualificationDetails.dart';
 import 'package:job_portal/Models/QualificationPopulate.dart';
+import 'package:job_portal/Models/RegisterNoticePeriod.dart';
 import 'package:job_portal/Models/Stream.dart';
 import 'package:job_portal/Models/basicdetailresponse.dart';
 import 'package:job_portal/Models/basicdetials.dart';
@@ -52,7 +53,8 @@ import 'package:job_portal/Utility/apiurls.dart';
 import 'package:job_portal/Views/SignIn/SignIn.dart';
 import 'package:logger/logger.dart';
 
-String jwtToken = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyLGFtaXJAZ21haWwuY29tLCs5MS05OTk5OTk5OTk5YWRmcyIsImlzcyI6IkpvYlBvcnRhbC5jb20iLCJpYXQiOjE2NDM3OTc4MjQsImV4cCI6MTY0NDQwMjYyNH0.KXmffP-hZ5lvfjCFdQWL6J3xiAdvZ-XF8GdgYfjloPqMZgIWEuRF6R-c0nCco72NCb_wOI3w4yE9iYuwrRwQ9A";
+String jwtToken =
+    "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI1MzksYWFtaXIxMjNAZ21haWwuY29tLDM5ODQ3Mzk4NzQiLCJpc3MiOiJKb2JQb3J0YWwuY29tIiwiaWF0IjoxNjQ0MjI4NzI0LCJleHAiOjE2NDQ4MzM1MjR9.ir6f-0xlbruOwWIXnKBWbfDjH3LrJs0aSOQ1PlnfdWZS6FyHcJcbFsLXGGQDewY4Pra3CCvzzmknPJ-M-l6QzQ";
 
 class ApiServices {
   var log = Logger();
@@ -63,7 +65,9 @@ class ApiServices {
     final headers = {
       "Content-Type": "application/json",
     };
-    final jsonData = jsonEncode({"registerMobile": objGetOtp.registerMobile});
+    String mobileNo = "+91-" + objGetOtp.registerMobile;
+    log.i(mobileNo);
+    final jsonData = jsonEncode({"registerMobile": mobileNo});
     final response = await http.post(url, headers: headers, body: jsonData);
     if (response.statusCode == 200 || response.statusCode == 201) {
       final jsonData = jsonDecode(response.body);
@@ -77,15 +81,15 @@ class ApiServices {
   }
 
   Future<ApiResponse<int>> otpVerifyGet(OTPVerify objOtpVerify) async {
-    final url = Uri.parse(
-        ApiUrls.kverifyOTP + "/" + objOtpVerify.otp.toString());
+    final url =
+        Uri.parse(ApiUrls.kverifyOTP + "/" + objOtpVerify.otp.toString());
     final headers = {
       "Content-Type": "application/json",
     };
-    final jsonData = jsonEncode(OTPVerify.fromJson({
-      "registerMobile": "91-${objOtpVerify.registerMobile}",
-      "otp": objOtpVerify.otp
-    }));
+    String mobileNo = "+91-" + objOtpVerify.registerMobile;
+    log.i(mobileNo);
+    final jsonData = jsonEncode(OTPVerify.fromJson(
+        {"registerMobile": mobileNo, "otp": objOtpVerify.otp}));
     final response = await http.post(url, headers: headers, body: jsonData);
     if (response.statusCode == 200 || response.statusCode == 201) {
       final jsonData = jsonDecode(response.body);
@@ -581,8 +585,7 @@ class ApiServices {
 
   // IT skills
   Future<ApiResponse<List<ITSkill>>> getITSkill({String query}) async {
-    final url = Uri.parse(ApiUrls.kItskill + query);
-    print(ApiUrls.kItskill + "=" + query);
+    final url = Uri.parse(ApiUrls.kItskill);
     final header = {
       "Content-Type": "application/json",
     };
@@ -604,12 +607,13 @@ class ApiServices {
         error: true, errorMessage: "An error occurred");
   }
 
-  Future<ApiResponse<bool>> PostQualification(QualificationPost qualifi,{String token}) async {
-    jwtToken = "Bearer "+token;
+  Future<ApiResponse<bool>> PostQualification(QualificationPost qualifi,
+      {String token}) async {
+    jwtToken = "Bearer " + token;
     final url = Uri.parse(ApiUrls.kQualify);
     final headers = {
       "Content-Type": "application/json",
-      "Authorization" : jwtToken,
+      "Authorization": jwtToken,
     };
     final jsonData = jsonEncode(qualifi);
 
@@ -626,7 +630,7 @@ class ApiServices {
     final url = Uri.parse(ApiUrls.kItSkill);
     final headers = {
       "Content-Type": "application/json",
-      "Authorization" : jwtToken,
+      "Authorization": jwtToken,
     };
     final jsonData = jsonEncode(skill);
 
@@ -698,18 +702,24 @@ class ApiServices {
     return ApiResponse<Map<String, dynamic>>(
         error: true, errorMessage: "Something went wrong, please try again...");
   }
-  
-
 
   // career preference POST
-  Future<ApiResponse<bool>> PostPreference(
-      CareerPreferencePost preference) async {
+  Future<ApiResponse<bool>> PostPreference(CareerPreferencePost preference) async {
     final url = Uri.parse(ApiUrls.kPreference);
     final headers = {
       "Content-Type": "application/json",
-
+      "Authorization" : jwtToken,
     };
-    final jsonData = jsonEncode(preference);
+    final jsonData = jsonEncode({
+      "candidatequalUuid":preference.candidateUuid,
+      "candidateIndustryId":preference.candidateIndustryId,
+      "candidateJobtypeIdsList": [1,2],
+      "candidateEmploymenttypeIdsList" : [3,4],
+      "candidatePreferredCityIdsList" :[5,7],
+      "candidateExpectedctc":preference.candidateExpectedctc,
+      "candidateShiftId":preference.candidateShiftId,
+      "candidateJoinimmediate":1
+    });
 
     final response = await http.post(url, headers: headers, body: jsonData);
     log.i(response.body);
@@ -720,12 +730,32 @@ class ApiServices {
     return ApiResponse<bool>(error: true, errorMessage: "An Error Occurred");
   }
 
+
+  // // career preference POST
+  // Future<ApiResponse<bool>> PostPreference(
+  //     CareerPreferencePost preference) async {
+  //   final url = Uri.parse(ApiUrls.kPreference);
+  //   final headers = {
+  //     "Content-Type": "application/json",
+  //     "Authorization": jwtToken
+  //   };
+  //   final jsonData = jsonEncode(preference);
+
+  //   final response = await http.post(url, headers: headers, body: jsonData);
+  //   log.i(response.body);
+  //   log.i(response.statusCode);
+  //   if (response.statusCode == 200 || response.statusCode == 200) {
+  //     return ApiResponse<bool>(data: true);
+  //   }
+  //   return ApiResponse<bool>(error: true, errorMessage: "An Error Occurred");
+  // }
+
   // personal details post
   Future<ApiResponse<bool>> PostPersonal(PersonalDetailsPost personal) async {
     final url = Uri.parse(ApiUrls.kPersonal);
     final headers = {
       "Content-Type": "application/json",
-      "Authorization" : jwtToken,
+      "Authorization": jwtToken,
     };
     final jsonData = jsonEncode(personal);
     final response = await http.post(url, headers: headers, body: jsonData);
@@ -742,9 +772,17 @@ class ApiServices {
     final url = Uri.parse(ApiUrls.kProfession);
     final headers = {
       "Content-Type": "application/json",
-      "Authorization" : jwtToken,
+      "Authorization": jwtToken,
     };
-    final jsonData = jsonEncode(profes);
+    final jsonData = jsonEncode({
+      "candidateexpIscurrentcompany": profes.candidateexpIscurrentcompany,
+      "candidateexpNoticeperiodId": profes.candidateexpNoticeperiodId,
+      "candidateexpOrganizationname": profes.candidateexpOrganizationname,
+      "candidateexpDesignation": profes.candidateexpDesignation,
+      "candidateexpSalary": profes.candidateexpSalary,
+      "candidateexpStartdate": profes.candidateexpSalary
+    });
+    log.i(jsonData);
 
     final response = await http.post(url, headers: headers, body: jsonData);
     log.i(response.body);
@@ -762,7 +800,7 @@ class ApiServices {
     final url = Uri.parse(ApiUrls.kpostSkill);
     final headers = {
       "Content-Type": "application/json",
-      "Authorization" : jwtToken,
+      "Authorization": jwtToken,
     };
     final jsonData = jsonEncode(lst);
     final response = await http.post(url, headers: headers, body: jsonData);
@@ -773,7 +811,6 @@ class ApiServices {
     }
     return ApiResponse<bool>(error: true, errorMessage: "An Error Occurred");
   }
-
 
   // KeySkills
   Future<ApiResponse<List<KeySkills>>> getSkills({String query}) async {
@@ -851,7 +888,6 @@ class ApiServices {
         error: true, errorMessage: "An error occurred");
   }
 
-
   Future<ApiResponse<bool>> itSkillAdd(ItSkillAdd skillAdd) async {
     final url = Uri.parse(ApiUrls.kItSkillAdd);
     final headers = {
@@ -894,8 +930,8 @@ class ApiServices {
       "Content-Type": "application/json",
     };
     final jsonData = jsonEncode(obj);
-    var response = await http.post(
-        Uri.parse(ApiUrls.kLogin), headers: headers, body: jsonData);
+    var response = await http.post(Uri.parse(ApiUrls.kLogin),
+        headers: headers, body: jsonData);
     log.i("Printing Response Here.....");
     print(response.body);
     print(response.statusCode);
@@ -911,12 +947,10 @@ class ApiServices {
     return ApiResponse<String>(error: true, errorMessage: "An error occurred");
   }
 
-
   // populate Basic Information
   Future<ApiResponse<List<BasicInfoPopulate>>> PopulateBasicInfo() async {
     final url = Uri.parse(ApiUrls.kGetBasicInfoPop);
     final header = {
-
       "Content-Type": "application/json",
       'Authorization': jwtToken
     };
@@ -939,11 +973,12 @@ class ApiServices {
     return ApiResponse<List<BasicInfoPopulate>>(
         error: true, errorMessage: "An error occurred");
   }
+
   // populate qualification
-  Future<ApiResponse<List<QualificationPopulate>>> PopulateQualification() async {
+  Future<ApiResponse<List<QualificationPopulate>>>
+      PopulateQualification() async {
     final url = Uri.parse(ApiUrls.kGetQualificationPop);
     final header = {
-
       "Content-Type": "application/json",
       'Authorization': jwtToken
     };
@@ -965,13 +1000,14 @@ class ApiServices {
     return ApiResponse<List<QualificationPopulate>>(
         error: true, errorMessage: "An error occurred");
   }
+
   // populate Keyskills
-  Future<ApiResponse<List<PopulateKeySkillsProfileModel>>> getKeySkillsProfile() async {
+  Future<ApiResponse<List<PopulateKeySkillsProfileModel>>>
+      getKeySkillsProfile() async {
     final url = Uri.parse(ApiUrls.kkeySkillsProfile);
-    print(ApiUrls.kkeySkillsProfile);
     final header = {
       "Content-Type": "application/json",
-      "Authorization" : jwtToken,
+      "Authorization": jwtToken,
     };
     final response = await http.get(
       url,
@@ -990,11 +1026,12 @@ class ApiServices {
     return ApiResponse<List<PopulateKeySkillsProfileModel>>(
         error: true, errorMessage: "An error occurred");
   }
+
   //Populate Professional
-  Future<ApiResponse<List<ProfessionalPopulate>>> ProfessionalDetailsPopulate() async {
+  Future<ApiResponse<List<ProfessionalPopulate>>>
+      ProfessionalDetailsPopulate() async {
     final url = Uri.parse(ApiUrls.kGetProfessionalPop);
     final header = {
-
       "Content-Type": "application/json",
       'Authorization': jwtToken,
     };
@@ -1016,38 +1053,34 @@ class ApiServices {
     return ApiResponse<List<ProfessionalPopulate>>(
         error: true, errorMessage: "An error occurred");
     // }
-
   }
+
   //Populate career
-  Future<ApiResponse<List<PopulateCareerPreferenceProfileModel>>> populateCareerPreferenceProfile() async {
+  Future<ApiResponse<Map<String, dynamic>>>
+      getCareerPreferencePopulate() async {
     final url = Uri.parse(ApiUrls.kpopulatecareerpreferenceprofile);
-    final headers = {
+    final header = {
       "Content-Type": "application/json",
-      "Authorization": jwtToken
+      "Authorization": jwtToken,
     };
     final response = await http.get(
       url,
-      headers: headers,
+      headers: header,
     );
     if (response.statusCode == 200) {
-      final jsonData = jsonDecode(response.body);
-      final List<PopulateCareerPreferenceProfileModel> list = [];
-      for (var item in jsonData) {
-        list.add(PopulateCareerPreferenceProfileModel.fromJson(item));
-      }
-      log.i(response.body);
-      log.i(response.statusCode);
-      print(list);
-      return ApiResponse<List<PopulateCareerPreferenceProfileModel>>(data: list);
+      var jsonData = json.decode(response.body);
+      Map<String, dynamic> list = jsonData;
+      return ApiResponse<Map<String, dynamic>>(
+          data: list, error: false, errorMessage: "Successfully Parsed");
     }
-    return ApiResponse<List<PopulateCareerPreferenceProfileModel>>(
+    return ApiResponse<Map<String, dynamic>>(
         error: true, errorMessage: "An error occurred");
   }
+
   // Populate personal
   Future<ApiResponse<List<PersonalRetrive>>> PopulatePersonal() async {
     final url = Uri.parse(ApiUrls.kGetPersonalPop);
     final header = {
-
       "Content-Type": "application/json",
       'Authorization': jwtToken
     };
@@ -1070,49 +1103,83 @@ class ApiServices {
         error: true, errorMessage: "An error occurred");
   }
 
-    // service for KeySkill Delete Profile
-  Future<ApiResponse<List<Map<String,String>>>> keySkillDeleteProfile({KeySkillDeleteProfile obj}) async {
+  // service for KeySkill Delete Profile
+  Future<ApiResponse<List<Map<String, String>>>> keySkillDeleteProfile(
+      {KeySkillDeleteProfile obj}) async {
     log.i(obj.requestType);
     log.i(obj.candidatekeyskillUuid);
     final headers = {
       "Content-Type": "application/json",
-      "Authorization" : jwtToken
+      "Authorization": jwtToken
     };
-    final jsonData = jsonEncode([{"requestType" : "delete","candidatekeyskillUuid" : obj.candidatekeyskillUuid}]);
-    var response = await http.post(
-        Uri.parse(ApiUrls.kAddDeleteKeySkills), headers: headers, body: jsonData);
+    final jsonData = jsonEncode([
+      {
+        "requestType": "delete",
+        "candidatekeyskillUuid": obj.candidatekeyskillUuid
+      }
+    ]);
+    var response = await http.post(Uri.parse(ApiUrls.kAddDeleteKeySkills),
+        headers: headers, body: jsonData);
     log.i("Printing Response Here.....");
     print(response.body);
     print(response.statusCode);
-    List<Map<String,String>> data = jsonDecode(response.body);
+    List<Map<String, String>> data = jsonDecode(response.body);
     if (response.statusCode == 202) {
       print("Successfully deleted...");
-      return ApiResponse<List<Map<String,String>>>(data: data);
+      return ApiResponse<List<Map<String, String>>>(data: data);
     }
-    return ApiResponse<List<Map<String,String>>>(error: true, errorMessage: "An error occurred");
+    return ApiResponse<List<Map<String, String>>>(
+        error: true, errorMessage: "An error occurred");
   }
 
-
   // service for KeySkill Add Profile
-  Future<ApiResponse<List<Map<String,String>>>> keySkillAddProfile({List<KeySkillAddProfile> lst}) async {
+  Future<ApiResponse<List<Map<String, String>>>> keySkillAddProfile(
+      {List<KeySkillAddProfile> lst}) async {
     log.i(lst[0].requestType);
     log.i(lst[0].candidatekeyskillName);
     final headers = {
       "Content-Type": "application/json",
-      "Authorization" : jwtToken
+      "Authorization": jwtToken
     };
     final jsonData = jsonEncode(lst);
-    var response = await http.post(
-        Uri.parse(ApiUrls.kAddDeleteKeySkills), headers: headers, body: jsonData);
+    var response = await http.post(Uri.parse(ApiUrls.kAddDeleteKeySkills),
+        headers: headers, body: jsonData);
     log.i("Printing Response Here.....");
     print(response.body);
     print(response.statusCode);
-    List<Map<String,String>> data = jsonDecode(response.body);
+    List<Map<String, String>> data = jsonDecode(response.body);
     if (response.statusCode == 202) {
       print("Successfully Added...");
-      return ApiResponse<List<Map<String,String>>>(data: data);
+      return ApiResponse<List<Map<String, String>>>(data: data);
     }
-    return ApiResponse<List<Map<String,String>>>(error: true, errorMessage: "An error occurred");
+    return ApiResponse<List<Map<String, String>>>(
+        error: true, errorMessage: "An error occurred");
   }
 
+  // PROFILE  NOTICE PERIOD DROPDOWN STARTS HERE Registration
+
+  Future<ApiResponse<List<GetProfileNoticePeriod>>>
+      getprofNoticeperiod() async {
+    final url = Uri.parse(ApiUrls.kGetprofileNoticePeriod);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <GetProfileNoticePeriod>[];
+      for (var item in jsonData) {
+        list.add(GetProfileNoticePeriod.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      print(list);
+      return ApiResponse<List<GetProfileNoticePeriod>>(data: list);
+    }
+    return ApiResponse<List<GetProfileNoticePeriod>>(
+        error: true, errorMessage: "An error occurred");
+  }
 }

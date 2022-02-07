@@ -1,10 +1,11 @@
+// ignore_for_file: must_be_immutable, unused_import, avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:date_field/date_field.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/Country.dart';
-
 import 'package:job_portal/Models/GetCategory.dart';
 import 'package:job_portal/Models/GetMarital.dart';
 import 'package:job_portal/Models/Nationality.dart';
@@ -13,6 +14,7 @@ import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Views/Candidate/BottomNavbar.dart';
 import 'package:job_portal/Models/location.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:intl/intl.dart';
 
 class PersonalDetails extends StatefulWidget {
    PersonalDetails({Key key, this.uuid}) : super(key: key);
@@ -48,7 +50,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
   //general variables
   Marital Marial;
   Category Caste;
-  DateTime selectedDate;
+  String selectedDate;
   int groupValue = 0;
   int groupValue2 = 0;
   YearPicker selectedDate2;
@@ -390,7 +392,8 @@ class _PersonalDetailsState extends State<PersonalDetails> {
 
                                 onDateSelected: (date) {
                                   setState(() {
-                                    selectedDate = date;
+                                    selectedDate = date.toString().split(" ")[0];
+                                    print(selectedDate);
                                   });
                                 },
                               ),

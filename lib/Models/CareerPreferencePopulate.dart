@@ -1,25 +1,25 @@
-class PopulateCareerPreferenceProfileModel {
+class CareerPreferencePopulate {
   String industryName;
-  String jobtypeName;
-  String employmenttypeName;
+  List<String> jobtypeName;
+  List<String> employmenttypeName;
   String cityName;
   String candidateExpectedctc;
   String shiftName;
   String candidateJoindate;
 
-  PopulateCareerPreferenceProfileModel(
+  CareerPreferencePopulate(
       {this.industryName,
-        this.jobtypeName,
-        this.employmenttypeName,
-        this.cityName,
-        this.candidateExpectedctc,
-        this.shiftName,
-        this.candidateJoindate});
+      this.jobtypeName,
+      this.employmenttypeName,
+      this.cityName,
+      this.candidateExpectedctc,
+      this.shiftName,
+      this.candidateJoindate});
 
-  PopulateCareerPreferenceProfileModel.fromJson(Map<String, dynamic> json) {
+  CareerPreferencePopulate.fromJson(Map<String, dynamic> json) {
     industryName = json['industryName'];
-    jobtypeName = json['jobtypeName'];
-    employmenttypeName = json['employmenttypeName'];
+    jobtypeName = json['jobtypeName'].cast<String>();
+    employmenttypeName = json['employmenttypeName'].cast<String>();
     cityName = json['cityName'];
     candidateExpectedctc = json['candidateExpectedctc'];
     shiftName = json['shiftName'];
@@ -27,14 +27,14 @@ class PopulateCareerPreferenceProfileModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['industryName'] = this.industryName;
-    data['jobtypeName'] = this.jobtypeName;
-    data['employmenttypeName'] = this.employmenttypeName;
-    data['cityName'] = this.cityName;
-    data['candidateExpectedctc'] = this.candidateExpectedctc;
-    data['shiftName'] = this.shiftName;
-    data['candidateJoindate'] = this.candidateJoindate;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['industryName'] = industryName;
+    data['jobtypeName'] = jobtypeName;
+    data['employmenttypeName'] = employmenttypeName;
+    data['cityName'] = cityName;
+    data['candidateExpectedctc'] = candidateExpectedctc;
+    data['shiftName'] = shiftName;
+    data['candidateJoindate'] = candidateJoindate;
     return data;
   }
 }

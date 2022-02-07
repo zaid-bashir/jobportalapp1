@@ -9,6 +9,7 @@ import 'package:job_portal/Models/KeySkillProfilePopulate.dart';
 import 'package:job_portal/Models/keyskill.dart';
 import 'package:job_portal/Models/postkeyskills.dart';
 import 'package:job_portal/Services/ApiServices.dart';
+import 'package:job_portal/Views/Profile/Profile.dart';
 
 class AddSkillsPage extends StatefulWidget {
   AddSkillsPage({Key key, this.uuid}) : super(key: key);
@@ -292,10 +293,19 @@ class _AddSkillsPageState extends State<AddSkillsPage> {
                       child: GFButton(
                         onPressed: () {
                           if (formKey.currentState.validate()) {
-                            apiServices
-                                .keySkillAddProfile(lst: createPostList());
+                            setState(() {
+                              apiServices
+                                  .keySkillAddProfile(lst: createPostList());
+                            });
+                            SnackBar(content: Container(
+                              decoration : BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Text("Key Skills Added Successfully..."),
+                            ));
+                            Navigator.of(context).pop();
+                            populateKeySkills();
                           } else {
-                            
                           }
                         },
                         text: "Save",

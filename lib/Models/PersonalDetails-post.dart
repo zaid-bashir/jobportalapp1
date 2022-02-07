@@ -3,7 +3,7 @@ class PersonalDetailsPost {
   String candidateAddress;
   int candidateCityId;
   String candidatePin;
-  DateTime candidateDob;
+  String candidateDob;
   int candidateMaritalstatusId;
   int candidateReservedcategoryId;
   String candidateExservicemen;
@@ -40,7 +40,7 @@ class PersonalDetailsPost {
       "candidateAddress": candidateAddress,
       "candidateCityId": candidateCityId,
       "candidatePin": candidatePin,
-      "candidateDob": "${candidateDob.year.toString().padLeft(4, '0')}-${candidateDob.month.toString().padLeft(2, '0')}-${candidateDob.day.toString().padLeft(2, '0')}",
+      "candidateDob": candidateDob,
       "candidateMaritalstatusId": candidateMaritalstatusId,
       "candidateReservedcategoryId": candidateReservedcategoryId,
       "candidateExservicemen": candidateExservicemen,

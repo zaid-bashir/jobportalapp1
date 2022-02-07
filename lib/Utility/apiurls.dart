@@ -43,6 +43,7 @@ class ApiUrls extends Connect{
   static String kpopulatecareerpreferenceprofile = Connect.AppURL()+"candidate/careerpreference-list";
   static String kGetPersonalPop = Connect.AppURL()+"candidate/personaldetail-list";
   static String kAddDeleteKeySkills = Connect.AppURL()+"candidate/keyskill-add";
+  static String kGetprofileNoticePeriod = "http://192.168.0.20:9030/jobportal-app/api/populate/notice";
 
 
 

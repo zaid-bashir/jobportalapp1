@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:job_portal/Models/CareerPreference-post.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
+import 'package:job_portal/Models/EmploymentType.dart';
 import 'package:job_portal/Models/GetIndustry.dart';
 import 'package:job_portal/Models/GetShift.dart';
 import 'package:job_portal/Models/JobType.dart';
@@ -15,8 +16,9 @@ import 'package:job_portal/Views/SignIn/Step8-PersonalDetails.dart';
 import 'package:job_portal/Views/SignIn/listView-EmploymentType.dart';
 
 class CareerPreference extends StatefulWidget {
-   CareerPreference({Key key,this.uuid}) : super(key: key);
+  CareerPreference({Key key, this.uuid}) : super(key: key);
   String uuid;
+
   @override
   _CareerPreferenceState createState() => _CareerPreferenceState();
 }
@@ -40,6 +42,32 @@ class _CareerPreferenceState extends State<CareerPreference> {
 
   ApiResponse<List<Cities>> _apiResponseLocation;
 
+  fetchEmpType() async {
+    setState(() {
+      isLoading = true;
+    });
+    _apiResponse3 = await apiServices.getEmploymentType();
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  //
+  // List<EmploymentType> selectedSkills = [];
+  List<JobType> selectedSkills2 = [];
+  ApiResponse<List<EmploymentType>> _apiResponse3;
+
+  fetchJobType() async {
+    setState(() {
+      isLoading = true;
+    });
+    _apiResponse8 = await apiServices.getjobType();
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  ApiResponse<List<JobType>> _apiResponse8;
   String query;
   String myindustry = "";
   String locationId = "";
@@ -49,6 +77,8 @@ class _CareerPreferenceState extends State<CareerPreference> {
   String queriess;
   TextEditingController industrySearchCont = TextEditingController();
   TextEditingController locationSearchCont = TextEditingController();
+  TextEditingController lakh = TextEditingController();
+  TextEditingController thou = TextEditingController();
 
   bool isLoading = false;
   var formKey = GlobalKey<FormState>();
@@ -60,10 +90,12 @@ class _CareerPreferenceState extends State<CareerPreference> {
   ApiResponse<List<Industry>> _apiResponseIndustry;
 
   bool isActive = false;
+  listCheck checkuu;
 
   @override
   void initState() {
-    // fetchJobType();
+    fetchJobType();
+    fetchEmpType();
     fetchShift();
     fetchIndustry(query: "");
     fetchCity(query: "");
@@ -80,15 +112,15 @@ class _CareerPreferenceState extends State<CareerPreference> {
     });
   }
 
-  fetchJobType() async {
-    setState(() {
-      isLoading = true;
-    });
-    _apiResponse2 = await apiServices.getjobType();
-    setState(() {
-      isLoading = false;
-    });
-  }
+  // fetchJobType() async {
+  //   setState(() {
+  //     isLoading = true;
+  //   });
+  //   _apiResponse2 = await apiServices.getjobType();
+  //   setState(() {
+  //     isLoading = false;
+  //   });
+  // }
 
   fetchIndustry({String query}) async {
     setState(() {
@@ -204,7 +236,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                             },
                                             mode: Mode.DIALOG,
                                             items: isLoading
-                                                ? Industry()
+                                                ? [Industry()]
                                                 : _apiResponseIndustry.data,
                                             itemAsString: (Industry obj) {
                                               return obj.industryName;
@@ -289,11 +321,11 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                         ),
                                       ],
                                     )),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 20.0, right: 25.0, top: 20.0),
-                            child: const ListJob(),
-                          ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 20.0, right: 25.0, top: 20.0),
+                                  child: ListJob(),
+                                ),
                                 // Padding(
                                 //     padding: const EdgeInsets.only(
                                 //         left: 10.0, right: 10.0, top: 2.0),
@@ -349,7 +381,57 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                 Padding(
                                   padding: const EdgeInsets.only(
                                       left: 20.0, right: 25.0, top: 20.0),
-                                  child: const listCheck(),
+                                  child: listCheck(),
+                                  // DropdownSearch<EmploymentType>.multiSelection(
+                                  //   autoValidateMode:
+                                  //   AutovalidateMode
+                                  //       .onUserInteraction,
+                                  //   validator: (value) {
+                                  //     if (value.isEmpty) {
+                                  //       return "Please Select Employment type";
+                                  //     }
+                                  //     return null;
+                                  //   },
+                                  //   mode: Mode.DIALOG,
+                                  //   items: isLoading
+                                  //       ? [EmploymentType()]
+                                  //       : _apiResponse3.data,
+                                  //   itemAsString:
+                                  //       (EmploymentType obj) {
+                                  //     return obj.employmenttypeName;
+                                  //   },
+                                  //   onChanged: (val) {
+                                  //     setState(() {
+                                  //       isLoading = true;
+                                  //       selectedSkills = val;
+                                  //     });
+                                  //   },
+                                  //   // onFind: (val) async {
+                                  //   //   setState(() {
+                                  //   //     query = val;
+                                  //   //   });
+                                  //   //   fetchCompany(query: query);
+                                  //   //   return _apiResponse.data;
+                                  //   // },
+                                  //   // ignore: deprecated_member_use
+                                  //   hint: "Select Employment type",
+                                  //   showSearchBox: true,
+                                  //   popupItemBuilder: (context,
+                                  //       EmploymentType item,
+                                  //       bool isSelected) {
+                                  //     return Container(
+                                  //       margin:
+                                  //       EdgeInsets.symmetric(
+                                  //           horizontal: 8),
+                                  //       child: Padding(
+                                  //         padding:
+                                  //         EdgeInsets.all(8.0),
+                                  //         child: Text(
+                                  //             item.employmenttypeName),
+                                  //       ),
+                                  //     );
+                                  //   },
+                                  // ),
                                 ),
 
                                 Padding(
@@ -472,6 +554,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                       ),
                                       Expanded(
                                         child: TextField(
+                                          controller: lakh ,
                                           decoration:
                                               InputDecoration(hintText: "Lakh"),
                                         ),
@@ -481,6 +564,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                       ),
                                       Expanded(
                                         child: TextField(
+                                            controller: thou,
                                           decoration: InputDecoration(
                                               hintText: "Thousand"),
                                         ),
@@ -701,20 +785,30 @@ class _CareerPreferenceState extends State<CareerPreference> {
                             alignment: Alignment.centerRight,
                             child: GFButton(
                               onPressed: () async {
+                                print(
+                                    "----------------------------------------------------------------");
+                                print(listCheckState().selectedSkills);
+                                print(
+                                    "----------------------------------------------------------------");
                                 if (formKey.currentState.validate()) {
+                                  int totalworkexp = (int.parse(lakh.text)) +
+                                      (int.parse(thou.text));
                                   setState(() {
                                     isLoading = true;
                                   });
                                   final insert = CareerPreferencePost(
                                     candidateUuid: widget.uuid,
                                     candidateIndustryId: int.parse(myindustry),
-                                    candidateJobtypeIdsList: ['9',"7"],
-                                    candidateEmploymenttypeIdsList: ['3',"6"],
+                                    candidateJobtypeIdsList: [
+                                      ListJobState().selectedSkills2
+                                    ],
+                                    candidateEmploymenttypeIdsList: [
+                                      listCheckState().selectedSkills
+                                    ],
                                     candidatePreferredCityIdsList: [locationId],
-                                    candidateExpectedctc: 5,
+                                    candidateExpectedctc: totalworkexp,
                                     candidateShiftId: int.parse(myShift),
                                     // candidateJoinimmediate: '1',
-
                                   );
                                   final result =
                                       await apiServices.PostPreference(insert);
@@ -750,12 +844,13 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                   //   }
                                   // });
                                 }
-    Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) =>
-                 PersonalDetails(uuid: widget.uuid,),
-          ),
-        );
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => PersonalDetails(
+                                      uuid: widget.uuid,
+                                    ),
+                                  ),
+                                );
                               },
                               text: "Next",
                               type: GFButtonType.solid,

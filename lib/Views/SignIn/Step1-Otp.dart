@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
@@ -26,7 +28,7 @@ class _OTPState extends State<OTP> {
       isLoading = true;
     });
     _apiResponse =
-    await apiServices.otpGet(GetOTP(registerMobile: "91-$mobileNumber"));
+    await apiServices.otpGet(GetOTP(registerMobile: mobileNumber));
     setState(() {
       isLoading = false;
     });
@@ -211,6 +213,7 @@ class _OTPState extends State<OTP> {
                       desc:
                       'OTP Successfully Sent to Mobile Number +91-${mobileController.text}',
                       btnOkOnPress: () {
+                        print(mobileController.text);
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => VerifyOTP(

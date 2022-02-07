@@ -781,6 +781,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                 ),
               ),
             ),
+          
           ),
           Padding(
             padding: const EdgeInsets.all(20.0),

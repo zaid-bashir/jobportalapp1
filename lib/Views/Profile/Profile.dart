@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, avoid_print
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
@@ -79,7 +79,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
     getQualification();
     populateKeySkills();
     getProfessional();
-    populateCareerPreferenceProfile();
+    // populateCareerPreferenceProfile();
     getPersonal();
     fetchITSkill(query: "");
     // if(widget.basic != null){
@@ -107,7 +107,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
   ApiResponse<List<PersonalRetrive>> _apiResponse4;
   ApiResponse<List<PopulateKeySkillsProfileModel>> _apiResponseKeySkillPopulate;
   ApiResponse<List<ProfessionalPopulate>> _apiResponse5;
-  ApiResponse<List<PopulateCareerPreferenceProfileModel>> _apiResponseCareerPreferencePopulate;
+  ApiResponse<CareerPreferencePopulate> _apiResponseCareerPreferencePopulate;
   ApiServices apiServices =ApiServices();
   bool isLoadingKeySkillDeleteProfile = false;
   ApiResponse<List<KeySkillDeleteProfile>> _apiResponseKeySkillDeleteProfile;
@@ -159,15 +159,17 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
       isLoading = false;
     });
   }
-  populateCareerPreferenceProfile() async {
-    setState(() {
-      isLoadingPopulateCareerPreferenceProfile = true;
-    });
-    _apiResponseCareerPreferencePopulate = await apiServices.populateCareerPreferenceProfile();
-    setState(() {
-      isLoadingPopulateCareerPreferenceProfile = false;
-    });
-  }
+  // populateCareerPreferenceProfile() async {
+  //   setState(() {
+  //     isLoadingPopulateCareerPreferenceProfile = true;
+  //   });
+  //   print("Error is Here");
+  //   _apiResponseCareerPreferencePopulate = await apiServices.populateCareerPreferenceProfile();
+  //   print("Error is Here");
+  //   setState(() {
+  //     isLoadingPopulateCareerPreferenceProfile = false;
+  //   });
+  // }
   getPersonal() async {
     setState(() {
       isLoading = true;
@@ -177,6 +179,7 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
       isLoading = false;
     });
   }
+
 
 
 
@@ -337,9 +340,8 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
     return childs;
   }
 
-
   List<Widget> GetCareerPreferenceInfo() {
-    List<Widget> childs =  _apiResponseCareerPreferencePopulate.data.map((e) =>
+    Widget childs =
         Column(
           children: [
             Padding(
@@ -354,14 +356,14 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                       children: [
                         Text('Preferred Industry:', style: TextStyle(
                           fontFamily: "ProximaNova",
-                          color: Colors.grey,
+                          color: Colors.grey.shade600,
                           fontWeight: FontWeight.w500,
                           letterSpacing: 1.5,
-                          fontSize: 12.5,
+                          fontSize: 13.0,
                         ),),
                         Padding(
                           padding: const EdgeInsets.only(top:5),
-                          child: Text(_apiResponseCareerPreferencePopulate.data[0].industryName??"",style:TextStyle(fontSize: 14.0,fontFamily:"ProximaNova",fontWeight: FontWeight.bold)),
+                          child: Text(_apiResponseCareerPreferencePopulate.data.industryName ?? "Industry Name",style:TextStyle(fontSize: 14.0,fontFamily:"ProximaNova",fontWeight: FontWeight.bold)),
                         )
                       ],
                     ),
@@ -373,15 +375,15 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                       children: [
                         Text('Preferred Job Type:',style: TextStyle(
                           fontFamily: "ProximaNova",
-                          color: Colors.grey,
+                          color: Colors.grey.shade600,
                           fontWeight: FontWeight.w500,
                           letterSpacing: 1.5,
-                          fontSize: 12.5,
+                          fontSize: 13.0,
                         ),),
 
                         Padding(
                           padding: const EdgeInsets.only(top:5.0),
-                          child: Text(_apiResponseCareerPreferencePopulate.data[0].jobtypeName??"" ,style:TextStyle(fontSize: 14.0,fontFamily:"ProximaNova",fontWeight: FontWeight.bold)),
+                          child: Text(_apiResponseCareerPreferencePopulate.data.jobtypeName.toString() ?? "JobType Name" ,style:const TextStyle(fontSize: 14.0,fontFamily:"ProximaNova",fontWeight: FontWeight.bold)),
 
                         )
                       ],
@@ -406,15 +408,15 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                       children: [
                         Text('Preferred Employment Type:', style: TextStyle(
                           fontFamily: "ProximaNova",
-                          color: Colors.grey,
+                          color: Colors.grey.shade600,
                           fontWeight: FontWeight.w500,
                           letterSpacing: 1.5,
-                          fontSize: 12.5,
+                          fontSize: 13.0,
                         ),),
 
                         Padding(
                           padding: const EdgeInsets.only(top:5.0),
-                          child: Text(_apiResponseCareerPreferencePopulate.data[0].employmenttypeName??"",style:TextStyle(fontSize: 14.0,fontFamily:"ProximaNova",fontWeight: FontWeight.bold)),
+                          child: Text(_apiResponseCareerPreferencePopulate.data.employmenttypeName.toString()??"Employment Name",style:TextStyle(fontSize: 14.0,fontFamily:"ProximaNova",fontWeight: FontWeight.bold)),
                         )
                       ],
                     ),
@@ -425,14 +427,14 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                       children: [
                         Text('Preferred Job Location:',style: TextStyle(
                           fontFamily: "ProximaNova",
-                          color: Colors.grey,
+                          color: Colors.grey.shade600,
                           fontWeight: FontWeight.w500,
                           letterSpacing: 1.5,
-                          fontSize: 12.5,
+                          fontSize: 13.0,
                         ),),
                         Padding(
                           padding: const EdgeInsets.only(top:5.0),
-                          child: Text(_apiResponseCareerPreferencePopulate.data[0].cityName??"",style:TextStyle(fontSize: 14.0,fontFamily:"ProximaNova",fontWeight: FontWeight.bold)),
+                          child: Text(_apiResponseCareerPreferencePopulate.data.cityName??"City Name",style:TextStyle(fontSize: 14.0,fontFamily:"ProximaNova",fontWeight: FontWeight.bold)),
                         )
                       ],
                     ),
@@ -453,14 +455,14 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                       children: [
                         Text('Salary Expectation:', style: TextStyle(
                           fontFamily: "ProximaNova",
-                          color: Colors.grey,
+                          color: Colors.grey.shade600,
                           fontWeight: FontWeight.w500,
                           letterSpacing: 1.5,
-                          fontSize: 12.5,
+                          fontSize: 13.0,
                         ),),
                         Padding(
                           padding: const EdgeInsets.only(top:5.0),
-                          child: Text(_apiResponseCareerPreferencePopulate.data[0].candidateExpectedctc??"",style:TextStyle(fontSize: 14.0,fontFamily:"ProximaNova",fontWeight: FontWeight.bold)),
+                          child: Text(_apiResponseCareerPreferencePopulate.data.candidateExpectedctc??"Expected CTC",style:TextStyle(fontSize: 14.0,fontFamily:"ProximaNova",fontWeight: FontWeight.bold)),
                         )
                       ],
                     ),
@@ -473,14 +475,14 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                       children: [
                         Text('Preferred Shift:', style: TextStyle(
                           fontFamily: "ProximaNova",
-                          color: Colors.grey,
+                          color: Colors.grey.shade600,
                           fontWeight: FontWeight.w500,
                           letterSpacing: 1.5,
-                          fontSize: 12.5,
+                          fontSize: 13.0,
                         ),),
                         Padding(
                           padding: const EdgeInsets.only(top:5.0),
-                          child: Text(_apiResponseCareerPreferencePopulate.data[0].shiftName??"",style:TextStyle(fontSize: 14.0,fontFamily:"ProximaNova",fontWeight: FontWeight.bold)),
+                          child: Text(_apiResponseCareerPreferencePopulate.data.shiftName??"Shift Name",style:TextStyle(fontSize: 14.0,fontFamily:"ProximaNova",fontWeight: FontWeight.bold)),
                         )
                       ],
                     ),
@@ -503,14 +505,14 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                       children: [
                         Text('Availability To Join:', style: TextStyle(
                           fontFamily: "ProximaNova",
-                          color: Colors.grey,
+                          color: Colors.grey.shade600,
                           fontWeight: FontWeight.w500,
                           letterSpacing: 1.5,
-                          fontSize: 12.5,
+                          fontSize: 13.0,
                         ),),
                         Padding(
                           padding: const EdgeInsets.only(top:5.0),
-                          child: Text(_apiResponseCareerPreferencePopulate.data[0].candidateJoindate??"",style:TextStyle(fontSize: 14.0,fontFamily:"ProximaNova",fontWeight: FontWeight.bold)),
+                          child: Text(_apiResponseCareerPreferencePopulate.data.candidateJoindate??"Join Date",style:const TextStyle(fontSize: 14.0,fontFamily:"ProximaNova",fontWeight: FontWeight.bold)),
                         )
                       ],
                     ),
@@ -521,13 +523,8 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
               ),
             ),
           ],
-        ),
-    )
-        .toList();
-    return childs;
+        );
   }
-
-
 
 
   List<Widget> getPersonalList() {
@@ -1426,13 +1423,11 @@ class _ProfilePageState extends State<ProfilePage>  with SingleTickerProviderSta
                   child: Padding(
                       padding: const EdgeInsets.only(bottom: 15),
                       child: Column(
-                        children:GetCareerPreferenceInfo(),
-
+                        children:[],
                       )
                   ),
                 ),
               ),
-
 
               Padding(
                 padding: const EdgeInsets.only(left: 25, top: 10, right: 25),
