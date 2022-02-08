@@ -53,13 +53,10 @@ import 'package:job_portal/Utility/apiurls.dart';
 import 'package:job_portal/Views/SignIn/SignIn.dart';
 import 'package:logger/logger.dart';
 
-String jwtToken =
-    "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI1MzksYWFtaXIxMjNAZ21haWwuY29tLDM5ODQ3Mzk4NzQiLCJpc3MiOiJKb2JQb3J0YWwuY29tIiwiaWF0IjoxNjQ0MjI4NzI0LCJleHAiOjE2NDQ4MzM1MjR9.ir6f-0xlbruOwWIXnKBWbfDjH3LrJs0aSOQ1PlnfdWZS6FyHcJcbFsLXGGQDewY4Pra3CCvzzmknPJ-M-l6QzQ";
+String jwtToken = "";
 
 class ApiServices {
   var log = Logger();
-  String key = "";
-
   Future<ApiResponse<int>> otpGet(GetOTP objGetOtp) async {
     final url = Uri.parse(ApiUrls.kgetOTP);
     final headers = {
