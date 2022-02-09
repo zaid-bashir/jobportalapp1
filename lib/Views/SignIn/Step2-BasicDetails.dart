@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, deprecated_member_use, prefer_final_fields, unused_field, unnecessary_string_interpolations, avoid_print, prefer_const_constructors_in_immutables, must_be_immutable, avoid_unnecessary_containers, unused_local_variable
+// ignore_for_file: avoid_print
 
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +11,7 @@ import 'package:job_portal/Models/basicdetials.dart';
 import 'package:job_portal/Models/custumradiomodel.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Step3-QualificationDetails.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -89,7 +90,8 @@ class _BasicDetailsState extends State<BasicDetails> {
   String jobRoleID = "";
   String cityID = "";
   int totalExp = 0;
-  Map<String,dynamic> response;
+  Map<String,dynamic> responseError;
+  Map<String,dynamic> responseSuccess;
 
   //Normal Fiels Variables
   //======================
@@ -788,7 +790,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                   type: GFButtonType.solid,
                   blockButton: false,
                   onPressed: () async {
-                    // if (_fbKey.currentState.saveAndValidate()) {
+                    if (_fbKey.currentState.saveAndValidate()) {
                       final insert = BasicDetialModel(
                         candidateTitleId: int.parse(selectedUser.titleId),
                         candidateMobile1: widget.mobileNo,
@@ -810,38 +812,29 @@ class _BasicDetailsState extends State<BasicDetails> {
 
                       final result = await apiServices.postBasicDetials(insert);
                       print("#######################");
-                      response = result.data;
-                      print(response);
-                      print("#######################");
-                      if(response['errors']){
-                        print(response['errors'].toString());
-                      }else{
+                      if(result.data["error"] != null){
+                        AwesomeDialog(
+                          context: context,
+                          animType: AnimType.SCALE,
+                          dialogType: DialogType.ERROR,
+                          title: 'JobPortalApp',
+                          desc: 'Some Fields are Not Filled, Please Fill all the fields',
+                        ).show();
                         return;
                       }
+                      responseSuccess = result.data["successResult"];
+                      // print(responseError);
+                      print(responseSuccess);
+                      print("#######################");
                       storeDataToSharedPref();
-                      result.error
-                          ? showDialog(
-                        context: context,
-                        builder: (_) => AlertDialog(
-                          title: Text("Error"),
-                          content: Text("Something went wrong"),
-                          actions: [
-                            ElevatedButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Text("OK"))
-                          ],
-                        ),
-                      )
-                          : Navigator.of(context).push(
+                      Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => QualificationBlueCollar(
-                            uuid: response['axelaCandidateUuId'],
+                            uuid: result.data['successResult']['axelaCandidateUuId'],
                           ),
                         ),
                       );
-                    // }
+                    }
                   }),
             ),
           ),
@@ -859,10 +852,10 @@ class _BasicDetailsState extends State<BasicDetails> {
   }
 
   void storeDataToSharedPref() {
-    pref.setString(keyUuid, response['axelaCandidateUuId']);
-    pref.setInt(keyCandiadateId, response['axelaCandidateId']);
-    pref.setString(keyCandidateName, response['axelaCandidateName']);
-    pref.setString(keyCandidateEmail, response['axelaCandidateEmail1']);
-    pref.setString(keyCandiadteMobile, response['axelaCandidateMobile']);
+    pref.setString(keyUuid, responseSuccess['successResult']['axelaCandidateUuId']);
+    pref.setInt(keyCandiadateId, int.parse(responseSuccess['successResult']['axelaCandidateId']));
+    pref.setString(keyCandidateName, responseSuccess['successResult']['axelaCandidateName']);
+    pref.setString(keyCandidateEmail, responseSuccess['successResult']['axelaCandidateEmail1']);
+    pref.setString(keyCandiadteMobile, responseSuccess['successResult']['axelaCandidateMobile']);
   }
 }

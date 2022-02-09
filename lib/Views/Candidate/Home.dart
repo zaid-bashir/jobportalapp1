@@ -17,8 +17,8 @@ import 'Inbox.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class HomePage extends StatelessWidget {
-  HomePage({Key key,this.payLoadData}) : super(key: key);
-  Map<String,dynamic> payLoadData;
+  HomePage({Key key,this.keyjwt}) : super(key: key);
+  String keyjwt;
   Widget _appBar(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
@@ -151,7 +151,7 @@ class HomePage extends StatelessWidget {
   Widget _header(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 12),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 16, ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -547,6 +547,7 @@ class HomePage extends StatelessWidget {
           const Text(
             "Suggestions for you",
             style: TextStyle(
+                fontSize: 20,
                 fontWeight: FontWeight.bold,
                 fontFamily: "ProximaNova",
                 color: KColors.title),

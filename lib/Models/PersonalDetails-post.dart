@@ -1,4 +1,5 @@
 class PersonalDetailsPost {
+  String requestType;
   String candidateUuid;
   String candidateAddress;
   int candidateCityId;
@@ -19,6 +20,7 @@ class PersonalDetailsPost {
   PersonalDetailsPost(
 
       {this.candidateUuid,
+        this.requestType,
         this.candidateAddress,
         this.candidateCityId,
         this.candidatePin,
@@ -36,6 +38,7 @@ class PersonalDetailsPost {
         this.candidateWorkpermitcountryId});
   Map<String, dynamic> toJson() {
     return {
+      "requestType" : requestType,
       "candidateUuid":candidateUuid,
       "candidateAddress": candidateAddress,
       "candidateCityId": candidateCityId,

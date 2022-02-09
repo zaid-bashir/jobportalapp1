@@ -187,8 +187,7 @@ class _KeySkillsPageState extends State<KeySkillsPage> {
                                               child: Padding(
                                                 padding:
                                                 const EdgeInsets.all(8.0),
-                                                child: DropdownSearch<
-                                                    KeySkills>.multiSelection(
+                                                child: DropdownSearch<KeySkills>.multiSelection(
                                                   autoValidateMode:
                                                   AutovalidateMode
                                                       .onUserInteraction,

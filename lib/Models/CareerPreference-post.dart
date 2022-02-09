@@ -2,8 +2,8 @@
 class CareerPreferencePost {
   String candidateUuid;
   int candidateIndustryId;
-  List<String>  candidateJobtypeIdsList;
-  List<String>  candidateEmploymenttypeIdsList;
+  List  candidateJobtypeIdsList;
+  List  candidateEmploymenttypeIdsList;
   List<String> candidatePreferredCityIdsList;
   int candidateExpectedctc;
   int candidateShiftId;

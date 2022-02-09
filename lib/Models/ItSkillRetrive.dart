@@ -1,20 +1,37 @@
 class ItSkillProfile {
-   int candidateitskillItskillId;
-   int candidateitskillVersion;
-   int candidateitskillLastused;
-   String candidateitskillExperience;
-   String itskillName;
+  int candidateitskillItskillId;
+  String candidateitskillVersion;
+  String candidateitskillUuid;
+  String candidateitskillLastused;
+  String candidateitskillExperience;
+  String itskillName;
+  String candidateitskillName;
 
-  ItSkillProfile({this.candidateitskillItskillId,this.candidateitskillVersion,this.candidateitskillLastused,this.candidateitskillExperience,
-    this.itskillName});
+  int candidateitskillExperienceYears;
+  int candidateitskillExperienceMonths;
 
-  factory ItSkillProfile.fromJson(Map<String,dynamic> item){
+  ItSkillProfile(
+      {this.candidateitskillItskillId,
+        this.candidateitskillUuid,
+        this.candidateitskillName,
+      this.candidateitskillVersion,
+      this.candidateitskillLastused,
+      this.candidateitskillExperience,
+      this.itskillName,
+      this.candidateitskillExperienceYears,
+      this.candidateitskillExperienceMonths});
+
+  factory ItSkillProfile.fromJson(Map<String, dynamic> item) {
     return ItSkillProfile(
       candidateitskillItskillId: item["candidateitskillItskillId"],
+      candidateitskillName: item["candidateitskillName"],
+      candidateitskillUuid: item["candidateitskillUuid"],
       candidateitskillVersion: item["candidateitskillVersion"],
       candidateitskillLastused: item["candidateitskillLastused"],
       candidateitskillExperience: item["candidateitskillExperience"],
       itskillName: item["itskillName"],
+      candidateitskillExperienceYears: item["candidateitskillExperienceYears"],
+      candidateitskillExperienceMonths: item["candidateitskillExperienceMonths"],
     );
   }
 }

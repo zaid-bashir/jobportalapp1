@@ -37,7 +37,11 @@ class ApiUrls{
   static String kBasicDetails =  "http://192.168.0.20:9030/jobportal-app/candidate/candidate-overview";
   static String kLogin = "http://192.168.0.20:7028/jobportal-app/api/jwt/login";
   static String kItSkillAdd = "http://192.168.0.20:9030/jobportal-app/api/candidate/itskill-add";
+  static String kItSkillUpdate = "http://192.168.0.20:9030/jobportal-app/api/candidate/itskill-add";
   static String kItSkillDelete = "http://192.168.0.20:9030/jobportal-app/api/candidate/itskill-add";
   static String kGetQualificationPop = "http://192.168.0.20:9030/jobportal-app/api/candidate/qualification-list";
-
+  static String kGetPersonalPop = "http://192.168.0.20:9030/jobportal-app/api/candidate/personaldetail-list";
+  static String kPersonalUpdate = "http://192.168.0.20:9030/jobportal-app/api/candidate/personaldetail-add";
+  static String kItSkillUpdatePop = "http://192.168.0.20:9030/jobportal-app/api/candidate/itskill-populate?request=";
+  static String kQualificationUpdate  = "http://192.168.0.20:9030/jobportal-app/api/candidate/qualification-add";
 }

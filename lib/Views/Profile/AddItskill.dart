@@ -1,17 +1,23 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
+import 'package:job_portal/Models/EmploymentType.dart';
 import 'package:job_portal/Models/ItSkillAdd.dart';
+import 'package:job_portal/Models/ItSkillRetrive.dart';
 import 'package:job_portal/Models/ItSkills.dart';
 import 'package:job_portal/Models/PassingYear.dart';
 import 'package:job_portal/Services/ApiServices.dart';
+import 'package:job_portal/Views/SignIn/Step6-ItSkills.dart';
+import 'package:textfield_search/textfield_search.dart';
 
 class ItSkillAdds extends StatefulWidget {
-  ItSkillAdds({Key key, this.uuid,this.candiId}) : super(key: key);
+  ItSkillAdds({Key key, this.uuid,  this.keyjwt})
+      : super(key: key);
   String uuid;
-  int candiId;
+  String keyjwt;
 
   @override
   _ItSkillAddsState createState() => _ItSkillAddsState();
@@ -28,21 +34,55 @@ class Skills {
 }
 
 class _ItSkillAddsState extends State<ItSkillAdds> {
-  bool get isEditing => widget.candiId != null;
+  bool get isEditing => widget.uuid != null;
 
   PassingYear myYear;
-  String mySelection;
-  String mySelection1;
-  String mySelection2;
 
-  String myskill;
+  // String mySelection;
+  // String mySelection1;
+  // String mySelection2;
+
+  // String myskill;
   String queries;
   ApiResponse<List<ITSkill>> _apiResponseITSkill;
   String itSkillId = "";
+  ITSkill skillName;
+  ItSkillProfile itSkillProfile;
+  String errorMessage;
+
+  getItSkills() {
+    if (isEditing) {
+      setState(() {
+        isLoading = true;
+      });
+      apiServices.populateItSkillUpdate(widget.uuid).then((response) {
+        setState(() {
+          isLoading = false;
+        });
+        if (response.error) {
+          errorMessage = response.errorMessage ?? "An Error Occurred";
+        }
+        itSkillProfile = response.data;
+        itSkillName.text = itSkillProfile.candidateitskillName;
+        versionCont.text = itSkillProfile.candidateitskillVersion;
+        yearsCont.text = "${itSkillProfile.candidateitskillExperienceYears}";
+        monthCont.text = "${itSkillProfile.candidateitskillExperienceMonths}";
+        // myYear = "${itSkillProfile.candidateitskillLastused} " as PassingYear;
+        // isActive = student.studentActive == '1' ? true : false;
+      });
+      print(widget.uuid);
+      print(widget.uuid);
+      print(widget.uuid);
+      print(versionCont.text);
+      print(versionCont.text);
+    }
+  }
 
   var formKey = GlobalKey<FormState>();
 
   TextEditingController skillSearchCont = TextEditingController();
+  TextEditingController itSkillName = TextEditingController();
+  TextEditingController myController = TextEditingController();
 
   fetchITSkill({String query}) async {
     setState(() {
@@ -71,6 +111,10 @@ class _ItSkillAddsState extends State<ItSkillAdds> {
 
   @override
   void initState() {
+    print("/////////////////////////////////////");
+    print(widget.uuid);
+    print("/////////////////////////////////////");
+    getItSkills();
     super.initState();
     fetchITSkill(query: "");
     fetchYear();
@@ -133,56 +177,54 @@ class _ItSkillAddsState extends State<ItSkillAdds> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('IT Skills:',
+                        const Text('IT Skills:',
                             style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: "ProximaNova")),
                         Padding(
                           padding: const EdgeInsets.only(top: 8.0),
-                          child: DropdownSearch<ITSkill>(
-                            // validator: (value) {
-                            //   if (value == null) {
-                            //     return "Please Select Your Skill";
-                            //   }
-                            //   return null;
-                            // },
-                            dropdownSearchDecoration:
-                                InputDecoration(border: UnderlineInputBorder()),
-                            mode: Mode.DIALOG,
-                            items: isLoading
-                                ? parseITSkill()
-                                : _apiResponseITSkill.data,
-                            itemAsString: (ITSkill obj) {
-                              return obj.itskillName;
-                            },
-                            onFind: (val) async {
-                              setState(() {
-                                queries = val;
-                              });
-                              return _apiResponseITSkill.data;
-                            },
-                            hint: "Select Skill",
-                            onChanged: (value) {
-                              skillSearchCont.text = value.itskillId.toString();
-                              itSkillId = value.itskillId;
-                              print(value.itskillId);
-                            },
-                            showSearchBox: true,
-                            popupItemBuilder:
-                                (context, ITSkill item, bool isSelected) {
-                              return Container(
-                                margin: EdgeInsets.symmetric(horizontal: 8),
-                                child: Card(
-                                  child: Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text(item.itskillName),
-                                  ),
-                                ),
+                          child: isEditing
+                              ? TextField(
+                                  controller: itSkillName,
+                                )
+                              :        TypeAheadField(
+                            textFieldConfiguration: TextFieldConfiguration(
+                                controller: this.myController,
+                                decoration: InputDecoration(
+                                    labelText: 'Skill'
+                                )
+                            ),
+                            debounceDuration: Duration(milliseconds: 500),
+                            suggestionsCallback: Service.getITSkill ,
+                            itemBuilder: (context, ITSkill suggestions){
+                              final skill = suggestions;
+                              return ListTile(
+                                title: Text(skill.itskillName) ,
                               );
+                            },
+                            noItemsFoundBuilder: (context)=>Text(""),
+
+                            onSuggestionSelected: (ITSkill suggesstion){
+                              // final skill = suggesstion;
+                              myController.text = suggesstion.itskillName;
+
                             },
                           ),
                         ),
+
+
+                        // TextFieldSearch(
+                        //     label: 'My Label',
+                        //     controller: myController,
+                        //     future: () {
+                        //       return fetchITSkill(query: myController.text);
+                        //     },
+                        //     getSelectedValue: (value) {
+                        //       print(
+                        //           value); // this prints the selected option which could be an object
+                        //     }),
+
                         const SizedBox(
                           height: 15,
                         ),
@@ -289,6 +331,7 @@ class _ItSkillAddsState extends State<ItSkillAdds> {
                                 fontWeight: FontWeight.bold,
                                 fontFamily: "ProximaNova"),
                           ),
+
                           value: myYear,
                           onChanged: (PassingYear newValue) {
                             setState(() {
@@ -359,10 +402,50 @@ class _ItSkillAddsState extends State<ItSkillAdds> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     GFButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
+                      onPressed: ()  async {
+                        setState(() {
+                          isLoading = true;
+                        });
+                        final insert = ItSkillAdd(
+                          requestType: "delete",
+                          candidateitskillUuid: widget.uuid,
+                        );
+                        print(itSkillId);
+                        print(itSkillId);
+                        final result =
+                        await apiServices.itSkillDelete(insert);
+                        setState(() {
+                          isLoading = false;
+                        });
+                        if (result.data) {
+                          Navigator.pop(context);
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Row(children: const [
+                              Icon(
+                                Icons.done_outlined,
+                              ),
+                              SizedBox(width: 7),
+                              Text("Successfully Deleted"),
+                            ]),
+                            backgroundColor: Colors.green,
+                            duration: const Duration(milliseconds: 2500),
+                          ));
+
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Row(
+                              children: const [
+                                Icon(Icons.error),
+                                SizedBox(width: 7),
+                                Text("An Error Occured"),
+                              ],
+                            ),
+                            backgroundColor: Colors.red,
+                            duration: const Duration(milliseconds: 2500),
+                          ));
+                        }
                       },
-                      text: "Cancel",
+                      text: isEditing?"Delete":"Cancel",
                       type: GFButtonType.solid,
                     ),
                     SizedBox(
@@ -377,6 +460,7 @@ class _ItSkillAddsState extends State<ItSkillAdds> {
                       // },
                       onPressed: () async {
                         if (formKey.currentState.validate()) {
+                          print(myController.text);
                           int totalworkexp = (int.parse(yearsCont.text) * 12) +
                               int.parse(monthCont.text);
                           print(totalworkexp);
@@ -384,32 +468,64 @@ class _ItSkillAddsState extends State<ItSkillAdds> {
                           print(itSkillId);
                           print(itSkillId);
                           print(itSkillId);
+                          print(widget.uuid);
+                          if (isEditing) {
+                            setState(() {
+                              isLoading = true;
+                            });
+                            final inserts = ItSkillAdd(
+                              requestType: "update",
 
-                          setState(() {
-                            isLoading = true;
-                          });
-                          final insert = ItSkillAdd(
-                              requestType:"add",
-                            candidateitskillItskillId: int.parse(itSkillId),
-                            candidateitskillCandidateId: 1,
-                            candidateitskillVersion:
-                                int.parse(versionCont.text),
-                            candidateitskillLastused: int.parse(myYear.yearId),
-                            candidateitskillExperience: totalworkexp,
+                              candidateitskillName:  myController.text,
+                              candidateitskillUuid: widget.uuid,
 
-                          );
-                          print(itSkillId);
-                          print(itSkillId);
-                          final result = await apiServices.itSkillAdd(insert);
-                          setState(() {
-                            isLoading = false;
-                          });
-                          if(result.data){
-                            Navigator.pop(context);
+                              // candidateitskillCandidateId: 1,
+                              candidateitskillVersion:
+                                  int.parse(versionCont.text),
+                              candidateitskillLastused:
+                                  int.parse(myYear.yearId),
+                              candidateitskillExperience: totalworkexp,
+                            );
+                            print(itSkillId);
+                            print(itSkillId);
+                            final result =
+                                await apiServices.itSkillUpdate(inserts);
+                            setState(() {
+                              isLoading = false;
+                            });
+                            if (result.data) {
+                              Navigator.pop(context);
+                            } else {
+                              print("error");
+                            }
+                          } else {
+                            setState(() {
+                              isLoading = true;
+                            });
+                            final insert = ItSkillAdd(
+                              requestType: "add",
+                              candidateitskillName: myController.text,
+                              // candidateitskillItskillId: int.parse(itSkillId),
+                              candidateitskillCandidateId: 1,
+                              candidateitskillVersion:
+                                  int.parse(versionCont.text),
+                              candidateitskillLastused:
+                                  int.parse(myYear.yearId),
+                              candidateitskillExperience: totalworkexp,
+                            );
+                            print(itSkillId);
+                            print(itSkillId);
+                            final result = await apiServices.itSkillAdd(insert);
+                            setState(() {
+                              isLoading = false;
+                            });
+                            if (result.data) {
+                              Navigator.pop(context);
+                            } else {
+                              print("error");
+                            }
                           }
-                          else{
-                            print("error");
-                          }
+
                           // const title = "Done";
                           // final text = result.error
                           //     ? (result.errorMessage ?? "An Error Occurred")
@@ -441,7 +557,7 @@ class _ItSkillAddsState extends State<ItSkillAdds> {
                         //             CareerPreference(uuid: widget.uuid,)));
                         // Navigator.of(context).pop();
                       },
-                      text: "Save",
+                      text: isEditing ? "Update" : "Save",
                       type: GFButtonType.solid,
                     ),
                   ],

@@ -1,12 +1,14 @@
 class ItSkillAdd{
   String  requestType;
+  String candidateitskillUuid;
   int candidateitskillItskillId;
   int candidateitskillCandidateId;
   int candidateitskillVersion;
   int candidateitskillLastused;
   int candidateitskillExperience;
+  String candidateitskillName;
 
-  ItSkillAdd({this.requestType,this.candidateitskillItskillId,this.candidateitskillCandidateId,this.candidateitskillVersion, this.candidateitskillLastused,
+  ItSkillAdd({this.candidateitskillUuid,this.candidateitskillName,this.requestType,this.candidateitskillItskillId,this.candidateitskillCandidateId,this.candidateitskillVersion, this.candidateitskillLastused,
     this.candidateitskillExperience});
 
 
@@ -14,7 +16,9 @@ class ItSkillAdd{
   Map<String, dynamic> toJson() {
     return {
       "requestType": requestType,
+      "candidateitskillUuid": candidateitskillUuid,
       "candidateitskillItskillId": candidateitskillItskillId,
+      "candidateitskillName": candidateitskillName,
       "candidateitskillCandidateId": candidateitskillCandidateId,
       "candidateitskillVersion": candidateitskillVersion,
       "candidateitskillLastused": candidateitskillLastused,

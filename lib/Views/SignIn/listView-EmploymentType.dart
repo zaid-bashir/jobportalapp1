@@ -8,13 +8,13 @@ import 'package:job_portal/Utility/apiurls.dart';
 import 'package:http/http.dart' as http;
 
 class listCheck extends StatefulWidget {
-  const listCheck({Key key}) : super(key: key);
+   listCheck({Key key}) : super(key: key);
 
   @override
-  _listCheckState createState() => _listCheckState();
+  listCheckState createState() => listCheckState();
 }
 
-class _listCheckState extends State<listCheck> {
+class listCheckState extends State<listCheck> {
   ApiServices apiServices = ApiServices();
 
   bool isLoading = false;
@@ -92,12 +92,10 @@ class _listCheckState extends State<listCheck> {
           padding:
           const EdgeInsets.all(8.0),
           child: DropdownSearch<EmploymentType>.multiSelection(
-            autoValidateMode:
-            AutovalidateMode
-                .onUserInteraction,
+            autoValidateMode: AutovalidateMode.onUserInteraction,
             validator: (value) {
               if (value.isEmpty) {
-                return "Please Select Key Skill/Skills";
+                return "Please Select Employment type";
               }
               return null;
             },
@@ -123,7 +121,7 @@ class _listCheckState extends State<listCheck> {
             //   return _apiResponse.data;
             // },
             // ignore: deprecated_member_use
-            hint: "Select Key Skills",
+            hint: "Select Employment type",
             showSearchBox: true,
             popupItemBuilder: (context,
            EmploymentType item,

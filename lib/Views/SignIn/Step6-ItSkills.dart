@@ -440,11 +440,11 @@ class _ItSkillsState extends State<ItSkills> {
                           //   }
                           // });
                         }
-                        Navigator.push(
-                                   context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            CareerPreference(uuid: widget.uuid,)));
+                        // Navigator.push(
+                        //            context,
+                        //             MaterialPageRoute(
+                        //                 builder: (context) =>
+                        //                     CareerPreference(uuid: widget.uuid,)));
                       },
                       text: "Next",
                       type: GFButtonType.solid,
