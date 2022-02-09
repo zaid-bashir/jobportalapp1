@@ -204,24 +204,32 @@ class LoginPageState extends State<LoginPage> {
                       color: const Color(0xff3e61ed),
                       onPressed: () async {
                         if (formKey.currentState.validate()) {
-                          print(usernameCont.text);
-                          print(passwordCont.text);
-                          fetchAuth(
+                          await fetchAuth(
                               username: usernameCont.text,
                               password: passwordCont.text);
                           print("Response Data : ${apiResponse.data}");
-                          // String val = "true";
-                          // bool b = val.toLowerCase() == apiResponse.data;
-                          if (apiResponse.data != null) {
+                          if (apiResponse.responseCode == 200) {
                             storeLoginDataToSharedPref();
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => Navbar(
-                                  keyjwt: prefLogin.getString(keyJwt),
-                                ),
-                              ),
-                            );
-                          } else {
+                            AwesomeDialog(
+                              context: context,
+                              animType: AnimType.SCALE,
+                              dialogType: DialogType.SUCCES,
+                              btnOkOnPress: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => Navbar(
+                                      keyjwt: prefLogin.getString(keyJwt),
+                                      prefLogin: prefLogin,
+                                    ),
+                                  ),
+                                );
+                              },
+                              title: 'JobPortalApp',
+                              desc:
+                                  'User Successfully Verified...',
+                            ).show();
+                          }
+                          else {
                             AwesomeDialog(
                               context: context,
                               animType: AnimType.SCALE,
@@ -230,26 +238,7 @@ class LoginPageState extends State<LoginPage> {
                               desc:
                                   'Invalid User, Please enter your correct credentials',
                             ).show();
-                            // AwesomeDialog(
-                            //   context: context,
-                            //   animType: AnimType.SCALE,
-                            //   dialogType: DialogType.SUCCES,
-                            //   title: 'JobPortalApp',
-                            //   desc: 'Successfully Logged In...',
-                            //   btnOkOnPress: (){
-                            //     storeLoginDataToSharedPref();
-                            //     Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Navbar(keyjwt: prefLogin.getString(keyJwt),),),);
-                            //   },
-                            // ).show();
                           }
-                        } else {
-                          AwesomeDialog(
-                            context: context,
-                            animType: AnimType.SCALE,
-                            dialogType: DialogType.ERROR,
-                            title: 'JobPortalApp',
-                            desc: 'Please enter your correct credentials',
-                          ).show();
                         }
                       },
                       text: "Login",

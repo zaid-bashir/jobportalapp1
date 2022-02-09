@@ -50,7 +50,6 @@ import 'package:job_portal/Models/location.dart';
 import 'package:job_portal/Models/postkeyskills.dart';
 import 'package:job_portal/Models/qualification-post.dart';
 import 'package:job_portal/Utility/apiurls.dart';
-import 'package:job_portal/Views/SignIn/SignIn.dart';
 import 'package:logger/logger.dart';
 
 String jwtToken = "";
@@ -939,7 +938,7 @@ class ApiServices {
     }
     if (response.statusCode == 200) {
       print("Successfully Logged In...");
-      return ApiResponse<String>(data: data);
+      return ApiResponse<String>(data: data,responseCode: response.statusCode);
     }
     return ApiResponse<String>(error: true, errorMessage: "An error occurred");
   }

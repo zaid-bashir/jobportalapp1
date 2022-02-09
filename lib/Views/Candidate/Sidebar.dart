@@ -1,12 +1,15 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:job_portal/Utility/apiurls.dart';
 import 'package:job_portal/Views/Profile/Profile.dart';
 import 'package:job_portal/Views/Candidate/JobSaved.dart';
 import 'package:job_portal/Views/Candidate/Settings.dart';
 import 'package:job_portal/Views/Candidate/JobSuggested.dart';
 import 'package:job_portal/Views/Home/constants/constants.dart';
-import 'package:job_portal/Views/SignIn/Step6-ItSkills.dart';
+import 'package:http/http.dart' as http;
+import 'package:awesome_dialog/awesome_dialog.dart';
 
+import 'package:job_portal/Views/SignIn/SignIn.dart';
 import 'package:job_portal/Views/SignIn/Step8-PersonalDetails.dart';
 
 
@@ -272,8 +275,24 @@ class _SideMenuState extends State<SideMenu> {
                 child: DrawerListTile(
                   title: "Sign out",
                   svgSrc: Icons.logout_outlined,
-                  press: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>ItSkills()));
+                  press: () async {
+                    print("SignOut");
+                    var parsedUrl = Uri.parse(ApiUrls.kSignOut+LoginPageState().prefLogin.getString(LoginPageState().keyJwt));
+                    var response = await http.get(parsedUrl);
+                    if(response.statusCode == 200){
+                       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+    const LoginPage()), (Route<dynamic> route) => false);
+                    }
+                    else{
+                      AwesomeDialog(
+                              context: context,
+                              animType: AnimType.SCALE,
+                              dialogType: DialogType.SUCCES,
+                              title: 'JobPortalApp',
+                              desc:
+                                  'Something Went Wrong...',
+                            ).show();
+                    }
                   },
                 ),
               ),

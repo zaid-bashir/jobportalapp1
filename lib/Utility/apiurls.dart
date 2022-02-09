@@ -17,7 +17,7 @@ class ApiUrls extends Connect{
   static String kNationality = Connect.AppURL()+"populate/nationality?query=";
   static String kCity =  Connect.AppURL()+"populate/city?query=";
   static String kCountry = Connect.AppURL()+"populate/country?query=";
-  static String kCaste = Connect.AppURL()+"populate/caste";
+  static String kCaste = Connect.AppURL()+"populate/reservedcategory";
   static String kMarital = Connect.AppURL()+"populate/marital-status";
   static String kInstitute = Connect.AppURL()+"populate/institute?query=";
   static String kItskill =  Connect.AppURL()+"populate/itskill?query=";
@@ -44,5 +44,6 @@ class ApiUrls extends Connect{
   static String kGetPersonalPop = Connect.AppURL()+"candidate/personaldetail-list";
   static String kAddDeleteKeySkills = Connect.AppURL()+"candidate/keyskill-add";
   static String kGetprofileNoticePeriod = Connect.AppURL()+"populate/notice";
+  static String kSignOut = Connect.AppURL()+"jwt/logout?token=";
 
 }

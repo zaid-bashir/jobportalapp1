@@ -80,16 +80,21 @@ class _SliderLayoutViewState extends State<SliderLayoutView> {
                         ),
                       ),
                     ),
-                    const Align(
+                    Align(
                       alignment: Alignment.bottomLeft,
                       child: Padding(
-                        padding: EdgeInsets.only(left: 15.0, bottom: 15.0),
-                        child: Text(
-                          Constants.SKIP,
-                          style: TextStyle(
-                            fontFamily: Constants.OPEN_SANS,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14.0,
+                        padding: const EdgeInsets.only(left: 15.0, bottom: 15.0),
+                        child: GestureDetector(
+                          onTap:(){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>const LoginPage()));
+                          },
+                          child: const Text(
+                            Constants.SKIP,
+                            style: TextStyle(
+                              fontFamily: Constants.OPEN_SANS,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14.0,
+                            ),
                           ),
                         ),
                       ),

@@ -4,12 +4,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/button/gf_button.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:http/http.dart' as http;
 import 'package:job_portal/Controllers/menucontroller.dart';
+import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Theme/colors.dart';
 import 'package:job_portal/Theme/images.dart';
+import 'package:job_portal/Utility/apiurls.dart';
 import 'package:job_portal/Views/Candidate/Sidebar.dart';
 import 'package:job_portal/Others/bluecollar.dart';
 import 'package:job_portal/Views/SignIn/Bar.dart';
+import 'package:job_portal/Views/SignIn/SignIn.dart';
 import 'package:provider/provider.dart';
 
 import 'JobApply.dart';
@@ -17,7 +22,7 @@ import 'Inbox.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class HomePage extends StatelessWidget {
-  HomePage({Key key,this.keyjwt}) : super(key: key);
+  HomePage({Key key, this.keyjwt}) : super(key: key);
   String keyjwt;
   Widget _appBar(BuildContext context) {
     return Container(
@@ -31,15 +36,44 @@ class HomePage extends StatelessWidget {
             ),
           ),
           const Spacer(),
-          IconButton(
-            icon: const Icon(
-              Icons.chat,
-              color: Color(0xff3e61ed),
-            ),
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => InboxList()));
-            },
+          Row(
+            children: [
+              IconButton(
+                icon: const Icon(
+                  Icons.chat,
+                  color: Color(0xff3e61ed),
+                ),
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => InboxList()));
+                },
+              ),
+              IconButton(
+                icon: const Icon(
+                  Icons.logout,
+                  color: Color(0xff3e61ed),
+                ),
+                onPressed: () async {
+                  print("SignOut");
+                  var parsedUrl = Uri.parse(ApiUrls.kSignOut + jwtToken);
+                  var response = await http.get(parsedUrl);
+                  if (response.statusCode == 200) {
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                            builder: (context) => const LoginPage()),
+                        (Route<dynamic> route) => false);
+                  } else {
+                    AwesomeDialog(
+                      context: context,
+                      animType: AnimType.SCALE,
+                      dialogType: DialogType.SUCCES,
+                      title: 'JobPortalApp',
+                      desc: 'Something Went Wrong...',
+                    ).show();
+                  }
+                },
+              ),
+            ],
           )
         ],
       ),
@@ -54,7 +88,8 @@ class HomePage extends StatelessWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [          const Text("Your profile needs attention !",
+        children: [
+          const Text("Your profile needs attention !",
               style: TextStyle(
                   fontSize: 20,
                   fontFamily: "ProximaNova",
@@ -129,8 +164,8 @@ class HomePage extends StatelessWidget {
                 GFButton(
                   color: const Color(0xff3e61ed),
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (
-                        context) => BlueCollar()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => BlueCollar()));
                   },
                   shape: GFButtonShape.pills,
                   child: const Text(
@@ -519,7 +554,7 @@ class HomePage extends StatelessWidget {
                                     fontWeight: FontWeight.bold
                                     // color: isActive ? Colors.white38 : KColors.subtitle,
                                     ),
-                             ),
+                              ),
                             ],
                           ),
                         ],
@@ -670,7 +705,8 @@ class HomePage extends StatelessWidget {
         child: Card(
           elevation: 5,
           child: Padding(
-            padding: const EdgeInsets.only(left: 25,right: 25, top: 15, bottom: 15),
+            padding:
+                const EdgeInsets.only(left: 25, right: 25, top: 15, bottom: 15),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -684,35 +720,43 @@ class HomePage extends StatelessWidget {
                           fontFamily: "ProximaNova",
                           fontWeight: FontWeight.bold),
                     ),
-                     Container(
-                       padding: const EdgeInsets.only(left: 6,right: 6),
-                       decoration: BoxDecoration(
-                         borderRadius: BorderRadius.circular(20),
-                         color: Colors.green
-                       ),
-                       child: Row(
-                         children: [
-                           const Icon(Icons.done,color: Colors.white,),
-                           const Text("Active",
-                             style: TextStyle(
-                               color: Colors.white,
-                                 fontSize: 14,
-                                 fontFamily: "ProximaNova",
-                                 fontWeight: FontWeight.bold),),
-                         ],
-                       ),
-                     ),
+                    Container(
+                      padding: const EdgeInsets.only(left: 6, right: 6),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.green),
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.done,
+                            color: Colors.white,
+                          ),
+                          const Text(
+                            "Active",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontFamily: "ProximaNova",
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(
                   height: 15,
                 ),
-                const Text("Profile Strength",
+                const Text(
+                  "Profile Strength",
                   style: TextStyle(
-                    fontSize: 17,
-                    fontFamily: "ProximaNova",
-                    fontWeight: FontWeight.w500),),
-                const SizedBox(height: 10,),
+                      fontSize: 17,
+                      fontFamily: "ProximaNova",
+                      fontWeight: FontWeight.w500),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
                 const SizedBox(
                   width: 220,
                   child: ProgressLine(
@@ -723,12 +767,16 @@ class HomePage extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                const Text("Activity",
+                const Text(
+                  "Activity",
                   style: TextStyle(
                       fontSize: 17,
                       fontFamily: "ProximaNova",
-                      fontWeight: FontWeight.w500),),
-                const SizedBox(height: 10,),
+                      fontWeight: FontWeight.w500),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
                 const SizedBox(
                   width: 220,
                   child: ProgressLine(
@@ -988,7 +1036,6 @@ class HomePage extends StatelessWidget {
                 _warning(context),
                 _strenght(context),
 
-
                 _recommendedCourses(context),
                 // _recentPostedJob(context)
               ],
@@ -1037,6 +1084,7 @@ class ProgressLine extends StatelessWidget {
     );
   }
 }
+
 class Chart extends StatelessWidget {
   const Chart({
     Key key,
@@ -1063,10 +1111,11 @@ class Chart extends StatelessWidget {
                 // SizedBox(height: defaultPadding),
                 Text(
                   "29.1",
-                  style: Theme.of(context).textTheme.headline4.copyWith(color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                    height: 0.5,
-                  ),
+                  style: Theme.of(context).textTheme.headline4.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        height: 0.5,
+                      ),
                 ),
                 Text("of 128GB")
               ],

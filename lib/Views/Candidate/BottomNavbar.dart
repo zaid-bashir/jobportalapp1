@@ -4,17 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:job_portal/Controllers/menucontroller.dart';
 import 'package:job_portal/Views/Profile/Profile.dart';
 import 'package:provider/provider.dart';
-import 'UploadPost.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'Home.dart';
 import 'Job.dart';
 import 'Notification.dart';
-
-
-
-
 class Navbar extends StatelessWidget {
-  Navbar({Key key,this.keyjwt}) : super(key: key);
+  Navbar({Key key,this.keyjwt,this.prefLogin}) : super(key: key);
   String keyjwt;
+  SharedPreferences prefLogin;
   @override
   Widget build(BuildContext context) {
     return
@@ -26,8 +23,7 @@ class Navbar extends StatelessWidget {
        ],
        child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'Flutter Demo',
-
+          title: 'Job Portal',
           theme: ThemeData(
             // primaryColor: Color(0xFFC41A3B),
             // primaryColorDark:  Color(0xFFC41A3B),

@@ -463,7 +463,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                   return DropdownMenuItem<Category>(
                                     value: user,
                                     child: Text(
-                                      user.casteName,
+                                      user.reservedName,
                                       style: TextStyle(color: Colors.black),
                                     ),
                                   );
@@ -1072,7 +1072,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                 print(
                                     totalExp == 0 ? totalExp : totalWorkExp());
                                 print(int.parse(Marial.maritalId));
-                                print(int.parse(Caste.casteId));
+                                print(int.parse(Caste.reservedId));
                                 print(addressController.text);
                                 print(cityNameID);
                                 print(selectedDate);
@@ -1091,7 +1091,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                 candidatePin: pincodeController.text,
                                 candidateMaritalstatusId:
                                 int.parse(Marial.maritalId),
-                                candidateReservedcategoryId: int.parse(Caste.casteId),
+                                candidateReservedcategoryId: int.parse(Caste.reservedId),
                                 candidateExservicemen: exservicemenGroupValue.toString(),
                                 candidatePassportno: passportController.text,
                                 candidatePancard: panController.text,
