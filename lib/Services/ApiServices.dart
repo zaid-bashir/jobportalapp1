@@ -1230,4 +1230,21 @@ class ApiServices {
       throw Exception("ERRORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
     }
   }
+
+  Future<ApiResponse<bool>> languagesAdd(QualificationPost quall) async {
+    final url = Uri.parse(ApiUrls.kAddLanguage);
+    final headers = {
+      "Content-Type": "application/json",
+      'Authorization': 'Bearer $token',
+    };
+    final jsonData = jsonEncode(quall);
+
+    final response = await http.post(url, headers: headers, body: jsonData);
+    log.i(response.body);
+    log.i(response.statusCode);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return ApiResponse<bool>(data: true);
+    }
+    return ApiResponse<bool>(error: true, errorMessage: "An Error Occurred");
+  }
 }

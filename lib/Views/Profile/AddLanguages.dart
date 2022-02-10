@@ -16,10 +16,9 @@ import 'package:job_portal/Views/SignIn/Step6-ItSkills.dart';
 import 'package:textfield_search/textfield_search.dart';
 
 class LanguagesAdd extends StatefulWidget {
-  LanguagesAdd({Key key, this.uuid,  this.keyjwt})
+  LanguagesAdd({Key key, this.uuid,  })
       : super(key: key);
   String uuid;
-  String keyjwt;
 
   @override
   _LanguagesAddState createState() => _LanguagesAddState();
@@ -38,104 +37,32 @@ class Skills {
 class _LanguagesAddState extends State<LanguagesAdd> {
   bool get isEditing => widget.uuid != null;
 
-  PassingYear myYear;
 
   // String mySelection;
   // String mySelection1;
   // String mySelection2;
 
   // String myskill;
-  String queries;
-  ApiResponse<List<ITSkill>> _apiResponseITSkill;
-  String itSkillId = "";
-  ITSkill skillName;
-  ItSkillProfile itSkillProfile;
-  String errorMessage;
 
-  getItSkills() {
-    if (isEditing) {
-      setState(() {
-        isLoading = true;
-      });
-      apiServices.populateItSkillUpdate(widget.uuid).then((response) {
-        setState(() {
-          isLoading = false;
-        });
-        if (response.error) {
-          errorMessage = response.errorMessage ?? "An Error Occurred";
-        }
-        itSkillProfile = response.data;
-        itSkillName.text = itSkillProfile.candidateitskillName;
-        versionCont.text = itSkillProfile.candidateitskillVersion;
-        yearsCont.text = "${itSkillProfile.candidateitskillExperienceYears}";
-        monthCont.text = "${itSkillProfile.candidateitskillExperienceMonths}";
-        // myYear = "${itSkillProfile.candidateitskillLastused} " as PassingYear;
-        // isActive = student.studentActive == '1' ? true : false;
-      });
-      print(widget.uuid);
-      print(widget.uuid);
-      print(widget.uuid);
-      print(versionCont.text);
-      print(versionCont.text);
-    }
-  }
+
 
   var formKey = GlobalKey<FormState>();
 
-  TextEditingController skillSearchCont = TextEditingController();
-  TextEditingController itSkillName = TextEditingController();
   TextEditingController myController = TextEditingController();
   TextEditingController myController2 = TextEditingController();
 
-  fetchITSkill({String query}) async {
-    setState(() {
-      isLoading = true;
-    });
-    _apiResponseITSkill = await apiServices.getITSkill(query: query);
-    setState(() {
-      isLoading = false;
-    });
-  }
-
-  List<String> parseITSkill() {
-    List<ITSkill> itskill = _apiResponseITSkill.data;
-    List<String> dataItems = [];
-    for (int i = 0; i < itskill.length; i++) {
-      dataItems.add(itskill[i].itskillName);
-    }
-    return dataItems;
-  }
-
-  bool isLoading = false;
-
-  ApiServices apiServices = ApiServices();
-
-  ApiResponse<List<PassingYear>> _apiResponse;
-
+ApiServices apiServices = ApiServices();
   @override
   void initState() {
-    print("/////////////////////////////////////");
-    print(widget.uuid);
-    print("/////////////////////////////////////");
-    getItSkills();
+
     super.initState();
-    fetchITSkill(query: "");
-    fetchYear();
+
   }
 
-  fetchYear() async {
-    setState(() {
-      isLoading = true;
-    });
-    _apiResponse = await apiServices.getPassingYear();
-    setState(() {
-      isLoading = false;
-    });
-  }
 
-  TextEditingController yearsCont = TextEditingController();
-  TextEditingController monthCont = TextEditingController();
-  TextEditingController versionCont = TextEditingController();
+ bool  isLoading = false;
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -266,53 +193,53 @@ class _LanguagesAddState extends State<LanguagesAdd> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        GFButton(
-                          onPressed: ()  async {
-                            setState(() {
-                              isLoading = true;
-                            });
-                            final insert = ItSkillAdd(
-                              requestType: "delete",
-                              candidateitskillUuid: widget.uuid,
-                            );
-                            print(itSkillId);
-                            print(itSkillId);
-                            final result =
-                            await apiServices.itSkillDelete(insert);
-                            setState(() {
-                              isLoading = false;
-                            });
-                            if (result.data) {
-                              Navigator.pop(context);
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Row(children: const [
-                                  Icon(
-                                    Icons.done_outlined,
-                                  ),
-                                  SizedBox(width: 7),
-                                  Text("Successfully Deleted"),
-                                ]),
-                                backgroundColor: Colors.green,
-                                duration: const Duration(milliseconds: 2500),
-                              ));
-
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Row(
-                                  children: const [
-                                    Icon(Icons.error),
-                                    SizedBox(width: 7),
-                                    Text("An Error Occured"),
-                                  ],
-                                ),
-                                backgroundColor: Colors.red,
-                                duration: const Duration(milliseconds: 2500),
-                              ));
-                            }
-                          },
-                          text: isEditing?"Delete":"Cancel",
-                          type: GFButtonType.solid,
-                        ),
+                        // GFButton(
+                        //   onPressed: ()  async {
+                        //     setState(() {
+                        //       isLoading = true;
+                        //     });
+                        //     final insert = ItSkillAdd(
+                        //       requestType: "delete",
+                        //       candidateitskillUuid: widget.uuid,
+                        //     );
+                        //     print(itSkillId);
+                        //     print(itSkillId);
+                        //     final result =
+                        //     await apiServices.itSkillDelete(insert);
+                        //     setState(() {
+                        //       isLoading = false;
+                        //     });
+                        //     if (result.data) {
+                        //       Navigator.pop(context);
+                        //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        //         content: Row(children: const [
+                        //           Icon(
+                        //             Icons.done_outlined,
+                        //           ),
+                        //           SizedBox(width: 7),
+                        //           Text("Successfully Deleted"),
+                        //         ]),
+                        //         backgroundColor: Colors.green,
+                        //         duration: const Duration(milliseconds: 2500),
+                        //       ));
+                        //
+                        //     } else {
+                        //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        //         content: Row(
+                        //           children: const [
+                        //             Icon(Icons.error),
+                        //             SizedBox(width: 7),
+                        //             Text("An Error Occured"),
+                        //           ],
+                        //         ),
+                        //         backgroundColor: Colors.red,
+                        //         duration: const Duration(milliseconds: 2500),
+                        //       ));
+                        //     }
+                        //   },
+                        //   text: isEditing?"Delete":"Cancel",
+                        //   type: GFButtonType.solid,
+                        // ),
                         SizedBox(
                           width: 10,
                         ),
@@ -325,61 +252,17 @@ class _LanguagesAddState extends State<LanguagesAdd> {
                           // },
                           onPressed: () async {
                             if (formKey.currentState.validate()) {
-                              print(myController.text);
-                              int totalworkexp = (int.parse(yearsCont.text) * 12) +
-                                  int.parse(monthCont.text);
-                              print(totalworkexp);
-                              print(itSkillId);
-                              print(itSkillId);
-                              print(itSkillId);
-                              print(itSkillId);
-                              print(widget.uuid);
+
                               if (isEditing) {
-                                setState(() {
-                                  isLoading = true;
-                                });
-                                final inserts = ItSkillAdd(
-                                  requestType: "update",
-
-                                  candidateitskillName:  myController.text,
-                                  candidateitskillUuid: widget.uuid,
-
-                                  // candidateitskillCandidateId: 1,
-                                  candidateitskillVersion:
-                                  int.parse(versionCont.text),
-                                  candidateitskillLastused:
-                                  int.parse(myYear.yearId),
-                                  candidateitskillExperience: totalworkexp,
-                                );
-                                print(itSkillId);
-                                print(itSkillId);
-                                final result =
-                                await apiServices.itSkillUpdate(inserts);
-                                setState(() {
-                                  isLoading = false;
-                                });
-                                if (result.data) {
-                                  Navigator.pop(context);
-                                } else {
-                                  print("error");
-                                }
+                               print("OHHHHH YEAHHHH");
                               } else {
                                 setState(() {
                                   isLoading = true;
                                 });
                                 final insert = ItSkillAdd(
-                                  requestType: "add",
-                                  candidateitskillName: myController.text,
-                                  // candidateitskillItskillId: int.parse(itSkillId),
-                                  candidateitskillCandidateId: 1,
-                                  candidateitskillVersion:
-                                  int.parse(versionCont.text),
-                                  candidateitskillLastused:
-                                  int.parse(myYear.yearId),
-                                  candidateitskillExperience: totalworkexp,
+
                                 );
-                                print(itSkillId);
-                                print(itSkillId);
+
                                 final result = await apiServices.itSkillAdd(insert);
                                 setState(() {
                                   isLoading = false;

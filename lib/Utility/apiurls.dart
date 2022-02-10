@@ -48,4 +48,5 @@ class ApiUrls{
   static String kPopulatePatent = "http://192.168.0.20:9030/jobportal-app/api/candidate/patent-list";
   static String kDropLanguages = "http://192.168.0.20:9030/jobportal-app/api/populate/language?query=";
   static String kDropProfeciency = "http://192.168.0.20:9030/jobportal-app/api/populate/proficiency?query=";
+  static String kAddLanguage = "http://192.168.0.20:9030/jobportal-app/api/candidate/language-add";
 }
