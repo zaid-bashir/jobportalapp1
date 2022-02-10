@@ -44,4 +44,8 @@ class ApiUrls{
   static String kPersonalUpdate = "http://192.168.0.20:9030/jobportal-app/api/candidate/personaldetail-add";
   static String kItSkillUpdatePop = "http://192.168.0.20:9030/jobportal-app/api/candidate/itskill-populate?request=";
   static String kQualificationUpdate  = "http://192.168.0.20:9030/jobportal-app/api/candidate/qualification-add";
+  static String kPopulateLanguage  = "http://192.168.0.20:9030/jobportal-app/api/candidate/language-list";
+  static String kPopulatePatent = "http://192.168.0.20:9030/jobportal-app/api/candidate/patent-list";
+  static String kDropLanguages = "http://192.168.0.20:9030/jobportal-app/api/populate/language?query=";
+  static String kDropProfeciency = "http://192.168.0.20:9030/jobportal-app/api/populate/proficiency?query=";
 }

@@ -17,11 +17,15 @@ import 'package:job_portal/Models/ItSkills.dart';
 import 'package:job_portal/Models/ItSkillsPost.dart';
 import 'package:job_portal/Models/CareerPreference-post.dart';
 import 'package:job_portal/Models/JobType.dart';
+import 'package:job_portal/Models/Language-Populate.dart';
+import 'package:job_portal/Models/Languages.dart';
 import 'package:job_portal/Models/Login.dart';
 import 'package:job_portal/Models/Nationality.dart';
+import 'package:job_portal/Models/Patent-Populate.dart';
 import 'package:job_portal/Models/PersonalDetails-post.dart';
 import 'package:job_portal/Models/PersonalDetailsRetrive.dart';
 import 'package:job_portal/Models/ProfessionDetails-post.dart';
+import 'package:job_portal/Models/Profiecency.dart';
 import 'package:job_portal/Models/QualificationDetails.dart';
 import 'package:job_portal/Models/QualificationPopulate.dart';
 import 'package:job_portal/Models/Stream.dart';
@@ -1128,5 +1132,102 @@ class ApiServices {
     }
     return ApiResponse<QualificationPopulate>(
         error: true, errorMessage: "An Error Occurred");
+  }
+
+
+  Future<ApiResponse<List<LanguagePopulate>>> PopulateLanguage() async {
+    final url = Uri.parse(ApiUrls.kPopulateLanguage);
+    final header = {
+      "Content-Type": "application/json",
+      'Authorization': 'Bearer $token',
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <LanguagePopulate>[];
+      for (var item in jsonData) {
+        list.add(LanguagePopulate.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      print(list);
+      return ApiResponse<List<LanguagePopulate>>(data: list);
+    }
+    return ApiResponse<List<LanguagePopulate>>(
+        error: true, errorMessage: "An error occurred");
+  }
+
+
+  Future<ApiResponse<List<PatentPopulate>>> PopulatePatent() async {
+    final url = Uri.parse(ApiUrls.kPopulatePatent);
+    final header = {
+      "Content-Type": "application/json",
+      'Authorization': 'Bearer $token',
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <PatentPopulate>[];
+      for (var item in jsonData) {
+        list.add(PatentPopulate.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      print(list);
+      return ApiResponse<List<PatentPopulate>>(data: list);
+    }
+    return ApiResponse<List<PatentPopulate>>(
+        error: true, errorMessage: "An error occurred");
+  }
+
+  static Future<List<Languages>> getLanguages(String query) async {
+    final url = Uri.parse(ApiUrls.kDropLanguages + query);
+    print(ApiUrls.kItskill + "=" + query);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final List jsonData = jsonDecode(response.body);
+      return jsonData.map((json) => Languages.fromJson(json)).where((data) {
+        final nameLower = data.languageName.toLowerCase();
+        final queryLower = query.toLowerCase();
+        return nameLower.contains(queryLower);
+      }).toList();
+    } else {
+      throw Exception("ERRORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
+    }
+  }
+
+
+  static Future<List<Proficiency>> getProficiency(String query) async {
+    final url = Uri.parse(ApiUrls.kDropProfeciency + query);
+    print(ApiUrls.kItskill + "=" + query);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final List jsonData = jsonDecode(response.body);
+      return jsonData.map((json) => Proficiency.fromJson(json)).where((data) {
+        final nameLower = data.proficiencyName.toLowerCase();
+        final queryLower = query.toLowerCase();
+        return nameLower.contains(queryLower);
+      }).toList();
+    } else {
+      throw Exception("ERRORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
+    }
   }
 }
