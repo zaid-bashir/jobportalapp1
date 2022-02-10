@@ -11,6 +11,8 @@ import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/ItSkillAdd.dart';
 import 'package:job_portal/Models/ItSkillRetrive.dart';
 import 'package:job_portal/Models/ItSkills.dart';
+import 'package:job_portal/Models/Language-Populate.dart';
+import 'package:job_portal/Models/Patent-Populate.dart';
 import 'package:job_portal/Models/PersonalDetails.dart';
 import 'package:job_portal/Models/PersonalDetailsRetrive.dart';
 import 'package:job_portal/Models/QualificationPopulate.dart';
@@ -26,6 +28,7 @@ import '../Candidate/Inbox.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 import 'AddItskill.dart';
+import 'AddLanguages.dart';
 import 'PersonalUpdate.dart';
 import 'QualificationAdd.dart';
 
@@ -81,6 +84,8 @@ class _ProfilePageState extends State<ProfilePage>
     getItSkill();
     getPersonal();
     getQualification();
+    getLanguage();
+    getPatent();
     // fetchITSkill(query: "");
     // if(widget.basic != null){
     //   setState(() {
@@ -102,10 +107,33 @@ class _ProfilePageState extends State<ProfilePage>
   ApiResponse<List<ItSkillProfile>> _apiResponse;
   ApiResponse<List<QualificationPopulate>> _apiResponse2;
   ApiResponse<List<PersonalRetrive>> _apiResponse3;
+  ApiResponse<List<LanguagePopulate>> _apiResponseLang;
+  ApiResponse<List<PatentPopulate>> _apiResponsePatent;
   ApiServices apiServices = ApiServices();
   QualificationPopulate qualify;
   bool isLoading;
   String errorMessage;
+
+
+  getPatent() async {
+    setState(() {
+      isLoading = true;
+    });
+    _apiResponsePatent = await apiServices.PopulatePatent();
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  getLanguage() async {
+    setState(() {
+      isLoading = true;
+    });
+    _apiResponseLang = await apiServices.PopulateLanguage();
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   getPersonal() async {
     setState(() {
@@ -2305,326 +2333,7 @@ class _ProfilePageState extends State<ProfilePage>
                       ),
                     ),
                     GestureDetector(
-                        onTap: () => showDialog(
-                            context: context,
-                            builder: (_) => AlertDialog(
-                                  title: const Text('Career Preference'),
-                                  content: Padding(
-                                    padding: const EdgeInsets.only(
-                                      top: 10,
-                                    ),
-                                    child: Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 15),
-                                      child: Column(
-                                        children: [
-                                          Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 25.0),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: <Widget>[
-                                                  Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: const <Widget>[
-                                                      Text(
-                                                        'Preferred Industry',
-                                                        style: TextStyle(
-                                                            fontSize: 16.0,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              )),
-                                          Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 2.0),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: const <Widget>[
-                                                  Flexible(
-                                                    child: TextField(
-                                                      decoration: InputDecoration(
-                                                          hintText:
-                                                              "Add Industry"),
-                                                    ),
-                                                  ),
-                                                ],
-                                              )),
-                                          Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 25.0),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: <Widget>[
-                                                  Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: const <Widget>[
-                                                      Text(
-                                                        'Preferred Job Type',
-                                                        style: TextStyle(
-                                                            fontSize: 16.0,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              )),
-                                          Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 2.0),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: const <Widget>[
-                                                  Flexible(
-                                                    child: TextField(
-                                                      decoration:
-                                                          InputDecoration(
-                                                              hintText:
-                                                                  "Add Type"),
-                                                    ),
-                                                  ),
-                                                ],
-                                              )),
-                                          Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 25.0),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: <Widget>[
-                                                  Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: const <Widget>[
-                                                      Text(
-                                                        'Preferred Employment Type',
-                                                        style: TextStyle(
-                                                            fontSize: 16.0,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              )),
-                                          Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 2.0),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: const <Widget>[
-                                                  Flexible(
-                                                    child: TextField(
-                                                      decoration:
-                                                          InputDecoration(
-                                                              hintText:
-                                                                  "Add Type"),
-                                                    ),
-                                                  ),
-                                                ],
-                                              )),
-                                          Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 25.0),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: <Widget>[
-                                                  Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: const <Widget>[
-                                                      Text(
-                                                        'Preferred Job Location',
-                                                        style: TextStyle(
-                                                            fontSize: 16.0,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              )),
-                                          Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 2.0),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: const <Widget>[
-                                                  Flexible(
-                                                    child: TextField(
-                                                      decoration: InputDecoration(
-                                                          hintText:
-                                                              "Add Location"),
-                                                    ),
-                                                  ),
-                                                ],
-                                              )),
-                                          Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 25.0),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: <Widget>[
-                                                  Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: const <Widget>[
-                                                      Text(
-                                                        'Salary Expectation',
-                                                        style: TextStyle(
-                                                            fontSize: 16.0,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              )),
-                                          Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 2.0),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: const <Widget>[
-                                                  Flexible(
-                                                    child: TextField(
-                                                      decoration: InputDecoration(
-                                                          hintText:
-                                                              "Add Expectation"),
-                                                    ),
-                                                  ),
-                                                ],
-                                              )),
-                                          Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 25.0),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: <Widget>[
-                                                  Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: const <Widget>[
-                                                      Text(
-                                                        'Preferred Shift',
-                                                        style: TextStyle(
-                                                            fontSize: 16.0,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              )),
-                                          Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 2.0),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: const <Widget>[
-                                                  Flexible(
-                                                    child: TextField(
-                                                      decoration:
-                                                          InputDecoration(
-                                                              hintText:
-                                                                  "Add Shift"),
-                                                    ),
-                                                  ),
-                                                ],
-                                              )),
-                                          Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 25.0),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: <Widget>[
-                                                  Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: const <Widget>[
-                                                      Text(
-                                                        'Availability To Join',
-                                                        style: TextStyle(
-                                                            fontSize: 16.0,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              )),
-                                          Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 2.0),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: const <Widget>[
-                                                  Flexible(
-                                                    child: TextField(
-                                                      decoration: InputDecoration(
-                                                          hintText:
-                                                              "Add Location"),
-                                                    ),
-                                                  ),
-                                                ],
-                                              )),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  actions: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          right: 20, top: 20, bottom: 20),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          GFButton(
-                                              color: const Color(0xff3e61ed),
-                                              onPressed: () {
-                                                // Navigator.pop(context);
-                                              },
-                                              child: const Text(
-                                                "Save",
-                                                style: TextStyle(
-                                                  fontFamily: "ProximaNova",
-                                                  fontWeight: FontWeight.bold,
-                                                  // letterSpacing: 1.5,
-                                                  fontSize: 13.5,
-                                                ),
-                                              )),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                )),
+                        onTap: () {},
                         child: const Icon(
                           Icons.edit,
                           color: Color(0xff3e61ed),
@@ -2898,7 +2607,82 @@ class _ProfilePageState extends State<ProfilePage>
               Column(
                 children: getPersonalList(),
               ),
-
+              Padding(
+                padding: const EdgeInsets.only(left: 25, top: 10, right: 25),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "Languages",
+                      style: TextStyle(
+                        fontFamily: "ProximaNova",
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1.5,
+                        fontSize: 16.5,
+                      ),
+                    ),
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>LanguagesAdd()));
+                        },
+                        child: const Icon(
+                          Icons.edit,
+                          color: Color(0xff3e61ed),
+                        ))
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 10,
+                  left: 20,
+                  right: 20,
+                ),
+                child: Card(
+                  elevation: 5,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 15, right: 15, top: 10,bottom:10 ),
+                    child: LanguageGrid(context),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 25, top: 10, right: 25),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "Patents",
+                      style: TextStyle(
+                        fontFamily: "ProximaNova",
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1.5,
+                        fontSize: 16.5,
+                      ),
+                    ),
+                    GestureDetector(
+                        onTap: () {},
+                        child: const Icon(
+                          Icons.edit,
+                          color: Color(0xff3e61ed),
+                        ))
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 10,
+                  left: 20,
+                  right: 20,
+                ),
+                child: Card(
+                  elevation: 5,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 15, right: 15, top: 10,bottom:10 ),
+                    child: patentGrid(context),
+                  ),
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: 25, top: 10, right: 25),
                 child: Row(
@@ -3133,71 +2917,78 @@ class _ProfilePageState extends State<ProfilePage>
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          _apiResponse2.data[index].CourseName == ""
-                              ? _apiResponse2.data[index].getBoardName +
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              _apiResponse2.data[index].CourseName == ""
+                                  ? _apiResponse2.data[index].getBoardName +
                                   "-" +
                                   _apiResponse2.data[index].SchoolmediumName
-                              : _apiResponse2.data[index].CourseName +
+                                  : _apiResponse2.data[index].CourseName +
                                   "-" +
                                   _apiResponse2.data[index].StreamName,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontFamily: "ProximaNova",
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.5,
-                            fontSize: 15.0,
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () async {
-                            setState(() {
-                              isLoading = true;
-                            });
-                            final insert = QualificationPost(
-                              requestType: "delete",
-                                candidatequalUuid: _apiResponse2.data[index].candidatequalUuid
-                            );
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontFamily: "ProximaNova",
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 1.5,
+                                fontSize: 15.0,
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () async {
+                                setState(() {
+                                  isLoading = true;
+                                });
+                                final insert = QualificationPost(
+                                    requestType: "delete",
+                                    candidatequalUuid: _apiResponse2.data[index].candidatequalUuid
+                                );
 
-                            final result =
-                            await apiServices.qualificationAdd(insert);
-                            setState(() {
-                              isLoading = false;
-                            });
-                            if (result.data) {
-                              print("-----------SUCCESS------------");
-                              // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              //   content: Row(children: const [
-                              //     Icon(
-                              //       Icons.done_outlined,
-                              //     ),
-                              //     SizedBox(width: 7),
-                              //     Text("Successfully Deleted"),
-                              //   ]),
-                              //   backgroundColor: Colors.green,
-                              //   duration: const Duration(milliseconds: 2500),
-                              // ));
-                              // setState(() {
-                              //   getQualification();
-                              // });
-                            } else {
-                              print("-----------ERROR------------");
+                                final result =
+                                await apiServices.qualificationAdd(insert);
+                                setState(() {
+                                  isLoading = false;
+                                });
+                                if (result.data) {
+                                  print("-----------SUCCESS------------");
+                                  // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                  //   content: Row(children: const [
+                                  //     Icon(
+                                  //       Icons.done_outlined,
+                                  //     ),
+                                  //     SizedBox(width: 7),
+                                  //     Text("Successfully Deleted"),
+                                  //   ]),
+                                  //   backgroundColor: Colors.green,
+                                  //   duration: const Duration(milliseconds: 2500),
+                                  // ));
+                                  // setState(() {
+                                  //   getQualification();
+                                  // });
+                                } else {
+                                  print("-----------ERROR------------");
 
-                              // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              //   content: Row(
-                              //     children: const [
-                              //       Icon(Icons.error),
-                              //       SizedBox(width: 7),
-                              //       Text("An Error Occured"),
-                              //     ],
-                              //   ),
-                              //   backgroundColor: Colors.red,
-                              //   duration: const Duration(milliseconds: 2500),
-                              // ));
-                            }
-                          },
-                          child: Icon(Icons.delete),
+                                  // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                  //   content: Row(
+                                  //     children: const [
+                                  //       Icon(Icons.error),
+                                  //       SizedBox(width: 7),
+                                  //       Text("An Error Occured"),
+                                  //     ],
+                                  //   ),
+                                  //   backgroundColor: Colors.red,
+                                  //   duration: const Duration(milliseconds: 2500),
+                                  // ));
+                                }
+                              },
+                              child: Icon(Icons.delete),
+                            ),
+                          ],
                         ),
+
+
                       ],
                     ),
                   ),
@@ -3493,6 +3284,492 @@ class _ProfilePageState extends State<ProfilePage>
                     ],
                   ),
                 ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+
+
+
+
+
+  Widget LanguageGrid(BuildContext context) {
+    final orientation = MediaQuery.of(context).orientation;
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: _apiResponseLang.data.length,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          childAspectRatio: (1 / .30),
+          crossAxisSpacing: 5,
+          mainAxisSpacing: 6,
+          crossAxisCount: (orientation == Orientation.portrait) ? 2 : 3),
+      itemBuilder: (BuildContext context, int index) {
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ItSkillAdds(
+                      uuid: _apiResponse.data[index].candidateitskillUuid,
+                    )));
+          },
+          child: Container(
+            padding:
+            const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(6),
+                border: Border.all(color: const Color(0xff3e61ed))),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      _apiResponseLang.data[index].Language == "" ? _apiResponseLang.data[index].Languagename:  _apiResponseLang.data[index].Language,
+                      style: const TextStyle(
+                        fontFamily: "ProximaNova",
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1.5,
+                        fontSize: 15.0,
+                      ),
+                    ),
+                    // GestureDetector(
+                    //   onTap: ()async{
+                    //     setState(() {
+                    //       isLoading = true;
+                    //     });
+                    //     final insert = ItSkillAdd(
+                    //       requestType:"delete",
+                    //       candidateitskillItskillId: _apiResponse.data[index].candidateitskillItskillId,
+                    //       candidateitskillCandidateId: 1,
+                    //       // candidateitskillExperience: int.parse(_apiResponse.data[index].candidateitskillExperience),
+                    //       candidateitskillLastused: _apiResponse.data[index].candidateitskillLastused,
+                    //       candidateitskillVersion: _apiResponse.data[index].candidateitskillVersion
+                    //     );
+                    //     print(itSkillId);
+                    //     print(itSkillId);
+                    //     final result = await apiServices.itSkillDelete(insert);
+                    //     setState(() {
+                    //       isLoading = false;
+                    //     });
+                    //     // if(result.data){
+                    //     //   Navigator.pop(context);
+                    //     // }
+                    //     // else{
+                    //     //   print("error");
+                    //     // }
+                    //
+                    //
+                    //     const title = "Done";
+                    //     final text = result.error
+                    //         ? (result.errorMessage ?? "An Error Occurred")
+                    //         : "Successfully Deleted";
+                    //     showDialog(
+                    //       context: context,
+                    //       builder: (_) => AlertDialog(
+                    //         title: const Text(title),
+                    //         content: Text(text),
+                    //         actions: [
+                    //           ElevatedButton(
+                    //               onPressed: () {
+                    //                 Navigator.pop(context);
+                    //               },
+                    //               child: const Text("OK"))
+                    //         ],
+                    //       ),
+                    //     ).then((data) {
+                    //       if (result.data) {
+                    //         Navigator.of(context).pop();
+                    //
+                    //       }
+                    //     });
+                    //   },
+                    //     child: Icon(Icons.delete,color: KColors.primary)),
+                    // GestureDetector(
+                    //     onTap: () async {
+                    //       setState(() {
+                    //         isLoading = true;
+                    //       });
+                    //       final insert = ItSkillAdd(
+                    //         requestType: "delete",
+                    //         candidateitskillUuid: _apiResponse
+                    //             .data[index].candidateitskillUuid,
+                    //       );
+                    //       print(itSkillId);
+                    //       print(itSkillId);
+                    //       final result =
+                    //       await apiServices.itSkillDelete(insert);
+                    //       setState(() {
+                    //         isLoading = false;
+                    //       });
+                    //       if (result.data) {
+                    //         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    //           content: Row(children: const [
+                    //             Icon(
+                    //               Icons.done_outlined,
+                    //             ),
+                    //             SizedBox(width: 7),
+                    //             Text("Successfully Deleted"),
+                    //           ]),
+                    //           backgroundColor: Colors.green,
+                    //           duration: const Duration(milliseconds: 2500),
+                    //         ));
+                    //         setState(() {
+                    //           getItSkill();
+                    //         });
+                    //       } else {
+                    //         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    //           content: Row(
+                    //             children: const [
+                    //               Icon(Icons.error),
+                    //               SizedBox(width: 7),
+                    //               Text("An Error Occured"),
+                    //             ],
+                    //           ),
+                    //           backgroundColor: Colors.red,
+                    //           duration: const Duration(milliseconds: 2500),
+                    //         ));
+                    //       }
+                    //     },
+                    //     child: const Icon(Icons.edit_outlined,
+                    //         color: KColors.primary)),
+                  ],
+                ),
+                Text(
+                  _apiResponseLang.data[index].ProficiencyName ??
+                      "2 years",
+                  style: const TextStyle(
+                    fontFamily: "ProximaNova",
+                    color: Colors.grey,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 1.5,
+                    fontSize: 10.5,
+                  ),
+                ),
+                RichText(
+                  text: TextSpan(
+                      text: "Ablity:",
+                      style: const TextStyle(
+                        fontFamily: "ProximaNova",
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: 1.5,
+                        fontSize: 12.5,
+                      ),
+                      children: [
+                        TextSpan(
+                          text:
+                          _apiResponseLang
+                              .data[index].Read == "1"? "Read": ""
+                          ,
+                          style: const TextStyle(
+                            fontFamily: "ProximaNova",
+                            color: Colors.grey,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 1.5,
+                            fontSize: 14.5,
+                          ),
+                        ),
+                        TextSpan(
+                          text:
+                          _apiResponseLang
+                              .data[index].Write == "1" ?" Write" :""
+                          ,
+                          style: const TextStyle(
+                            fontFamily: "ProximaNova",
+                            color: Colors.grey,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 1.5,
+                            fontSize: 14.5,
+                          ),
+                        ),
+                        TextSpan(
+                          text:
+                          _apiResponseLang
+                              .data[index].Speak == "1" ?" Speak" :""
+                          ,
+                          style: const TextStyle(
+                            fontFamily: "ProximaNova",
+                            color: Colors.grey,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 1.5,
+                            fontSize: 14.5,
+                          ),
+                        ),
+                      ]),
+
+                ),
+
+                // RichText(
+                //   text: TextSpan(
+                //     text: "Version:",
+                //     style: const TextStyle(
+                //       fontFamily: "ProximaNova",
+                //       fontWeight: FontWeight.w500,
+                //       letterSpacing: 1.5,
+                //       fontSize: 12.5,
+                //     ),
+                //     children: [
+                //       TextSpan(
+                //         text: _apiResponse.data[index].candidateitskillVersion
+                //             .toString() ??
+                //             "",
+                //         style: const TextStyle(
+                //           fontFamily: "ProximaNova",
+                //           color: Colors.grey,
+                //           fontWeight: FontWeight.w500,
+                //           letterSpacing: 1.5,
+                //           fontSize: 14.5,
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+
+
+  Widget patentGrid(BuildContext context) {
+    final orientation = MediaQuery.of(context).orientation;
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: _apiResponsePatent.data.length,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          childAspectRatio: (1 / .48),
+          crossAxisSpacing: 5,
+          mainAxisSpacing: 6,
+          crossAxisCount: (orientation == Orientation.portrait) ? 2 : 3),
+      itemBuilder: (BuildContext context, int index) {
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ItSkillAdds(
+                      uuid: _apiResponse.data[index].candidateitskillUuid,
+                    )));
+          },
+          child: Container(
+            padding:
+            const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(6),
+                border: Border.all(color: const Color(0xff3e61ed))),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(_apiResponsePatent.data[index].candidatepatentTitle,
+                      style: const TextStyle(
+                        fontFamily: "ProximaNova",
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1.5,
+                        fontSize: 15.0,
+                      ),
+                    ),
+                    // GestureDetector(
+                    //   onTap: ()async{
+                    //     setState(() {
+                    //       isLoading = true;
+                    //     });
+                    //     final insert = ItSkillAdd(
+                    //       requestType:"delete",
+                    //       candidateitskillItskillId: _apiResponse.data[index].candidateitskillItskillId,
+                    //       candidateitskillCandidateId: 1,
+                    //       // candidateitskillExperience: int.parse(_apiResponse.data[index].candidateitskillExperience),
+                    //       candidateitskillLastused: _apiResponse.data[index].candidateitskillLastused,
+                    //       candidateitskillVersion: _apiResponse.data[index].candidateitskillVersion
+                    //     );
+                    //     print(itSkillId);
+                    //     print(itSkillId);
+                    //     final result = await apiServices.itSkillDelete(insert);
+                    //     setState(() {
+                    //       isLoading = false;
+                    //     });
+                    //     // if(result.data){
+                    //     //   Navigator.pop(context);
+                    //     // }
+                    //     // else{
+                    //     //   print("error");
+                    //     // }
+                    //
+                    //
+                    //     const title = "Done";
+                    //     final text = result.error
+                    //         ? (result.errorMessage ?? "An Error Occurred")
+                    //         : "Successfully Deleted";
+                    //     showDialog(
+                    //       context: context,
+                    //       builder: (_) => AlertDialog(
+                    //         title: const Text(title),
+                    //         content: Text(text),
+                    //         actions: [
+                    //           ElevatedButton(
+                    //               onPressed: () {
+                    //                 Navigator.pop(context);
+                    //               },
+                    //               child: const Text("OK"))
+                    //         ],
+                    //       ),
+                    //     ).then((data) {
+                    //       if (result.data) {
+                    //         Navigator.of(context).pop();
+                    //
+                    //       }
+                    //     });
+                    //   },
+                    //     child: Icon(Icons.delete,color: KColors.primary)),
+                    // GestureDetector(
+                    //     onTap: () async {
+                    //       setState(() {
+                    //         isLoading = true;
+                    //       });
+                    //       final insert = ItSkillAdd(
+                    //         requestType: "delete",
+                    //         candidateitskillUuid: _apiResponse
+                    //             .data[index].candidateitskillUuid,
+                    //       );
+                    //       print(itSkillId);
+                    //       print(itSkillId);
+                    //       final result =
+                    //       await apiServices.itSkillDelete(insert);
+                    //       setState(() {
+                    //         isLoading = false;
+                    //       });
+                    //       if (result.data) {
+                    //         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    //           content: Row(children: const [
+                    //             Icon(
+                    //               Icons.done_outlined,
+                    //             ),
+                    //             SizedBox(width: 7),
+                    //             Text("Successfully Deleted"),
+                    //           ]),
+                    //           backgroundColor: Colors.green,
+                    //           duration: const Duration(milliseconds: 2500),
+                    //         ));
+                    //         setState(() {
+                    //           getItSkill();
+                    //         });
+                    //       } else {
+                    //         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    //           content: Row(
+                    //             children: const [
+                    //               Icon(Icons.error),
+                    //               SizedBox(width: 7),
+                    //               Text("An Error Occured"),
+                    //             ],
+                    //           ),
+                    //           backgroundColor: Colors.red,
+                    //           duration: const Duration(milliseconds: 2500),
+                    //         ));
+                    //       }
+                    //     },
+                    //     child: const Icon(Icons.edit_outlined,
+                    //         color: KColors.primary)),
+                  ],
+                ),
+                Text("hgjk"
+                  // _apiResponsePatent.data[index].candidatepatentIssuedate ??
+                      "2 years",
+                  style: const TextStyle(
+                    fontFamily: "ProximaNova",
+                    color: Colors.grey,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 1.5,
+                    fontSize: 10.5,
+                  ),
+                ),
+                Text(
+                  _apiResponsePatent.data[index].candidatepatentOffice ??
+                      "2 years",
+                  style: const TextStyle(
+                    fontFamily: "ProximaNova",
+                    color: Colors.grey,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 1.5,
+                    fontSize: 10.5,
+                  ),
+                ),
+                Text(
+                  _apiResponsePatent.data[index].candidatepatentDesc == ""? "":        _apiResponsePatent.data[index].candidatepatentDesc
+                      ,
+                  style: const TextStyle(
+                    fontFamily: "ProximaNova",
+                    color: Colors.grey,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 1.5,
+                    fontSize: 10.5,
+                  ),
+                ),
+                // RichText(
+                //   text: TextSpan(
+                //       text: "Ablity:",
+                //       style: const TextStyle(
+                //         fontFamily: "ProximaNova",
+                //         fontWeight: FontWeight.w500,
+                //         letterSpacing: 1.5,
+                //         fontSize: 12.5,
+                //       ),
+                //       children: [
+                //         TextSpan(
+                //           text:
+                //           _apiResponseLang
+                //               .data[index].Read == "1"? "Read": ""
+                //           ,
+                //           style: const TextStyle(
+                //             fontFamily: "ProximaNova",
+                //             color: Colors.grey,
+                //             fontWeight: FontWeight.w500,
+                //             letterSpacing: 1.5,
+                //             fontSize: 14.5,
+                //           ),
+                //         ),
+                //         TextSpan(
+                //           text:
+                //           _apiResponseLang
+                //               .data[index].Write == "1" ?" Write" :""
+                //           ,
+                //           style: const TextStyle(
+                //             fontFamily: "ProximaNova",
+                //             color: Colors.grey,
+                //             fontWeight: FontWeight.w500,
+                //             letterSpacing: 1.5,
+                //             fontSize: 14.5,
+                //           ),
+                //         ),
+                //         TextSpan(
+                //           text:
+                //           _apiResponseLang
+                //               .data[index].Speak == "1" ?" Speak" :""
+                //           ,
+                //           style: const TextStyle(
+                //             fontFamily: "ProximaNova",
+                //             color: Colors.grey,
+                //             fontWeight: FontWeight.w500,
+                //             letterSpacing: 1.5,
+                //             fontSize: 14.5,
+                //           ),
+                //         ),
+                //       ]),
+                //
+                // ),
+
+
               ],
             ),
           ),
