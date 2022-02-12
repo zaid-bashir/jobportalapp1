@@ -4,8 +4,8 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
-import 'package:job_portal/Models/keyskill.dart';
-import 'package:job_portal/Models/postkeyskills.dart';
+import 'package:job_portal/Models/KeySkill.dart';
+import 'package:job_portal/Models/PostKeySkills.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Views/SignIn/Step6-ItSkills.dart';
 
@@ -187,7 +187,8 @@ class _KeySkillsPageState extends State<KeySkillsPage> {
                                               child: Padding(
                                                 padding:
                                                 const EdgeInsets.all(8.0),
-                                                child: DropdownSearch<KeySkills>.multiSelection(
+                                                child: DropdownSearch<
+                                                    KeySkills>.multiSelection(
                                                   autoValidateMode:
                                                   AutovalidateMode
                                                       .onUserInteraction,
@@ -270,6 +271,7 @@ class _KeySkillsPageState extends State<KeySkillsPage> {
                             } else {
 
                             }
+                          
                           } else {}
                         },
                         text: "Next",

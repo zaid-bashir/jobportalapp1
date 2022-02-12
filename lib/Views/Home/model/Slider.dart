@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:job_portal/Views/Home/constants/constants.dart';
+import 'package:job_portal/Views/Home/constants/Constants.dart';
 
 class Slider {
   final String sliderImageUrl;

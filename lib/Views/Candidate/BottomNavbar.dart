@@ -1,32 +1,29 @@
+// ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:job_portal/Controllers/menucontroller.dart';
 import 'package:job_portal/Views/Profile/Profile.dart';
 import 'package:provider/provider.dart';
-import 'UploadPost.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'Home.dart';
 import 'Job.dart';
 import 'Notification.dart';
-
-
-
-
 class Navbar extends StatelessWidget {
-  Navbar({Key key,this.keyjwt}) : super(key: key);
-   String keyjwt;
+  Navbar({Key key,this.keyjwt,this.prefLogin}) : super(key: key);
+  String keyjwt;
+  SharedPreferences prefLogin;
   @override
   Widget build(BuildContext context) {
     return
-     MultiProvider(
-       providers: [
-         ChangeNotifierProvider(
-           create: (context) => MenuController(),
-         ),
-       ],
-       child: MaterialApp(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (context) => MenuController(),
+          ),
+        ],
+        child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'Flutter Demo',
-
+          title: 'Job Portal',
           theme: ThemeData(
             // primaryColor: Color(0xFFC41A3B),
             // primaryColorDark:  Color(0xFFC41A3B),
@@ -36,14 +33,14 @@ class Navbar extends StatelessWidget {
           ),
           home: Navlist(keyjwt: keyjwt,),
         ),
-     );
+      );
 
   }
 }
 
 class Navlist extends StatefulWidget {
   Navlist({Key key,this.keyjwt}) : super(key: key);
-   String keyjwt;
+  String keyjwt;
   @override
   _NavlistState createState() => _NavlistState();
 }
@@ -57,7 +54,7 @@ class _NavlistState extends State<Navlist>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 5, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
   }
 
   @override
@@ -77,9 +74,9 @@ class _NavlistState extends State<Navlist>
         children: <Widget>[
           HomePage(keyjwt: widget.keyjwt,),
           Notify(),
-          UploadPost(),
+          // UploadPost(),
           JobsList(),
-          ProfilePage(keyjwt: widget.keyjwt,),
+          ProfilePage(),
         ],
         // If you want to disable swiping in tab the use below code
         physics: NeverScrollableScrollPhysics(),
@@ -117,13 +114,13 @@ class _NavlistState extends State<Navlist>
                   ),
                   text: 'Notifications',
                 ),
-                Tab(
-                  icon: Icon(
-                    Icons.add,
-                    size: 24.0,
-                  ),
-                  text: 'Post',
-                ),
+                // Tab(
+                //   icon: Icon(
+                //     Icons.add,
+                //     size: 24.0,
+                //   ),
+                //   text: 'Post',
+                // ),
                 Tab(
                   icon: Icon(
                     Icons.work,

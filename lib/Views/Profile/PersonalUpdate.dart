@@ -7,11 +7,11 @@ import 'package:job_portal/Models/Country.dart';
 
 import 'package:job_portal/Models/GetCategory.dart';
 import 'package:job_portal/Models/GetMarital.dart';
+import 'package:job_portal/Models/Location.dart';
 import 'package:job_portal/Models/Nationality.dart';
-import 'package:job_portal/Models/PersonalDetails-post.dart';
+import 'package:job_portal/Models/PersonalDetailsPost.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Views/Candidate/BottomNavbar.dart';
-import 'package:job_portal/Models/location.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class PersonalUpdate extends StatefulWidget {
@@ -46,27 +46,27 @@ class _PersonalUpdateState extends State<PersonalUpdate> {
   TextEditingController disabilityController = TextEditingController();
   TextEditingController assistanceController = TextEditingController();
   TextEditingController passportController = TextEditingController();
-String date;
+  String date;
 
 
-getDetails(){
-  setState(() {
-    isLoading = true;
-  });
-  print(widget.City)   ;
-  addressController.text = widget.Address;
-  panController.text= widget.Pan;
-  pincodeController.text = widget.PinCode;
-  passportController.text = widget.Pass;
-  date = widget.DOB ;
-  // print(cities.hooks);
-  setState(() {
-    isLoading = false;
-  });
-}
-String hooks ;
+  getDetails(){
+    setState(() {
+      isLoading = true;
+    });
+    print(widget.City)   ;
+    addressController.text = widget.Address;
+    panController.text= widget.Pan;
+    pincodeController.text = widget.PinCode;
+    passportController.text = widget.Pass;
+    date = widget.DOB ;
+    // print(cities.hooks);
+    setState(() {
+      isLoading = false;
+    });
+  }
+  String hooks ;
 
-Cities cities;
+  Cities cities;
   // controllers for searchable dropdown
   TextEditingController citySearchCon = TextEditingController();
   TextEditingController nationalitySearchCon = TextEditingController();
@@ -247,23 +247,15 @@ Cities cities;
                             const Padding(
                               padding: EdgeInsets.only(
                                   left: 10, bottom: 10, right: 25),
-                              child: Text(
-                                "Permanent Address",
+                              child:   const Text(
+                                'Address',
                                 style: TextStyle(
-                                  fontFamily: "ProximaNova",
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 1.5,
-                                  fontSize: 18.5,
-                                ),
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: "ProximaNova"),
                               ),
                             ),
-                            const Text(
-                              'Address',
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: "ProximaNova"),
-                            ),
+
                             TextFormField(
                               controller: addressController,
 
@@ -380,7 +372,7 @@ Cities cities;
                               validator: (e) => (e?.day ?? 0) == 1
                                   ? 'Please not the first day'
                                   : null,
-                          // initialDate: date  ,
+                              // initialDate: date  ,
                               onDateSelected: (date) {
                                 setState(() {
                                   selectedDate = date;
@@ -453,7 +445,7 @@ Cities cities;
                                 return DropdownMenuItem<Category>(
                                   value: user,
                                   child: Text(
-                                    user.casteName,
+                                    user.reservedName,
                                     style: const TextStyle(color: Colors.black),
                                   ),
                                 );
@@ -1062,7 +1054,7 @@ Cities cities;
                               print(
                                   totalExp == 0 ? totalExp : totalWorkExp());
                               print(int.parse(Marial.maritalId));
-                              print(int.parse(Caste.casteId));
+                              print(int.parse(Caste.reservedId));
                               print(addressController.text);
                               print(cityNameID);
                               print(selectedDate);
@@ -1077,12 +1069,12 @@ Cities cities;
                                 requestType: "update",
                                 // candidateUuid: widget.uuid,
                                 candidateAddress: addressController.text,
-                                candidateDob: selectedDate,
+                                candidateDob: selectedDate.toString().split(" ")[0],
                                 candidateCityId: int.parse(cityNameID),
                                 candidatePin: pincodeController.text,
                                 candidateMaritalstatusId:
                                 int.parse(Marial.maritalId),
-                                candidateReservedcategoryId: int.parse(Caste.casteId),
+                                candidateReservedcategoryId: int.parse(Caste.reservedId),
                                 candidateExservicemen: exservicemenGroupValue.toString(),
                                 candidatePassportno: passportController.text,
                                 candidatePancard: panController.text,
@@ -1133,7 +1125,7 @@ Cities cities;
                               );
                             }
                           },
-                          text: "Next",
+                          text: "Save",
                           type: GFButtonType.solid,
                         )
                     ),

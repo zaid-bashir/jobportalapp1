@@ -11,7 +11,7 @@ import 'package:job_portal/Models/PassingYear.dart';
 import 'package:job_portal/Models/QualificationDetails.dart';
 import 'package:job_portal/Models/QualificationPopulate.dart';
 import 'package:job_portal/Models/Stream.dart';
-import 'package:job_portal/Models/qualification-post.dart';
+import 'package:job_portal/Models/QualificationPost.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Views/SignIn/Step4-ProfessionalDetails.dart';
 import 'package:job_portal/Views/SignIn/Step5-KeySkills.dart';
@@ -22,7 +22,7 @@ class QualificationAdd extends StatefulWidget {
   @override
   _QualificationAddState createState() => _QualificationAddState();
 }
-
+//
 class _QualificationAddState extends State<QualificationAdd>
     with SingleTickerProviderStateMixin {
   AnimationController loadingController;
@@ -429,6 +429,7 @@ class _QualificationAddState extends State<QualificationAdd>
                             onSuggestionSelected: (Qualification suggesstion){
                               // final skill = suggesstion;
                               courseSearchCont.text  = suggesstion.courseName;
+                              courseId = suggesstion.courseId;
 
                             },
                           ),
@@ -539,6 +540,7 @@ class _QualificationAddState extends State<QualificationAdd>
                             onSuggestionSelected: (Streams suggesstion){
                               // final skill = suggesstion;
                               streamSearchCont.text  = suggesstion.streamName;
+                              streamId = suggesstion.streamId;
 
                             },
                           ),
@@ -954,14 +956,14 @@ class _QualificationAddState extends State<QualificationAdd>
            final insert = QualificationPost(
                requestType: "update",
                candidatequalUuid: widget.uuid,
-               candidatequalQualificationId: int.parse(highQualID),
-               candidatequalCourseId: int.parse(courseId),
-               candidatequalStreamId: int.parse(streamId),
+               candidatequalQualificationId: highQualID,
+               candidatequalCourseId: courseId,
+               candidatequalStreamId: streamId,
                candidatequalCousetypeId: courseTypeGroupValue,
                candidatequalInstituteName: instituteSearchCont.text,
-               candidatequalCompletionYear: int.parse(myPassingYear.yearId),
-               candidatequalGradingsystemId: int.parse(myGradingSystem.gradingsystemId),
-               candidatequalMarks: int.parse(gradeCont.text));
+               candidatequalCompletionYear: myPassingYear.yearId,
+               candidatequalGradingsystemId: myGradingSystem.gradingsystemId,
+               candidatequalMarks: gradeCont.text);
            final result = await apiServices.qualificationAdd(insert);
            setState(() {
              isLoading = false;
@@ -981,14 +983,14 @@ class _QualificationAddState extends State<QualificationAdd>
            });
            final insert = QualificationPost(
                requestType: "add",
-               candidatequalQualificationId: int.parse(highQualID),
-               candidatequalCourseId: int.parse(courseId),
-               candidatequalStreamId: int.parse(streamId),
+               candidatequalQualificationId: highQualID,
+               candidatequalCourseId: courseId,
+               candidatequalStreamId: streamId,
                candidatequalCousetypeId: courseTypeGroupValue,
                candidatequalInstituteName: instituteSearchCont.text,
-               candidatequalCompletionYear: int.parse(myPassingYear.yearId),
-               candidatequalGradingsystemId: int.parse(myGradingSystem.gradingsystemId),
-               candidatequalMarks: int.parse(gradeCont.text));
+               candidatequalCompletionYear: myPassingYear.yearId,
+               candidatequalGradingsystemId: myGradingSystem.gradingsystemId,
+               candidatequalMarks: gradeCont.text);
            final result = await apiServices.qualificationAdd(insert);
            setState(() {
              isLoading = false;

@@ -6,7 +6,7 @@ import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/EmploymentType.dart';
 import 'package:job_portal/Models/JobType.dart';
 import 'package:job_portal/Services/ApiServices.dart';
-import 'package:job_portal/Utility/apiurls.dart';
+import 'package:job_portal/Utility/ApiUrls.dart';
 import 'package:http/http.dart' as http;
 
 class ListJob extends StatefulWidget {

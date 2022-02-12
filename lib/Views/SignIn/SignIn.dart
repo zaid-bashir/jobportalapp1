@@ -12,12 +12,8 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:job_portal/Views/SignIn/Step1-Otp.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'Step3-QualificationDetails.dart';
-import 'Step7-CareerPreference.dart';
-
 class LoginPage extends StatefulWidget {
   const LoginPage({Key key}) : super(key: key);
-
   @override
   LoginPageState createState() => LoginPageState();
 }
@@ -208,51 +204,42 @@ class LoginPageState extends State<LoginPage> {
                       color: const Color(0xff3e61ed),
                       onPressed: () async {
                         if (formKey.currentState.validate()) {
-                          print(usernameCont.text);
-                          print(passwordCont.text);
-                          fetchAuth(
+                          await fetchAuth(
                               username: usernameCont.text,
                               password: passwordCont.text);
                           print("Response Data : ${apiResponse.data}");
-                          String val = "true";
-                          bool b = val.toLowerCase() == apiResponse.data;
-                          print(b);
-                          if (b) {
+                          if (apiResponse.responseCode == 200) {
+                            apiServices.setToken(apiResponse.data);
+                            storeLoginDataToSharedPref();
+                            AwesomeDialog(
+                              context: context,
+                              animType: AnimType.SCALE,
+                              dialogType: DialogType.SUCCES,
+                              btnOkOnPress: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => Navbar(
+                                      keyjwt: prefLogin.getString(keyJwt),
+                                      prefLogin: prefLogin,
+                                    ),
+                                  ),
+                                );
+                              },
+                              title: 'JobPortalApp',
+                              desc:
+                                  'User Successfully Verified...',
+                            ).show();
+                          }
+                          else {
                             AwesomeDialog(
                               context: context,
                               animType: AnimType.SCALE,
                               dialogType: DialogType.ERROR,
                               title: 'JobPortalApp',
                               desc:
-                                  'Invalid User,Please enter your correct credentials',
-                            ).show();
-                          } else {
-                            AwesomeDialog(
-                              context: context,
-                              animType: AnimType.SCALE,
-                              dialogType: DialogType.SUCCES,
-                              title: 'JobPortalApp',
-                              desc: 'Successfully Logged In...',
-                              btnOkOnPress: () {
-                                storeLoginDataToSharedPref();
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => Navbar(
-                                      keyjwt: prefLogin.getString(keyJwt),
-                                    ),
-                                  ),
-                                );
-                              },
+                                  'Invalid User, Please enter your correct credentials',
                             ).show();
                           }
-                        } else {
-                          AwesomeDialog(
-                            context: context,
-                            animType: AnimType.SCALE,
-                            dialogType: DialogType.ERROR,
-                            title: 'JobPortalApp',
-                            desc: 'Please enter your correct credentials',
-                          ).show();
                         }
                       },
                       text: "Login",
@@ -283,17 +270,19 @@ class LoginPageState extends State<LoginPage> {
                       ),
                       TextButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => Navbar()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const OTP()));
                         },
                         child: const Text(
                           'Register',
                           style: TextStyle(
-                            color: Color(0xff2972ff),
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.w400,
-                          ),
+                              color: Color(0xff2972ff),
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w400),
                         ),
-                      ),
+                      )
                     ],
                   ),
                 ],
@@ -307,9 +296,5 @@ class LoginPageState extends State<LoginPage> {
 
   void storeLoginDataToSharedPref() async {
     await prefLogin.setString(keyJwt, apiResponse.data);
-  }
-
-  String fetchJwtToken() {
-    return apiResponse.data;
   }
 }

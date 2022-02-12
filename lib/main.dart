@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'Views/Home/splashscreen.dart';
+import 'Views/Home/SplashScreen.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'dart:ui' as ui;
 

@@ -1,7 +1,11 @@
+// ignore_for_file: must_be_immutable, avoid_print
+
 import 'dart:io';
+
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/GradingSystem.dart';
@@ -9,17 +13,19 @@ import 'package:job_portal/Models/InstituteQualified.dart';
 import 'package:job_portal/Models/PassingYear.dart';
 import 'package:job_portal/Models/QualificationDetails.dart';
 import 'package:job_portal/Models/Stream.dart';
-import 'package:job_portal/Models/qualification-post.dart';
+import 'package:job_portal/Models/QualificationPost.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Views/SignIn/Step4-ProfessionalDetails.dart';
 import 'package:job_portal/Views/SignIn/Step5-KeySkills.dart';
 
 class QualificationBlueCollar extends StatefulWidget {
-   QualificationBlueCollar({Key key, this.uuid}) : super(key: key);
+   QualificationBlueCollar({Key key, this.uuid,this.token,this.experienceId}) : super(key: key);
   String uuid;
-  int experienceValue;
+  String token;
+  int experienceId;
   @override
-  _QualificationBlueCollarState createState() => _QualificationBlueCollarState();
+  _QualificationBlueCollarState createState() =>
+      _QualificationBlueCollarState();
 }
 
 class _QualificationBlueCollarState extends State<QualificationBlueCollar>
@@ -39,7 +45,6 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
         _platformFile = file.files.first;
       });
     }
-
     loadingController.forward();
   }
 
@@ -70,7 +75,6 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
   bool isLoading = false;
   ApiServices apiServices = ApiServices();
   ApiResponse<List<Institute>> _apiResponseInstitute;
-
   ApiResponse<List<GradingSystem>> _apiResponse;
   ApiResponse<List<PassingYear>> _apiResponse2;
   ApiResponse<List<Qualification>> _apiResponsequalification;
@@ -86,10 +90,7 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
 
   @override
   void initState() {
-    // fetchInstitute(query: "");
-    // fetchHighestQualification(query: "");
-    // fetchCourses(query: "");
-    // fetchStream(query: "");
+
     fetchPassingYear();
     fetchGradingSystem();
     loadingController = AnimationController(
@@ -102,36 +103,8 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
     super.initState();
   }
 
-  // fetchStream({String query}) async {
-  //   setState(() {
-  //     isLoading = true;
-  //   });
-  //   _apiResponsestream = await apiServices.getStream(query: query);
-  //   setState(() {
-  //     isLoading = false;
-  //   });
-  // }
 
-  // fetchCourses({String query}) async {
-  //   setState(() {
-  //     isLoading = true;
-  //   });
-  //   _apiResponsecourse = await apiServices.getCourse(query: query);
-  //   setState(() {
-  //     isLoading = false;
-  //   });
-  // }
 
-  // fetchHighestQualification({String query}) async {
-  //   setState(() {
-  //     isLoading = true;
-  //   });
-  //   _apiResponsequalification =
-  //       await apiServices.getQualification(query: query);
-  //   setState(() {
-  //     isLoading = false;
-  //   });
-  // }
 
   List<String> getStream() {
     List<Streams> stream = _apiResponsestream.data;
@@ -161,15 +134,7 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
   }
 
   // institute qualified
-  // fetchInstitute({String query}) async {
-  //   setState(() {
-  //     isLoading = true;
-  //   });
-  //   _apiResponseInstitute = await apiServices.getInstitute(query: query);
-  //   setState(() {
-  //     isLoading = false;
-  //   });
-  // }
+
 
   List<String> parseInstitute() {
     List<Institute> institute = _apiResponseInstitute.data;
@@ -273,18 +238,18 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                         child: Row(
                           children: [
                             Container(
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               decoration: BoxDecoration(
                                   border: Border.all(
                                       color: Colors.grey, width: 2.5),
                                   borderRadius: BorderRadius.circular(10)),
-                              child: Icon(
+                              child: const Icon(
                                 Icons.add,
                                 color: Colors.grey,
                                 size: 25,
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 30,
                             ),
                             Column(
@@ -385,48 +350,28 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: DropdownSearch<Qualification>(
-                        dropdownSearchDecoration: InputDecoration(
-                            border: UnderlineInputBorder(
+                      child: TypeAheadField(
+                        textFieldConfiguration: TextFieldConfiguration(
+                            controller: this. qualificationSearchCon,
+                            decoration: InputDecoration(
+                                hintText: 'Qualification'
                             )
                         ),
-                        validator: (value) {
-                          if (value == null) {
-                            return "Please Select Qualification";
-                          }
-                          return null;
-                        },
-                        mode: Mode.DIALOG,
-                        items: isLoading
-                            ? Qualification()
-                            : _apiResponsequalification.data,
-                        itemAsString: (Qualification obj) {
-                          return obj.qualName;
-                        },
-                        onFind: (val) async {
-                          setState(() {
-                            query = val;
-                          });
-                          return _apiResponsequalification.data;
-                        },
-                        hint: "Select Highest Qualification",
-                        onChanged: (value) {
-                          qualificationSearchCon.text = value.qualId.toString();
-                          highQualID = value.qualId;
-                          print(value.qualId);
-                        },
-                        showSearchBox: true,
-                        popupItemBuilder:
-                            (context, Qualification item, bool isSelected) {
-                          return Container(
-                            margin: EdgeInsets.symmetric(horizontal: 8),
-                            child: Card(
-                              child: Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Text(item.qualName),
-                              ),
-                            ),
+                        debounceDuration: Duration(milliseconds: 500),
+                        suggestionsCallback: ApiServices.getQualification,
+                        itemBuilder: (context, Qualification suggestions){
+                          final quall = suggestions;
+                          return ListTile(
+                            title: Text(quall.qualName) ,
                           );
+                        },
+                        noItemsFoundBuilder: (context)=>Text(""),
+
+                        onSuggestionSelected: (Qualification suggesstion){
+                          // final skill = suggesstion;
+                          qualificationSearchCon.text  = suggesstion.qualName;
+                          highQualID = suggesstion.qualId;
+
                         },
                       ),
                       // FindDropdown(
@@ -476,48 +421,28 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: DropdownSearch<Qualification>(
-                            dropdownSearchDecoration: InputDecoration(
-                                border: UnderlineInputBorder(
+                          child: TypeAheadField(
+                            textFieldConfiguration: TextFieldConfiguration(
+                                controller: this. courseSearchCont,
+                                decoration: InputDecoration(
+                                    hintText: 'Course'
                                 )
                             ),
-                            validator: (value) {
-                              if (value == null) {
-                                return "Please Select Course";
-                              }
-                              return null;
-                            },
-                            mode: Mode.DIALOG,
-                            items: isLoading
-                                ? [Qualification()]
-                                : _apiResponsecourse.data,
-                            itemAsString: (Qualification obj) {
-                              return obj.courseName;
-                            },
-                            onFind: (val) async {
-                              setState(() {
-                                querys = val;
-                              });
-                              return _apiResponsecourse.data;
-                            },
-                            hint: "Select Course",
-                            onChanged: (value) {
-                              courseSearchCont.text = value.qualId.toString();
-                              courseId = value.courseId;
-                              print(value.courseId);
-                            },
-                            showSearchBox: true,
-                            popupItemBuilder:
-                                (context, Qualification item, bool isSelected) {
-                              return Container(
-                                margin: EdgeInsets.symmetric(horizontal: 8),
-                                child: Card(
-                                  child: Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text(item.courseName),
-                                  ),
-                                ),
+                            debounceDuration: Duration(milliseconds: 500),
+                            suggestionsCallback: ApiServices.getCourse ,
+                            itemBuilder: (context, Qualification suggestions){
+                              final skill = suggestions;
+                              return ListTile(
+                                title: Text(skill.courseName) ,
                               );
+                            },
+                            noItemsFoundBuilder: (context)=>Text(""),
+
+                            onSuggestionSelected: (Qualification suggesstion){
+                              // final skill = suggesstion;
+                              courseSearchCont.text  = suggesstion.courseName;
+                              courseId = suggesstion.courseId;
+
                             },
                           ),
                           // FindDropdown(
@@ -563,47 +488,28 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: DropdownSearch<Streams>(
-                            dropdownSearchDecoration: InputDecoration(
-                                border: UnderlineInputBorder(
+                          child: TypeAheadField(
+                            textFieldConfiguration: TextFieldConfiguration(
+                                controller: this. streamSearchCont,
+                                decoration: InputDecoration(
+                                    hintText: 'Stream'
                                 )
                             ),
-                            validator: (value) {
-                              if (value == null) {
-                                return "Please Select Stream";
-                              }
-                              return null;
-                            },
-                            mode: Mode.DIALOG,
-                            items:
-                                isLoading ? Streams() : _apiResponsestream.data,
-                            itemAsString: (Streams obj) {
-                              return obj.streamName;
-                            },
-                            onFind: (val) async {
-                              setState(() {
-                                queryss = val;
-                              });
-                              return _apiResponsestream.data;
-                            },
-                            hint: "Select Streams",
-                            onChanged: (value) {
-                              streamSearchCont.text = value.streamId.toString();
-                              streamId = value.streamId;
-                              print(value.streamId);
-                            },
-                            showSearchBox: true,
-                            popupItemBuilder:
-                                (context, Streams item, bool isSelected) {
-                              return Container(
-                                margin: EdgeInsets.symmetric(horizontal: 8),
-                                child: Card(
-                                  child: Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text(item.streamName),
-                                  ),
-                                ),
+                            debounceDuration: Duration(milliseconds: 500),
+                            suggestionsCallback: ApiServices.getStream ,
+                            itemBuilder: (context, Streams suggestions){
+                              final skill = suggestions;
+                              return ListTile(
+                                title: Text(skill.streamName) ,
                               );
+                            },
+                            noItemsFoundBuilder: (context)=>Text(""),
+
+                            onSuggestionSelected: (Streams suggesstion){
+                              // final skill = suggesstion;
+                              streamSearchCont.text  = suggesstion.streamName;
+                              streamId = suggesstion.streamId;
+
                             },
                           ),
                           // FindDropdown(
@@ -799,50 +705,27 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                          child: DropdownSearch<Institute>(
-                            dropdownSearchDecoration: InputDecoration(
-                                border: UnderlineInputBorder(
-
+                          child: TypeAheadField(
+                            textFieldConfiguration: TextFieldConfiguration(
+                                controller: this. instituteSearchCont,
+                                decoration: InputDecoration(
+                                    labelText: 'Institute'
                                 )
                             ),
-                            validator: (value) {
-                              if (value == null) {
-                                return "Please Select Institute";
-                              }
-                              return null;
-                            },
-                            mode: Mode.DIALOG,
-                            items: isLoading
-                                ? Institute()
-                                : _apiResponseInstitute.data,
-                            itemAsString: (Institute obj) {
-                              return obj.instituteName;
-                            },
-                            onFind: (val) async {
-                              setState(() {
-                                querysss = val;
-                              });
-                              return _apiResponseInstitute.data;
-                            },
-                            hint: "Select Institute",
-                            onChanged: (value) {
-                              instituteSearchCont.text =
-                                  value.instituteId.toString();
-                              instituteId = value.instituteId;
-                              print(value.instituteId);
-                            },
-                            showSearchBox: true,
-                            popupItemBuilder:
-                                (context, Institute item, bool isSelected) {
-                              return Container(
-                                margin: EdgeInsets.symmetric(horizontal: 8),
-                                child: Card(
-                                  child: Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text(item.instituteName),
-                                  ),
-                                ),
+                            debounceDuration: Duration(milliseconds: 500),
+                            suggestionsCallback: ApiServices.getInstitute ,
+                            itemBuilder: (context, Institute suggestions){
+                              final skill = suggestions;
+                              return ListTile(
+                                title: Text(skill.instituteName) ,
                               );
+                            },
+                            noItemsFoundBuilder: (context)=>Text(""),
+
+                            onSuggestionSelected: (Institute suggesstion){
+                              // final skill = suggesstion;
+                              instituteSearchCont.text  = suggesstion.instituteName;
+
                             },
                           ),
                           // FindDropdown(
@@ -1018,17 +901,17 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                           isLoading = true;
                         });
                         final insert = QualificationPost(
-                            candidatequalUuid: widget.uuid,
-                            candidatequalQualificationId: int.parse(highQualID),
-                            candidatequalCourseId: int.parse(courseId),
-                            candidatequalStreamId: int.parse(streamId),
+                        candidatequalUuid: widget.uuid,
+                            candidatequalQualificationId: highQualID,
+                            candidatequalCourseId: courseId,
+                            candidatequalStreamId: streamId,
                             candidatequalCousetypeId: courseTypeGroupValue,
-                            candidatequalInstituteId: int.parse(instituteId),
-                            candidatequalCompletionYear: int.parse(myPassingYear.yearId),
-                            candidatequalGradingsystemId: int.parse(myGradingSystem.gradingsystemId),
-                            candidatequalMarks: int.parse(gradeCont.text));
+                            candidatequalInstituteName: instituteSearchCont.text,
+                            candidatequalCompletionYear: myPassingYear.yearId,
+                            candidatequalGradingsystemId: myGradingSystem.gradingsystemId,
+                            candidatequalMarks: gradeCont.text);
                         final result =
-                            await apiServices.PostQualification(insert);
+                            await apiServices.PostQualification(qualifi: insert,token: widget.token);
                         setState(() {
                           isLoading = false;
                         });
@@ -1058,7 +941,8 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                         //   }
                         // });
                       }
-                      Navigator.of(context).push(
+                      widget.experienceId == 0 ? Navigator.of(context).push( MaterialPageRoute(
+                                       builder: (context) => KeySkillsPage(uuid: widget.uuid,))) : Navigator.of(context).push(
                           MaterialPageRoute(
                                        builder: (context) => WorkingProfession(uuid: widget.uuid,)));
 

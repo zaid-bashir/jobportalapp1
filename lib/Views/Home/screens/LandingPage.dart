@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:job_portal/Views/Home/uiview/slider_layout_view.dart';
+import 'package:job_portal/Views/Home/uiview/SliderLayoutView.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({Key key}) : super(key: key);

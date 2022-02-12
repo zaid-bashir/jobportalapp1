@@ -1,18 +1,20 @@
+// ignore_for_file: must_be_immutable, unused_import, avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:date_field/date_field.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/Country.dart';
-
 import 'package:job_portal/Models/GetCategory.dart';
 import 'package:job_portal/Models/GetMarital.dart';
+import 'package:job_portal/Models/Location.dart';
 import 'package:job_portal/Models/Nationality.dart';
-import 'package:job_portal/Models/PersonalDetails-post.dart';
+import 'package:job_portal/Models/PersonalDetailsPost.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Views/Candidate/BottomNavbar.dart';
-import 'package:job_portal/Models/location.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:intl/intl.dart';
 
 class PersonalDetails extends StatefulWidget {
    PersonalDetails({Key key, this.uuid}) : super(key: key);
@@ -391,6 +393,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                 onDateSelected: (date) {
                                   setState(() {
                                     selectedDate = date;
+                                    print(selectedDate);
                                   });
                                 },
                               ),
@@ -460,7 +463,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                   return DropdownMenuItem<Category>(
                                     value: user,
                                     child: Text(
-                                      user.casteName,
+                                      user.reservedName,
                                       style: TextStyle(color: Colors.black),
                                     ),
                                   );
@@ -1069,7 +1072,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                 print(
                                     totalExp == 0 ? totalExp : totalWorkExp());
                                 print(int.parse(Marial.maritalId));
-                                print(int.parse(Caste.casteId));
+                                print(int.parse(Caste.reservedId));
                                 print(addressController.text);
                                 print(cityNameID);
                                 print(selectedDate);
@@ -1083,12 +1086,12 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                 final insert = PersonalDetailsPost(
                                 candidateUuid: widget.uuid,
                                 candidateAddress: addressController.text,
-                                candidateDob: selectedDate,
+                                candidateDob: selectedDate.toString().split(" ")[0],
                                 candidateCityId: int.parse(cityNameID),
                                 candidatePin: pincodeController.text,
                                 candidateMaritalstatusId:
                                 int.parse(Marial.maritalId),
-                                candidateReservedcategoryId: int.parse(Caste.casteId),
+                                candidateReservedcategoryId: int.parse(Caste.reservedId),
                                 candidateExservicemen: exservicemenGroupValue.toString(),
                                 candidatePassportno: passportController.text,
                                 candidatePancard: panController.text,

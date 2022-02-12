@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable, avoid_print
+
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 
@@ -398,8 +400,11 @@ class _ItSkillsState extends State<ItSkills> {
                         if (formKey.currentState.validate()) {
                           int totalworkexp = (int.parse(yearsCont.text) * 12) +
                               int.parse(monthCont.text);
-                          print(totalworkexp);
-
+                          print("UuId" + widget.uuid);
+                          print("Skill ID "+ int.parse(itSkillId).toString());
+                          print("Version "+int.parse(versionCont.text).toString());
+                          print("WorkExperience "+ totalworkexp.toString());
+                          print("Year ID "+int.parse(myYear.yearId).toString());
                           setState(() {
                             isLoading = true;
                           });
@@ -440,11 +445,11 @@ class _ItSkillsState extends State<ItSkills> {
                           //   }
                           // });
                         }
-                        // Navigator.push(
-                        //            context,
-                        //             MaterialPageRoute(
-                        //                 builder: (context) =>
-                        //                     CareerPreference(uuid: widget.uuid,)));
+                        Navigator.push(
+                                   context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            CareerPreference(uuid: widget.uuid,)));
                       },
                       text: "Next",
                       type: GFButtonType.solid,

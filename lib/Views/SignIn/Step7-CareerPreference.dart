@@ -1,19 +1,19 @@
 import 'package:date_field/date_field.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
-import 'package:job_portal/Models/CareerPreference-post.dart';
+import 'package:job_portal/Models/CareerPreferencePost.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/EmploymentType.dart';
 import 'package:job_portal/Models/GetIndustry.dart';
 import 'package:job_portal/Models/GetShift.dart';
 import 'package:job_portal/Models/JobType.dart';
-import 'package:job_portal/Models/location.dart';
+import 'package:job_portal/Models/Location.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:job_portal/Views/SignIn/ListView-Job-Type.dart';
+import 'package:job_portal/Views/SignIn/ListViewJobType.dart';
 import 'package:job_portal/Views/SignIn/Step8-PersonalDetails.dart';
-import 'package:job_portal/Views/SignIn/listView-EmploymentType.dart';
+import 'package:job_portal/Views/SignIn/ListViewEmploymentType.dart';
 
 class CareerPreference extends StatefulWidget {
   CareerPreference({Key key, this.uuid}) : super(key: key);
@@ -797,10 +797,9 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                     isLoading = true;
                                   });
                                   final insert = CareerPreferencePost(
-                                    candidateUuid: "c6e56126-7702-43b6-8629-910ca59d71f6",
+                                    candidateUuid: widget.uuid,
                                     candidateIndustryId: int.parse(myindustry),
                                     candidateJobtypeIdsList: [
-
                                       ListJobState().selectedSkills2
                                     ],
                                     candidateEmploymenttypeIdsList: [

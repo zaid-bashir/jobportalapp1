@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:job_portal/Data_Controller/apiresponse.dart';
-import 'package:job_portal/Utility/apiurls.dart';
+import 'package:job_portal/Utility/ApiUrls.dart';
 import 'package:http/http.dart' as http;
 
 class ITSkill{

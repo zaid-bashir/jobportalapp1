@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:job_portal/Views/Home/screens/landingpage.dart';
+import 'package:job_portal/Views/Home/screens/LandingPage.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
