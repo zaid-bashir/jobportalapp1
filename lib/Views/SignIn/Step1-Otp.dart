@@ -133,7 +133,7 @@ class _OTPState extends State<OTP> {
                               return "Mobile Number can not be empty";
                             }
                             if (value.length < 10) {
-                              return "Please enter 10 digits mobile number";
+                              return "Enter 10 digits mobile number";
                             }
                             return null;
                           },

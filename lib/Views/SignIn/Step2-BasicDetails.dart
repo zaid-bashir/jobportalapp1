@@ -256,7 +256,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                                 });
                               },
                               validator: (value) =>
-                              value == null ? 'Please fill Title' : null,
+                              value == null ? 'Select Title' : null,
                               items: _apiResponse.data.map((GetTitle user) {
                                 return DropdownMenuItem<GetTitle>(
                                   value: user,
@@ -301,7 +301,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                             AutovalidateMode.onUserInteraction,
                             validator: (value) {
                               if (value.isEmpty) {
-                                return "Please Enter First Name";
+                                return "Enter First Name";
                               } else {
                                 return null;
                               }
@@ -380,7 +380,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                               AutovalidateMode.onUserInteraction,
                               validator: (value) {
                                 if (value.isEmpty) {
-                                  return "Please Enter Last Name";
+                                  return "Enter Last Name";
                                 }
                                 return null;
                               },
@@ -420,7 +420,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
                           if (value.isEmpty) {
-                            return "Please Enter Email";
+                            return "Enter Email";
                           }
                           if (!EmailValidator.validate(value)) {
                             return "Please enter Correct email";
@@ -466,7 +466,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                         },
                         validator: (val) {
                           if (val == null) {
-                            return "This field is required";
+                            return "Select Gender";
                           } else {
                             return null;
                           }
@@ -509,7 +509,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                         },
                         validator: (val) {
                           if (val == null) {
-                            return "This field is required";
+                            return "Select Experience";
                           } else {
                             return null;
                           }
@@ -556,7 +556,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                                   });
                                 },
                                 validator: (value) => value == null
-                                    ? 'Please fill Year'
+                                    ? 'Select Year'
                                     : null,
                                 items: [
                                   "0",
@@ -607,7 +607,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                                   });
                                 },
                                 validator: (value) => value == null
-                                    ? 'Please fill Month'
+                                    ? 'Select Month'
                                     : null,
                                 items: [
                                   "0",
@@ -671,7 +671,7 @@ class _BasicDetailsState extends State<BasicDetails> {
 
                           validator: (value) {
                             if (value == null) {
-                              return "Please Enter Job Role";
+                              return "Select Preffered Job Role";
                             }
                             return null;
                           },
@@ -736,7 +736,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                         autoValidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
                           if (value == null) {
-                            return "Please Select Current Location";
+                            return "Select Current Location";
                           }
                           return null;
                         },

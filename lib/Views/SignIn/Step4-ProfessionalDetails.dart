@@ -341,7 +341,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                               groupValue == 1
                                   ? TextFormField(
                                       controller: currentCompanyCntrl,
-                                      decoration: InputDecoration(
+                                      decoration: const InputDecoration(
                                         hintText: "Current Designation",
                                         hintStyle: TextStyle(
                                           color: Colors.blueGrey,
@@ -353,7 +353,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                       ),
                                       validator: (value) {
                                         if (value.isEmpty) {
-                                          return "this field is required";
+                                          return "Enter Current Designation";
                                         }
                                         return null;
                                       },

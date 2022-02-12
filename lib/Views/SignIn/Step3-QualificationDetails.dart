@@ -783,7 +783,7 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                               });
                             },
                             validator: (value) =>
-                            value == null ? 'Please fill Year' : null,
+                            value == null ? 'Seelct Year' : null,
                             items: _apiResponse2.data.map((PassingYear user) {
                               return DropdownMenuItem<PassingYear>(
                                 value: user,
@@ -826,7 +826,7 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                               });
                             },
                             validator: (value) =>
-                            value == null ? 'Please fill Grading Value' : null,
+                            value == null ? 'Enter Grade Value' : null,
                             items: _apiResponse.data.map((GradingSystem user) {
                               return DropdownMenuItem<GradingSystem>(
                                 value: user,
@@ -859,7 +859,7 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                           child: TextFormField(
                             validator: (value) {
                               if (value.isEmpty) {
-                                return "Please Enter Grade Value";
+                                return "Enter Grade Value";
                               } else {
                                 return null;
                               }

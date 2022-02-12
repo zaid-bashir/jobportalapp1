@@ -28,6 +28,5 @@ class PersonalRetrive {
       countryName: item["countryName"],
     );
   }
-
 }
 
