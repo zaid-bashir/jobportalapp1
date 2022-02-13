@@ -38,7 +38,7 @@ class _ItSkillsState extends State<ItSkills> {
   String myskill;
   String queries;
   ApiResponse<List<ITSkill>> _apiResponseITSkill;
-  String itSkillId = "";
+  String itSkillName = "";
 
   var formKey = GlobalKey<FormState>();
 
@@ -166,7 +166,7 @@ class _ItSkillsState extends State<ItSkills> {
                             hint: "Select Skill",
                             onChanged: (value) {
                               skillSearchCont.text = value.itskillId.toString();
-                              itSkillId = value.itskillId;
+                              itSkillName = value.itskillName;
                               print(value.itskillId);
                             },
                             showSearchBox: true,
@@ -401,8 +401,8 @@ class _ItSkillsState extends State<ItSkills> {
                           int totalworkexp = (int.parse(yearsCont.text) * 12) +
                               int.parse(monthCont.text);
                           print("UuId" + widget.uuid);
-                          print("Skill ID "+ int.parse(itSkillId).toString());
-                          print("Version "+int.parse(versionCont.text).toString());
+                          print("Skill ID "+ int.parse(itSkillName).toString());
+                          print("Version "+double.parse(versionCont.text).toString());
                           print("WorkExperience "+ totalworkexp.toString());
                           print("Year ID "+int.parse(myYear.yearId).toString());
                           setState(() {
@@ -410,8 +410,8 @@ class _ItSkillsState extends State<ItSkills> {
                           });
                           final insert = PostItSkills(
                               candidateUuid: widget.uuid,
-                              candidateitskillItskillId: int.parse(itSkillId),
-                              candidateitskillVersion: int.parse(versionCont.text),
+                              candidateitskillName: itSkillName,
+                              candidateitskillVersion: double.parse(versionCont.text),
                               candidateitskillExperience: totalworkexp,
                               candidateitskillLastused: int.parse(myYear.yearId));
                           final result = await apiServices.ItSkillsPost(insert);

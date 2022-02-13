@@ -325,7 +325,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                             child: TextFormField(
                               controller: mnameController,
                               decoration: InputDecoration(
-                                contentPadding: EdgeInsets.all(8.0),
+                                contentPadding: const EdgeInsets.all(8.0),
                                 labelText: 'Middle Name:',
                                 labelStyle: TextStyle(
                                     fontSize: 15,
@@ -335,7 +335,6 @@ class _BasicDetailsState extends State<BasicDetails> {
                                   color: Color(0xff2972ff),
                                   fontFamily: "ProximaNova",
                                   fontWeight: FontWeight.bold,
-                                  // letterSpacing: 1.5,
                                   fontSize: 17.5,
                                 ),
                                 focusedBorder: UnderlineInputBorder(
@@ -423,7 +422,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                             return "Enter Email";
                           }
                           if (!EmailValidator.validate(value)) {
-                            return "Please enter Correct email";
+                            return "Enter Correct Email";
                           }
                           return null;
                         },

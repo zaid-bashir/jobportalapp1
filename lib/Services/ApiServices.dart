@@ -30,6 +30,7 @@ import 'package:job_portal/Models/Nationality.dart';
 import 'package:job_portal/Models/PatentPopulate.dart';
 import 'package:job_portal/Models/PersonalDetailPopulate.dart';
 import 'package:job_portal/Models/PersonalDetailsPost.dart';
+import 'package:job_portal/Models/PostProfessionRegistration.dart';
 import 'package:job_portal/Models/ProfessionDetailsPost.dart';
 import 'package:job_portal/Models/ProfessionalPopulate.dart';
 import 'package:job_portal/Models/Profiecency.dart';
@@ -773,7 +774,7 @@ class ApiServices {
   }
 
   // PROFESSIONPAGE STARTS HERE
-  Future<ApiResponse<bool>> ProfessionPost(PostProfession profes) async {
+  Future<ApiResponse<bool>> ProfessionPost(PostProfessionRegistration profes) async {
     final url = Uri.parse(ApiUrls.kProfession);
     final headers = {
       "Content-Type": "application/json",

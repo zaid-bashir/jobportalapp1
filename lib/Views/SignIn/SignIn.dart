@@ -10,6 +10,7 @@ import 'package:job_portal/Utility/Connect.dart';
 import 'package:job_portal/Views/Candidate/BottomNavbar.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:job_portal/Views/SignIn/Step1-Otp.dart';
+import 'package:job_portal/Views/SignIn/Step4-ProfessionalDetails.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
@@ -184,7 +185,10 @@ class LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          
+                          
+                        },
                         child: const Text(
                           'Forgot Password?',
                           style: TextStyle(
@@ -274,6 +278,13 @@ class LoginPageState extends State<LoginPage> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => const OTP()));
+                          //  Navigator.of(context).push(
+                          //         MaterialPageRoute(
+                          //           builder: (context) => WorkingProfession(
+                                      
+                          //           ),
+                          //         ),
+                          //       );
                         },
                         child: const Text(
                           'Register',
