@@ -15,7 +15,7 @@ import 'package:job_portal/Models/location.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class PersonalUpdate extends StatefulWidget {
-  PersonalUpdate({Key key,this.Address,this.City,this.PinCode,this.DOB,this.Marry,this.Nationality,this.Pan,this.Pass,this.Country }) : super(key: key);
+  PersonalUpdate({Key key,this.Address,this.Work,this.Ex,this.City,this.PinCode,this.DOB,this.Marry,this.Nationality,this.Pan,this.Pass,this.Country }) : super(key: key);
 
   String Address;
   String City;
@@ -26,6 +26,8 @@ class PersonalUpdate extends StatefulWidget {
   String Pan;
   String Pass;
   String Country;
+  String Ex;
+  String Work;
 
 
 
@@ -59,6 +61,8 @@ getDetails(){
   pincodeController.text = widget.PinCode;
   passportController.text = widget.Pass;
   date = widget.DOB ;
+  // groupValue2 = int.parse(widget.Ex);
+  // exservicemenGroupValue =  int.parse(widget.Ex);
   // print(cities.hooks);
   setState(() {
     isLoading = false;
@@ -105,7 +109,7 @@ Cities cities;
 
   @override
   void initState() {
-
+    //
     getDetails();
     fetchCaste();
     fetchMarital();
@@ -453,7 +457,7 @@ Cities cities;
                                 return DropdownMenuItem<Category>(
                                   value: user,
                                   child: Text(
-                                    user.casteName,
+                                    user.reservedName,
                                     style: const TextStyle(color: Colors.black),
                                   ),
                                 );
@@ -1062,7 +1066,7 @@ Cities cities;
                               print(
                                   totalExp == 0 ? totalExp : totalWorkExp());
                               print(int.parse(Marial.maritalId));
-                              print(int.parse(Caste.casteId));
+                              print(int.parse(Caste.reservedId));
                               print(addressController.text);
                               print(cityNameID);
                               print(selectedDate);
@@ -1082,7 +1086,7 @@ Cities cities;
                                 candidatePin: pincodeController.text,
                                 candidateMaritalstatusId:
                                 int.parse(Marial.maritalId),
-                                candidateReservedcategoryId: int.parse(Caste.casteId),
+                                candidateReservedcategoryId: int.parse(Caste.reservedId),
                                 candidateExservicemen: exservicemenGroupValue.toString(),
                                 candidatePassportno: passportController.text,
                                 candidatePancard: panController.text,

@@ -1,3 +1,5 @@
+import 'Connect.dart';
+
 class ApiUrls{
 
   static const String baseUrl = "http://192.168.0.20:9030/jobportal-app/api/";
@@ -17,7 +19,7 @@ class ApiUrls{
   static String kNationality = baseUrl+"populate/nationality?query=";
   static String kCity =  baseUrl+"populate/city?query=";
   static String kCountry = baseUrl+"populate/country?query=";
-  static String kCaste = baseUrl+"populate/caste";
+  static String kCaste = baseUrl+"populate/reservedcategory";
   static String kMarital = baseUrl+"populate/marital-status";
   static String kInstitute = baseUrl+"populate/institute?query=";
   static String kItskill =  baseUrl+"populate/itskill?query=";
@@ -49,4 +51,13 @@ class ApiUrls{
   static String kDropLanguages = "http://192.168.0.20:9030/jobportal-app/api/populate/language?query=";
   static String kDropProfeciency = "http://192.168.0.20:9030/jobportal-app/api/populate/proficiency?query=";
   static String kAddLanguage = "http://192.168.0.20:9030/jobportal-app/api/candidate/language-add";
+  static String kLanguageUpdPop = "http://192.168.0.20:9030/jobportal-app/api/candidate/language-populate?request=";
+  static String kPatentAdd = "http://192.168.0.20:9030/jobportal-app/api/candidate/patent-add";
+  static String kPatentUpdPOP = "http://192.168.0.20:9030/jobportal-app/api/candidate/patent-populate?request=";
+  static String kPopulateAwards = "http://192.168.0.20:9030/jobportal-app/api/candidate/award-list";
+  static String kAddAwards = "http://192.168.0.20:9030/jobportal-app/api/candidate/award-add";
+  static String kAwardsUpdPOP = "http://192.168.0.20:9030/jobportal-app/api/candidate/award-populate?request=";
+  static String kUpdateBasicInfo = Connect.AppURL()+ "candidate/basicdetail-add";
+
+
 }

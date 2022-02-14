@@ -1,22 +1,24 @@
-class LanguagesAdd {
+class LanguagesAddModel {
   String requestType;
+  String candidatelangUuid;
   String candidatelangLanguagename;
-  int candidatelangProficiencyId;
+  String candidatelangProficiencyId;
   int candidatelangRead;
-  int candidatelanglangWrite;
+  int candidatelangWrite;
   int candidatelangSpeak;
 
 
-  LanguagesAdd({this.requestType,this.candidatelangLanguagename,this.candidatelangProficiencyId,this.candidatelangRead,
-  this.candidatelanglangWrite,this.candidatelangSpeak});
+  LanguagesAddModel({this.requestType,this.candidatelangUuid,this.candidatelangLanguagename,this.candidatelangProficiencyId,this.candidatelangRead,
+  this.candidatelangWrite,this.candidatelangSpeak});
 
   Map<String, dynamic> toJson() {
     return {
       "requestType": requestType,
+      "candidatelangUuid": candidatelangUuid,
       "candidatelangLanguagename": candidatelangLanguagename,
       "candidatelangProficiencyId": candidatelangProficiencyId,
       "candidatelangRead": candidatelangRead,
-      "candidatelanglangWrite": candidatelanglangWrite,
+      "candidatelangWrite": candidatelangWrite,
       "candidatelangSpeak": candidatelangSpeak
     };
   }

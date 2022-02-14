@@ -11,11 +11,13 @@ class QualificationPopulate {
   String InstituteName;
   String CoursetypeName;
   String candidatequalUuid;
+  int candidatequalCousetypeId;
 
   QualificationPopulate(
 
       {this.candidatequalUuid,this.candidatequalQualificationId,
       this.QualificationName,
+        this.candidatequalCousetypeId,
       this.CandidatequalStartYear,
       this.CourseName,
       this.StreamName,
@@ -30,6 +32,7 @@ class QualificationPopulate {
     return QualificationPopulate(
         candidatequalQualificationId: item["candidatequalQualificationId"],
         candidatequalUuid: item["candidatequalUuid"],
+        candidatequalCousetypeId: item["candidatequalCousetypeId"],
         QualificationName: item["QualificationName"],
         CandidatequalStartYear: item["CandidatequalStartYear"],
         CourseName: item["CourseName"],

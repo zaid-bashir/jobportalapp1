@@ -1,15 +1,15 @@
 class QualificationPost {
   String requestType;
   String candidatequalUuid;
-  int candidatequalQualificationId;
-  int candidatequalCourseId;
-  int candidatequalStreamId;
-  int candidatequalCousetypeId;
-  int candidatequalInstituteId;
+  String candidatequalQualificationId;
+  String candidatequalCourseId;
+  String candidatequalStreamId;
+  int  candidatequalCousetypeId;
+  // int candidatequalInstituteId;
   String candidatequalInstituteName;
-  int candidatequalCompletionYear;
-  int candidatequalGradingsystemId;
-  int candidatequalMarks;
+  String candidatequalCompletionYear;
+  String candidatequalGradingsystemId;
+  String candidatequalMarks;
 
   QualificationPost(
 
@@ -20,7 +20,7 @@ class QualificationPost {
       this.candidatequalCourseId,
       this.candidatequalStreamId,
       this.candidatequalCousetypeId,
-      this.candidatequalInstituteId,
+      // this.candidatequalInstituteId,
       this.candidatequalCompletionYear,
       this.candidatequalGradingsystemId,
       this.candidatequalMarks});
@@ -35,7 +35,7 @@ class QualificationPost {
       "candidatequalCourseId": candidatequalCourseId,
       "candidatequalStreamId": candidatequalStreamId,
       "candidatequalCousetypeId": candidatequalCousetypeId,
-      "candidatequalInstituteId": candidatequalInstituteId,
+      // "candidatequalInstituteId": candidatequalInstituteId,
       "candidatequalCompletionYear": candidatequalCompletionYear,
       "candidatequalGradingsystemId": candidatequalGradingsystemId,
       "candidatequalMarks": candidatequalMarks,

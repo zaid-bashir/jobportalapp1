@@ -43,7 +43,8 @@ class PersonalDetailsPost {
       "candidateAddress": candidateAddress,
       "candidateCityId": candidateCityId,
       "candidatePin": candidatePin,
-      "candidateDob": "${candidateDob.year.toString().padLeft(4, '0')}-${candidateDob.month.toString().padLeft(2, '0')}-${candidateDob.day.toString().padLeft(2, '0')}",
+      "candidateDob":
+      "${candidateDob.year.toString().padLeft(4, '0')}-${candidateDob.month.toString().padLeft(2, '0')}-${candidateDob.day.toString().padLeft(2, '0')}",
       "candidateMaritalstatusId": candidateMaritalstatusId,
       "candidateReservedcategoryId": candidateReservedcategoryId,
       "candidateExservicemen": candidateExservicemen,

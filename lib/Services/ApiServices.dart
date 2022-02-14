@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:job_portal/Models/Awards.dart';
 import 'package:job_portal/Models/Country.dart';
 import 'package:job_portal/Models/CurerntLocation.dart';
 import 'package:job_portal/Models/EmploymentType.dart';
@@ -19,9 +20,11 @@ import 'package:job_portal/Models/CareerPreference-post.dart';
 import 'package:job_portal/Models/JobType.dart';
 import 'package:job_portal/Models/Language-Populate.dart';
 import 'package:job_portal/Models/Languages.dart';
+import 'package:job_portal/Models/LanguagesAdd.dart';
 import 'package:job_portal/Models/Login.dart';
 import 'package:job_portal/Models/Nationality.dart';
 import 'package:job_portal/Models/Patent-Populate.dart';
+import 'package:job_portal/Models/PatentAdd.dart';
 import 'package:job_portal/Models/PersonalDetails-post.dart';
 import 'package:job_portal/Models/PersonalDetailsRetrive.dart';
 import 'package:job_portal/Models/ProfessionDetails-post.dart';
@@ -168,9 +171,6 @@ class ApiServices {
         error: true, errorMessage: "An error occurred");
   }
 
-
-
-
   Future<ApiResponse<List<GetGender>>> getGender() async {
     final url = Uri.parse(ApiUrls.kgender);
     final header = {
@@ -298,7 +298,6 @@ class ApiServices {
 
   //Get Highest Qualification
 
-
   static Future<List<Qualification>> getQualification(String query) async {
     final url = Uri.parse(ApiUrls.kHighestQualification + query);
     print(ApiUrls.kItskill + "=" + query);
@@ -320,6 +319,7 @@ class ApiServices {
       throw Exception("ERRORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
     }
   }
+
   // Future<ApiResponse<List<Qualification>>> getQualification({String query}) async {
   //   final url = Uri.parse(ApiUrls.kHighestQualification + query);
   //   print(ApiUrls.kHighestQualification + "=" + query);
@@ -367,7 +367,6 @@ class ApiServices {
       throw Exception("ERRORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
     }
   }
-
 
   // Future<ApiResponse<List<Qualification>>> getCourse({String query}) async {
   //   final url = Uri.parse(ApiUrls.kCourse + query);
@@ -518,7 +517,22 @@ class ApiServices {
   }
 
   //  City Dropdown
+  Future<ApiResponse<bool>> basicinfoUpdate(BasicDetialModel basicUpdate) async {
+    final url = Uri.parse(ApiUrls.kUpdateBasicInfo);
+    final headers = {
+      "Content-Type": "application/json",
+      'Authorization': 'Bearer $token',
+    };
+    final jsonData = jsonEncode(basicUpdate);
 
+    final response = await http.post(url, headers: headers, body: jsonData);
+    log.i(response.body);
+    log.i(response.statusCode);
+    if (response.statusCode == 200 || response.statusCode == 204) {
+      return ApiResponse<bool>(data: true);
+    }
+    return ApiResponse<bool>(error: true, errorMessage: "An Error Occurred");
+  }
   Future<ApiResponse<List<Cities>>> getCity({String query}) async {
     final url = Uri.parse(ApiUrls.kCity + query);
     print(ApiUrls.kCity + "=" + query);
@@ -1117,7 +1131,8 @@ class ApiServices {
     return ApiResponse<bool>(error: true, errorMessage: "An Error Occurred");
   }
 
-  Future<ApiResponse<QualificationPopulate>> populateQualificationUpdate(String uuid) async {
+  Future<ApiResponse<QualificationPopulate>> populateQualificationUpdate(
+      String uuid) async {
     final url = Uri.parse(
         "http://192.168.0.20:9030/jobportal-app/api/candidate/qualification-populate?request=$uuid");
     final header = {
@@ -1133,7 +1148,6 @@ class ApiServices {
     return ApiResponse<QualificationPopulate>(
         error: true, errorMessage: "An Error Occurred");
   }
-
 
   Future<ApiResponse<List<LanguagePopulate>>> PopulateLanguage() async {
     final url = Uri.parse(ApiUrls.kPopulateLanguage);
@@ -1159,7 +1173,6 @@ class ApiServices {
     return ApiResponse<List<LanguagePopulate>>(
         error: true, errorMessage: "An error occurred");
   }
-
 
   Future<ApiResponse<List<PatentPopulate>>> PopulatePatent() async {
     final url = Uri.parse(ApiUrls.kPopulatePatent);
@@ -1208,7 +1221,6 @@ class ApiServices {
     }
   }
 
-
   static Future<List<Proficiency>> getProficiency(String query) async {
     final url = Uri.parse(ApiUrls.kDropProfeciency + query);
     print(ApiUrls.kItskill + "=" + query);
@@ -1231,13 +1243,13 @@ class ApiServices {
     }
   }
 
-  Future<ApiResponse<bool>> languagesAdd(QualificationPost quall) async {
+  Future<ApiResponse<bool>> languagesAdd(LanguagesAddModel lang) async {
     final url = Uri.parse(ApiUrls.kAddLanguage);
     final headers = {
       "Content-Type": "application/json",
       'Authorization': 'Bearer $token',
     };
-    final jsonData = jsonEncode(quall);
+    final jsonData = jsonEncode(lang);
 
     final response = await http.post(url, headers: headers, body: jsonData);
     log.i(response.body);
@@ -1246,5 +1258,115 @@ class ApiServices {
       return ApiResponse<bool>(data: true);
     }
     return ApiResponse<bool>(error: true, errorMessage: "An Error Occurred");
+  }
+
+  Future<ApiResponse<LanguagePopulate>> populateLanguageUpdate(
+      String uuid) async {
+    final url = Uri.parse(ApiUrls.kLanguageUpdPop + uuid);
+    final header = {
+      "Content-Type": "application/json",
+      'Authorization': 'Bearer $token',
+    };
+    final response = await http.get(url, headers: header);
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      return ApiResponse<LanguagePopulate>(
+          data: LanguagePopulate.fromJson(jsonData));
+    }
+    return ApiResponse<LanguagePopulate>(
+        error: true, errorMessage: "An Error Occurred");
+  }
+
+  Future<ApiResponse<bool>> patentsAdd(AddPatent patent) async {
+    final url = Uri.parse(ApiUrls.kPatentAdd);
+    final headers = {
+      "Content-Type": "application/json",
+      'Authorization': 'Bearer $token',
+    };
+    final jsonData = jsonEncode(patent);
+
+    final response = await http.post(url, headers: headers, body: jsonData);
+    log.i(response.body);
+    log.i(response.statusCode);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return ApiResponse<bool>(data: true);
+    }
+    return ApiResponse<bool>(error: true, errorMessage: "An Error Occurred");
+  }
+
+  Future<ApiResponse<PatentPopulate>> populatePatentUpdate(String uuid) async {
+    final url = Uri.parse(ApiUrls.kPatentUpdPOP + uuid);
+    final header = {
+      "Content-Type": "application/json",
+      'Authorization': 'Bearer $token',
+    };
+    final response = await http.get(url, headers: header);
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      return ApiResponse<PatentPopulate>(
+          data: PatentPopulate.fromJson(jsonData));
+    }
+    return ApiResponse<PatentPopulate>(
+        error: true, errorMessage: "An Error Occurred");
+  }
+
+  Future<ApiResponse<List<Awards>>> populateAwards() async {
+    final url = Uri.parse(ApiUrls.kPopulateAwards);
+    final header = {
+      "Content-Type": "application/json",
+      'Authorization': 'Bearer $token',
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final list = <Awards>[];
+      for (var item in jsonData) {
+        list.add(Awards.fromJson(item));
+      }
+      log.i(response.body);
+      log.i(response.statusCode);
+      print(list);
+      return ApiResponse<List<Awards>>(data: list);
+    }
+    return ApiResponse<List<Awards>>(
+        error: true, errorMessage: "An error occurred");
+  }
+
+
+  Future<ApiResponse<bool>> awardsAdd(Awards patent) async {
+    final url = Uri.parse(ApiUrls.kAddAwards);
+    final headers = {
+      "Content-Type": "application/json",
+      'Authorization': 'Bearer $token',
+    };
+    final jsonData = jsonEncode(patent);
+
+    final response = await http.post(url, headers: headers, body: jsonData);
+    log.i(response.body);
+    log.i(response.statusCode);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return ApiResponse<bool>(data: true);
+    }
+    return ApiResponse<bool>(error: true, errorMessage: "An Error Occurred");
+  }
+
+
+  Future<ApiResponse<Awards>> populateAwardsUpdate(String uuid) async {
+    final url = Uri.parse(ApiUrls.kAwardsUpdPOP + uuid);
+    final header = {
+      "Content-Type": "application/json",
+      'Authorization': 'Bearer $token',
+    };
+    final response = await http.get(url, headers: header);
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      return ApiResponse<Awards>(
+          data: Awards.fromJson(jsonData));
+    }
+    return ApiResponse<Awards>(
+        error: true, errorMessage: "An Error Occurred");
   }
 }

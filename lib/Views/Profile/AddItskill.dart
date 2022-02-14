@@ -513,8 +513,7 @@ class _ItSkillAddsState extends State<ItSkillAdds> {
                                   int.parse(myYear.yearId),
                               candidateitskillExperience: totalworkexp,
                             );
-                            print(itSkillId);
-                            print(itSkillId);
+
                             final result = await apiServices.itSkillAdd(insert);
                             setState(() {
                               isLoading = false;

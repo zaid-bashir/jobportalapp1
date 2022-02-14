@@ -1017,25 +1017,25 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                         setState(() {
                           isLoading = true;
                         });
-                        final insert = QualificationPost(
-                            candidatequalUuid: widget.uuid,
-                            candidatequalQualificationId: int.parse(highQualID),
-                            candidatequalCourseId: int.parse(courseId),
-                            candidatequalStreamId: int.parse(streamId),
-                            candidatequalCousetypeId: courseTypeGroupValue,
-                            candidatequalInstituteId: int.parse(instituteId),
-                            candidatequalCompletionYear: int.parse(myPassingYear.yearId),
-                            candidatequalGradingsystemId: int.parse(myGradingSystem.gradingsystemId),
-                            candidatequalMarks: int.parse(gradeCont.text));
-                        final result =
-                            await apiServices.PostQualification(insert);
+                        // final insert = QualificationPost(
+                        //     candidatequalUuid: widget.uuid,
+                        //     candidatequalQualificationId: highQualID,
+                        //     candidatequalCourseId: int.parse(courseId),
+                        //     candidatequalStreamId: int.parse(streamId),
+                        //     candidatequalCousetypeId: courseTypeGroupValue,
+                        //     candidatequalInstituteId: int.parse(instituteId),
+                        //     candidatequalCompletionYear: int.parse(myPassingYear.yearId),
+                        //     candidatequalGradingsystemId: int.parse(myGradingSystem.gradingsystemId),
+                        //     candidatequalMarks: int.parse(gradeCont.text));
+                        // final result =
+                        //     await apiServices.PostQualification(insert);
                         setState(() {
                           isLoading = false;
                         });
-                        const title = "Done";
-                        final text = result.error
-                            ? (result.errorMessage ?? "An Error Occurred")
-                            : "Successfully Created";
+                        // const title = "Done";
+                        // final text = result.error
+                        //     ? (result.errorMessage ?? "An Error Occurred")
+                        //     : "Successfully Created";
                         // showDialog(
                         //   context: context,
                         //   builder: (_) => AlertDialog(
