@@ -1,18 +1,20 @@
+// ignore_for_file: must_be_immutable, unused_import, avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:date_field/date_field.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/Country.dart';
-
 import 'package:job_portal/Models/GetCategory.dart';
 import 'package:job_portal/Models/GetMarital.dart';
 import 'package:job_portal/Models/Nationality.dart';
 import 'package:job_portal/Models/PersonalDetails-post.dart';
+import 'package:job_portal/Models/location.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Views/Candidate/BottomNavbar.dart';
-import 'package:job_portal/Models/location.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:intl/intl.dart';
 
 class PersonalDetails extends StatefulWidget {
    PersonalDetails({Key key, this.uuid}) : super(key: key);
@@ -385,12 +387,13 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                 mode: DateTimeFieldPickerMode.date,
                                 autovalidateMode: AutovalidateMode.always,
                                 validator: (e) => (e?.day ?? 0) == 1
-                                    ? 'Please not the first day'
+                                    ? ' not the first day'
                                     : null,
 
                                 onDateSelected: (date) {
                                   setState(() {
                                     selectedDate = date;
+                                    print(selectedDate);
                                   });
                                 },
                               ),
@@ -1084,7 +1087,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                 candidateUuid: widget.uuid,
                                 candidateAddress: addressController.text,
                                 candidateDob: selectedDate,
-                                candidateCityId: int.parse(cityNameID),
+                                // candidateCityId: int.parse(cityNameID),
                                 candidatePin: pincodeController.text,
                                 candidateMaritalstatusId:
                                 int.parse(Marial.maritalId),

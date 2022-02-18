@@ -2,12 +2,14 @@
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/button/gf_button.dart';
 import 'package:getwidget/types/gf_button_type.dart';
+import 'package:job_portal/Models/ProfileSummaryPopulate.dart';
+import 'package:job_portal/Services/ApiServices.dart';
 
 
 class SummaryAdd extends StatefulWidget {
+  SummaryAdd({Key key,this.textfield }) : super(key: key);
 
-
-
+  String textfield;
   String uuid;
 
   @override
@@ -19,6 +21,28 @@ class _SummaryAddState extends State<SummaryAdd>
 
   var formKey = GlobalKey<FormState>();
   TextEditingController textFieldController = TextEditingController();
+  bool isLoading = false;
+  ApiServices apiServices = ApiServices();
+
+  getProfileS(){
+    setState(() {
+      isLoading = true;
+    });
+    textFieldController.text = widget.textfield;
+
+    // button.value= 1;
+// jobCategorySearchCon = widget.onChanged(value);
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    getProfileS();
+    super.initState();
+  }
+
 
 
   @override
@@ -87,8 +111,8 @@ class _SummaryAddState extends State<SummaryAdd>
                               padding:  EdgeInsets.only(top: 5),
                               child: TextField(
                                 controller: textFieldController,
-                                maxLength: 100,
-
+                                maxLength: 500,
+                                maxLines: 4,
                                 decoration:  InputDecoration(
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.all(
@@ -126,13 +150,21 @@ class _SummaryAddState extends State<SummaryAdd>
                     child: GFButton(
                       onPressed: () async {
                         print("SUCCESS");
+                        setState(() {
+                          isLoading = true;
+                        });
+                        final insert = SummaryPopulate(
+                          candidateProfilesummary: textFieldController.text,
+                        );
+                        final result =  await apiServices.summaryAdd(insert);
+                        setState(() {
+                          isLoading = false;
+                        });
+                        if(result.data){
 
-                        if (formKey.currentState.validate()) {
-
-
-
+                          Navigator.of(context).pop();
                         }
-                      Navigator.pop(context);
+
                       },
                       text: "Save",
                       type: GFButtonType.solid,
@@ -147,3 +179,4 @@ class _SummaryAddState extends State<SummaryAdd>
 
 
 }
+

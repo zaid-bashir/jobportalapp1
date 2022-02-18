@@ -5,11 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:getwidget/components/button/gf_button.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Controllers/menucontroller.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:job_portal/Data_Controller/apiresponse.dart';
+import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Theme/colors.dart';
 import 'package:job_portal/Theme/images.dart';
 import 'package:job_portal/Views/Candidate/Sidebar.dart';
 import 'package:job_portal/Others/bluecollar.dart';
 import 'package:job_portal/Views/SignIn/Bar.dart';
+import 'package:job_portal/Views/SignIn/SignIn.dart';
 import 'package:provider/provider.dart';
 
 import 'JobApply.dart';
@@ -40,7 +44,32 @@ class HomePage extends StatelessWidget {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => InboxList()));
             },
-          )
+          ),
+          IconButton(
+            icon: const Icon(
+              Icons.logout,
+              color: Color(0xff3e61ed),
+            ),
+            onPressed: () async {
+              ApiResponse<String> apiResponse = await ApiServices().signOut();
+              print(apiResponse.responseCode);
+              if (apiResponse.responseCode == 200) {
+                 Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                        builder: (context) => const LoginPage()),
+                        (Route<dynamic> route) => false);
+                
+              } else {
+               AwesomeDialog(
+                  context: context,
+                  animType: AnimType.SCALE,
+                  dialogType: DialogType.ERROR,
+                  title: 'JobPortalApp',
+                  desc: 'Something Went Wrong...',
+                ).show();
+              }
+            },
+          ),
         ],
       ),
     );

@@ -1,4 +1,3 @@
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
@@ -63,7 +62,7 @@ class _ItSkillAddsState extends State<ItSkillAdds> {
           errorMessage = response.errorMessage ?? "An Error Occurred";
         }
         itSkillProfile = response.data;
-        itSkillName.text = itSkillProfile.candidateitskillName;
+        itSkillName.text = itSkillProfile.candidateitskillName == "" ?itSkillProfile.itskillName:itSkillProfile.candidateitskillName;
         versionCont.text = itSkillProfile.candidateitskillVersion;
         yearsCont.text = "${itSkillProfile.candidateitskillExperienceYears}";
         monthCont.text = "${itSkillProfile.candidateitskillExperienceMonths}";
@@ -476,7 +475,7 @@ class _ItSkillAddsState extends State<ItSkillAdds> {
                             final inserts = ItSkillAdd(
                               requestType: "update",
 
-                              candidateitskillName:  myController.text,
+                              candidateitskillName:  itSkillName.text,
                               candidateitskillUuid: widget.uuid,
 
                               // candidateitskillCandidateId: 1,

@@ -1,31 +1,27 @@
 import 'package:date_field/date_field.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
-import 'package:job_portal/Models/CareerPreferencePost.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/EmploymentType.dart';
 import 'package:job_portal/Models/GetIndustry.dart';
 import 'package:job_portal/Models/GetShift.dart';
 import 'package:job_portal/Models/JobType.dart';
+import 'package:job_portal/Models/CareerProfileUpdate.dart';
 import 'package:job_portal/Models/location.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:job_portal/Views/SignIn/Step8-PersonalDetails.dart';
 
-import 'ListView-Job-Type.dart';
-import 'listView-EmploymentType.dart';
 
-class CareerPreference extends StatefulWidget {
-  CareerPreference({Key key, this.uuid}) : super(key: key);
+class UpdateCareerPreference extends StatefulWidget {
+  UpdateCareerPreference({Key key, this.uuid}) : super(key: key);
   String uuid;
-
   @override
-  _CareerPreferenceState createState() => _CareerPreferenceState();
+  _UpdateCareerPreferenceState createState() => _UpdateCareerPreferenceState();
 }
 
 //edited
-class _CareerPreferenceState extends State<CareerPreference> {
+class _UpdateCareerPreferenceState extends State<UpdateCareerPreference> {
   DateTime selectedDate;
   int groupValue = 1;
   int groupValue2 = 1;
@@ -35,11 +31,49 @@ class _CareerPreferenceState extends State<CareerPreference> {
     setState(() {
       isLoading = true;
     });
-    _apiResponseLocation = await apiServices.getCity(query: query);
+    _apiResponseLocation = (await apiServices.getCity(query: query)) as ApiResponse<List<Cities>>;
     setState(() {
       isLoading = false;
     });
   }
+
+  ApiResponse<List<Cities>> _apiResponseLocation;
+
+  String query;
+  String myindustry = "";
+  String locationId = "";
+  String myShift;
+  String jobType;
+  String empType;
+  String queriess;
+
+  TextEditingController lakhController = TextEditingController();
+  TextEditingController thousandController = TextEditingController();
+  TextEditingController industrySearchCont = TextEditingController();
+  TextEditingController locationSearchCont = TextEditingController();
+
+  bool isLoading = false;
+  var formKey = GlobalKey<FormState>();
+
+  ApiServices apiServices = ApiServices();
+
+  ApiResponse<List<PreferredShift>> _apiResponse;
+  ApiResponse<List<Industry>> _apiResponseIndustry;
+
+  bool isActive = false;
+  List<String> locationList = [];
+  List<int> selectedSkillsJob = [];
+  List<int> selectedSkillsemp = [];
+  @override
+  void initState() {
+    fetchJobType();
+    fetchShift();
+    fetchEmpType();
+    fetchIndustry(query: "");
+    fetchCity(query: "");
+    super.initState();
+  }
+
 
   fetchJobType() async {
     setState(() {
@@ -62,45 +96,6 @@ class _CareerPreferenceState extends State<CareerPreference> {
 
   ApiResponse<List<EmploymentType>> _apiResponse3;
   ApiResponse<List<JobType>> _apiResponse8;
-  ApiResponse<List<Cities>> _apiResponseLocation;
-
-
-
-
-
-  String query;
-  String myindustry = "";
-  String locationId = "";
-  String myShift;
-  String jobType;
-  String empType;
-  String queriess;
-  TextEditingController industrySearchCont = TextEditingController();
-  TextEditingController locationSearchCont = TextEditingController();
-  TextEditingController lakh = TextEditingController();
-  TextEditingController thou = TextEditingController();
-
-  bool isLoading = false;
-  var formKey = GlobalKey<FormState>();
-
-  ApiServices apiServices = ApiServices();
-
-  ApiResponse<List<PreferredShift>> _apiResponse;
-  ApiResponse<List<Industry>> _apiResponseIndustry;
-
-  bool isActive = false;
-
-  List<String> data;
-
-  @override
-  void initState() {
-    fetchJobType();
-    fetchEmpType();
-    fetchShift();
-    fetchIndustry(query: "");
-    fetchCity(query: "");
-    super.initState();
-  }
 
   fetchShift() async {
     setState(() {
@@ -113,7 +108,6 @@ class _CareerPreferenceState extends State<CareerPreference> {
   }
 
 
-
   fetchIndustry({String query}) async {
     setState(() {
       isLoading = true;
@@ -124,10 +118,12 @@ class _CareerPreferenceState extends State<CareerPreference> {
     });
   }
 
+  @override
+  void dispose() {
+    print("Destroying State");
+    super.dispose();
+  }
 
-  List<String> locationList = [];
-  List<int> selectedSkillsJob = [];
-  List<int> selectedSkillsemp = [];
 
   @override
   Widget build(BuildContext context) {
@@ -150,11 +146,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
                             padding: const EdgeInsets.only(left: 10),
                             child: Row(
                               children: [
-                                IconButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    icon: const Icon(Icons.arrow_back)),
+
                               ],
                             ),
                           ),
@@ -218,13 +210,13 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                                         UnderlineInputBorder()),
                                             validator: (value) {
                                               if (value == null) {
-                                                return " Select Industry";
+                                                return "Please Select Industry";
                                               }
                                               return null;
                                             },
                                             mode: Mode.DIALOG,
                                             items: isLoading
-                                                ? [Industry()]
+                                                ? Industry()
                                                 : _apiResponseIndustry.data,
                                             itemAsString: (Industry obj) {
                                               return obj.industryName;
@@ -260,6 +252,30 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                               );
                                             },
                                           ),
+                                          // FindDropdown(
+                                          //   searchBoxDecoration:  const InputDecoration(
+                                          //     border: UnderlineInputBorder(
+                                          //       borderSide: BorderSide(
+                                          //         color: Colors.grey,
+                                          //       ),
+                                          //     ),
+                                          //   ),
+                                          //   items: parseIndustry(),
+                                          //   searchHint: "Industry Name",
+                                          //   onFind: (val) async{
+                                          //     setState(() {
+                                          //       query = val;
+                                          //     });
+                                          //     await fetchIndustry(query: query);
+                                          //     parseIndustry();
+                                          //     return [""];
+                                          //   },
+                                          //   onChanged: (item) {
+                                          //     setState(() {
+                                          //       myindustry = item;
+                                          //     });
+                                          //   },
+                                          // ),
                                         )),
                                       ],
                                     )),
@@ -288,7 +304,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                 Padding(
                                   padding: const EdgeInsets.only(
                                       left: 20.0, right: 25.0, top: 20.0),
-                                  child: Job(context),
+                                  child:  Job(context),
                                 ),
                                 // Padding(
                                 //     padding: const EdgeInsets.only(
@@ -345,8 +361,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                 Padding(
                                   padding: const EdgeInsets.only(
                                       left: 20.0, right: 25.0, top: 20.0),
-                                  child: Employe(context),
-                      
+                                  child:  Employe(context),
                                 ),
 
                                 Padding(
@@ -380,7 +395,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                         Flexible(
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child:   Location(context),
+                                            child:  Location(context),
                                           ),
                                         ),
                                       ],
@@ -420,7 +435,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                       ),
                                       Expanded(
                                         child: TextField(
-                                          controller: lakh,
+                                          controller: lakhController,
                                           decoration:
                                               InputDecoration(hintText: "Lakh"),
                                         ),
@@ -430,7 +445,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                       ),
                                       Expanded(
                                         child: TextField(
-                                          controller: thou,
+                                          controller: thousandController,
                                           decoration: InputDecoration(
                                               hintText: "Thousand"),
                                         ),
@@ -482,7 +497,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                                 });
                                               },
                                               items: isLoading
-                                                  ? [" Wait"]
+                                                  ? ["Please Wait"]
                                                       .map(
                                                         (value) =>
                                                             DropdownMenuItem(
@@ -626,7 +641,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                           autovalidateMode:
                                               AutovalidateMode.always,
                                           validator: (e) => (e?.day ?? 0) == 1
-                                              ? ' not the first day'
+                                              ? 'Please not the first day'
                                               : null,
 
                                           onDateSelected: (date) {
@@ -645,37 +660,43 @@ class _CareerPreferenceState extends State<CareerPreference> {
                       const SizedBox(
                         height: 20,
                       ),
+                      Row(
+                       mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                       GFButton(
+                       onPressed: () {
+                       Navigator.of(context).pop();
+                       },
+                       text: "Cancel",
+                       type: GFButtonType.solid,
+                       ),
+                       SizedBox(
+                       width: 10,
+                       ),
 
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Align(
-                            alignment: Alignment.centerRight,
+                          Padding(
+                            padding: const EdgeInsets.only(right:10),
                             child: GFButton(
                               onPressed: () async {
-                                print(
-                                    "----------------------------------------------------------------");
-                                print(selectedSkillsemp);
-                                print(selectedSkillsJob);
-                                print(
-                                    "----------------------------------------------------------------");
                                 if (formKey.currentState.validate()) {
-                                  int totalworkexp = (int.parse(lakh.text)) +
-                                      (int.parse(thou.text));
+                                    int totalworkexp = (int.parse(lakhController.text)) +
+                                       (int.parse(thousandController.text));
                                   setState(() {
                                     isLoading = true;
                                   });
-                                  final insert = CareerPreferencePost(
-                                    candidateUuid: widget.uuid,
-                                    candidateIndustryId: int.parse(myindustry),
-                                    candidateJobtypeIdsList: selectedSkillsJob,
-                                    candidateEmploymenttypeIdsList:selectedSkillsemp,
-                                    candidatePreferredCityIdsList: locationList,
-                                    candidateExpectedctc: totalworkexp,
-                                    candidateShiftId: int.parse(myShift),
-                                    // candidateJoinimmediate: '1',
+
+                                  final insert = CareerProfileUpdate(
+
+                                    candidateIndustryId:myindustry,
+                                    candidateJobtypeIdsList: [2,7],
+                                    candidateEmploymenttypeIdsList:  [8,5],
+                                    candidatePreferredCityIdsList: [locationId],
+                                    candidateExpectedctc:totalworkexp.toString(),
+                                      candidateShiftId: myShift,
+                                         candidateJoindate: selectedDate
                                   );
                                   final result =
-                                      await apiServices.PostPreference(insert);
+                                      await apiServices.careerpreferenceUpdate(insert);
                                   setState(() {
                                     isLoading = false;
                                   });
@@ -683,42 +704,23 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                   final text = result.error
                                       ? (result.errorMessage ??
                                           "An Error Occurred")
-                                      : "Successfully Created";
-                                  // showDialog(
-                                  //   context: context,
-                                  //   builder: (_) => AlertDialog(
-                                  //     title: const Text(title),
-                                  //     content: Text(text),
-                                  //     actions: [
-                                  //       ElevatedButton(
-                                  //           onPressed: () {
-                                  //             Navigator.pop(context);
-                                  //           },
-                                  //           child: const Text("OK"))
-                                  //     ],
-                                  //   ),
-                                  // ).then((data) {
-                                  //   if (result.data) {
-                                  //     Navigator.of(context).push(
-                                  //       MaterialPageRoute(
-                                  //         builder: (context) =>
-                                  //              PersonalDetails(uuid: widget.uuid,),
-                                  //       ),
-                                  //     );
-                                  //   }
-                                  // });
+                                      : "Successfully Updated";
+
                                 }
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => PersonalDetails(
-                                      uuid: widget.uuid,
-                                    ),
-                                  ),
-                                );
+                                Navigator.pop(context);
+                                // Navigator.of(context).push(
+                                //   MaterialPageRoute(
+                                //     builder: (context) => PersonalDetails(
+                                //       uuid: widget.uuid,
+                                //     ),
+                                //   ),
+                                // );
                               },
-                              text: "Next",
+                              text: "Save",
                               type: GFButtonType.solid,
-                            )),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -832,7 +834,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
         ]
     );
   }
-  
+
   Widget Employe(BuildContext context){
     return  Column(children:[
       Padding(
@@ -890,3 +892,4 @@ class _CareerPreferenceState extends State<CareerPreference> {
     );
   }
 }
+

@@ -133,6 +133,7 @@ class _AddAwardsState extends State<AddAwards> {
                             fontFamily: "ProximaNova"),
                       ),
                       TextFormField(
+                        // validator: (String input){},
                         controller: url,
                         decoration: InputDecoration(
                           hintText: " Patent Url",
@@ -233,7 +234,8 @@ class _AddAwardsState extends State<AddAwards> {
                             Navigator.pop(context);
                           } else {
                             print("error");
-                          }                        } else {
+                          }                        }
+                        else {
                           setState(() {
                             isLoading = true;
                           });
@@ -251,8 +253,10 @@ class _AddAwardsState extends State<AddAwards> {
                           });
                           if (result.data) {
                             Navigator.pop(context);
-                          } else {
+                          } else if(result.responseCode == 400){
                             print("error");
+                            var errors = result.data.toString();
+                            print(errors);
                           }
                         }
                       },

@@ -1,13 +1,18 @@
 // ignore_for_file: prefer_const_constructors, deprecated_member_use, prefer_final_fields, unused_field, unnecessary_string_interpolations, avoid_print, prefer_const_constructors_in_immutables, must_be_immutable, avoid_unnecessary_containers, unused_local_variable
+// ignore_for_file: prefer_const_constructors, deprecated_member_use, prefer_final_fields, unused_field, unnecessary_string_interpolations, avoid_print, prefer_const_constructors_in_immutables, must_be_immutable, avoid_unnecessary_containers, unused_local_variable
 
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
+import 'package:job_portal/Models/BasicDetailsPost.dart';
+import 'package:job_portal/Models/BasicInfoPopulate.dart';
 import 'package:job_portal/Models/CurerntLocation.dart';
 import 'package:job_portal/Models/GetTitle.dart';
 import 'package:job_portal/Models/JobRole.dart';
-import 'package:job_portal/Models/BasicDetails-post.dart';
+
+
 import 'package:job_portal/Models/custumradiomodel.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:email_validator/email_validator.dart';
@@ -25,18 +30,18 @@ class UpdateBasicDetails extends StatefulWidget {
   String gender;
   String  exp;
   String  jobrole;
-
-   // OnChangeCallback onChanged;
+  FToast fToast;
+  // OnChangeCallback onChanged;
 
   @override
 
   _UpdateBasicDetailsState createState() => _UpdateBasicDetailsState();
 }
- // typedef OnChangeCallback =  Function(dynamic value);
+// typedef OnChangeCallback =  Function(dynamic value);
 class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
   //Get SharedPreference Bucket
   //===========================
-
+  bool isVisible = false;
   SharedPreferences pref;
 
   //Shared Preference Variables
@@ -74,11 +79,15 @@ class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
   TextEditingController emailController = TextEditingController();
   TextEditingController numberController = TextEditingController();
   TextEditingController jobCategorySearchCon = TextEditingController();
+  TextEditingController number2Controller = TextEditingController();
+  TextEditingController email2Controller = TextEditingController();
 
   //RadioButtons
   //============
   CustumRadioButtons button;
   int genderRadioId;
+
+
   getDetails(){
     setState(() {
       isLoading = true;
@@ -88,12 +97,16 @@ class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
     lnameController.text= widget.lName;
     emailController.text = widget.email;
     numberController.text = widget.phone;
+
+
     // button.value= 1;
 // jobCategorySearchCon = widget.onChanged(value);
     setState(() {
       isLoading = false;
     });
   }
+
+
 
 
 
@@ -161,6 +174,12 @@ class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
     pref = await SharedPreferences.getInstance();
   }
 
+
+
+
+
+
+
   fetchTitles() async {
     setState(() {
       isLoading = true;
@@ -227,6 +246,10 @@ class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
 
   @override
   Widget build(BuildContext context) {
+
+
+
+
     return Scaffold(
       body: ListView(
         children: [
@@ -234,12 +257,12 @@ class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
             padding: const EdgeInsets.only(left: 20, top: 10),
             child: Row(
               children: [
-                // IconButton(
-                //   onPressed: () {
-                //     Navigator.of(context).pop();
-                //   },
-                //   icon: const Icon(Icons.arrow_back),
-                // ),
+                IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  icon: const Icon(Icons.arrow_back),
+                ),
                 const SizedBox(
                   width: 10,
                 ),
@@ -424,81 +447,179 @@ class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
                     ),
                     Padding(
                       padding: EdgeInsets.all(8.0),
-                      child: TextFormField(
-                        controller: numberController,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.all(8.0),
-                          labelText: 'Contact No:',
-                          labelStyle: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),
-                          floatingLabelStyle: TextStyle(
-                            color: Color(0xff2972ff),
-                            fontFamily: "ProximaNova",
-                            fontWeight: FontWeight.bold,
-                            // letterSpacing: 1.5,
-                            fontSize: 17.5,
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
+                      child: Tooltip(
+                        message: "Primary number can't be updated",
+                        child: TextFormField(
+                          enabled: false,
+                          controller: numberController,
+                          decoration: InputDecoration(
+                            disabledBorder: OutlineInputBorder(borderSide: BorderSide(width: 1, color: Colors.transparent)),
+
+                            contentPadding: EdgeInsets.all(8.0),
+                            labelText: 'Contact No:',
+                            labelStyle: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "ProximaNova"),
+                            floatingLabelStyle: TextStyle(
                               color: Color(0xff2972ff),
+                              fontFamily: "ProximaNova",
+                              fontWeight: FontWeight.bold,
+                              // letterSpacing: 1.5,
+                              fontSize: 17.5,
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Color(0xff2972ff),
+                              ),
                             ),
                           ),
+                          keyboardType: TextInputType.number,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          // validator: (value) {
+                          //   if (value.isEmpty) {
+                          //     return "Please Enter Mobile";
+                          //   }
+                          //   if (!EmailValidator.validate(value)) {
+                          //     return "Please enter Correct email";
+                          //   }
+                          //   return null;
+                          // },
                         ),
-                        keyboardType: TextInputType.number,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        // validator: (value) {
-                        //   if (value.isEmpty) {
-                        //     return "Please Enter Mobile";
-                        //   }
-                        //   if (!EmailValidator.validate(value)) {
-                        //     return "Please enter Correct email";
-                        //   }
-                        //   return null;
-                        // },
                       ),
                     ),
                     const SizedBox(
-                      height: 10
+                        height: 10
                     ),
                     Padding(
                       padding: EdgeInsets.all(8.0),
-                      child: TextFormField(
-                        controller: emailController,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.all(8.0),
-                          labelText: 'E-mail:',
-                          labelStyle: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),
-                          floatingLabelStyle: TextStyle(
-                            color: Color(0xff2972ff),
-                            fontFamily: "ProximaNova",
-                            fontWeight: FontWeight.bold,
-                            // letterSpacing: 1.5,
-                            fontSize: 17.5,
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
+                      child: Tooltip(
+                        message: "Primary email can't be updated",
+                        child: TextFormField(
+                          enabled: false,
+                          controller: emailController,
+                          decoration: InputDecoration(
+                            disabledBorder: OutlineInputBorder(borderSide: BorderSide(width: 1, color: Colors.transparent)),
+                            contentPadding: EdgeInsets.all(8.0),
+                            labelText: 'E-mail:',
+                            labelStyle: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "ProximaNova"),
+                            floatingLabelStyle: TextStyle(
                               color: Color(0xff2972ff),
+                              fontFamily: "ProximaNova",
+                              fontWeight: FontWeight.bold,
+                              // letterSpacing: 1.5,
+                              fontSize: 17.5,
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Color(0xff2972ff),
+                              ),
                             ),
                           ),
+                          keyboardType: TextInputType.emailAddress,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return "Please Enter Email";
+                            }
+                            if (!EmailValidator.validate(value)) {
+                              return "Please enter Correct email";
+                            }
+                            return null;
+                          },
                         ),
-                        keyboardType: TextInputType.emailAddress,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return "Please Enter Email";
-                          }
-                          if (!EmailValidator.validate(value)) {
-                            return "Please enter Correct email";
-                          }
-                          return null;
-                        },
                       ),
                     ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isVisible = !isVisible;
+                          });
+                        },
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text("Additional",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      color: Color(0xff3e61ed),
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: "ProximaNova")),
+                            ),
+                            Icon(
+                              Icons.keyboard_arrow_down,
+                              color: Color(0xff3e61ed),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Visibility(
+                        visible: isVisible,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.only(
+                                top: 15,
+                              ),
+                              child: Text("Number 2:",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: "ProximaNova")),
+                            ),
+                            TextFormField(
+                              controller: number2Controller,
+                              decoration: InputDecoration(
+                                hintText: "Enter Number",
+                                hintStyle: TextStyle(
+                                  color: Colors.blueGrey,
+                                  fontFamily: "ProximaNova",
+                                  fontWeight: FontWeight.w500,
+                                  letterSpacing: 1.5,
+                                  fontSize: 14.5,
+                                ),
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(
+                                top: 15,
+                              ),
+                              child: Text("Email 2:",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: "ProximaNova")),
+                            ),
+                            TextFormField(
+                              controller: email2Controller,
+                              decoration: InputDecoration(
+                                hintText: "Enter Email",
+                                hintStyle: TextStyle(
+                                  color: Colors.blueGrey,
+                                  fontFamily: "ProximaNova",
+                                  fontWeight: FontWeight.w500,
+                                  letterSpacing: 1.5,
+                                  fontSize: 14.5,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
                     const SizedBox(
                       height: 15,
                     ),
@@ -792,17 +913,17 @@ class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
               ),
             ),
           ),
-SizedBox(height: 20),
+          SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               GFButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              text: "Cancel",
-              type: GFButtonType.solid,
-            ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                text: "Cancel",
+                type: GFButtonType.solid,
+              ),
               SizedBox(
                 width: 10,
               ),
@@ -839,14 +960,14 @@ SizedBox(height: 20),
                       print("#######################");
                       // response = result.data as Map<String, dynamic>;
                       // storeDataToSharedPref();
-                         if(result.data){
-                           print('-------------------SUCCESS----------------');
-                         }else{
-                           print('-------------------ERROR----------------');
+                      if(result.data){
+                        print('-------------------SUCCESS----------------');
+                      }else{
+                        print('-------------------ERROR----------------');
 
 
-                         }
-                           Navigator.of(context).pop();
+                      }
+                      Navigator.of(context).pop();
                       // }
                     }),
               ),

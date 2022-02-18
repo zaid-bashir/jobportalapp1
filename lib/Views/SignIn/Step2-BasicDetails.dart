@@ -4,11 +4,11 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
+import 'package:job_portal/Models/BasicDetailsPost.dart';
 import 'package:job_portal/Models/CurerntLocation.dart';
 import 'package:job_portal/Models/GetTitle.dart';
 import 'package:job_portal/Models/JobRole.dart';
-import 'package:job_portal/Models/basicdetials.dart';
-import 'package:job_portal/Models/custumradiomodel.dart';
+import 'package:job_portal/Models/CustumRadioModel.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
@@ -44,9 +44,7 @@ class _BasicDetailsState extends State<BasicDetails> {
 
   String keyUuid = "keyUuid";
   String keyCandiadateId = "keyCandiadateId";
-  String keyCandidateName = "keyCandidateName";
-  String keyCandidateEmail = "keyCandidateEmail";
-  String keyCandiadteMobile = "keyCandiadteMobile";
+  String keyToken = "KeyToken";
 
   //GetTtile Instance
   //=================
@@ -92,6 +90,7 @@ class _BasicDetailsState extends State<BasicDetails> {
   int totalExp = 0;
   Map<String,dynamic> responseError;
   Map<String,dynamic> responseSuccess;
+  String jwtToken = "";
 
   //Normal Fiels Variables
   //======================
@@ -257,7 +256,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                                 });
                               },
                               validator: (value) =>
-                              value == null ? 'Please fill Title' : null,
+                              value == null ? 'Select Title' : null,
                               items: _apiResponse.data.map((GetTitle user) {
                                 return DropdownMenuItem<GetTitle>(
                                   value: user,
@@ -302,7 +301,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                             AutovalidateMode.onUserInteraction,
                             validator: (value) {
                               if (value.isEmpty) {
-                                return "Please Enter First Name";
+                                return "Enter First Name";
                               } else {
                                 return null;
                               }
@@ -326,7 +325,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                             child: TextFormField(
                               controller: mnameController,
                               decoration: InputDecoration(
-                                contentPadding: EdgeInsets.all(8.0),
+                                contentPadding: const EdgeInsets.all(8.0),
                                 labelText: 'Middle Name:',
                                 labelStyle: TextStyle(
                                     fontSize: 15,
@@ -336,7 +335,6 @@ class _BasicDetailsState extends State<BasicDetails> {
                                   color: Color(0xff2972ff),
                                   fontFamily: "ProximaNova",
                                   fontWeight: FontWeight.bold,
-                                  // letterSpacing: 1.5,
                                   fontSize: 17.5,
                                 ),
                                 focusedBorder: UnderlineInputBorder(
@@ -381,7 +379,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                               AutovalidateMode.onUserInteraction,
                               validator: (value) {
                                 if (value.isEmpty) {
-                                  return "Please Enter Last Name";
+                                  return "Enter Last Name";
                                 }
                                 return null;
                               },
@@ -421,10 +419,10 @@ class _BasicDetailsState extends State<BasicDetails> {
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
                           if (value.isEmpty) {
-                            return "Please Enter Email";
+                            return "Enter Email";
                           }
                           if (!EmailValidator.validate(value)) {
-                            return "Please enter Correct email";
+                            return "Enter Correct Email";
                           }
                           return null;
                         },
@@ -467,7 +465,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                         },
                         validator: (val) {
                           if (val == null) {
-                            return "This field is required";
+                            return "Select Gender";
                           } else {
                             return null;
                           }
@@ -510,7 +508,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                         },
                         validator: (val) {
                           if (val == null) {
-                            return "This field is required";
+                            return "Select Experience";
                           } else {
                             return null;
                           }
@@ -557,7 +555,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                                   });
                                 },
                                 validator: (value) => value == null
-                                    ? 'Please fill Year'
+                                    ? 'Select Year'
                                     : null,
                                 items: [
                                   "0",
@@ -608,7 +606,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                                   });
                                 },
                                 validator: (value) => value == null
-                                    ? 'Please fill Month'
+                                    ? 'Select Month'
                                     : null,
                                 items: [
                                   "0",
@@ -652,7 +650,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                     const Padding(
                       padding: EdgeInsets.all(8),
                       child: Text(
-                        "Job Role:",
+                        "Preffered Job Role:",
                         textAlign: TextAlign.left,
                         style: TextStyle(
                             fontSize: 15,
@@ -669,9 +667,10 @@ class _BasicDetailsState extends State<BasicDetails> {
                               )
                           ),
                           autoValidateMode: AutovalidateMode.onUserInteraction,
+
                           validator: (value) {
                             if (value == null) {
-                              return "Please Enter Job Role";
+                              return "Select Preffered Role";
                             }
                             return null;
                           },
@@ -688,6 +687,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                             });
                             return _apiResponseJobCategory.data;
                           },
+                          
                           hint: "Select Job Category",
                           onChanged: (value) {
                             jobCategorySearchCon.text =
@@ -735,7 +735,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                         autoValidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
                           if (value == null) {
-                            return "Please Select Current Location";
+                            return "Select Current Location";
                           }
                           return null;
                         },
@@ -762,10 +762,10 @@ class _BasicDetailsState extends State<BasicDetails> {
                         popupItemBuilder:
                             (context, CurrentLocation item, bool isSelected) {
                           return Container(
-                            margin: EdgeInsets.symmetric(horizontal: 8),
+                            margin: const EdgeInsets.symmetric(horizontal: 8),
                             child: Card(
                               child: Padding(
-                                padding: EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(8.0),
                                 child: Text(item.cityName),
                               ),
                             ),
@@ -780,6 +780,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                 ),
               ),
             ),
+          
           ),
           Padding(
             padding: const EdgeInsets.all(20.0),
@@ -805,7 +806,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                             lnameController.text,
                         candidateGenderId: genderRadioId,
                         candidateTotalworkexp:
-                        experienceRadioId == 2 ? totalExp : totalWorkExp(),
+                        experienceRadioId == 2 ? 0 : totalWorkExp(),
                         candidateJobroleId: int.parse(jobRoleID),
                         candidateCityId: int.parse(cityID),
                       );
@@ -814,23 +815,27 @@ class _BasicDetailsState extends State<BasicDetails> {
                       print("#######################");
                       if(result.data["error"] != null){
                         AwesomeDialog(
-                          context: context,
-                          animType: AnimType.SCALE,
-                          dialogType: DialogType.ERROR,
-                          title: 'JobPortalApp',
-                          desc: 'Some Fields are Not Filled, Please Fill all the fields',
-                        ).show();
-                        return;
+                              context: context,
+                              animType: AnimType.SCALE,
+                              dialogType: DialogType.ERROR,
+                              title: 'JobPortalApp',
+                              desc: 'Some Fields are Not Filled,  Fill 4444all the fields',
+                            ).show();
+                            return;
                       }
                       responseSuccess = result.data["successResult"];
+                      jwtToken = result.data["token"];
                       // print(responseError);
                       print(responseSuccess);
+                      print(jwtToken);
                       print("#######################");
                       storeDataToSharedPref();
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => QualificationBlueCollar(
                             uuid: result.data['successResult']['axelaCandidateUuId'],
+                            token: jwtToken,
+                            experienceId: experienceRadioId,
                           ),
                         ),
                       );
@@ -852,10 +857,8 @@ class _BasicDetailsState extends State<BasicDetails> {
   }
 
   void storeDataToSharedPref() {
-    pref.setString(keyUuid, responseSuccess['successResult']['axelaCandidateUuId']);
-    pref.setInt(keyCandiadateId, int.parse(responseSuccess['successResult']['axelaCandidateId']));
-    pref.setString(keyCandidateName, responseSuccess['successResult']['axelaCandidateName']);
-    pref.setString(keyCandidateEmail, responseSuccess['successResult']['axelaCandidateEmail1']);
-    pref.setString(keyCandiadteMobile, responseSuccess['successResult']['axelaCandidateMobile']);
+    pref.setString(keyUuid, responseSuccess['axelaCandidateUuId']);
+    pref.setInt(keyCandiadateId, responseSuccess['axelaCandidateId']).toString();
+    pref.setString(keyToken,jwtToken);
   }
 }

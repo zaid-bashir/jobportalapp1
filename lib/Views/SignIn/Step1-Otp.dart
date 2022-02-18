@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
@@ -5,6 +7,7 @@ import 'package:job_portal/Models/GetOtp.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:job_portal/Utility/Connect.dart';
 import 'package:job_portal/Views/SignIn/Step1-VerifyOtp.dart';
 
 class OTP extends StatefulWidget {
@@ -14,6 +17,8 @@ class OTP extends StatefulWidget {
 }
 
 class _OTPState extends State<OTP> {
+
+
   bool isLoading = false;
   ApiServices apiServices = ApiServices();
   ApiResponse<int> _apiResponse;
@@ -23,14 +28,21 @@ class _OTPState extends State<OTP> {
       isLoading = true;
     });
     _apiResponse =
-    await apiServices.otpGet(GetOTP(registerMobile: "91-$mobileNumber"));
+    await apiServices.otpGet(GetOTP(registerMobile: mobileNumber));
     setState(() {
       isLoading = false;
     });
   }
 
+  @override
+  void initState() {
+    super.initState();
+    Connect.checkInternetStatus();
+  }
+
   var formKey = GlobalKey<FormState>();
   var mobileController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,7 +133,7 @@ class _OTPState extends State<OTP> {
                               return "Mobile Number can not be empty";
                             }
                             if (value.length < 10) {
-                              return "Please enter 10 digits mobile number";
+                              return "Enter 10 digits mobile number";
                             }
                             return null;
                           },
@@ -150,7 +162,7 @@ class _OTPState extends State<OTP> {
                       animType: AnimType.SCALE,
                       dialogType: DialogType.INFO,
                       title: 'JobPortalApp',
-                      desc: "Mobile Number Not Received,Please enter your Mobile Number",
+                      desc: "Mobile Number Not Received, enter your Mobile Number",
                       // btnOkOnPress: () {
                       //   Navigator.of(context).pop();
                       // },
@@ -162,7 +174,7 @@ class _OTPState extends State<OTP> {
                       animType: AnimType.SCALE,
                       dialogType: DialogType.INFO,
                       title: 'JobPortalApp',
-                      desc: "Please enter your Mobile Number",
+                      desc: " enter your Mobile Number",
                       // btnOkOnPress: () {
                       //   Navigator.of(context).pop();
                       // },
@@ -201,6 +213,7 @@ class _OTPState extends State<OTP> {
                       desc:
                       'OTP Successfully Sent to Mobile Number +91-${mobileController.text}',
                       btnOkOnPress: () {
+                        print(mobileController.text);
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => VerifyOTP(

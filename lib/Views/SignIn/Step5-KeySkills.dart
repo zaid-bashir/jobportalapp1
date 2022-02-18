@@ -187,13 +187,14 @@ class _KeySkillsPageState extends State<KeySkillsPage> {
                                               child: Padding(
                                                 padding:
                                                 const EdgeInsets.all(8.0),
-                                                child: DropdownSearch<KeySkills>.multiSelection(
+                                                child: DropdownSearch<
+                                                    KeySkills>.multiSelection(
                                                   autoValidateMode:
                                                   AutovalidateMode
                                                       .onUserInteraction,
                                                   validator: (value) {
                                                     if (value.isEmpty) {
-                                                      return "Please Select Key Skill/Skills";
+                                                      return " Select Key Skill/Skills";
                                                     }
                                                     return null;
                                                   },
@@ -270,6 +271,7 @@ class _KeySkillsPageState extends State<KeySkillsPage> {
                             } else {
 
                             }
+                          
                           } else {}
                         },
                         text: "Next",

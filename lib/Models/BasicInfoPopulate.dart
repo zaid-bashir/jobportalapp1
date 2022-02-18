@@ -1,3 +1,5 @@
+
+
 class BasicInfoPopulate {
   int candidateId;
 

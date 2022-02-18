@@ -1,5 +1,7 @@
+
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
@@ -36,11 +38,12 @@ class _ItSkillsState extends State<ItSkills> {
   String myskill;
   String queries;
   ApiResponse<List<ITSkill>> _apiResponseITSkill;
-  String itSkillId = "";
+  String itSkillName = "";
 
   var formKey = GlobalKey<FormState>();
 
   TextEditingController skillSearchCont = TextEditingController();
+  TextEditingController myController = TextEditingController();
 
   fetchITSkill({String query}) async {
     setState(() {
@@ -139,46 +142,27 @@ class _ItSkillsState extends State<ItSkills> {
                                 fontFamily: "ProximaNova")),
                         Padding(
                           padding: const EdgeInsets.only(top: 8.0),
-                          child: DropdownSearch<ITSkill>(
-                            validator: (value) {
-                              if (value == null) {
-                                return "Please Select Your Skill";
-                              }
-                              return null;
-                            },
-                            dropdownSearchDecoration:
-                                InputDecoration(border: UnderlineInputBorder()),
-                            mode: Mode.DIALOG,
-                            items: isLoading
-                                ? parseITSkill()
-                                : _apiResponseITSkill.data,
-                            itemAsString: (ITSkill obj) {
-                              return obj.itskillName;
-                            },
-                            onFind: (val) async {
-                              setState(() {
-                                queries = val;
-                              });
-                              return _apiResponseITSkill.data;
-                            },
-                            hint: "Select Skill",
-                            onChanged: (value) {
-                              skillSearchCont.text = value.itskillId.toString();
-                              itSkillId = value.itskillId;
-                              print(value.itskillId);
-                            },
-                            showSearchBox: true,
-                            popupItemBuilder:
-                                (context, ITSkill item, bool isSelected) {
-                              return Container(
-                                margin: EdgeInsets.symmetric(horizontal: 8),
-                                child: Card(
-                                  child: Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text(item.itskillName),
-                                  ),
-                                ),
+                          child: TypeAheadField(
+                            textFieldConfiguration: TextFieldConfiguration(
+                                controller: this.myController,
+                                decoration: InputDecoration(
+                                    labelText: 'Skill'
+                                )
+                            ),
+                            debounceDuration: Duration(milliseconds: 500),
+                            suggestionsCallback: Service.getITSkill ,
+                            itemBuilder: (context, ITSkill suggestions){
+                              final skill = suggestions;
+                              return ListTile(
+                                title: Text(skill.itskillName) ,
                               );
+                            },
+                            noItemsFoundBuilder: (context)=>Text(""),
+
+                            onSuggestionSelected: (ITSkill suggesstion){
+                              // final skill = suggesstion;
+                              myController.text = suggesstion.itskillName;
+
                             },
                           ),
                           // FindDropdown(
@@ -217,7 +201,7 @@ class _ItSkillsState extends State<ItSkills> {
                         TextFormField(
                           validator: (value) {
                             if (value.isEmpty) {
-                              return "Please Enter Version";
+                              return " Enter Version";
                             } else {
                               return null;
                             }
@@ -248,7 +232,7 @@ class _ItSkillsState extends State<ItSkills> {
                               child: TextFormField(
                                 validator: (value) {
                                   if (value.isEmpty) {
-                                    return "Please Enter Year";
+                                    return " Enter Year";
                                   } else {
                                     return null;
                                   }
@@ -273,7 +257,7 @@ class _ItSkillsState extends State<ItSkills> {
                               child: TextFormField(
                                 validator: (value) {
                                   if (value.isEmpty) {
-                                    return "Please Enter Month";
+                                    return " Enter Month";
                                   } else {
                                     return null;
                                   }
@@ -317,7 +301,7 @@ class _ItSkillsState extends State<ItSkills> {
                             });
                           },
                           validator: (value) =>
-                          value == null ? 'Please fill Last Year' : null,
+                          value == null ? ' fill Last Year' : null,
                           items: _apiResponse.data.map((PassingYear user) {
                             return DropdownMenuItem<PassingYear>(
                               value: user,
@@ -330,7 +314,7 @@ class _ItSkillsState extends State<ItSkills> {
                         ),
                         // DropdownButtonFormField(
                         //     validator: (value) =>
-                        //     value == null ? 'Please fill year' : null,
+                        //     value == null ? ' fill year' : null,
                         //   decoration: const InputDecoration(
                         //       border: UnderlineInputBorder()),
                         //   hint: Text("Select year"),
@@ -341,7 +325,7 @@ class _ItSkillsState extends State<ItSkills> {
                         //     });
                         //   },
                         //   items: isLoading
-                        //       ? ["Please Wait"]
+                        //       ? [" Wait"]
                         //           .map(
                         //             (value) => DropdownMenuItem(
                         //                 value: value,
@@ -398,14 +382,17 @@ class _ItSkillsState extends State<ItSkills> {
                         if (formKey.currentState.validate()) {
                           int totalworkexp = (int.parse(yearsCont.text) * 12) +
                               int.parse(monthCont.text);
-                          print(totalworkexp);
-
+                          // print("UuId" + widget.uuid);
+                          // print("Skill ID "+ int.parse(itSkillName).toString());
+                          // print("Version "+double.parse(versionCont.text).toString());
+                          // print("WorkExperience "+ totalworkexp.toString());
+                          // print("Year ID "+int.parse(myYear.yearId).toString());
                           setState(() {
                             isLoading = true;
                           });
                           final insert = PostItSkills(
-                              candidateUuid: widget.uuid,
-                              candidateitskillItskillId: int.parse(itSkillId),
+                              // candidateUuid: widget.uuid,
+                              candidateitskillName: myController.text,
                               candidateitskillVersion: int.parse(versionCont.text),
                               candidateitskillExperience: totalworkexp,
                               candidateitskillLastused: int.parse(myYear.yearId));
@@ -440,11 +427,11 @@ class _ItSkillsState extends State<ItSkills> {
                           //   }
                           // });
                         }
-                        // Navigator.push(
-                        //            context,
-                        //             MaterialPageRoute(
-                        //                 builder: (context) =>
-                        //                     CareerPreference(uuid: widget.uuid,)));
+                        Navigator.push(
+                                   context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            CareerPreference(uuid: widget.uuid,)));
                       },
                       text: "Next",
                       type: GFButtonType.solid,

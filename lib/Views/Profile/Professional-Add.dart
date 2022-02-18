@@ -1,77 +1,79 @@
-// ignore_for_file: must_be_immutable, unused_field, prefer_const_constructors, unnecessary_const, avoid_print, unused_local_variable
+import 'dart:developer';
 
 import 'package:date_field/date_field.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:getwidget/components/radio/gf_radio.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/GetCompany.dart';
 import 'package:job_portal/Models/GetIndustry.dart';
-import 'package:job_portal/Models/PostProfessionRegistration.dart';
-import 'package:job_portal/Models/PostProfessionRegistration.dart';
-import 'package:job_portal/Models/PostProfessionRegistration.dart';
+import 'package:job_portal/Models/ProfessionDetailsPost.dart';
 import 'package:job_portal/Models/ProfessionalDetails.dart';
+import 'package:job_portal/Models/ProfessionalPopulate.dart';
+import 'package:job_portal/Models/ProfessionalPopulate.dart';
+import 'package:job_portal/Models/ProfessionalPopulate.dart';
+import 'package:job_portal/Models/ProfessionalPopulate.dart';
 import 'package:job_portal/Models/ProfileGetNoticePeriod.dart';
+
+
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Views/SignIn/Step5-KeySkills.dart';
-import 'package:job_portal/Models/ProfessionDetailsPost.dart';
 
-class WorkingProfession extends StatefulWidget {
-  WorkingProfession({Key key, this.uuid}) : super(key: key);
+class ProfessionAdd extends StatefulWidget {
+  ProfessionAdd({Key key, this.uuid}) : super(key: key);
   String uuid;
 
   @override
-  _WorkingProfessionState createState() => _WorkingProfessionState();
+  _ProfessionAddState createState() => _ProfessionAddState();
 }
 
-class _WorkingProfessionState extends State<WorkingProfession> {
+class _ProfessionAddState extends State<ProfessionAdd> {
+  bool get isEditing => widget.uuid != null;
   String query;
   String mycompany = "";
   String myindustry = "";
   String currentCompanyID = "";
-  bool toggleYes = false;
+
+  int groupValue;
+
+  // variables
+  DateTime selectedDateWorkingSince = DateTime.now();
+  DateTime date ;
+
+
+
+  // CONTROLLERS
+  DateTime selectedDateProfile = DateTime.now();
+  TextEditingController currentCompanySearchCo = TextEditingController();
+  TextEditingController currentOrganisationCntrl = TextEditingController();
+  TextEditingController currentOrganisationNameCntrl = TextEditingController();
+  TextEditingController previousOrganisationNameCntrl = TextEditingController();
+  TextEditingController myControllerPofile = TextEditingController();
+  TextEditingController previousDesignationCntrl = TextEditingController();
+  TextEditingController previousSalaryCntrl = TextEditingController();
+
+  TextEditingController salaryCountProfile = TextEditingController();
+
+  // DateTime noticeperiodDate = DateTime.now();
+  TextEditingController currentrganiationnameCntrl = TextEditingController();
+  TextEditingController currentDesignationCntrl = TextEditingController();
+
+// CONTROLLERS END HERE
 
   GetProfileNoticePeriod profileSelectedUser;
-  Company skillorganization;
-  Company getCompany;
-
-  int groupValue = 2;
-  List lists = [
-    "ClustTech Pvt Ltd",
-    "Zumr Pvt Ltd",
-    "Accenture",
-    "Microsoft"
-        "Google"
-  ];
-  List list = [
-    "IT-software",
-    "Education/training",
-    "IT- hardware/Training",
-    "Internet/ E- commerce"
-  ];
-  List list3 = [
-    "MAnufacturing",
-    "BPO/Call Center",
-    "IT-Hardware/ Networking",
-    "E-Learning"
-  ];
-  DateTime selectedDate = DateTime.now();
-  DateTime selectedDate3 = DateTime.now();
-  TextEditingController currentCompanySearchCo = TextEditingController();
-  TextEditingController currentCompanyCntrl = TextEditingController();
-  TextEditingController salaryCount = TextEditingController();
-  TextEditingController currentOrganisationNameCntrl = TextEditingController();
 
   // formkey for validation starts here
   var formKey = GlobalKey<FormState>();
 
   // formkey for validation ends her
-
   bool isLoadingCompany = false;
   bool isLoadingIndustry = false;
   bool isLoading = false;
   bool isLoadingCurrentCopmpany = false;
+  bool toggleYes = false;
+
   ApiServices apiServices = ApiServices();
 
   ApiResponse<List<Company>> _apiResponseCurrentCompany;
@@ -79,12 +81,19 @@ class _WorkingProfessionState extends State<WorkingProfession> {
   ApiResponse<List<Professional>> _apiResponseProfessional;
   ApiResponse<List<GetProfileNoticePeriod>> _apiResponseProfile;
 
+  // variables for id
+  String noticePeriodID = "";
+
   @override
   void initState() {
-    super.initState();
-    // fetchCompany(query: "");
+    print("--------------------------------------------");
+    print(widget.uuid);
+    print("--------------------------------------------");
+
     fetchIndustry(query: "");
     fetchNoticeperiod();
+    getprof();
+    super.initState();
   }
 
   fetchNoticeperiod() async {
@@ -96,16 +105,6 @@ class _WorkingProfessionState extends State<WorkingProfession> {
       isLoading = false;
     });
   }
-  //
-  // fetchCompany({String query}) async {
-  //   setState(() {
-  //     isLoadingCompany = true;
-  //   });
-  //   _apiResponseCurrentCompany = await apiServices.getCompany(query: query);
-  //   setState(() {
-  //     isLoadingCompany = false;
-  //   });
-  // }
 
   List<String> parseData() {
     List<Company> category = _apiResponseCurrentCompany.data;
@@ -136,18 +135,49 @@ class _WorkingProfessionState extends State<WorkingProfession> {
     return dataItems;
   }
 
+  ProfessionalPopulate professionalPopulate;
+  String errorMessage;
+
+  getprof() {
+    if (isEditing) {
+      setState(() {
+        isLoading = true;
+      });
+      apiServices.populateProfProfessionalUpdate(widget.uuid).then((response) {
+        setState(() {
+          isLoading = false;
+        });
+        if (response.error) {
+          errorMessage = response.errorMessage ?? "An Error Occurred";
+        }
+        professionalPopulate = response.data;
+        groupValue = int.parse(professionalPopulate.candidateexpIscurrentcompany);
+        currentOrganisationNameCntrl.text = professionalPopulate.candidateexpIscurrentcompany == "1" ?professionalPopulate.OrganizationName : "";
+        currentDesignationCntrl.text = professionalPopulate.candidateexpIscurrentcompany == "1" ? professionalPopulate.Designation : "";
+        salaryCountProfile.text = professionalPopulate.candidateexpIscurrentcompany == "1" ? professionalPopulate.Salary : "";
+
+        //prevoius
+        previousOrganisationNameCntrl.text =  professionalPopulate.candidateexpIscurrentcompany == "0" ?professionalPopulate.OrganizationName : "";
+        previousDesignationCntrl.text =  professionalPopulate.candidateexpIscurrentcompany == "0" ? professionalPopulate.Designation : "";
+        previousSalaryCntrl.text =  professionalPopulate.candidateexpIscurrentcompany == "0" ? professionalPopulate.Salary : "";
+      });
+      print(widget.uuid);
+      print(widget.uuid);
+      print(widget.uuid);
+    }
+  }
+
   // richtext
   RichText getRequiredLabel({String fieldName}) {
     return RichText(
       text: TextSpan(
-          style: const TextStyle(
+          style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.bold,
               fontFamily: "ProximaNova"),
           text: fieldName,
-          // ignore: prefer_const_literals_to_create_immutables
           children: [
-            const TextSpan(text: ' *', style: TextStyle(color: Colors.red)),
+            TextSpan(text: ' *', style: TextStyle(color: Colors.red)),
           ]),
     );
   }
@@ -191,6 +221,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                         const SizedBox(
                           height: 15,
                         ),
+
                         Padding(
                           padding: const EdgeInsets.only(
                             top: 10,
@@ -227,8 +258,6 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                       onChanged: (value) {
                                         setState(() {
                                           groupValue = value;
-                                          print(groupValue);
-                                          toggleYes = true;
                                         });
                                       },
                                       inactiveIcon: null,
@@ -253,7 +282,6 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                       onChanged: (value) {
                                         setState(() {
                                           groupValue = value;
-                                          print(groupValue);
                                         });
                                       },
                                       inactiveIcon: null,
@@ -296,7 +324,6 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                 child: TypeAheadField(
                                   textFieldConfiguration:
                                   TextFieldConfiguration(
-                                    // ignore: unnecessary_this
                                       controller: this
                                           .currentOrganisationNameCntrl,
                                       decoration: InputDecoration(
@@ -307,7 +334,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                   ApiServices.getCompany,
                                   itemBuilder:
                                       (context, Company suggestions) {
-                                    skillorganization = suggestions;
+                                    final skillorganization = suggestions;
                                     return ListTile(
                                       title: Text(skillorganization
                                           .organizationName),
@@ -342,7 +369,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                   : Container(),
                               groupValue == 1
                                   ? TextFormField(
-                                controller: currentCompanyCntrl,
+                                controller: currentDesignationCntrl,
                                 decoration: InputDecoration(
                                   hintText: "Current Designation",
                                   hintStyle: TextStyle(
@@ -355,7 +382,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                 ),
                                 validator: (value) {
                                   if (value.isEmpty) {
-                                    return "Select Current Designation";
+                                    return "this field is required";
                                   }
                                   return null;
                                 },
@@ -380,7 +407,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                   : Container(),
                               groupValue == 1
                                   ? TextFormField(
-                                controller: salaryCount,
+                                controller: salaryCountProfile,
                                 decoration: InputDecoration(
                                   hintText: "Current Salary",
                                   hintStyle: TextStyle(
@@ -393,7 +420,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                 ),
                                 validator: (value) {
                                   if (value.isEmpty) {
-                                    return "Enter Current Salary";
+                                    return "This Field is Required";
                                   }
                                   return null;
                                 },
@@ -428,21 +455,23 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                         letterSpacing: 1.5,
                                         fontWeight: FontWeight.w500,
                                         fontFamily: "ProximaNova"),
+
                                     // hintStyle: heading6.copyWith(color: textGrey),
                                     // errorStyle: TextStyle(color: Colors.redAccent),
                                     suffixIcon: Icon(Icons.event_note),
                                   ),
-                                  // initialValue: date,
+
+                                  initialValue: date,
                                   mode: DateTimeFieldPickerMode.date,
                                   autovalidateMode:
                                   AutovalidateMode.always,
                                   validator: (e) => (e?.day ?? 0) == 1
-                                      ? 'Select Start Date'
+                                      ? 'Please not the first day'
                                       : null,
 
                                   onDateSelected: (date) {
                                     setState(() {
-                                      selectedDate = date;
+                                      selectedDateWorkingSince = date;
                                     });
                                   },
                                 ),
@@ -482,7 +511,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                     });
                                   },
                                   validator: (value) => value == null
-                                      ? 'Select Notice Period'
+                                      ?  'Fill Notice Period'
                                       : null,
                                   items: _apiResponseProfile.data
                                       .map((GetProfileNoticePeriod user) {
@@ -517,9 +546,8 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                 child: TypeAheadField(
                                   textFieldConfiguration:
                                   TextFieldConfiguration(
-                                    // ignore: unnecessary_this
                                       controller: this
-                                          .currentOrganisationNameCntrl,
+                                          .previousOrganisationNameCntrl,
                                       decoration: InputDecoration(
                                           labelText: 'Organization')),
                                   debounceDuration:
@@ -528,7 +556,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                   ApiServices.getCompany,
                                   itemBuilder:
                                       (context, Company suggestions) {
-                                    skillorganization = suggestions;
+                                    final skillorganization = suggestions;
                                     return ListTile(
                                       title: Text(skillorganization
                                           .organizationName),
@@ -538,7 +566,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                       Text(""),
                                   onSuggestionSelected:
                                       (Company suggesstion) {
-                                    currentOrganisationNameCntrl.text =
+                                        previousOrganisationNameCntrl.text =
                                         suggesstion.organizationName;
                                   },
                                 ),
@@ -563,15 +591,14 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                         fontFamily: "ProximaNova")),
                               )
                                   : Container(),
+                              groupValue == 1
+                                  ? SizedBox(
+                                height: 5,
+                              )
+                                  : Container(),
                               groupValue == 0
                                   ? TextFormField(
-                                controller: currentCompanyCntrl,
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return "Select Previous Designation";
-                                  }
-                                  return null;
-                                },
+                                controller: previousDesignationCntrl,
                                 decoration: InputDecoration(
                                   hintText: "Previous Designation",
                                   hintStyle: TextStyle(
@@ -584,6 +611,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                 ),
                               )
                                   : Container(),
+
                               groupValue == 0
                                   ? SizedBox(
                                 height: 10,
@@ -603,14 +631,15 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                   : Container(),
                               groupValue == 0
                                   ? TextFormField(
-                                controller: salaryCount,
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return "Enter Previous Salary";
-                                  }
-                                  return null;
-                                },
+                                controller: previousSalaryCntrl,
+                                // validator: (value) {
+                                //   if (value.isEmpty) {
+                                //     return "This Field is Required";
+                                //   }
+                                //   return null;
+                                // },
                                 decoration: InputDecoration(
+
                                   hintText: "Previous Annually Salary",
                                   hintStyle: TextStyle(
                                     color: Colors.blueGrey,
@@ -664,13 +693,14 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                         autovalidateMode:
                                         AutovalidateMode.always,
                                         validator: (e) => (e?.day ?? 0) ==
-                                            1
-                                            ? 'Select Start Date'
+                                            0
+                                            ? ''
                                             : null,
 
                                         onDateSelected: (date) {
                                           setState(() {
-                                            selectedDate = date;
+                                            selectedDateWorkingSince =
+                                                date;
                                           });
                                         },
                                       ),
@@ -678,6 +708,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                     SizedBox(
                                       width: 10,
                                     ),
+
                                     Expanded(
                                       child: DateTimeFormField(
                                         decoration: const InputDecoration(
@@ -700,12 +731,13 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                         AutovalidateMode.always,
                                         validator: (e) => (e?.day ?? 0) ==
                                             1
-                                            ? 'Select End Date'
+                                            ?
+                                        ''
                                             : null,
 
                                         onDateSelected: (date) {
                                           setState(() {
-                                            selectedDate3 = date;
+                                            selectedDateProfile = date;
                                           });
                                         },
                                       ),
@@ -723,9 +755,6 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                   const SizedBox(
                     height: 20,
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Align(
@@ -733,88 +762,121 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                         child: GFButton(
                             onPressed: () async {
                               if (formKey.currentState.validate()) {
-                                setState(() {
-                                  isLoading = true;
-                                });
-                                print(
-                                    "=======================================");
-                                print("Currently Working ID: " +
-                                    groupValue.toString());
-                                print("Organisation Name : " +
-                                    skillorganization.organizationName);
-                                print("End Date : " +
-                                    selectedDate3.toString().split(" ")[0]);
-                                print("Designation : " +
-                                    currentCompanyCntrl.text);
-                                print("Salary :" + salaryCount.text.toString());
-                                print("Start Date :" +
-                                    selectedDate.toString().split(" ")[0]);
-                                print(
-                                    "=======================================");
-                                final insert = toggleYes == true ? PostProfessionRegistration(
-                                    candidateexpIscurrentcompany: 1,
-                                    candidateexpOrganizationname:
-                                    skillorganization.organizationName,
-                                    candidateexpDesignation:
-                                    currentCompanyCntrl.text,
-                                    candidateexpSalary: salaryCount.text,
-                                    candidateexpStartdate:
-                                    selectedDate.toString().split(" ")[0],
-                                    candidateexpNoticeperiodId:
-                                    profileSelectedUser.noticePeriodId.toString()
+                                    if(isEditing){
+                                      setState(() {
+                                        isLoading = true;
+                                      });
+                                      final insert = groupValue ==1 ?
+                                      PostProfession(
+                                          requestType: "update",
+                                          candidateexpUuid: widget.uuid,
+                                          candidateexpIscurrentcompany: 1,
+                                          candidateexpOrganizationname:
+                                          currentOrganisationNameCntrl.text,
+                                          candidateexpDesignation:
+                                          currentDesignationCntrl.text,
+                                          candidateexpStartdate:
+                                          selectedDateWorkingSince
+                                              .toString()
+                                              .split(" ")[0],
+                                          candidateexpSalary:
+                                          salaryCountProfile.text,
+                                          candidateexpNoticeperiodId:
+                                          profileSelectedUser.noticePeriodId
+                                              .toString())
+                                          : PostProfession(
+                                          requestType: "update",
+                                          candidateexpUuid: widget.uuid,
+                                          candidateexpIscurrentcompany: 0,
+                                          candidateexpOrganizationname:
+                                          previousOrganisationNameCntrl.text,
+                                          candidateexpDesignation:
+                                          previousDesignationCntrl.text,
+                                          candidateexpStartdate:
+                                          selectedDateWorkingSince
+                                              .toString()
+                                              .split(" ")[0],
+                                          candidateexpSalary:
+                                          previousSalaryCntrl.text,
+                                          candidateexpEnddate: selectedDateProfile
+                                              .toString()
+                                              .split(" ")[0]
+                                      );
 
-                                ) : PostProfessionRegistration(
-                                    candidateexpIscurrentcompany:
-                                    0,
-                                    candidateexpOrganizationname:
-                                    skillorganization.organizationName,
-                                    candidateexpDesignation:
-                                    currentCompanyCntrl.text,
-                                    candidateexpSalary: salaryCount.text,
-                                    candidateexpStartdate:
-                                    selectedDate.toString().split(" ")[0],
-                                    candidateexpEnddate: selectedDate3.toString().split(" ")[0]
-                                );
+                                      final result = await apiServices
+                                          .professionalProfileAdd(insert);
 
-                                final result =
-                                await apiServices.ProfessionPost(insert);
-                                setState(() {
-                                  isLoading = false;
-                                });
-                                print(selectedDate);
-                                const title = "Done";
-                                final text = result.error
-                                    ? (result.errorMessage ??
-                                    "An Error Occurred")
-                                    : "Successfully Created";
-                                // showDialog(
-                                //   context: context,
-                                //   builder: (_) => AlertDialog(
-                                //     title: const Text(title),
-                                //     content: Text(text),
-                                //     actions: [
-                                //       ElevatedButton(
-                                //           onPressed: () {
-                                //             Navigator.pop(context);
-                                //           },
-                                //           child: const Text("OK"))
-                                //     ],
-                                //   ),
-                                // ).then((data) {
-                                //   if (result.data) {
-                                //     Navigator.push(
-                                //         context,
-                                //         MaterialPageRoute(
-                                //             builder: (context) => KeySkillsPage(uuid: "0c856f4f-61dc-4c70-8b21-22a932358fc1",)));
-                                //   }
-                                // });
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+
+                                      if (result.data) {
+                                        Navigator.pop(context);
+                                      } else {
+                                        print("error occured by ");
+                                      }
+                                    }else{
+                                      setState(() {
+                                        isLoading = true;
+                                      });
+                                      final insert = groupValue ==1 ?
+                                      PostProfession(
+                                          requestType: "add",
+                                          candidateexpIscurrentcompany: 1,
+                                          candidateexpOrganizationname:
+                                          currentOrganisationNameCntrl.text,
+                                          candidateexpDesignation:
+                                          currentDesignationCntrl.text,
+                                          candidateexpStartdate:
+                                          selectedDateWorkingSince
+                                              .toString()
+                                              .split(" ")[0],
+                                          candidateexpSalary:
+                                          salaryCountProfile.text,
+                                          candidateexpNoticeperiodId:
+                                          profileSelectedUser.noticePeriodId
+                                              .toString())
+                                          : PostProfession(
+                                          requestType: "add",
+                                          candidateexpIscurrentcompany: 0,
+                                          candidateexpOrganizationname:
+                                          previousOrganisationNameCntrl.text,
+                                          candidateexpDesignation:
+                                          previousDesignationCntrl.text,
+                                          candidateexpStartdate:
+                                          selectedDateWorkingSince
+                                              .toString()
+                                              .split(" ")[0],
+                                          candidateexpSalary:
+                                          previousSalaryCntrl.text,
+                                          candidateexpEnddate: selectedDateProfile
+                                              .toString()
+                                              .split(" ")[0]
+                                      );
+
+                                      final result = await apiServices
+                                          .professionalProfileAdd(insert);
+
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+
+                                      if (result.data) {
+                                        Navigator.pop(context);
+                                      } else {
+                                        print("error occured by ");
+                                      }
+                                    }
+
+
+
+
+
+
                               }
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => KeySkillsPage(
-                                    uuid: widget.uuid,
-                                  )));
+
                             },
-                            text: "Next",
+                            text: "Add",
                             type: GFButtonType.solid)),
                   ),
                 ],
@@ -826,3 +888,15 @@ class _WorkingProfessionState extends State<WorkingProfession> {
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+

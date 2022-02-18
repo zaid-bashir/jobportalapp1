@@ -5,6 +5,7 @@ class QualificationPost {
   String candidatequalCourseId;
   String candidatequalStreamId;
   int  candidatequalCousetypeId;
+  String candidateHeadline;
   // int candidatequalInstituteId;
   String candidatequalInstituteName;
   String candidatequalCompletionYear;
@@ -14,6 +15,7 @@ class QualificationPost {
   QualificationPost(
 
       {this.requestType,
+        this.candidateHeadline,
         this.candidatequalUuid,
         this.candidatequalInstituteName,
       this.candidatequalQualificationId,
@@ -30,6 +32,7 @@ class QualificationPost {
     return {
       "candidatequalUuid": candidatequalUuid,
       "requestType": requestType,
+      "candidateHeadline": candidateHeadline,
       "candidatequalInstituteName": candidatequalInstituteName,
       "candidatequalQualificationId": candidatequalQualificationId,
       "candidatequalCourseId": candidatequalCourseId,

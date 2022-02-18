@@ -31,7 +31,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
       isLoading = true;
     });
     _apiResponse = await apiServices.otpVerifyGet(
-        OTPVerify(registerMobile: widget.registerMobile, otp: int.parse(otp)));
+        OTPVerify(registerMobile: "${widget.registerMobile}", otp: int.parse(otp)));
     setState(() {
       isLoading = false;
     });
@@ -83,7 +83,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
                     delay: const Duration(milliseconds: 500),
                     duration: const Duration(milliseconds: 500),
                     child: Text(
-                      "Please enter the 6 digit code sent to \n +91-${widget.registerMobile}",
+                      " enter the 6 digit code sent to \n +91-${widget.registerMobile}",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 16,
@@ -132,7 +132,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
                     padding: EdgeInsets.all(8.0),
                     child: Center(
                       child: _onEditing
-                          ? Text('Please enter full code')
+                          ? Text(' enter full code')
                           : Text('Your code: $_code'),
                     ),
                   ),
@@ -176,13 +176,16 @@ class _VerifyOTPState extends State<VerifyOTP> {
                         print("======================");
 
                         await verifyOTP(_code);
+                        print("======================");
+                        print(_apiResponse.data);
+                        print("======================");
                         if (_apiResponse.data == 1) {
                           AwesomeDialog(
                             context: context,
                             animType: AnimType.SCALE,
                             dialogType: DialogType.INFO,
                             title: 'JobPortalApp',
-                            desc: 'Please enter your OTP',
+                            desc: ' enter your OTP',
                             // btnOkOnPress: () {
                             //   Navigator.of(context).pop();
                             // },
@@ -206,7 +209,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
                             animType: AnimType.SCALE,
                             dialogType: DialogType.ERROR,
                             title: 'JobPortalApp',
-                            desc: 'Incorrect OTP Entered',
+                            desc: 'OTP Expired',
                             // btnOkOnPress: () {
                             //   Navigator.of(context).pop();
                             // },
@@ -218,7 +221,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
                             animType: AnimType.SCALE,
                             dialogType: DialogType.INFO,
                             title: 'JobPortalApp',
-                            desc: 'OTP Expired',
+                            desc: 'Incorrect OTP Or Mobile Number',
                             // btnOkOnPress: () {
                             //   Navigator.of(context).pop();
                             // },
@@ -230,7 +233,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
                             animType: AnimType.SCALE,
                             dialogType: DialogType.ERROR,
                             title: 'JobPortalApp',
-                            desc: "Register with different Mobile Number\n Mobile Number Banned!",
+                            desc: "Verification Process failed\nTry Again...",
                             // btnOkOnPress: () {
                             //   Navigator.of(context).pop();
                             // },
@@ -259,7 +262,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
                             dialogType: DialogType.ERROR,
                             title: 'JobPortalApp',
                             desc:
-                            'Please enter Valid OTP',
+                            ' enter Valid OTP',
                           ).show();
                         }
                       },
