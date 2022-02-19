@@ -11,7 +11,8 @@ import 'package:job_portal/Controllers/menucontroller.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/Awards.dart';
 import 'package:job_portal/Models/BasicInfoPopulate.dart';
-import 'package:job_portal/Models/Certification-Add.dart';
+import 'package:job_portal/Models/CareerPreferencePopulate.dart';
+
 import 'package:job_portal/Models/CertificationPopulate.dart';
 import 'package:job_portal/Models/ItSkillAdd.dart';
 import 'package:job_portal/Models/ItSkillRetrive.dart';
@@ -167,10 +168,9 @@ class _ProfilePageState extends State<ProfilePage>
     getCertification();
     getItSkill();
     getPersonal();
-    getBasicInfo();
     populateKeySkills();
     getProfessional();
-    populateCareerPreferenceProfile();
+     populateCareerPreferenceProfile();
     getQualification();
     getLanguage();
     getProject();
@@ -179,6 +179,7 @@ class _ProfilePageState extends State<ProfilePage>
     getSummary();
     getPresentation();
     getResearch();
+    getbasicss();
 
     loadingController = AnimationController(
       vsync: this,
@@ -194,7 +195,7 @@ class _ProfilePageState extends State<ProfilePage>
   bool isLoadingPopulateKeySkillsProfile = false;
   bool isLoadingPopulateCareerPreferenceProfile = false;
   ApiResponse<List<ItSkillProfile>> _apiResponse;
-  ApiResponse<List<BasicInfoPopulate>> _apiResponse4;
+  ApiResponse<BasicInfoPopulate> _apiResponseBasics;
   ApiResponse<List<QualificationPopulate>> _apiResponse2;
   ApiResponse<List<PersonalRetrive>> _apiResponse3;
   ApiResponse<List<LanguagePopulate>> _apiResponseLang;
@@ -203,14 +204,18 @@ class _ProfilePageState extends State<ProfilePage>
   ApiResponse<List<PopulateKeySkillsProfileModel>> _apiResponseKeySkillPopulate;
   ApiResponse<List<ProjectPopulate>> apiResponseProjectPopulate;
   ApiResponse<List<CertificationPopulate>> apiResponseCertificationPopulate;
-  ApiResponse apiResponseCareerPreferencePopulate;
+  ApiResponse <CareerPreferencePopulate>apiResponseCareerPreferencePopulate;
   ApiResponse<List<SummaryPopulate>> apiResponseSummary;
   ApiResponse<List<PresentationPopulate>> apiResponsePresentationPopulate;
   ApiResponse<List<ProfessionalPopulate>> _apiResponse5;
   ApiResponse<List<ResearchpaperAdd>> apiResponseResearchPopulate;
 
+
+
+
   ApiServices apiServices = ApiServices();
-  Map<String, dynamic> obj;
+
+
   QualificationPopulate qualify;
   String errorMessage;
 
@@ -244,6 +249,25 @@ class _ProfilePageState extends State<ProfilePage>
     });
   }
 
+
+  getbasicss() async{
+    setState(() {
+      isLoading = true;
+    });
+    _apiResponseBasics = await apiServices.PopulateBasicInfo();
+    setState(() {
+      isLoading = false;
+    });
+  }
+  populateCareerPreferenceProfile() async{
+    setState(() {
+      isLoading = true;
+    });
+    apiResponseCareerPreferencePopulate = await apiServices.getCareerPreferencePopulate();
+    setState(() {
+      isLoading = false;
+    });
+  }
   getCertification() async {
     setState(() {
       isLoading = true;
@@ -305,15 +329,7 @@ class _ProfilePageState extends State<ProfilePage>
     });
   }
 
-  getBasicInfo() async {
-    setState(() {
-      isLoading = true;
-    });
-    _apiResponse4 = await apiServices.PopulateBasicInfo();
-    setState(() {
-      isLoading = false;
-    });
-  }
+
 
   getPersonal() async {
     setState(() {
@@ -355,17 +371,7 @@ class _ProfilePageState extends State<ProfilePage>
     });
   }
 
-  populateCareerPreferenceProfile() async {
-    setState(() {
-      isLoadingPopulateCareerPreferenceProfile = true;
-    });
-    apiResponseCareerPreferencePopulate =
-        await apiServices.getCareerPreferencePopulate();
-    obj = apiResponseCareerPreferencePopulate.data;
-    setState(() {
-      isLoadingPopulateCareerPreferenceProfile = false;
-    });
-  }
+
 
   TextEditingController skillSearchCont = TextEditingController();
   String queries;
@@ -408,8 +414,8 @@ class _ProfilePageState extends State<ProfilePage>
                                         builder: (context) => SummaryAdd()))
                                 .then((value) => getSummary());
                           },
-                          child: Icon(Iconsax.add, color: Color(0xff3e61ed)))
-                    ],
+                          child: Text('Add',style: TextStyle(color:Color(0xff3e61ed),fontSize: 15,fontWeight: FontWeight.bold ),),
+                      ), ],
                   ),
                 ),
                 Padding(
@@ -459,7 +465,7 @@ class _ProfilePageState extends State<ProfilePage>
                                                             )))
                                                 .then((value) => getSummary());
                                           },
-                                          child: Icon(Iconsax.edit5,
+                                          child: Icon(Icons.edit,
                                               color: Color(0xff3e61ed)))
                                     ],
                                   ),
@@ -487,245 +493,7 @@ class _ProfilePageState extends State<ProfilePage>
     return childs;
   }
 
-  List<Widget> GetBasicInfo() {
-    List<Widget> childs = _apiResponse4.data
-        .map(
-          (e) => Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 25, top: 15, right: 25),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      "BASIC INFORMATION",
-                      style: TextStyle(
-                        fontFamily: "ProximaNova-Regular",
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1.5,
-                        fontSize: 16.5,
-                      ),
-                    ),
-                    GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => UpdateBasicDetails(
-                                        fName: e.candidateFirstName,
-                                        mName: e.candidateMiddleName,
-                                        lName: e.candidateLastName,
-                                        phone: e.candidateMobile1,
-                                        email: e.candidateEmail1,
-                                        gender: e.candidateGenderId,
-                                      )));
-                        },
-                        child: Icon(Iconsax.edit5, color: Color(0xff3e61ed)))
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 10,
-                  left: 20,
-                  right: 20,
-                ),
-                child: Card(
-                  elevation: 5,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 25, right: 25, top: 25),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                flex: 2,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Name:',
-                                      style: TextStyle(
-                                        fontFamily: "ProximaNova",
-                                        color: Colors.grey.shade600,
-                                        fontWeight: FontWeight.w500,
-                                        letterSpacing: 1.5,
-                                        fontSize: 13.0,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 5),
-                                      child: Text(e.candidateName ?? "",
-                                          style: TextStyle(
-                                              fontSize: 14.0,
-                                              fontFamily: "ProximaNova",
-                                              fontWeight: FontWeight.bold)),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Contact No:',
-                                      style: TextStyle(
-                                        fontFamily: "ProximaNova",
-                                        color: Colors.grey.shade600,
-                                        fontWeight: FontWeight.w500,
-                                        letterSpacing: 1.5,
-                                        fontSize: 12.5,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 5.0),
-                                      child: Text(e.candidateMobile1 ?? "",
-                                          style: TextStyle(
-                                              fontSize: 14.0,
-                                              fontFamily: "ProximaNova",
-                                              fontWeight: FontWeight.bold)),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 25, right: 25, top: 25),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                flex: 2,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Email:',
-                                      style: TextStyle(
-                                        fontFamily: "ProximaNova",
-                                        color: Colors.grey.shade600,
-                                        fontWeight: FontWeight.w500,
-                                        letterSpacing: 1.5,
-                                        fontSize: 12.5,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 5.0),
-                                      child: Text(e.candidateEmail1 ?? "",
-                                          style: TextStyle(
-                                              fontSize: 14.0,
-                                              fontFamily: "ProximaNova",
-                                              fontWeight: FontWeight.bold)),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Gender:',
-                                      style: TextStyle(
-                                        fontFamily: "ProximaNova",
-                                        color: Colors.grey.shade600,
-                                        fontWeight: FontWeight.w500,
-                                        letterSpacing: 1.5,
-                                        fontSize: 12.5,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 5.0),
-                                      child: Text(e.candidateGenderName ?? "",
-                                          style: TextStyle(
-                                              fontSize: 14.0,
-                                              fontFamily: "ProximaNova",
-                                              fontWeight: FontWeight.bold)),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 25, right: 25, top: 25),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                flex: 2,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Experience Tenure:',
-                                      style: TextStyle(
-                                        fontFamily: "ProximaNova",
-                                        color: Colors.grey.shade600,
-                                        fontWeight: FontWeight.w500,
-                                        letterSpacing: 1.5,
-                                        fontSize: 12.5,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 5.0),
-                                      child: Text(
-                                          e.candidateTotalWorkExp.toString() ??
-                                              "",
-                                          style: TextStyle(
-                                              fontSize: 14.0,
-                                              fontFamily: "ProximaNova",
-                                              fontWeight: FontWeight.bold)),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Job Role:',
-                                      style: TextStyle(
-                                        fontFamily: "ProximaNova",
-                                        color: Colors.grey.shade600,
-                                        fontWeight: FontWeight.w500,
-                                        letterSpacing: 1.5,
-                                        fontSize: 12.5,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 5.0),
-                                      child: Text(e.candidateJobroleName ?? "",
-                                          style: TextStyle(
-                                              fontSize: 14.0,
-                                              fontFamily: "ProximaNova",
-                                              fontWeight: FontWeight.bold)),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        )
-        .toList();
-    return childs;
-  }
+
 
   List<Widget> getPersonalList() {
     List<Widget> childs = _apiResponse3.data
@@ -764,7 +532,7 @@ class _ProfilePageState extends State<ProfilePage>
                                     ))).then((value) => getPersonal());
                       },
                       child:
-                          const Icon(Iconsax.edit5, color: Color(0xff3e61ed)),
+                          const Icon(Icons.edit, color: Color(0xff3e61ed)),
                     ),
                   ],
                 ),
@@ -1258,9 +1026,234 @@ class _ProfilePageState extends State<ProfilePage>
               Column(
                 children: GetSummary(),
               ),
-              Column(
-                children: GetBasicInfo(),
+              Padding(
+                padding: const EdgeInsets.only(left: 25, top: 15, right: 25),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "BASIC INFORMATION",
+                      style: TextStyle(
+                        fontFamily: "ProximaNova-Regular",
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1.5,
+                        fontSize: 16.5,
+                      ),
+                    ),
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => UpdateBasicDetails(
+                                    // fName: e.candidateFirstName,
+                                    // mName: e.candidateMiddleName,
+                                    // lName: e.candidateLastName,
+                                    // phone: e.candidateMobile1,
+                                    // email: e.candidateEmail1,
+                                    // gender: e.candidateGenderId,
+                                  )));
+                        },
+                        child: Icon(Icons.edit, color: Color(0xff3e61ed)))
+                  ],
+                ),
               ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 10,
+                  left: 20,
+                  right: 20,
+                ),
+                child: Card(
+                  elevation: 5,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 20),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 25, right: 25, top: 25),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 2,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Name:',
+                                      style: TextStyle(
+                                        fontFamily: "ProximaNova",
+                                        color: Colors.grey.shade600,
+                                        fontWeight: FontWeight.w500,
+                                        letterSpacing: 1.5,
+                                        fontSize: 13.0,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 5),
+                                      child: Text( _apiResponseBasics.data.candidateName ?? "clustech",
+                                          style: TextStyle(
+                                              fontSize: 14.0,
+                                              fontFamily: "ProximaNova",
+                                              fontWeight: FontWeight.bold)),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Contact No:',
+                                      style: TextStyle(
+                                        fontFamily: "ProximaNova",
+                                        color: Colors.grey.shade600,
+                                        fontWeight: FontWeight.w500,
+                                        letterSpacing: 1.5,
+                                        fontSize: 12.5,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 5.0),
+                                      child: Text( _apiResponseBasics.data.candidateMobile1 ?? "1234",
+                                          style: TextStyle(
+                                              fontSize: 14.0,
+                                              fontFamily: "ProximaNova",
+                                              fontWeight: FontWeight.bold)),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 25, right: 25, top: 25),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 2,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Email:',
+                                      style: TextStyle(
+                                        fontFamily: "ProximaNova",
+                                        color: Colors.grey.shade600,
+                                        fontWeight: FontWeight.w500,
+                                        letterSpacing: 1.5,
+                                        fontSize: 12.5,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 5.0),
+                                      child: Text(_apiResponseBasics.data.candidateEmail1 ?? "1234",
+                                          style: TextStyle(
+                                              fontSize: 14.0,
+                                              fontFamily: "ProximaNova",
+                                              fontWeight: FontWeight.bold)),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Gender:',
+                                      style: TextStyle(
+                                        fontFamily: "ProximaNova",
+                                        color: Colors.grey.shade600,
+                                        fontWeight: FontWeight.w500,
+                                        letterSpacing: 1.5,
+                                        fontSize: 12.5,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 5.0),
+                                      child: Text(_apiResponseBasics.data.candidateGenderName ?? "1234",
+                                          style: TextStyle(
+                                              fontSize: 14.0,
+                                              fontFamily: "ProximaNova",
+                                              fontWeight: FontWeight.bold)),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 25, right: 25, top: 25),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 2,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Experience Tenure:',
+                                      style: TextStyle(
+                                        fontFamily: "ProximaNova",
+                                        color: Colors.grey.shade600,
+                                        fontWeight: FontWeight.w500,
+                                        letterSpacing: 1.5,
+                                        fontSize: 12.5,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 5.0),
+                                      child: Text(
+                                          _apiResponseBasics.data.candidateTotalWorkExp ?? "1234",
+                                          style: TextStyle(
+                                              fontSize: 14.0,
+                                              fontFamily: "ProximaNova",
+                                              fontWeight: FontWeight.bold)),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      ' Preferred Job Role:',
+                                      style: TextStyle(
+                                        fontFamily: "ProximaNova",
+                                        color: Colors.grey.shade600,
+                                        fontWeight: FontWeight.w500,
+                                        letterSpacing: 1.5,
+                                        fontSize: 12.5,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 5.0),
+                                      child: Text( _apiResponseBasics.data.preferedJobRoleNames,
+                                          style: TextStyle(
+                                              fontSize: 14.0,
+                                              fontFamily: "ProximaNova",
+                                              fontWeight: FontWeight.bold)),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+
               Padding(
                 padding: const EdgeInsets.only(top: 10, left: 25, right: 25),
                 child: Row(
@@ -1283,7 +1276,7 @@ class _ProfilePageState extends State<ProfilePage>
                                     builder: (context) => QualificationAdd()))
                             .then((value) => getQualification());
                       },
-                      child: const Icon(Iconsax.add, color: Color(0xff3e61ed)),
+                      child: Text('Add',style: TextStyle(color:Color(0xff3e61ed),fontSize: 15,fontWeight: FontWeight.bold ),),
                     )
                   ],
                 ),
@@ -1302,270 +1295,7 @@ class _ProfilePageState extends State<ProfilePage>
                     child: Column(
                       children: [
                         qualificationList(context),
-                        // Padding(
-                        //     padding: const EdgeInsets.only(
-                        //         left: 25.0, right: 25.0, top: 25.0),
-                        //     child: Row(
-                        //       mainAxisSize: MainAxisSize.max,
-                        //       children: <Widget>[
-                        //         Column(
-                        //           mainAxisAlignment: MainAxisAlignment.start,
-                        //           mainAxisSize: MainAxisSize.min,
-                        //           children: const <Widget>[
-                        //             Text(
-                        //               'Profile Headline :',
-                        //               style: TextStyle(
-                        //                 fontSize: 14.0,
-                        //               ),
-                        //             ),
-                        //           ],
-                        //         ),
-                        //       ],
-                        //     )),
-                        // Padding(
-                        //     padding: const EdgeInsets.only(
-                        //         left: 25.0, right: 25.0, top: 5.0),
-                        //     child: Row(
-                        //       mainAxisSize: MainAxisSize.max,
-                        //       children: const <Widget>[
-                        //         Flexible(
-                        //             child: Text('Summary of the Profile',
-                        //                 style: TextStyle(
-                        //                     fontSize: 15.0,
-                        //                     fontWeight: FontWeight.bold))),
-                        //       ],
-                        //     )),
-                        // Padding(
-                        //     padding: const EdgeInsets.only(
-                        //         left: 25.0, right: 25.0, top: 25.0),
-                        //     child: Row(
-                        //       mainAxisSize: MainAxisSize.max,
-                        //       children: <Widget>[
-                        //         Column(
-                        //           mainAxisAlignment: MainAxisAlignment.start,
-                        //           mainAxisSize: MainAxisSize.min,
-                        //           children: const <Widget>[
-                        //             Text(
-                        //               'Highest Qualification :',
-                        //               style: TextStyle(
-                        //                 fontSize: 14.0,
-                        //               ),
-                        //             ),
-                        //           ],
-                        //         ),
-                        //       ],
-                        //     )),
-                        // Padding(
-                        //     padding: const EdgeInsets.only(
-                        //         left: 25.0, right: 25.0, top: 5.0),
-                        //     child: Row(
-                        //       mainAxisSize: MainAxisSize.max,
-                        //       children: const <Widget>[
-                        //         Flexible(
-                        //             child: Text("jhvb",
-                        //                 style: TextStyle(
-                        //                     fontSize: 15.0,
-                        //                     fontWeight: FontWeight.bold))),
-                        //       ],
-                        //     )),
-                        // Padding(
-                        //     padding: const EdgeInsets.only(
-                        //         left: 25.0, right: 25.0, top: 25.0),
-                        //     child: Row(
-                        //       mainAxisSize: MainAxisSize.max,
-                        //       children: <Widget>[
-                        //         Column(
-                        //           mainAxisAlignment: MainAxisAlignment.start,
-                        //           mainAxisSize: MainAxisSize.min,
-                        //           children: const <Widget>[
-                        //             Text(
-                        //               'Course :',
-                        //               style: TextStyle(
-                        //                 fontSize: 14.0,
-                        //               ),
-                        //             ),
-                        //           ],
-                        //         ),
-                        //       ],
-                        //     )),
-                        // Padding(
-                        //     padding: const EdgeInsets.only(
-                        //         left: 25.0, right: 25.0, top: 5.0),
-                        //     child: Row(
-                        //       mainAxisSize: MainAxisSize.max,
-                        //       children: const <Widget>[
-                        //         Flexible(
-                        //             child: Text('Btech',
-                        //                 style: TextStyle(
-                        //                     fontSize: 15.0,
-                        //                     fontWeight: FontWeight.bold))),
-                        //       ],
-                        //     )),
-                        // Padding(
-                        //     padding: const EdgeInsets.only(
-                        //         left: 25.0, right: 25.0, top: 25.0),
-                        //     child: Row(
-                        //       mainAxisSize: MainAxisSize.max,
-                        //       children: <Widget>[
-                        //         Column(
-                        //           mainAxisAlignment: MainAxisAlignment.start,
-                        //           mainAxisSize: MainAxisSize.min,
-                        //           children: const <Widget>[
-                        //             Text(
-                        //               'Course Type :',
-                        //               style: TextStyle(
-                        //                 fontSize: 14.0,
-                        //               ),
-                        //             ),
-                        //           ],
-                        //         ),
-                        //       ],
-                        //     )),
-                        // Padding(
-                        //     padding: const EdgeInsets.only(
-                        //         left: 25.0, right: 25.0, top: 5.0),
-                        //     child: Row(
-                        //       mainAxisSize: MainAxisSize.max,
-                        //       children: const <Widget>[
-                        //         Flexible(
-                        //             child: Text('Correspondence',
-                        //                 style: TextStyle(
-                        //                     fontSize: 15.0,
-                        //                     fontWeight: FontWeight.bold))),
-                        //       ],
-                        //     )),
-                        // Padding(
-                        //     padding: const EdgeInsets.only(
-                        //         left: 25.0, right: 25.0, top: 25.0),
-                        //     child: Row(
-                        //       mainAxisSize: MainAxisSize.max,
-                        //       children: <Widget>[
-                        //         Column(
-                        //           mainAxisAlignment: MainAxisAlignment.start,
-                        //           mainAxisSize: MainAxisSize.min,
-                        //           children: const <Widget>[
-                        //             Text(
-                        //               'Institute Qualified From :',
-                        //               style: TextStyle(
-                        //                 fontSize: 14.0,
-                        //               ),
-                        //             ),
-                        //           ],
-                        //         ),
-                        //       ],
-                        //     )),
-                        // Padding(
-                        //     padding: const EdgeInsets.only(
-                        //         left: 25.0, right: 25.0, top: 5.0),
-                        //     child: Row(
-                        //       mainAxisSize: MainAxisSize.max,
-                        //       children: const <Widget>[
-                        //         Flexible(
-                        //             child: Text('JU',
-                        //                 style: TextStyle(
-                        //                     fontSize: 15.0,
-                        //                     fontWeight: FontWeight.bold))),
-                        //       ],
-                        //     )),
-                        // Padding(
-                        //     padding: const EdgeInsets.only(
-                        //         left: 25.0, right: 25.0, top: 25.0),
-                        //     child: Row(
-                        //       mainAxisSize: MainAxisSize.max,
-                        //       children: <Widget>[
-                        //         Column(
-                        //           mainAxisAlignment: MainAxisAlignment.start,
-                        //           mainAxisSize: MainAxisSize.min,
-                        //           children: const <Widget>[
-                        //             Text(
-                        //               'Passing Year :',
-                        //               style: TextStyle(
-                        //                 fontSize: 14.0,
-                        //               ),
-                        //             ),
-                        //           ],
-                        //         ),
-                        //       ],
-                        //     )),
-                        // Padding(
-                        //     padding: const EdgeInsets.only(
-                        //         left: 25.0, right: 25.0, top: 5.0),
-                        //     child: Row(
-                        //       mainAxisSize: MainAxisSize.max,
-                        //       children: const <Widget>[
-                        //         Flexible(
-                        //             child: Text('2021',
-                        //                 style: TextStyle(
-                        //                     fontSize: 15.0,
-                        //                     fontWeight: FontWeight.bold))),
-                        //       ],
-                        //     )),
-                        // Padding(
-                        //     padding: const EdgeInsets.only(
-                        //         left: 25.0, right: 25.0, top: 25.0),
-                        //     child: Row(
-                        //       mainAxisSize: MainAxisSize.max,
-                        //       children: <Widget>[
-                        //         Column(
-                        //           mainAxisAlignment: MainAxisAlignment.start,
-                        //           mainAxisSize: MainAxisSize.min,
-                        //           children: const <Widget>[
-                        //             Text(
-                        //               'Grading System :',
-                        //               style: TextStyle(
-                        //                 fontSize: 14.0,
-                        //               ),
-                        //             ),
-                        //           ],
-                        //         ),
-                        //       ],
-                        //     )),
-                        // Padding(
-                        //     padding: const EdgeInsets.only(
-                        //         left: 25.0, right: 25.0, top: 5.0),
-                        //     child: Row(
-                        //       mainAxisSize: MainAxisSize.max,
-                        //       children: const <Widget>[
-                        //         Flexible(
-                        //             child: Text('CGPA',
-                        //                 style: TextStyle(
-                        //                     fontSize: 15.0,
-                        //                     fontWeight: FontWeight.bold))),
-                        //       ],
-                        //     )),
-                        // Padding(
-                        //     padding: const EdgeInsets.only(
-                        //         left: 25.0, right: 25.0, top: 25.0),
-                        //     child: Row(
-                        //       mainAxisSize: MainAxisSize.max,
-                        //       children: <Widget>[
-                        //         Column(
-                        //           mainAxisAlignment: MainAxisAlignment.start,
-                        //           mainAxisSize: MainAxisSize.min,
-                        //           children: const <Widget>[
-                        //             Text(
-                        //               'Grade Value :',
-                        //               style: TextStyle(
-                        //                 fontSize: 14.0,
-                        //               ),
-                        //             ),
-                        //           ],
-                        //         ),
-                        //       ],
-                        //     )),
-                        // Padding(
-                        //     padding: const EdgeInsets.only(
-                        //         left: 25.0, right: 25.0, top: 5.0),
-                        //     child: Row(
-                        //       mainAxisSize: MainAxisSize.max,
-                        //       children: const <Widget>[
-                        //         Flexible(
-                        //             child: Text('13',
-                        //                 style: TextStyle(
-                        //                     fontSize: 15.0,
-                        //                     fontWeight: FontWeight.bold))),
-                        //       ],
-                        //     )),
+
                       ],
                     ),
                   ),
@@ -1595,7 +1325,7 @@ class _ProfilePageState extends State<ProfilePage>
                             )
                             .then((value) => getProfessional());
                       },
-                      child: const Icon(Iconsax.add, color: Color(0xff3e61ed)),
+                      child:Text('Add',style: TextStyle(color:Color(0xff3e61ed),fontSize: 15,fontWeight: FontWeight.bold ),),
                     )
                   ],
                 ),
@@ -1645,7 +1375,7 @@ class _ProfilePageState extends State<ProfilePage>
                               .then((value) => populateKeySkills());
                         },
                         child:
-                            const Icon(Iconsax.edit5, color: Color(0xff3e61ed)))
+                        Text('Add',style: TextStyle(color:Color(0xff3e61ed),fontSize: 15,fontWeight: FontWeight.bold ),),)
                   ],
                 ),
               ),
@@ -1727,8 +1457,8 @@ class _ProfilePageState extends State<ProfilePage>
                                       builder: (context) => ItSkillAdds()))
                               .then((value) => getItSkill());
                         },
-                        child: const Icon(Icons.add, color: Color(0xff3e61ed)))
-                  ],
+                        child:Text('Add',style: TextStyle(color:Color(0xff3e61ed),fontSize: 15,fontWeight: FontWeight.bold ),),
+                    ), ],
                 ),
               ),
               Padding(
@@ -1776,7 +1506,7 @@ class _ProfilePageState extends State<ProfilePage>
                                     UpdateCareerPreference()));
                       },
                       child:
-                          const Icon(Iconsax.edit5, color: Color(0xff3e61ed)),
+                          const Icon(Icons.edit, color: Color(0xff3e61ed)),
                     )
                   ],
                 ),
@@ -1788,6 +1518,7 @@ class _ProfilePageState extends State<ProfilePage>
                   right: 20,
                 ),
                 child: Card(
+
                   elevation: 5,
                   child: Padding(
                       padding: const EdgeInsets.only(bottom: 15),
@@ -1807,7 +1538,7 @@ class _ProfilePageState extends State<ProfilePage>
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            'Preferred Industry:',
+                                            'Preferred Industries:',
                                             style: TextStyle(
                                               fontFamily: "ProximaNova",
                                               color: Colors.grey.shade600,
@@ -1820,8 +1551,7 @@ class _ProfilePageState extends State<ProfilePage>
                                             padding:
                                                 const EdgeInsets.only(top: 5),
                                             child: Text(
-                                                obj["industryName"] ??
-                                                    "clustech",
+                                            apiResponseCareerPreferencePopulate.data.industryName,
                                                 style: TextStyle(
                                                     fontSize: 14.0,
                                                     fontFamily: "ProximaNova",
@@ -1850,7 +1580,7 @@ class _ProfilePageState extends State<ProfilePage>
                                             padding:
                                                 const EdgeInsets.only(top: 5.0),
                                             child: Text(
-                                                obj["jobtypeName"][0] ?? "temp",
+                                                apiResponseCareerPreferencePopulate.data.jobtypeName,
                                                 style: TextStyle(
                                                     fontSize: 14.0,
                                                     fontFamily: "ProximaNova",
@@ -1888,8 +1618,8 @@ class _ProfilePageState extends State<ProfilePage>
                                             padding:
                                                 const EdgeInsets.only(top: 5.0),
                                             child: Text(
-                                                obj["employmenttypeName"][0] ??
-                                                    "fixed",
+                                                apiResponseCareerPreferencePopulate.data.employmenttypeName
+                                                    ,
                                                 style: TextStyle(
                                                     fontSize: 14.0,
                                                     fontFamily: "ProximaNova",
@@ -1918,7 +1648,7 @@ class _ProfilePageState extends State<ProfilePage>
                                             padding:
                                                 const EdgeInsets.only(top: 5.0),
                                             child: Text(
-                                                obj["cityName"] ?? "sgr",
+                                                apiResponseCareerPreferencePopulate.data.cityName ,
                                                 style: TextStyle(
                                                     fontSize: 14.0,
                                                     fontFamily: "ProximaNova",
@@ -1956,7 +1686,7 @@ class _ProfilePageState extends State<ProfilePage>
                                             padding:
                                                 const EdgeInsets.only(top: 5.0),
                                             child: Text(
-                                                obj["candidateExpectedctc"] ??
+                                                apiResponseCareerPreferencePopulate.data.candidateExpectedctc ??
                                                     "12000",
                                                 style: TextStyle(
                                                     fontSize: 14.0,
@@ -1986,7 +1716,7 @@ class _ProfilePageState extends State<ProfilePage>
                                             padding:
                                                 const EdgeInsets.only(top: 5.0),
                                             child: Text(
-                                                obj["shiftName"] ?? "flexible",
+                                            apiResponseCareerPreferencePopulate.data.shiftName == "" ? "flexible":      apiResponseCareerPreferencePopulate.data.shiftName ,
                                                 style: TextStyle(
                                                     fontSize: 14.0,
                                                     fontFamily: "ProximaNova",
@@ -2020,20 +1750,18 @@ class _ProfilePageState extends State<ProfilePage>
                                               fontSize: 13.0,
                                             ),
                                           ),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 5.0),
-                                            child: Text(
-                                                obj["candidateJoindate"]
-                                                        .toString()
-                                                        .split(":")[0] ??
-                                                    "yes",
-                                                style: TextStyle(
-                                                    fontSize: 14.0,
-                                                    fontFamily: "ProximaNova",
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                          )
+                                          // Padding(
+                                          //   padding:
+                                          //       const EdgeInsets.only(top: 5.0),
+                                          //   child: Text(
+                                          //       apiResponseCareerPreferencePopulate.data.candidateJoindate.toString().split(" ")[0] ??
+                                          //           "yes",
+                                          //       style: TextStyle(
+                                          //           fontSize: 14.0,
+                                          //           fontFamily: "ProximaNova",
+                                          //           fontWeight:
+                                          //               FontWeight.bold)),
+                                          // )
                                         ],
                                       ),
                                     ),
@@ -2049,6 +1777,51 @@ class _ProfilePageState extends State<ProfilePage>
               Column(
                 children: getPersonalList(),
               ),
+
+              Padding(
+                padding: const EdgeInsets.only(left: 25, top: 10, right: 25),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "Awards",
+                      style: TextStyle(
+                        fontFamily: "ProximaNova",
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1.5,
+                        fontSize: 16.5,
+                      ),
+                    ),
+                    // GestureDetector(
+                    //     onTap: () {
+                    //       Navigator.push(
+                    //               context,
+                    //               MaterialPageRoute(
+                    //                   builder: (context) => AddAwards()))
+                    //           .then((value) => getAwards());
+                    //     },
+                    //     child: const Icon(
+                    //       Icons.edit,
+                    //       color: Color(0xff3e61ed),
+                    //     ))
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 10,
+                  left: 20,
+                  right: 20,
+                ),
+                child: Card(
+                  elevation: 5,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        left: 15, right: 15, top: 10, bottom: 10),
+                    child: awardsList(context),
+                  ),
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.only(top: 10, left: 25, right: 25),
                 child: Row(
@@ -2063,17 +1836,17 @@ class _ProfilePageState extends State<ProfilePage>
                         fontSize: 16.5,
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) => QualificationAdd()))
-                        //     .then((value) => getQualification());
-                      },
-                      child:
-                          const Icon(Iconsax.edit5, color: Color(0xff3e61ed)),
-                    )
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     // Navigator.push(
+                    //     //     context,
+                    //     //     MaterialPageRoute(
+                    //     //         builder: (context) => QualificationAdd()))
+                    //     //     .then((value) => getQualification());
+                    //   },
+                    //   child:
+                    //       const Icon(Icons.edit, color: Color(0xff3e61ed)),
+                    // )
                   ],
                 ),
               ),
@@ -2110,17 +1883,7 @@ class _ProfilePageState extends State<ProfilePage>
                         fontSize: 16.5,
                       ),
                     ),
-                    // GestureDetector(
-                    //   onTap: () {
-                    //     // Navigator.push(
-                    //     //     context,
-                    //     //     MaterialPageRoute(
-                    //     //         builder: (context) => QualificationAdd()))
-                    //     //     .then((value) => getQualification());
-                    //   },
-                    //   child:
-                    //   const Icon(Iconsax.edit5, color: Color(0xff3e61ed)),
-                    // )
+
                   ],
                 ),
               ),
@@ -2144,137 +1907,6 @@ class _ProfilePageState extends State<ProfilePage>
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 25, top: 10, right: 25),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      "Languages",
-                      style: TextStyle(
-                        fontFamily: "ProximaNova",
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1.5,
-                        fontSize: 16.5,
-                      ),
-                    ),
-                    GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => LanguagesAdd()))
-                              .then((value) => getLanguage());
-                        },
-                        child: const Icon(
-                          Icons.edit,
-                          color: Color(0xff3e61ed),
-                        ))
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 10,
-                  left: 20,
-                  right: 20,
-                ),
-                child: Card(
-                  elevation: 5,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 15, right: 15, top: 10, bottom: 10),
-                    child: LanguageGrid(context),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 25, top: 10, right: 25),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      "Patents",
-                      style: TextStyle(
-                        fontFamily: "ProximaNova",
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1.5,
-                        fontSize: 16.5,
-                      ),
-                    ),
-                    GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AddPatents()));
-                        },
-                        child: const Icon(
-                          Icons.edit,
-                          color: Color(0xff3e61ed),
-                        ))
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 10,
-                  left: 20,
-                  right: 20,
-                ),
-                child: Card(
-                  elevation: 5,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 15, right: 15, top: 10, bottom: 10),
-                    child: patentGrid(context),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 25, top: 10, right: 25),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      "Awards",
-                      style: TextStyle(
-                        fontFamily: "ProximaNova",
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1.5,
-                        fontSize: 16.5,
-                      ),
-                    ),
-                    GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => AddAwards()))
-                              .then((value) => getAwards());
-                        },
-                        child: const Icon(
-                          Icons.edit,
-                          color: Color(0xff3e61ed),
-                        ))
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 10,
-                  left: 20,
-                  right: 20,
-                ),
-                child: Card(
-                  elevation: 5,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 15, right: 15, top: 10, bottom: 10),
-                    child: awardsList(context),
-                  ),
-                ),
-              ),
-              Padding(
                 padding: const EdgeInsets.only(top: 10, left: 25, right: 25),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -2288,17 +1920,17 @@ class _ProfilePageState extends State<ProfilePage>
                         fontSize: 16.5,
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Presentation()))
-                            .then((value) => getPresentation());
-                      },
-                      child:
-                          const Icon(Iconsax.edit5, color: Color(0xff3e61ed)),
-                    )
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     Navigator.push(
+                    //             context,
+                    //             MaterialPageRoute(
+                    //                 builder: (context) => Presentation()))
+                    //         .then((value) => getPresentation());
+                    //   },
+                    //   child:
+                    //       const Icon(Icons.edit, color: Color(0xff3e61ed)),
+                    // )
                   ],
                 ),
               ),
@@ -2322,12 +1954,12 @@ class _ProfilePageState extends State<ProfilePage>
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 10, left: 25, right: 25),
+                padding: const EdgeInsets.only(left: 25, top: 10, right: 25),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      "RESEARCH PAPER",
+                      "Patents",
                       style: TextStyle(
                         fontFamily: "ProximaNova",
                         fontWeight: FontWeight.bold,
@@ -2335,17 +1967,60 @@ class _ProfilePageState extends State<ProfilePage>
                         fontSize: 16.5,
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Research()))
-                            .then((value) => getResearch());
-                      },
-                      child:
-                          const Icon(Iconsax.edit5, color: Color(0xff3e61ed)),
-                    )
+                    // GestureDetector(
+                    //     onTap: () {
+                    //       Navigator.push(
+                    //           context,
+                    //           MaterialPageRoute(
+                    //               builder: (context) => AddPatents()));
+                    //     },
+                    //     child: const Icon(
+                    //       Icons.edit,
+                    //       color: Color(0xff3e61ed),
+                    //     ))
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 10,
+                  left: 20,
+                  right: 20,
+                ),
+                child: Card(
+                  elevation: 5,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        left: 15, right: 15, top: 10, bottom: 10),
+                    child: patentGrid(context),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 10, left: 25, right: 25),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "RESEARCH PUBLICATION",
+                      style: TextStyle(
+                        fontFamily: "ProximaNova",
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1.5,
+                        fontSize: 16.5,
+                      ),
+                    ),
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     Navigator.push(
+                    //             context,
+                    //             MaterialPageRoute(
+                    //                 builder: (context) => Research()))
+                    //         .then((value) => getResearch());
+                    //   },
+                    //   child:
+                    //       const Icon(Icons.edit, color: Color(0xff3e61ed)),
+                    // )
                   ],
                 ),
               ),
@@ -2365,6 +2040,53 @@ class _ProfilePageState extends State<ProfilePage>
                         researchList(context),
                       ],
                     ),
+                  ),
+                ),
+              ),
+
+
+
+              Padding(
+                padding: const EdgeInsets.only(left: 25, top: 10, right: 25),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "Languages",
+                      style: TextStyle(
+                        fontFamily: "ProximaNova",
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1.5,
+                        fontSize: 16.5,
+                      ),
+                    ),
+                    // GestureDetector(
+                    //     onTap: () {
+                    //       Navigator.push(
+                    //               context,
+                    //               MaterialPageRoute(
+                    //                   builder: (context) => LanguagesAdd()))
+                    //           .then((value) => getLanguage());
+                    //     },
+                    //     child: const Icon(
+                    //       Icons.edit,
+                    //       color: Color(0xff3e61ed),
+                    //     ))
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 10,
+                  left: 20,
+                  right: 20,
+                ),
+                child: Card(
+                  elevation: 5,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        left: 15, right: 15, top: 10, bottom: 10),
+                    child: LanguageGrid(context),
                   ),
                 ),
               ),
@@ -2714,7 +2436,7 @@ class _ProfilePageState extends State<ProfilePage>
                                     color: Color(0xff3e61ed))),
                             SizedBox(width: 10),
                             Text(
-                              ' Research Paper',
+                              ' Research Publication',
                               style: TextStyle(
                                 fontSize: 14.0,
                                 fontFamily: "ProximaNova",
@@ -3892,58 +3614,7 @@ class _ProfilePageState extends State<ProfilePage>
                     fontSize: 13.5,
                   ),
                 ),
-                // RichText(
-                //   text: TextSpan(
-                //       text: "Ablity:",
-                //       style: const TextStyle(
-                //         fontFamily: "ProximaNova",
-                //         fontWeight: FontWeight.w500,
-                //         letterSpacing: 1.5,
-                //         fontSize: 12.5,
-                //       ),
-                //       children: [
-                //         TextSpan(
-                //           text:
-                //           _apiResponseLang
-                //               .data[index].Read == "1"? "Read": ""
-                //           ,
-                //           style: const TextStyle(
-                //             fontFamily: "ProximaNova",
-                //             color: Colors.grey,
-                //             fontWeight: FontWeight.w500,
-                //             letterSpacing: 1.5,
-                //             fontSize: 14.5,
-                //           ),
-                //         ),
-                //         TextSpan(
-                //           text:
-                //           _apiResponseLang
-                //               .data[index].Write == "1" ?" Write" :""
-                //           ,
-                //           style: const TextStyle(
-                //             fontFamily: "ProximaNova",
-                //             color: Colors.grey,
-                //             fontWeight: FontWeight.w500,
-                //             letterSpacing: 1.5,
-                //             fontSize: 14.5,
-                //           ),
-                //         ),
-                //         TextSpan(
-                //           text:
-                //           _apiResponseLang
-                //               .data[index].Speak == "1" ?" Speak" :""
-                //           ,
-                //           style: const TextStyle(
-                //             fontFamily: "ProximaNova",
-                //             color: Colors.grey,
-                //             fontWeight: FontWeight.w500,
-                //             letterSpacing: 1.5,
-                //             fontSize: 14.5,
-                //           ),
-                //         ),
-                //       ]),
-                //
-                // ),
+
               ],
             ),
           ),
@@ -4382,7 +4053,7 @@ class _ProfilePageState extends State<ProfilePage>
                           setState(() {
                             isLoading = true;
                           });
-                          final insert = CertificationAdd(
+                          final insert = CertificationPopulate(
                             requestType: "delete",
                             candidatecertificationUuid:
                                 apiResponseCertificationPopulate
@@ -4407,7 +4078,7 @@ class _ProfilePageState extends State<ProfilePage>
                               duration: const Duration(milliseconds: 2500),
                             ));
                             setState(() {
-                              getLanguage();
+                              getCertification();
                             });
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -4662,58 +4333,7 @@ class _ProfilePageState extends State<ProfilePage>
                   ),
                 ),
 
-                // RichText(
-                //   text: TextSpan(
-                //       text: "Ablity:",
-                //       style: const TextStyle(
-                //         fontFamily: "ProximaNova",
-                //         fontWeight: FontWeight.w500,
-                //         letterSpacing: 1.5,
-                //         fontSize: 12.5,
-                //       ),
-                //       children: [
-                //         TextSpan(
-                //           text:
-                //           _apiResponseLang
-                //               .data[index].Read == "1"? "Read": ""
-                //           ,
-                //           style: const TextStyle(
-                //             fontFamily: "ProximaNova",
-                //             color: Colors.grey,
-                //             fontWeight: FontWeight.w500,
-                //             letterSpacing: 1.5,
-                //             fontSize: 14.5,
-                //           ),
-                //         ),
-                //         TextSpan(
-                //           text:
-                //           _apiResponseLang
-                //               .data[index].Write == "1" ?" Write" :""
-                //           ,
-                //           style: const TextStyle(
-                //             fontFamily: "ProximaNova",
-                //             color: Colors.grey,
-                //             fontWeight: FontWeight.w500,
-                //             letterSpacing: 1.5,
-                //             fontSize: 14.5,
-                //           ),
-                //         ),
-                //         TextSpan(
-                //           text:
-                //           _apiResponseLang
-                //               .data[index].Speak == "1" ?" Speak" :""
-                //           ,
-                //           style: const TextStyle(
-                //             fontFamily: "ProximaNova",
-                //             color: Colors.grey,
-                //             fontWeight: FontWeight.w500,
-                //             letterSpacing: 1.5,
-                //             fontSize: 14.5,
-                //           ),
-                //         ),
-                //       ]),
-                //
-                // ),
+
               ],
             ),
           ),
@@ -4843,58 +4463,7 @@ class _ProfilePageState extends State<ProfilePage>
                   ),
                 ),
 
-                // RichText(
-                //   text: TextSpan(
-                //       text: "Ablity:",
-                //       style: const TextStyle(
-                //         fontFamily: "ProximaNova",
-                //         fontWeight: FontWeight.w500,
-                //         letterSpacing: 1.5,
-                //         fontSize: 12.5,
-                //       ),
-                //       children: [
-                //         TextSpan(
-                //           text:
-                //           _apiResponseLang
-                //               .data[index].Read == "1"? "Read": ""
-                //           ,
-                //           style: const TextStyle(
-                //             fontFamily: "ProximaNova",
-                //             color: Colors.grey,
-                //             fontWeight: FontWeight.w500,
-                //             letterSpacing: 1.5,
-                //             fontSize: 14.5,
-                //           ),
-                //         ),
-                //         TextSpan(
-                //           text:
-                //           _apiResponseLang
-                //               .data[index].Write == "1" ?" Write" :""
-                //           ,
-                //           style: const TextStyle(
-                //             fontFamily: "ProximaNova",
-                //             color: Colors.grey,
-                //             fontWeight: FontWeight.w500,
-                //             letterSpacing: 1.5,
-                //             fontSize: 14.5,
-                //           ),
-                //         ),
-                //         TextSpan(
-                //           text:
-                //           _apiResponseLang
-                //               .data[index].Speak == "1" ?" Speak" :""
-                //           ,
-                //           style: const TextStyle(
-                //             fontFamily: "ProximaNova",
-                //             color: Colors.grey,
-                //             fontWeight: FontWeight.w500,
-                //             letterSpacing: 1.5,
-                //             fontSize: 14.5,
-                //           ),
-                //         ),
-                //       ]),
-                //
-                // ),
+
               ],
             ),
           ),
@@ -4910,37 +4479,4 @@ class _ProfilePageState extends State<ProfilePage>
     super.dispose();
   }
 }
-// Padding(
-// padding: const EdgeInsets.only(
-// left: 25.0, right: 25.0, top: 25.0),
-// child:  Row(
-// mainAxisSize: MainAxisSize.max,
-// children: <Widget>[
-// Column(
-// mainAxisAlignment: MainAxisAlignment.start,
-// mainAxisSize: MainAxisSize.min,
-// children: const <Widget>[
-// Text(
-// 'Date Of Birth',
-// style: TextStyle(
-// fontSize: 14.0,
-// ),
-// ),
-// ],
-// ),
-// ],
-// )),
-// Padding(
-// padding: const EdgeInsets.only(
-// left: 25.0, right: 25.0, top: 5.0),
-// child:  Row(
-// mainAxisSize: MainAxisSize.max,
-// children: <Widget>[
-// Flexible(
-// child:  Text('24/02/2020',style: TextStyle(fontSize:15,fontWeight: FontWeight.bold),
-//
-//
-// ),
-// ),
-// ],
-// )),
+

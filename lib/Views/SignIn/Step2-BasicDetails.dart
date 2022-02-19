@@ -1,4 +1,5 @@
 // ignore_for_file: avoid_print
+// ignore_for_file: avoid_print
 
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
@@ -91,7 +92,7 @@ class _BasicDetailsState extends State<BasicDetails> {
   Map<String,dynamic> responseError;
   Map<String,dynamic> responseSuccess;
   String jwtToken = "";
-
+  List<String> jobroleList = [];
   //Normal Fiels Variables
   //======================
   String myjobrole = "";
@@ -650,7 +651,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                     const Padding(
                       padding: EdgeInsets.all(8),
                       child: Text(
-                        "Preffered Job Role:",
+                        "Preferred Job Role:",
                         textAlign: TextAlign.left,
                         style: TextStyle(
                             fontSize: 15,
@@ -661,54 +662,9 @@ class _BasicDetailsState extends State<BasicDetails> {
                     Center(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: DropdownSearch<JobCategory>(
-                          dropdownSearchDecoration: InputDecoration(
-                              border: UnderlineInputBorder(
-                              )
-                          ),
-                          autoValidateMode: AutovalidateMode.onUserInteraction,
+                        child:JobRole(context),
 
-                          validator: (value) {
-                            if (value == null) {
-                              return "Select Preffered Role";
-                            }
-                            return null;
-                          },
-                          mode: Mode.DIALOG,
-                          items: isLoadingJobCategory
-                              ? [JobCategory()]
-                              : _apiResponseJobCategory.data,
-                          itemAsString: (JobCategory obj) {
-                            return obj.jobroleName;
-                          },
-                          onFind: (val) async {
-                            setState(() {
-                              query = val;
-                            });
-                            return _apiResponseJobCategory.data;
-                          },
-                          
-                          hint: "Select Job Category",
-                          onChanged: (value) {
-                            jobCategorySearchCon.text =
-                                value.jobroleId.toString();
-                            jobRoleID = value.jobroleId;
-                            print(value.jobroleId);
-                          },
-                          showSearchBox: true,
-                          popupItemBuilder:
-                              (context, JobCategory item, bool isSelected) {
-                            return Container(
-                              margin: EdgeInsets.symmetric(horizontal: 8),
-                              child: Card(
-                                child: Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Text(item.jobroleName),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
+
                       ),
                     ),
                     const SizedBox(
@@ -780,7 +736,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                 ),
               ),
             ),
-          
+
           ),
           Padding(
             padding: const EdgeInsets.all(20.0),
@@ -805,23 +761,24 @@ class _BasicDetailsState extends State<BasicDetails> {
                             " " +
                             lnameController.text,
                         candidateGenderId: genderRadioId,
+                        experience:experienceRadioId.toString() ,
                         candidateTotalworkexp:
                         experienceRadioId == 2 ? 0 : totalWorkExp(),
-                        candidateJobroleId: int.parse(jobRoleID),
-                        candidateCityId: int.parse(cityID),
+                        candidatePreferredJobRoleList:jobroleList,
+                        candidateCurrentCityId: int.parse(cityID),
                       );
 
                       final result = await apiServices.postBasicDetials(insert);
                       print("#######################");
                       if(result.data["error"] != null){
                         AwesomeDialog(
-                              context: context,
-                              animType: AnimType.SCALE,
-                              dialogType: DialogType.ERROR,
-                              title: 'JobPortalApp',
-                              desc: 'Some Fields are Not Filled,  Fill 4444all the fields',
-                            ).show();
-                            return;
+                          context: context,
+                          animType: AnimType.SCALE,
+                          dialogType: DialogType.ERROR,
+                          title: 'JobPortalApp',
+                          desc: 'Some Fields are Not Filled,  Fill all the fields',
+                        ).show();
+                        return;
                       }
                       responseSuccess = result.data["successResult"];
                       jwtToken = result.data["token"];
@@ -861,4 +818,53 @@ class _BasicDetailsState extends State<BasicDetails> {
     pref.setInt(keyCandiadateId, responseSuccess['axelaCandidateId']).toString();
     pref.setString(keyToken,jwtToken);
   }
+  Widget JobRole(BuildContext context) {
+    return Column(children: [
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: DropdownSearch<JobCategory>.multiSelection(
+          autoValidateMode: AutovalidateMode.onUserInteraction,
+          validator: (value) {
+            if (value.isEmpty) {
+              return "Select Preferred Role";
+            }
+            return null;
+          },
+          mode: Mode.DIALOG,
+          items: isLoading ? [JobCategory()] : _apiResponseJobCategory.data,
+          itemAsString: (JobCategory obj) {
+            return obj.jobroleName;
+          },
+          onChanged: (val) {
+            setState(() {
+              jobroleList = val.map((e) {
+                return e.jobroleId;
+              }).toList();
+              print(jobroleList);
+            });
+          },
+          // onFind: (val) async {
+          //   setState(() {
+          //     query = val;
+          //   });
+          //   fetchCompany(query: query);
+          //   return _apiResponse.data;
+          // },
+          // ignore: deprecated_member_use
+          hint: "Select Preferred Role",
+          showSearchBox: true,
+          popupItemBuilder: (context, JobCategory item, bool isSelected) {
+            return Container(
+              margin: EdgeInsets.symmetric(horizontal: 8),
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(item.jobroleName),
+              ),
+            );
+          },
+        ),
+      ),
+    ]);
+  }
+
 }

@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:job_portal/Models/Awards.dart';
 import 'package:job_portal/Models/BasicInfoPopulate.dart';
+import 'package:job_portal/Models/CareerPreferencePopulate.dart';
 import 'package:job_portal/Models/CareerPreferencePost.dart';
 import 'package:job_portal/Models/Certification-Add.dart';
 import 'package:job_portal/Models/CertificationPopulate.dart';
@@ -843,8 +844,8 @@ class ApiServices {
       "candidateGenderId": obj.candidateGenderId,
       "candidateTotalworkexp": obj.candidateTotalworkexp,
       "candidateName": obj.candidateName,
-      "candidateJobroleId": obj.candidateJobroleId,
-      "candidateCityId": obj.candidateCityId,
+      "candidatePreferredJobRoleList": obj.candidatePreferredJobRoleList,
+      "candidateCurrentCityId": obj.candidateCurrentCityId,
     });
     final response = await http.post(
       url,
@@ -870,7 +871,7 @@ class ApiServices {
     };
     final jsonData = jsonEncode({
       "candidatequalUuid": preference.candidateUuid,
-      "candidateIndustryId": preference.candidateIndustryId,
+      "candidateIndustryIdsList": preference.candidateIndustryIdsList,
       "candidateJobtypeIdsList": preference.candidateJobtypeIdsList,
       "candidateEmploymenttypeIdsList": preference.candidateEmploymenttypeIdsList,
       "candidatePreferredCityIdsList": preference.candidatePreferredCityIdsList,
@@ -1046,7 +1047,9 @@ class ApiServices {
         error: true, errorMessage: "An error occurred");
   }
   // populate career
-  Future<ApiResponse<Map<String,dynamic>>> getCareerPreferencePopulate() async {
+
+
+  Future<ApiResponse<CareerPreferencePopulate>> getCareerPreferencePopulate() async {
     final url = Uri.parse(ApiUrls.kpopulatecareerpreferenceprofile);
     final header = {
       "Content-Type": "application/json",
@@ -1057,13 +1060,17 @@ class ApiServices {
       headers: header,
     );
     if (response.statusCode == 200) {
-      var jsonData = json.decode(response.body);
-      Map<String,dynamic> list =jsonData;
-      return ApiResponse<Map<String,dynamic>>(data: list,error: false,errorMessage: "Successfully Parsed");
+      var jsonData = jsonDecode(response.body);
+      final list =jsonData;
+      log.i(response.body);
+      log.i(response.statusCode);
+      return ApiResponse<CareerPreferencePopulate>(data:CareerPreferencePopulate.fromJson(list) ,error: false,errorMessage: "Successfully Parsed");
     }
-    return ApiResponse<Map<String,dynamic>>(
+    return ApiResponse<CareerPreferencePopulate>(
         error : true, errorMessage: "An error occurred");
   }
+
+
   Future<ApiResponse<List<ItSkillProfile>>> PopulateItSkill() async {
     final url = Uri.parse(ApiUrls.kGetItSkill);
     final header = {
@@ -1165,30 +1172,25 @@ class ApiServices {
     return ApiResponse<String>(error: true, errorMessage: "An error occurred",responseCode: response.statusCode);
   }
   //basicinfo populate
-  Future<ApiResponse<List<BasicInfoPopulate>>>
-  PopulateBasicInfo() async {
+  Future<ApiResponse<BasicInfoPopulate>> PopulateBasicInfo() async {
     final url = Uri.parse(ApiUrls.kGetBasicInfoPop);
     final header = {
       "Content-Type": "application/json",
-      'Authorization': jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      "Authorization" : jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
     };
     final response = await http.get(
       url,
       headers: header,
     );
     if (response.statusCode == 200) {
-      final jsonData = jsonDecode(response.body);
-      final list = <BasicInfoPopulate>[];
-      for (var item in jsonData) {
-        list.add(BasicInfoPopulate.fromJson(item));
-      }
+      var jsonData = jsonDecode(response.body);
+     final list =jsonData;
       log.i(response.body);
       log.i(response.statusCode);
-      print(list);
-      return ApiResponse<List<BasicInfoPopulate>>(data: list);
+      return ApiResponse<BasicInfoPopulate>(data:BasicInfoPopulate.fromJson(list) ,error: false,errorMessage: "Successfully Parsed");
     }
-    return ApiResponse<List<BasicInfoPopulate>>(
-        error: true, errorMessage: "An error occurred");
+    return ApiResponse<BasicInfoPopulate>(
+        error : true, errorMessage: "An error occurred");
   }
 
   Future<ApiResponse<List<QualificationPopulate>>>
@@ -1719,7 +1721,7 @@ class ApiServices {
     return ApiResponse<ProjectPopulate>(
         error: true, errorMessage: "An Error Occurred");
   }
-  Future<ApiResponse<bool>> certificationAdd(CertificationAdd quall) async {
+  Future<ApiResponse<bool>> certificationAdd(CertificationPopulate quall) async {
     final url = Uri.parse(ApiUrls.kCertificationAdd);
     final headers = {
       "Content-Type": "application/json",

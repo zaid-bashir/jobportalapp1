@@ -27,6 +27,7 @@ class ApiUrls extends Connect{
   static String kItSkill = baseUrl+"candidate-registration/step6-itskill";
   static String kLocation = baseUrl+"populate/city?query=";
   static String kBasicDetial = baseUrl+"candidate-registration/step2-basicdetail";
+  // static String kBasicDetial = "http://192.168.0.20:7028/jobportal-app/api/candidate-registration/step2-basicdetail";
   static String kPreference = baseUrl+"candidate-registration/step7-careerpreference";
   static String kPersonal = baseUrl+"candidate-registration/step8-personaldetail";
   static String kEmpType = baseUrl+"populate/employmenttype";
@@ -38,7 +39,7 @@ class ApiUrls extends Connect{
 
   static String kGetJobList =  "http://192.168.0.20:9030/jobportal-app/test/job-list";
   static String kGetItSkill =  "http://192.168.0.20:9030/jobportal-app/api/candidate/itskill-list";
-  static String kBasicDetails =  "http://192.168.0.20:9030/jobportal-app/candidate/candidate-overview";
+  // static String kBasicDetails =  "http://192.168.0.20:9030/jobportal-app/candidate/candidate-overview";
   static String kLogin = Connect.AppURL()+"jwt/login";
   static String kItSkillAdd = "http://192.168.0.20:9030/jobportal-app/api/candidate/itskill-add";
   static String kItSkillUpdate = "http://192.168.0.20:9030/jobportal-app/api/candidate/itskill-add";
@@ -54,8 +55,8 @@ class ApiUrls extends Connect{
   static String kDropProfeciency = "http://192.168.0.20:9030/jobportal-app/api/populate/proficiency?query=";
   static String kpopulatecareerpreferenceprofile =Connect.AppURL() + "candidate/careerpreference-list";
   static String kAddLanguage = "http://192.168.0.20:9030/jobportal-app/api/candidate/language-add";
-  static String kGetBasicInfoPop=Connect.AppURL()+"candidate/basicdetail-list";
-
+  // static String kGetBasicInfoPop=Connect.AppURL()+"candidate/basicdetail-list";
+  static String kGetBasicInfoPop="http://192.168.0.20:7028/jobportal-app/api/candidate/basicdetail-list";
   static String kGetProfessionalPop = Connect.AppURL()+"candidate/professional-list";
   static String kkeySkillsProfile = Connect.AppURL()+"candidate/keyskill-list";
   static String kLanguageUpdPop = "http://192.168.0.20:9030/jobportal-app/api/candidate/language-populate?request=";

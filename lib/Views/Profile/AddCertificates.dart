@@ -345,7 +345,7 @@ class _CertificationState extends State<Certification> {
                         setState(() {
                           isLoading = true;
                         });
-                        final insert = CertificationAdd(
+                        final insert = CertificationPopulate(
                           requestType: "update",
                           candidatecertificationUuid: widget.uuid,
                           candidatecertificationName: nameController.text,
@@ -354,9 +354,9 @@ class _CertificationState extends State<Certification> {
                           candidatecertificationWeblink: urlController.text,
                           candidatecertificationIssuedby:
                           issueByController.text,
-                          candidatecertificationIssuedate: selectedDate,
+                          candidatecertificationIssuedate: selectedDate.toString().split(" ")[0],
                           candidatecertificationExpiry: groupValue.toString(),
-                          candidatecertificationExpirydate: selectedDate2,
+                          candidatecertificationExpirydate: selectedDate2.toString().split(" ")[0],
                         );
                         final result =
                         await apiServices.certificationAdd(insert);
@@ -372,7 +372,7 @@ class _CertificationState extends State<Certification> {
                         setState(() {
                           isLoading = true;
                         });
-                        final insert = CertificationAdd(
+                        final insert = CertificationPopulate(
                           requestType: "add",
                           candidatecertificationName: nameController.text,
                           candidatecertificationCertificationid:
@@ -380,9 +380,9 @@ class _CertificationState extends State<Certification> {
                           candidatecertificationWeblink: urlController.text,
                           candidatecertificationIssuedby:
                           issueByController.text,
-                          candidatecertificationIssuedate: selectedDate,
+                          candidatecertificationIssuedate: selectedDate.toString().split(" ")[0],
                           candidatecertificationExpiry: groupValue.toString(),
-                          candidatecertificationExpirydate: selectedDate2,
+                          candidatecertificationExpirydate: selectedDate2.toString().split(" ")[0],
                         );
                         final result =
                         await apiServices.certificationAdd(insert);

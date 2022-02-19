@@ -1,7 +1,7 @@
 
 class CareerPreferencePost {
   String candidateUuid;
-  int candidateIndustryId;
+   List candidateIndustryIdsList;
   List  candidateJobtypeIdsList;
   List  candidateEmploymenttypeIdsList;
   List<String> candidatePreferredCityIdsList;
@@ -14,7 +14,7 @@ class CareerPreferencePost {
   CareerPreferencePost(
       {
         this.candidateUuid,
-        this.candidateIndustryId,
+        this.candidateIndustryIdsList,
         this.candidateJobtypeIdsList,
         this.candidateEmploymenttypeIdsList,
         this.candidatePreferredCityIdsList,
@@ -28,7 +28,7 @@ class CareerPreferencePost {
   Map<String, dynamic> toJson() {
     return {
       "candidateUuid":candidateUuid,
-      "candidateIndustryId": candidateIndustryId,
+      "candidateIndustryId": candidateIndustryIdsList,
       "candidateJobtypeIdsList": candidateJobtypeIdsList,
       "candidateEmploymenttypeIdsList": candidateEmploymenttypeIdsList,
       "candidatePreferredCityIdsList": candidatePreferredCityIdsList,

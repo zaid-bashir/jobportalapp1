@@ -65,6 +65,7 @@ class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
   //GetTtile Instance
   //=================
   GetTitle selectedUser;
+  List<String> jobroleList = [];
 
   //Global Form Key
   //===============
@@ -309,7 +310,7 @@ class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
                                 });
                               },
                               validator: (value) =>
-                              value == null ? 'Please fill Title' : null,
+                              value == null ? ' Enter Title' : null,
                               items: _apiResponse.data.map((GetTitle user) {
                                 return DropdownMenuItem<GetTitle>(
                                   value: user,
@@ -354,7 +355,7 @@ class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
                             AutovalidateMode.onUserInteraction,
                             validator: (value) {
                               if (value.isEmpty) {
-                                return "Please Enter First Name";
+                                return "Enter First Name";
                               } else {
                                 return null;
                               }
@@ -433,7 +434,7 @@ class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
                               AutovalidateMode.onUserInteraction,
                               validator: (value) {
                                 if (value.isEmpty) {
-                                  return "Please Enter Last Name";
+                                  return "Enter Last Name";
                                 }
                                 return null;
                               },
@@ -478,10 +479,10 @@ class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           // validator: (value) {
                           //   if (value.isEmpty) {
-                          //     return "Please Enter Mobile";
+                          //     return " Enter Mobile";
                           //   }
                           //   if (!EmailValidator.validate(value)) {
-                          //     return "Please enter Correct email";
+                          //     return " enter Correct email";
                           //   }
                           //   return null;
                           // },
@@ -523,10 +524,10 @@ class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (value) {
                             if (value.isEmpty) {
-                              return "Please Enter Email";
+                              return " Enter Email";
                             }
                             if (!EmailValidator.validate(value)) {
-                              return "Please enter Correct email";
+                              return  "Enter correct email";
                             }
                             return null;
                           },
@@ -749,7 +750,7 @@ class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
                                   });
                                 },
                                 validator: (value) => value == null
-                                    ? 'Please fill Year'
+                                    ? ' Fill year'
                                     : null,
                                 items: [
                                   "0",
@@ -800,7 +801,7 @@ class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
                                   });
                                 },
                                 validator: (value) => value == null
-                                    ? 'Please fill Month'
+                                    ? ' Fill month'
                                     : null,
                                 items: [
                                   "0",
@@ -844,7 +845,7 @@ class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
                     const Padding(
                       padding: EdgeInsets.all(8),
                       child: Text(
-                        "Job Role:",
+                        " Preferred Job Role:",
                         textAlign: TextAlign.left,
                         style: TextStyle(
                             fontSize: 15,
@@ -855,52 +856,9 @@ class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
                     Center(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: DropdownSearch<JobCategory>(
-                          dropdownSearchDecoration: InputDecoration(
-                              border: UnderlineInputBorder(
-                              )
-                          ),
-                          autoValidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (value) {
-                            if (value == null) {
-                              return "Please Enter Job Role";
-                            }
-                            return null;
-                          },
-                          mode: Mode.DIALOG,
-                          items: isLoadingJobCategory
-                              ? [JobCategory()]
-                              : _apiResponseJobCategory.data,
-                          itemAsString: (JobCategory obj) {
-                            return obj.jobroleName;
-                          },
-                          onFind: (val) async {
-                            setState(() {
-                              query = val;
-                            });
-                            return _apiResponseJobCategory.data;
-                          },
-                          hint: "Select Job Category",
-                          onChanged: (value) {
-                            jobCategorySearchCon.text =
-                                value.jobroleId.toString();
-                            jobRoleID = value.jobroleId;
-                            print(value.jobroleId);
-                          },
-                          showSearchBox: true,
-                          popupItemBuilder:
-                              (context, JobCategory item, bool isSelected) {
-                            return Container(
-                              margin: EdgeInsets.symmetric(horizontal: 8),
-                              child: Card(
-                                child: Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Text(item.jobroleName),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
+                        child:JobRole(context),
+
+
                       ),
                     ),
 
@@ -949,10 +907,11 @@ class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
                             mnameController.text +
                             " " +
                             lnameController.text,
+                        experience:experienceRadioId.toString() ,
                         candidateGenderId: genderRadioId,
                         candidateTotalworkexp:
                         experienceRadioId == 2 ? totalExp : totalWorkExp(),
-                        candidateJobroleId: int.parse(jobRoleID),
+                        candidatePreferredJobRoleList:jobroleList,
 
                       );
 
@@ -992,5 +951,53 @@ class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
     pref.setString(keyCandidateName, response['axelaCandidateName']);
     pref.setString(keyCandidateEmail, response['axelaCandidateEmail1']);
     pref.setString(keyCandiadteMobile, response['axelaCandidateMobile']);
+  }
+  Widget JobRole(BuildContext context) {
+    return Column(children: [
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: DropdownSearch<JobCategory>.multiSelection(
+          autoValidateMode: AutovalidateMode.onUserInteraction,
+          validator: (value) {
+            if (value.isEmpty) {
+              return "Select Preferred Role";
+            }
+            return null;
+          },
+          mode: Mode.DIALOG,
+          items: isLoading ? [JobCategory()] : _apiResponseJobCategory.data,
+          itemAsString: (JobCategory obj) {
+            return obj.jobroleName;
+          },
+          onChanged: (val) {
+            setState(() {
+              jobroleList = val.map((e) {
+                return e.jobroleId;
+              }).toList();
+              print(jobroleList);
+            });
+          },
+          // onFind: (val) async {
+          //   setState(() {
+          //     query = val;
+          //   });
+          //   fetchCompany(query: query);
+          //   return _apiResponse.data;
+          // },
+          // ignore: deprecated_member_use
+          hint: "Select Preferred Role",
+          showSearchBox: true,
+          popupItemBuilder: (context, JobCategory item, bool isSelected) {
+            return Container(
+              margin: EdgeInsets.symmetric(horizontal: 8),
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(item.jobroleName),
+              ),
+            );
+          },
+        ),
+      ),
+    ]);
   }
 }

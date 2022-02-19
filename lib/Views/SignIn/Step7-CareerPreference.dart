@@ -128,6 +128,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
   List<String> locationList = [];
   List<int> selectedSkillsJob = [];
   List<int> selectedSkillsemp = [];
+  List<String> industriesList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -191,7 +192,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                           mainAxisSize: MainAxisSize.min,
                                           children: const <Widget>[
                                             Text(
-                                              'Preferred Industry',
+                                              'Preferred Industries',
                                               style: TextStyle(
                                                   fontSize: 15.0,
                                                   fontFamily: "ProximaNova",
@@ -211,55 +212,8 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                             child: Padding(
                                           padding:
                                               const EdgeInsets.only(top: 8.0),
-                                          child: DropdownSearch<Industry>(
-                                            dropdownSearchDecoration:
-                                                InputDecoration(
-                                                    border:
-                                                        UnderlineInputBorder()),
-                                            validator: (value) {
-                                              if (value == null) {
-                                                return " Select Industry";
-                                              }
-                                              return null;
-                                            },
-                                            mode: Mode.DIALOG,
-                                            items: isLoading
-                                                ? [Industry()]
-                                                : _apiResponseIndustry.data,
-                                            itemAsString: (Industry obj) {
-                                              return obj.industryName;
-                                            },
-                                            onFind: (val) async {
-                                              setState(() {
-                                                query = val;
-                                              });
-                                              return _apiResponseIndustry.data;
-                                            },
-                                            hint: "Select Industry",
-                                            onChanged: (value) {
-                                              industrySearchCont.text =
-                                                  value.industryId.toString();
-                                              myindustry = value.industryId;
-                                              print(value.industryId);
-                                            },
-                                            showSearchBox: true,
-                                            popupItemBuilder: (context,
-                                                Industry item,
-                                                bool isSelected) {
-                                              return Container(
-                                                margin: EdgeInsets.symmetric(
-                                                    horizontal: 8),
-                                                child: Card(
-                                                  child: Padding(
-                                                    padding:
-                                                        EdgeInsets.all(8.0),
-                                                    child:
-                                                        Text(item.industryName),
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                          ),
+                                          child:
+                                          Industries(context),
                                         )),
                                       ],
                                     )),
@@ -666,7 +620,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                   });
                                   final insert = CareerPreferencePost(
                                     candidateUuid: widget.uuid,
-                                    candidateIndustryId: int.parse(myindustry),
+                                      candidateIndustryIdsList: industriesList,
                                     candidateJobtypeIdsList: selectedSkillsJob,
                                     candidateEmploymenttypeIdsList:selectedSkillsemp,
                                     candidatePreferredCityIdsList: locationList,
@@ -684,29 +638,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                       ? (result.errorMessage ??
                                           "An Error Occurred")
                                       : "Successfully Created";
-                                  // showDialog(
-                                  //   context: context,
-                                  //   builder: (_) => AlertDialog(
-                                  //     title: const Text(title),
-                                  //     content: Text(text),
-                                  //     actions: [
-                                  //       ElevatedButton(
-                                  //           onPressed: () {
-                                  //             Navigator.pop(context);
-                                  //           },
-                                  //           child: const Text("OK"))
-                                  //     ],
-                                  //   ),
-                                  // ).then((data) {
-                                  //   if (result.data) {
-                                  //     Navigator.of(context).push(
-                                  //       MaterialPageRoute(
-                                  //         builder: (context) =>
-                                  //              PersonalDetails(uuid: widget.uuid,),
-                                  //       ),
-                                  //     );
-                                  //   }
-                                  // });
+
                                 }
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
@@ -730,7 +662,47 @@ class _CareerPreferenceState extends State<CareerPreference> {
       ),
     );
   }
+  Widget Industries(BuildContext context) {
+    return Column(children: [
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: DropdownSearch<Industry>.multiSelection(
+          autoValidateMode: AutovalidateMode.onUserInteraction,
+          validator: (value) {
+            if (value.isEmpty) {
+              return "Select Preferred Industries";
+            }
+            return null;
+          },
+          mode: Mode.DIALOG,
+          items: isLoading ? [Industry()] : _apiResponseIndustry.data,
+          itemAsString: (Industry obj) {
+            return obj.industryName;
+          },
+          onChanged: (val) {
+            setState(() {
+              industriesList = val.map((e) {
+                return e.industryId;
+              }).toList();
+              print(industriesList);
+            });
+          },
 
+          hint: "Select Preferred Industries",
+          showSearchBox: true,
+          popupItemBuilder: (context, Industry item, bool isSelected) {
+            return Container(
+              margin: EdgeInsets.symmetric(horizontal: 8),
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(item.industryName),
+              ),
+            );
+          },
+        ),
+      ),
+    ]);
+  }
   Widget Location(BuildContext context) {
     return Column(children: [
       Padding(
@@ -789,7 +761,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
                 .onUserInteraction,
             validator: (value) {
               if (value.isEmpty) {
-                return "Please Select Job type";
+                return " Select Job Type";
               }
               return null;
             },
@@ -842,7 +814,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
           autoValidateMode: AutovalidateMode.onUserInteraction,
           validator: (value) {
             if (value.isEmpty) {
-              return "Please Select Employment type";
+              return " Select Employment Type";
             }
             return null;
           },

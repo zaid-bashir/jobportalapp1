@@ -64,6 +64,7 @@ class _UpdateCareerPreferenceState extends State<UpdateCareerPreference> {
   List<String> locationList = [];
   List<int> selectedSkillsJob = [];
   List<int> selectedSkillsemp = [];
+  List<String> industriesList = [];
   @override
   void initState() {
     fetchJobType();
@@ -183,7 +184,7 @@ class _UpdateCareerPreferenceState extends State<UpdateCareerPreference> {
                                           mainAxisSize: MainAxisSize.min,
                                           children: const <Widget>[
                                             Text(
-                                              'Preferred Industry',
+                                              'Preferred Industries',
                                               style: TextStyle(
                                                   fontSize: 15.0,
                                                   fontFamily: "ProximaNova",
@@ -203,79 +204,9 @@ class _UpdateCareerPreferenceState extends State<UpdateCareerPreference> {
                                             child: Padding(
                                           padding:
                                               const EdgeInsets.only(top: 8.0),
-                                          child: DropdownSearch<Industry>(
-                                            dropdownSearchDecoration:
-                                                InputDecoration(
-                                                    border:
-                                                        UnderlineInputBorder()),
-                                            validator: (value) {
-                                              if (value == null) {
-                                                return "Please Select Industry";
-                                              }
-                                              return null;
-                                            },
-                                            mode: Mode.DIALOG,
-                                            items: isLoading
-                                                ? Industry()
-                                                : _apiResponseIndustry.data,
-                                            itemAsString: (Industry obj) {
-                                              return obj.industryName;
-                                            },
-                                            onFind: (val) async {
-                                              setState(() {
-                                                query = val;
-                                              });
-                                              return _apiResponseIndustry.data;
-                                            },
-                                            hint: "Select Industry",
-                                            onChanged: (value) {
-                                              industrySearchCont.text =
-                                                  value.industryId.toString();
-                                              myindustry = value.industryId;
-                                              print(value.industryId);
-                                            },
-                                            showSearchBox: true,
-                                            popupItemBuilder: (context,
-                                                Industry item,
-                                                bool isSelected) {
-                                              return Container(
-                                                margin: EdgeInsets.symmetric(
-                                                    horizontal: 8),
-                                                child: Card(
-                                                  child: Padding(
-                                                    padding:
-                                                        EdgeInsets.all(8.0),
-                                                    child:
-                                                        Text(item.industryName),
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                          // FindDropdown(
-                                          //   searchBoxDecoration:  const InputDecoration(
-                                          //     border: UnderlineInputBorder(
-                                          //       borderSide: BorderSide(
-                                          //         color: Colors.grey,
-                                          //       ),
-                                          //     ),
-                                          //   ),
-                                          //   items: parseIndustry(),
-                                          //   searchHint: "Industry Name",
-                                          //   onFind: (val) async{
-                                          //     setState(() {
-                                          //       query = val;
-                                          //     });
-                                          //     await fetchIndustry(query: query);
-                                          //     parseIndustry();
-                                          //     return [""];
-                                          //   },
-                                          //   onChanged: (item) {
-                                          //     setState(() {
-                                          //       myindustry = item;
-                                          //     });
-                                          //   },
-                                          // ),
+                                          child:
+                                         Industries(context),
+
                                         )),
                                       ],
                                     )),
@@ -641,7 +572,7 @@ class _UpdateCareerPreferenceState extends State<UpdateCareerPreference> {
                                           autovalidateMode:
                                               AutovalidateMode.always,
                                           validator: (e) => (e?.day ?? 0) == 1
-                                              ? 'Please not the first day'
+                                              ? 'Except first day'
                                               : null,
 
                                           onDateSelected: (date) {
@@ -684,13 +615,11 @@ class _UpdateCareerPreferenceState extends State<UpdateCareerPreference> {
                                   setState(() {
                                     isLoading = true;
                                   });
-
                                   final insert = CareerProfileUpdate(
-
-                                    candidateIndustryId:myindustry,
-                                    candidateJobtypeIdsList: [2,7],
-                                    candidateEmploymenttypeIdsList:  [8,5],
-                                    candidatePreferredCityIdsList: [locationId],
+                      candidateIndustryIdsList: industriesList,
+                       candidateJobtypeIdsList: selectedSkillsJob,
+                    candidateEmploymenttypeIdsList:selectedSkillsemp,
+                          candidatePreferredCityIdsList: locationList,
                                     candidateExpectedctc:totalworkexp.toString(),
                                       candidateShiftId: myShift,
                                          candidateJoindate: selectedDate
@@ -732,7 +661,47 @@ class _UpdateCareerPreferenceState extends State<UpdateCareerPreference> {
       ),
     );
   }
+  Widget Industries(BuildContext context) {
+    return Column(children: [
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: DropdownSearch<Industry>.multiSelection(
+          autoValidateMode: AutovalidateMode.onUserInteraction,
+          validator: (value) {
+            if (value.isEmpty) {
+              return "Select Preferred Industries";
+            }
+            return null;
+          },
+          mode: Mode.DIALOG,
+          items: isLoading ? [Industry()] : _apiResponseIndustry.data,
+          itemAsString: (Industry obj) {
+            return obj.industryName;
+          },
+          onChanged: (val) {
+            setState(() {
+              industriesList = val.map((e) {
+                return e.industryId;
+              }).toList();
+              print(industriesList);
+            });
+          },
 
+          hint: "Select Preferred Industries",
+          showSearchBox: true,
+          popupItemBuilder: (context, Industry item, bool isSelected) {
+            return Container(
+              margin: EdgeInsets.symmetric(horizontal: 8),
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(item.industryName),
+              ),
+            );
+          },
+        ),
+      ),
+    ]);
+  }
   Widget Location(BuildContext context) {
     return Column(children: [
       Padding(
@@ -791,7 +760,7 @@ class _UpdateCareerPreferenceState extends State<UpdateCareerPreference> {
                 .onUserInteraction,
             validator: (value) {
               if (value.isEmpty) {
-                return "Please Select Job type";
+                return " Select Job Type";
               }
               return null;
             },
@@ -844,7 +813,7 @@ class _UpdateCareerPreferenceState extends State<UpdateCareerPreference> {
           autoValidateMode: AutovalidateMode.onUserInteraction,
           validator: (value) {
             if (value.isEmpty) {
-              return "Please Select Employment type";
+              return " Select Employment Type";
             }
             return null;
           },

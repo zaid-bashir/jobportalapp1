@@ -1,5 +1,5 @@
 class CareerProfileUpdate{
-
+  List candidateIndustryIdsList;
   List candidateJobtypeIdsList;
   List candidateEmploymenttypeIdsList;
   List candidatePreferredCityIdsList;
@@ -9,7 +9,7 @@ class CareerProfileUpdate{
   DateTime candidateJoindate;
   CareerProfileUpdate(
       {
-
+this.candidateIndustryIdsList,
          this.candidateJobtypeIdsList,
          this.candidateEmploymenttypeIdsList,
          this.candidatePreferredCityIdsList,
@@ -22,7 +22,7 @@ class CareerProfileUpdate{
 
   Map<String, dynamic> toJson() {
     return {
-
+      "candidateIndustryIdsList":candidateIndustryIdsList,
       "candidateJobtypeIdsList":candidateJobtypeIdsList,
       "candidateEmploymenttypeIdsList":candidateEmploymenttypeIdsList,
       "candidatePreferredCityIdsList":candidatePreferredCityIdsList,

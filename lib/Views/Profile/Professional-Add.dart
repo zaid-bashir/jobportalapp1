@@ -466,7 +466,7 @@ class _ProfessionAddState extends State<ProfessionAdd> {
                                   autovalidateMode:
                                   AutovalidateMode.always,
                                   validator: (e) => (e?.day ?? 0) == 1
-                                      ? 'Please not the first day'
+                                      ? 'Except first day'
                                       : null,
 
                                   onDateSelected: (date) {

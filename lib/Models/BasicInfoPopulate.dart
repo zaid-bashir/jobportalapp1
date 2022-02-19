@@ -1,50 +1,59 @@
 
 
+import 'dart:convert';
+
+BasicInfoPopulate basicInfoPopulateFromJson(String str) => BasicInfoPopulate.fromJson(json.decode(str));
+
+String basicInfoPopulateToJson(BasicInfoPopulate data) => json.encode(data.toJson());
+
 class BasicInfoPopulate {
-  int candidateId;
+  BasicInfoPopulate({
+    this.candidateName,
+    this.candidateFirstName,
+    this.candidateMiddleName,
+    this.candidateLastName,
+    this.candidateMobile1,
+    this.candidateEmail1,
+    this.candidateGenderName,
+    this.candidateTotalWorkExp,
+    this.candidateCurrenctCityName,
+    this.preferedJobRoleNames,
+  });
 
   String candidateName;
+  String candidateFirstName;
+  String candidateMiddleName;
+  String candidateLastName;
   String candidateMobile1;
   String candidateEmail1;
-   String candidateFirstName;
-   String candidateMiddleName;
-   String candidateLastName;
-  String candidateAddress;
   String candidateGenderName;
-String candidateGenderId;
-  String candidateJobroleName;
-
-  String candidateCityName;
   String candidateTotalWorkExp;
+  String candidateCurrenctCityName;
+  String preferedJobRoleNames;
 
-  BasicInfoPopulate(
-      {this.candidateId,
-      this.candidateAddress,
-      this.candidateName,
-        this.candidateFirstName,
-      this.candidateMobile1,
-      this.candidateEmail1,
-      this.candidateGenderName,
-        this.candidateGenderId,
-      this.candidateJobroleName,
-      this.candidateCityName,
-      this.candidateTotalWorkExp,this.candidateMiddleName,this.candidateLastName});
+  factory BasicInfoPopulate.fromJson(Map<String, dynamic> json) => BasicInfoPopulate(
+    candidateName: json["candidateName"],
+    candidateFirstName: json["candidateFirstName"],
+    candidateMiddleName: json["candidateMiddleName"],
+    candidateLastName: json["candidateLastName"],
+    candidateMobile1: json["candidateMobile1"],
+    candidateEmail1: json["candidateEmail1"],
+    candidateGenderName: json["candidateGenderName"],
+    candidateTotalWorkExp: json["candidateTotalWorkExp"],
+    candidateCurrenctCityName: json["candidateCurrenctCityName"],
+    preferedJobRoleNames: json["preferedJobRoleNames"],
+  );
 
-  factory BasicInfoPopulate.fromJson(Map<String, dynamic> item) {
-    return BasicInfoPopulate(
-        candidateId: item["candidateId"],
-        candidateAddress: item["candidateAddress"],
-        candidateName: item["candidateName"],
-        candidateMobile1: item["candidateMobile1"],
-        candidateEmail1: item["candidateEmail1"],
-        candidateGenderName: item["candidateGenderName"],
-      candidateGenderId: item["candidateGenderId"],
-        candidateJobroleName: item["candidateJobroleName"],
-        candidateCityName: item["candidateCityName"],
-        candidateTotalWorkExp: item["candidateTotalWorkExp"],
-      candidateFirstName: item["candidateFirstName"],
-      candidateMiddleName: item["candidateMiddleName"],
-      candidateLastName: item["candidateLastName"],
-    );
-  }
+  Map<String, dynamic> toJson() => {
+    "candidateName": candidateName,
+    "candidateFirstName": candidateFirstName,
+    "candidateMiddleName": candidateMiddleName,
+    "candidateLastName": candidateLastName,
+    "candidateMobile1": candidateMobile1,
+    "candidateEmail1": candidateEmail1,
+    "candidateGenderName": candidateGenderName,
+    "candidateTotalWorkExp": candidateTotalWorkExp,
+    "candidateCurrenctCityName": candidateCurrenctCityName,
+    "preferedJobRoleNames": preferedJobRoleNames,
+  };
 }

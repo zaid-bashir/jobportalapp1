@@ -434,74 +434,7 @@ class _QualificationAddState extends State<QualificationAdd>
 
                             },
                           ),
-                          // DropdownSearch(
-                          //   dropdownSearchDecoration: InputDecoration(
-                          //       border: UnderlineInputBorder(
-                          //       )
-                          //   ),
-                          //   validator: (value) {
-                          //     if (value == null) {
-                          //       return "Please Select Course";
-                          //     }
-                          //     return null;
-                          //   },
-                          //   mode: Mode.DIALOG,
-                          //   items: isLoading
-                          //       ? [Qualification()]
-                          //       : _apiResponsecourse.data,
-                          //   itemAsString: (Qualification obj) {
-                          //     return obj.courseName;
-                          //   },
-                          //   onFind: (val) async {
-                          //     setState(() {
-                          //       querys = val;
-                          //     });
-                          //     return _apiResponsecourse.data;
-                          //   },
-                          //   hint: "Select Course",
-                          //   onChanged: (value) {
-                          //     courseSearchCont.text = value.qualId.toString();
-                          //     courseId = value.courseId;
-                          //     print(value.courseId);
-                          //   },
-                          //   showSearchBox: true,
-                          //   popupItemBuilder:
-                          //       (context, Qualification item, bool isSelected) {
-                          //     return Container(
-                          //       margin: EdgeInsets.symmetric(horizontal: 8),
-                          //       child: Card(
-                          //         child: Padding(
-                          //           padding: EdgeInsets.all(8.0),
-                          //           child: Text(item.courseName),
-                          //         ),
-                          //       ),
-                          //     );
-                          //   },
-                          // ),
-                          // FindDropdown(
-                          //   searchBoxDecoration: InputDecoration(
-                          //     border: UnderlineInputBorder(
-                          //       borderSide: BorderSide(
-                          //         color: Colors.grey,
-                          //       ),
-                          //     ),
-                          //   ),
-                          //   items: getCourses(),
-                          //   searchHint: "Course",
-                          //   onFind: (val) async {
-                          //     setState(() {
-                          //       querys = val;
-                          //     });
-                          //     await fetchCourses(query: querys);
-                          //     getCourses();
-                          //     return [""];
-                          //   },
-                          //   onChanged: (item) {
-                          //     setState(() {
-                          //       Courses = item;
-                          //     });
-                          //   },
-                          // ),
+
                         ),
                         const SizedBox(
                           height: 10,
@@ -545,49 +478,7 @@ class _QualificationAddState extends State<QualificationAdd>
 
                             },
                           ),
-                          // DropdownSearch<Streams>(
-                          //   dropdownSearchDecoration: InputDecoration(
-                          //       border: UnderlineInputBorder(
-                          //       )
-                          //   ),
-                          //   validator: (value) {
-                          //     if (value == null) {
-                          //       return "Please Select Stream";
-                          //     }
-                          //     return null;
-                          //   },
-                          //   mode: Mode.DIALOG,
-                          //   items:
-                          //   isLoading ? Streams() : _apiResponsestream.data,
-                          //   itemAsString: (Streams obj) {
-                          //     return obj.streamName;
-                          //   },
-                          //   onFind: (val) async {
-                          //     setState(() {
-                          //       queryss = val;
-                          //     });
-                          //     return _apiResponsestream.data;
-                          //   },
-                          //   hint: "Select Streams",
-                          //   onChanged: (value) {
-                          //     streamSearchCont.text = value.streamId.toString();
-                          //     streamId = value.streamId;
-                          //     print(value.streamId);
-                          //   },
-                          //   showSearchBox: true,
-                          //   popupItemBuilder:
-                          //       (context, Streams item, bool isSelected) {
-                          //     return Container(
-                          //       margin: EdgeInsets.symmetric(horizontal: 8),
-                          //       child: Card(
-                          //         child: Padding(
-                          //           padding: EdgeInsets.all(8.0),
-                          //           child: Text(item.streamName),
-                          //         ),
-                          //       ),
-                          //     );
-                          //   },
-                          // ),
+
 
                         ),
                         const SizedBox(
@@ -836,7 +727,7 @@ class _QualificationAddState extends State<QualificationAdd>
                               });
                             },
                             validator: (value) =>
-                            value == null ? 'Please fill Year' : null,
+                            value == null ? 'Select Year' : null,
                             items: _apiResponse2.data.map((PassingYear user) {
                               return DropdownMenuItem<PassingYear>(
                                 value: user,
@@ -879,7 +770,7 @@ class _QualificationAddState extends State<QualificationAdd>
                               });
                             },
                             validator: (value) =>
-                            value == null ? 'Please fill Grading Value' : null,
+                            value == null ? 'Enter Grading Value' : null,
                             items: _apiResponse.data.map((GradingSystem user) {
                               return DropdownMenuItem<GradingSystem>(
                                 value: user,
@@ -913,7 +804,7 @@ class _QualificationAddState extends State<QualificationAdd>
 
                             validator: (value) {
                               if (value.isEmpty) {
-                                return "Please Enter Grade Value";
+                                return " Enter Grade Value";
                               } else {
                                 return null;
                               }

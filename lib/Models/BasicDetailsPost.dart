@@ -9,11 +9,11 @@ class BasicDetialModel {
   int candidateGenderId;
   String candidateName;
   int candidateTotalworkexp;
-  int candidateJobroleId;
-  int candidateCityId;
-
+  List candidatePreferredJobRoleList;
+  int candidateCurrentCityId;
+  String experience;
   BasicDetialModel({
-   this.requestType,
+    this.requestType,
     this.candidateTitleId,
     this.candidateMobile1,
     this.candidateFirstName,
@@ -23,8 +23,9 @@ class BasicDetialModel {
     this.candidateGenderId,
     this.candidateName,
     this.candidateTotalworkexp,
-    this.candidateJobroleId,
-    this.candidateCityId,
+    this.candidatePreferredJobRoleList,
+    this.candidateCurrentCityId,
+    this.experience
   });
 
   factory BasicDetialModel.fromJson(Map<String, dynamic> json) {
@@ -39,8 +40,9 @@ class BasicDetialModel {
       candidateGenderId: json["candidateGenderId"],
       candidateName: json["candidateName"],
       candidateTotalworkexp: json["candidateTotalworkexp"],
-      candidateJobroleId: json["candidateJobroleId"],
-      candidateCityId: json["candidateCityId"],
+      candidatePreferredJobRoleList: json["candidatePreferredJobRoleList"],
+      candidateCurrentCityId: json["candidateCurrentCityId"],
+      experience: json["experience"],
     );
   }
 
@@ -57,9 +59,10 @@ class BasicDetialModel {
     data['candidateGenderId'] = candidateGenderId;
     data['candidateName'] = candidateName;
     data["candidateTotalworkexp"] = candidateTotalworkexp;
-    data['candidateJobroleId'] = candidateJobroleId;
-    data['candidateCityId'] = candidateCityId;
-
+    data['candidatePreferredJobRoleList'] = candidatePreferredJobRoleList;
+    data['candidateCurrentCityId'] = candidateCurrentCityId;
+    data['experience'] = experience;
     return data;
   }
 }
+
