@@ -65,6 +65,7 @@ import 'package:job_portal/Models/qualification-post.dart';
 import 'package:job_portal/Utility/apiurls.dart';
 import 'package:logger/logger.dart';
 
+
 String jwtToken = "";
 String jwtTokenLogin = "";
 String signOutToken = "";
@@ -768,12 +769,12 @@ class ApiServices {
         error: true, errorMessage: "An error occurred");
   }
 
-  Future<ApiResponse<bool>> PostQualification({QualificationPost qualifi, String token}) async {
+  Future<ApiResponse<bool>> PostQualification({QualificationPost qualifi }) async {
     final url = Uri.parse(ApiUrls.kQualify);
-    jwtToken = "Bearer "+token;
+    
     final headers = {
       "Content-Type": "application/json",
-      'Authorization': 'Bearer $token'
+      'Authorization': jwtToken
     };
     final jsonData = jsonEncode(qualifi);
 
@@ -863,14 +864,19 @@ class ApiServices {
   }
 
   // career preference POST
-  Future<ApiResponse<bool>> PostPreference(CareerPreferencePost preference) async {
+  Future<ApiResponse<bool>> postPreference({CareerPreferencePost preference, String token}) async {
     final url = Uri.parse(ApiUrls.kPreference);
+    jwtToken = "Bearer " + token;
+    print(jwtToken);
+    print(jwtToken);
+    print(jwtToken);
+    print(jwtToken);
     final headers = {
       "Content-Type": "application/json",
       "Authorization": jwtToken
     };
     final jsonData = jsonEncode({
-      "candidatequalUuid": preference.candidateUuid,
+      // "candidatequalUuid": preference.candidateUuid,
       "candidateIndustryIdsList": preference.candidateIndustryIdsList,
       "candidateJobtypeIdsList": preference.candidateJobtypeIdsList,
       "candidateEmploymenttypeIdsList": preference.candidateEmploymenttypeIdsList,
@@ -878,12 +884,13 @@ class ApiServices {
       "candidateExpectedctc": preference.candidateExpectedctc,
       "candidateShiftId": preference.candidateShiftId,
       "candidateJoinimmediate": "1"
+      // preference
     });
 
     final response = await http.post(url, headers: headers, body: jsonData);
     log.i(response.body);
     log.i(response.statusCode);
-    if (response.statusCode == 200 || response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       return ApiResponse<bool>(data: true);
     }
     return ApiResponse<bool>(error: true, errorMessage: "An Error Occurred");
@@ -901,7 +908,7 @@ class ApiServices {
     final response = await http.post(url, headers: headers, body: jsonData);
     log.i(response.body);
     log.i(response.statusCode);
-    if (response.statusCode == 200 || response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       return ApiResponse<bool>(data: true);
     }
     return ApiResponse<bool>(error: true, errorMessage: "An Error Occurred");
@@ -919,7 +926,7 @@ class ApiServices {
     final response = await http.post(url, headers: headers, body: jsonData);
     log.i(response.body);
     log.i(response.statusCode);
-    if (response.statusCode == 200 || response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       return ApiResponse<bool>(data: true);
     }
     return ApiResponse<bool>(error: true, errorMessage: "An Error Occurred");
@@ -939,7 +946,7 @@ class ApiServices {
     final response = await http.post(url, headers: headers, body: jsonData);
     log.i(response.body);
     log.i(response.statusCode);
-    if (response.statusCode == 200 || response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       return ApiResponse<bool>(data: jsonDecode(response.body));
     }
     return ApiResponse<bool>(error: true, errorMessage: "An Error Occurred");

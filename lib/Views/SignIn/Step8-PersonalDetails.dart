@@ -180,11 +180,11 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                   children: [
                     Row(
                       children: [
-                        IconButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            icon: const Icon(Icons.arrow_back)),
+                        // IconButton(
+                        //     onPressed: () {
+                        //       Navigator.pop(context);
+                        //     },
+                        //     icon: const Icon(Icons.arrow_back)),
                         const SizedBox(
                           width: 10,
                         ),
@@ -1087,7 +1087,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                 candidateUuid: widget.uuid,
                                 candidateAddress: addressController.text,
                                 candidateDob: selectedDate,
-                                // candidateCityId: int.parse(cityNameID),
+                                candidateCityId: int.parse(cityNameID),
                                 candidatePin: pincodeController.text,
                                 candidateMaritalstatusId:
                                 int.parse(Marial.maritalId),
@@ -1132,11 +1132,14 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                           ],
                                         )).then((data) {
                                   if (result.data) {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) => Navbar(),
-                                      ),
-                                    );
+                                    Navigator.pushAndRemoveUntil(context,      MaterialPageRoute(
+                                      builder: (context) => Navbar(),
+                                    ), (route) => false);
+                                    // Navigator.of(context).push(
+                                    //   MaterialPageRoute(
+                                    //     builder: (context) => Navbar(),
+                                    //   ),
+                                    // );
                                   }
                                 }
                                 );

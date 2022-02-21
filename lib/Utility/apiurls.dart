@@ -23,23 +23,23 @@ class ApiUrls extends Connect{
   static String kMarital = baseUrl+"populate/marital-status";
   static String kInstitute = baseUrl+"populate/institute?query=";
   static String kItskill =  baseUrl+"populate/itskill?query=";
-  static String kQualify = baseUrl+"candidate-registration/step3-qualificationdetail";
-  static String kItSkill = baseUrl+"candidate-registration/step6-itskill";
+  // static String kQualify = baseUrl+"candidate-registration/step3-qualificationdetail";
+  // static String kItSkill = baseUrl+"candidate-registration/step6-itskill";
   static String kLocation = baseUrl+"populate/city?query=";
-  static String kBasicDetial = baseUrl+"candidate-registration/step2-basicdetail";
-  // static String kBasicDetial = "http://192.168.0.20:7028/jobportal-app/api/candidate-registration/step2-basicdetail";
-  static String kPreference = baseUrl+"candidate-registration/step7-careerpreference";
-  static String kPersonal = baseUrl+"candidate-registration/step8-personaldetail";
+  // static String kBasicDetial = baseUrl+"candidate-registration/step2-basicdetail";
+ 
+  // static String kPreference = baseUrl+"candidate-registration/step7-careerpreference";
+  // static String kPersonal = baseUrl+"candidate-registration/step8-personaldetail";
   static String kEmpType = baseUrl+"populate/employmenttype";
   static String kJobType = baseUrl+"populate/jobtype";
-  static String kProfession = baseUrl+"candidate-registration/step4-professionaldetail";
+  // static String kProfession = baseUrl+"candidate-registration/step4-professionaldetail";
   static String kKeySkills = baseUrl+"populate/keyskill?query=";
-  static String kpostSkill =  baseUrl+"candidate-registration/step5-keyskill";
+  // static String kpostSkill =  baseUrl+"candidate-registration/step5-keyskill";
   static String kGetprofileNoticePeriod = Connect.AppURL() + "populate/notice";
 
   static String kGetJobList =  "http://192.168.0.20:9030/jobportal-app/test/job-list";
   static String kGetItSkill =  "http://192.168.0.20:9030/jobportal-app/api/candidate/itskill-list";
-  // static String kBasicDetails =  "http://192.168.0.20:9030/jobportal-app/candidate/candidate-overview";
+
   static String kLogin = Connect.AppURL()+"jwt/login";
   static String kItSkillAdd = "http://192.168.0.20:9030/jobportal-app/api/candidate/itskill-add";
   static String kItSkillUpdate = "http://192.168.0.20:9030/jobportal-app/api/candidate/itskill-add";
@@ -55,7 +55,7 @@ class ApiUrls extends Connect{
   static String kDropProfeciency = "http://192.168.0.20:9030/jobportal-app/api/populate/proficiency?query=";
   static String kpopulatecareerpreferenceprofile =Connect.AppURL() + "candidate/careerpreference-list";
   static String kAddLanguage = "http://192.168.0.20:9030/jobportal-app/api/candidate/language-add";
-  // static String kGetBasicInfoPop=Connect.AppURL()+"candidate/basicdetail-list";
+ 
   static String kGetBasicInfoPop="http://192.168.0.20:7028/jobportal-app/api/candidate/basicdetail-list";
   static String kGetProfessionalPop = Connect.AppURL()+"candidate/professional-list";
   static String kkeySkillsProfile = Connect.AppURL()+"candidate/keyskill-list";
@@ -87,6 +87,16 @@ class ApiUrls extends Connect{
   static String kPresentationAdd= Connect.AppURL()+"candidate/presentation-add";
   static String kResearchPaperList= Connect.AppURL()+"candidate/paper-list";
   static String kResearchPaperAdd= Connect.AppURL()+"candidate/paper-add";
+
+  //testing 
+ static String kPreference = "http://192.168.0.20:7038/jobportal-app/api/candidate-registration/step3-careerpreference";
+ static String kpostSkill = "http://192.168.0.20:7038/jobportal-app/api/candidate-registration/step6-keyskill";
+ static String kItSkill = "http://192.168.0.20:7038/jobportal-app/api/candidate-registration/step7-itskill";
+ static String kQualify = "http://192.168.0.20:7038/jobportal-app/api/candidate-registration/step5-qualificationdetail";
+ static String kBasicDetial = "http://192.168.0.20:7038/jobportal-app/api/candidate-registration/step2-basicdetail";
+ static String kProfession = "http://192.168.0.20:7038/jobportal-app/api/candidate-registration/step4-professionaldetail";
+ static String kPersonal = "http://192.168.0.20:7038/jobportal-app/api/candidate-registration/step8-personaldetail";
+ 
 }
 
 

@@ -17,6 +17,8 @@ import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Views/SignIn/Step5-KeySkills.dart';
 import 'package:job_portal/Models/ProfessionDetailsPost.dart';
 
+import 'Step3-QualificationDetails.dart';
+
 class WorkingProfession extends StatefulWidget {
   WorkingProfession({Key key, this.uuid}) : super(key: key);
   String uuid;
@@ -96,6 +98,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
       isLoading = false;
     });
   }
+
   //
   // fetchCompany({String query}) async {
   //   setState(() {
@@ -167,11 +170,11 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                 children: [
                   Row(
                     children: [
-                      IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: const Icon(Icons.arrow_back)),
+                      // IconButton(
+                      //     onPressed: () {
+                      //       Navigator.pop(context);
+                      //     },
+                      //     icon: const Icon(Icons.arrow_back)),
                       const SizedBox(
                         width: 10,
                       ),
@@ -436,7 +439,8 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                   mode: DateTimeFieldPickerMode.date,
                                   autovalidateMode:
                                   AutovalidateMode.always,
-                                  validator: (e) => (e?.day ?? 0) == 1
+                                  validator: (e) =>
+                                  (e?.day ?? 0) == 1
                                       ? 'Select Start Date'
                                       : null,
 
@@ -481,7 +485,8 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                       profileSelectedUser = newValue;
                                     });
                                   },
-                                  validator: (value) => value == null
+                                  validator: (value) =>
+                                  value == null
                                       ? 'Select Notice Period'
                                       : null,
                                   items: _apiResponseProfile.data
@@ -663,7 +668,8 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                         DateTimeFieldPickerMode.date,
                                         autovalidateMode:
                                         AutovalidateMode.always,
-                                        validator: (e) => (e?.day ?? 0) ==
+                                        validator: (e) =>
+                                        (e?.day ?? 0) ==
                                             1
                                             ? 'Select Start Date'
                                             : null,
@@ -698,7 +704,8 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                         DateTimeFieldPickerMode.date,
                                         autovalidateMode:
                                         AutovalidateMode.always,
-                                        validator: (e) => (e?.day ?? 0) ==
+                                        validator: (e) =>
+                                        (e?.day ?? 0) ==
                                             1
                                             ? 'Select End Date'
                                             : null,
@@ -751,7 +758,8 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                     selectedDate.toString().split(" ")[0]);
                                 print(
                                     "=======================================");
-                                final insert = toggleYes == true ? PostProfessionRegistration(
+                                final insert = toggleYes == true
+                                    ? PostProfessionRegistration(
                                     candidateexpIscurrentcompany: 1,
                                     candidateexpOrganizationname:
                                     skillorganization.organizationName,
@@ -761,9 +769,11 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                     candidateexpStartdate:
                                     selectedDate.toString().split(" ")[0],
                                     candidateexpNoticeperiodId:
-                                    profileSelectedUser.noticePeriodId.toString()
+                                    profileSelectedUser.noticePeriodId
+                                        .toString()
 
-                                ) : PostProfessionRegistration(
+                                )
+                                    : PostProfessionRegistration(
                                     candidateexpIscurrentcompany:
                                     0,
                                     candidateexpOrganizationname:
@@ -773,7 +783,8 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                     candidateexpSalary: salaryCount.text,
                                     candidateexpStartdate:
                                     selectedDate.toString().split(" ")[0],
-                                    candidateexpEnddate: selectedDate3.toString().split(" ")[0]
+                                    candidateexpEnddate: selectedDate3
+                                        .toString().split(" ")[0]
                                 );
 
                                 final result =
@@ -809,10 +820,17 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                 //   }
                                 // });
                               }
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => KeySkillsPage(
+                              Navigator.pushAndRemoveUntil(context,
+                                  MaterialPageRoute(builder: (context) => QualificationBlueCollar(
                                     uuid: widget.uuid,
-                                  )));
+                                  ),), (
+                                      route) => false);
+
+                              // Navigator.of(context).push(MaterialPageRoute(
+                              //   builder: (context) =>
+                              //       QualificationBlueCollar(
+                              //         uuid: widget.uuid,
+                              //       ),),);
                             },
                             text: "Next",
                             type: GFButtonType.solid)),

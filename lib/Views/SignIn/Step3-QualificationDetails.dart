@@ -187,12 +187,12 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
               child: Row(
                 // ignore: prefer_const_literals_to_create_immutables
                 children: [
-                  IconButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    icon: Icon(Icons.arrow_back),
-                  ),
+                  // IconButton(
+                  //   onPressed: () {
+                  //     Navigator.of(context).pop();
+                  //   },
+                  //   icon: Icon(Icons.arrow_back),
+                  // ),
                   const SizedBox(
                     width: 30,
                   ),
@@ -914,7 +914,7 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                             candidatequalGradingsystemId: myGradingSystem.gradingsystemId,
                             candidatequalMarks: gradeCont.text);
                         final result =
-                            await apiServices.PostQualification(qualifi: insert,token: widget.token);
+                            await apiServices.PostQualification(qualifi: insert,);
                         setState(() {
                           isLoading = false;
                         });
@@ -944,10 +944,15 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                         //   }
                         // });
                       }
-                      widget.experienceId == 0 ? Navigator.of(context).push( MaterialPageRoute(
-                                       builder: (context) => KeySkillsPage(uuid: widget.uuid,))) : Navigator.of(context).push(
-                          MaterialPageRoute(
-                                       builder: (context) => WorkingProfession(uuid: widget.uuid,)));
+                      // widget.experienceId == 0 ?
+                      // Navigator.of(context).push( MaterialPageRoute(
+                      //                  builder: (context) => KeySkillsPage(uuid: widget.uuid,))) ;
+
+
+                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>KeySkillsPage(uuid: widget.uuid,)), (route) => false);
+                      // : Navigator.of(context).push(
+                      //     MaterialPageRoute(
+                      //                  builder: (context) => WorkingProfession(uuid: widget.uuid,)));
 
                     },
                     text: "Next",

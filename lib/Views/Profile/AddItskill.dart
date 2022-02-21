@@ -9,7 +9,6 @@ import 'package:job_portal/Models/ItSkillRetrive.dart';
 import 'package:job_portal/Models/ItSkills.dart';
 import 'package:job_portal/Models/PassingYear.dart';
 import 'package:job_portal/Services/ApiServices.dart';
-import 'package:job_portal/Views/SignIn/Step6-ItSkills.dart';
 import 'package:textfield_search/textfield_search.dart';
 
 class ItSkillAdds extends StatefulWidget {

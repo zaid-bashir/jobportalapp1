@@ -17,6 +17,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'Step3-QualificationDetails.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
+import 'Step7-CareerPreference.dart';
+
 class BasicDetails extends StatefulWidget {
   BasicDetails({Key key, this.mobileNo}) : super(key: key);
   String mobileNo;
@@ -205,12 +207,12 @@ class _BasicDetailsState extends State<BasicDetails> {
             padding: const EdgeInsets.only(left: 20, top: 10),
             child: Row(
               children: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  icon: const Icon(Icons.arrow_back),
-                ),
+                // IconButton(
+                //   onPressed: () {
+                //     Navigator.of(context).pop();
+                //   },
+                //   icon: const Icon(Icons.arrow_back),
+                // ),
                 const SizedBox(
                   width: 10,
                 ),
@@ -787,15 +789,23 @@ class _BasicDetailsState extends State<BasicDetails> {
                       print(jwtToken);
                       print("#######################");
                       storeDataToSharedPref();
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => QualificationBlueCollar(
-                            uuid: result.data['successResult']['axelaCandidateUuId'],
-                            token: jwtToken,
-                            experienceId: experienceRadioId,
-                          ),
-                        ),
-                      );
+                      Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context)=> CareerPreference(
+                        // uuid: result.data['successResult']['axelaCandidateUuId'],
+                        token: jwtToken,
+                        // experienceId: experienceRadioId,
+                      ),), (route) => false);
+
+
+
+                      // Navigator.of(context).push(
+                      //   MaterialPageRoute(
+                      //     builder: (context) => CareerPreference(
+                      //       // uuid: result.data['successResult']['axelaCandidateUuId'],
+                      //       token: jwtToken,
+                      //       // experienceId: experienceRadioId,
+                      //     ),
+                      //   ),
+                      // );
                     }
                   }),
             ),

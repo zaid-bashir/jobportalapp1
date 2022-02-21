@@ -19,7 +19,6 @@ import 'package:job_portal/Models/ProfileGetNoticePeriod.dart';
 
 
 import 'package:job_portal/Services/ApiServices.dart';
-import 'package:job_portal/Views/SignIn/Step5-KeySkills.dart';
 
 class ProfessionAdd extends StatefulWidget {
   ProfessionAdd({Key key, this.uuid}) : super(key: key);

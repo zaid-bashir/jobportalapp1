@@ -76,11 +76,11 @@ class _KeySkillsPageState extends State<KeySkillsPage> {
                       padding: const EdgeInsets.only(left: 10),
                       child: Row(
                         children: [
-                          IconButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              icon: const Icon(Icons.arrow_back)),
+                          // IconButton(
+                          //     onPressed: () {
+                          //       Navigator.pop(context);
+                          //     },
+                          //     icon: const Icon(Icons.arrow_back)),
                         ],
                       ),
                     ),
@@ -263,11 +263,12 @@ class _KeySkillsPageState extends State<KeySkillsPage> {
                               check = value.data;
                             });
                             if (!check) {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) =>  ItSkills(uuid: widget.uuid,),
-                                ),
-                              );
+                              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>ItSkills(uuid: widget.uuid,),), (route) => false);
+                              // Navigator.of(context).push(
+                              //   MaterialPageRoute(
+                              //     builder: (context) =>  ItSkills(uuid: widget.uuid,),
+                              //   ),
+                              // );
                             } else {
 
                             }

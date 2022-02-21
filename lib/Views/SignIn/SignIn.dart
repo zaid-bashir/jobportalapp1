@@ -83,7 +83,7 @@ class LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
                       Text(
-                        "Login to your\naccount Git Demo",
+                        "Login to your\naccount ",
                         style: TextStyle(
                           fontFamily: "OpenSans",
                           fontWeight: FontWeight.bold,

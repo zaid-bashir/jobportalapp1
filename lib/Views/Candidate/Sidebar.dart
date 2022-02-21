@@ -7,6 +7,7 @@ import 'package:job_portal/Views/Candidate/JobSuggested.dart';
 import 'package:job_portal/Views/Home/constants/Constants.dart';
 import 'package:job_portal/Views/SignIn/Step6-ItSkills.dart';
 
+
 import 'package:job_portal/Views/SignIn/Step8-PersonalDetails.dart';
 
 

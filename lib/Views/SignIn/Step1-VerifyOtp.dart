@@ -14,6 +14,7 @@ class VerifyOTP extends StatefulWidget {
 
   String registerMobile;
   int otp;
+
   @override
   _VerifyOTPState createState() => _VerifyOTPState();
 }
@@ -30,8 +31,8 @@ class _VerifyOTPState extends State<VerifyOTP> {
     setState(() {
       isLoading = true;
     });
-    _apiResponse = await apiServices.otpVerifyGet(
-        OTPVerify(registerMobile: "${widget.registerMobile}", otp: int.parse(otp)));
+    _apiResponse = await apiServices.otpVerifyGet(OTPVerify(
+        registerMobile: "${widget.registerMobile}", otp: int.parse(otp)));
     setState(() {
       isLoading = false;
     });
@@ -98,7 +99,8 @@ class _VerifyOTPState extends State<VerifyOTP> {
                   FadeInDown(
                     key: key,
                     child: VerificationCode(
-                      textStyle: TextStyle(fontSize: 20.0, color: Colors.red[900]),
+                      textStyle:
+                          TextStyle(fontSize: 20.0, color: Colors.red[900]),
                       underlineColor: Colors.amber,
                       keyboardType: TextInputType.number,
                       length: 6,
@@ -245,24 +247,31 @@ class _VerifyOTPState extends State<VerifyOTP> {
                             animType: AnimType.SCALE,
                             dialogType: DialogType.SUCCES,
                             title: 'JobPortalApp',
-                            desc: 'Mobile Number +91-${widget.registerMobile} Successfully Verified',
+                            desc:
+                                'Mobile Number +91-${widget.registerMobile} Successfully Verified',
                             btnOkOnPress: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => BasicDetails(mobileNo: widget.registerMobile,),
-                                ),
-                              );
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => BasicDetails(
+                                            mobileNo: widget.registerMobile,
+                                          )),
+                                  (route) => false);
+                              // Navigator.of(context).push(
+                              //   MaterialPageRoute(
+                              //     builder: (context) => BasicDetails(mobileNo: widget.registerMobile,),
+                              //   ),
+                              // );
                             },
                           ).show();
                         }
-                        if(int.parse(_code) == 0) {
+                        if (int.parse(_code) == 0) {
                           AwesomeDialog(
                             context: context,
                             animType: AnimType.SCALE,
                             dialogType: DialogType.ERROR,
                             title: 'JobPortalApp',
-                            desc:
-                            ' enter Valid OTP',
+                            desc: ' enter Valid OTP',
                           ).show();
                         }
                       },
@@ -275,6 +284,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
                 ],
               )),
         ],
-      ),);
+      ),
+    );
   }
 }
