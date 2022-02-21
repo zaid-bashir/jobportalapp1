@@ -708,7 +708,7 @@ class HomePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      "Isra Riaz",
+                      "Tahseen Abbass",
                       style: TextStyle(
                           fontSize: 20,
                           fontFamily: "ProximaNova",
