@@ -1992,4 +1992,21 @@ class ApiServices {
   }
 
 
+
+  Future<ApiResponse<ResearchpaperAdd>> populateResearchpaperUpdate(
+      String uuid) async {
+    final url = Uri.parse(ApiUrls.kResearchPaperUpdPop + uuid);
+    final header = {
+      "Content-Type": "application/json",
+      'Authorization': jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+    };
+    final response = await http.get(url, headers: header);
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      return ApiResponse<ResearchpaperAdd>(
+          data: ResearchpaperAdd.fromJson(jsonData));
+    }
+    return ApiResponse<ResearchpaperAdd>(
+        error: true, errorMessage: "An Error Occurred");
+  }
 }

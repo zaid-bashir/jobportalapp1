@@ -87,6 +87,7 @@ class ApiUrls extends Connect{
   static String kPresentationAdd= Connect.AppURL()+"candidate/presentation-add";
   static String kResearchPaperList= Connect.AppURL()+"candidate/paper-list";
   static String kResearchPaperAdd= Connect.AppURL()+"candidate/paper-add";
+  static String kResearchPaperUpdPop= "http://192.168.0.20:9030/jobportal-app/api/candidate/paper-populate?request=";
 
   //testing 
  static String kPreference = "http://192.168.0.20:7038/jobportal-app/api/candidate-registration/step3-careerpreference";
