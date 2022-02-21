@@ -71,8 +71,7 @@ String jwtTokenLogin = "";
 String signOutToken = "";
 class ApiServices {
   var log = Logger();
-  var token =
-      "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxLHNhamlkQGdtYWlsLmNvbSwrOTEtODgyNTA2MTc1NiIsImlzcyI6IkpvYlBvcnRhbC5jb20iLCJpYXQiOjE2NDQyOTQ0MDcsImV4cCI6MTY0NDg5OTIwN30.8SxJ3QvHeNbj0GS4onY9MzP7IN5NZDeWQKPl1-CyUm9h1yT-5b6FcwgfNOkXCUmXBS8Iz8puL6t1c48WRYtnKw";
+  // var token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxLHNhamlkQGdtYWlsLmNvbSwrOTEtODgyNTA2MTc1NiIsImlzcyI6IkpvYlBvcnRhbC5jb20iLCJpYXQiOjE2NDQyOTQ0MDcsImV4cCI6MTY0NDg5OTIwN30.8SxJ3QvHeNbj0GS4onY9MzP7IN5NZDeWQKPl1-CyUm9h1yT-5b6FcwgfNOkXCUmXBS8Iz8puL6t1c48WRYtnKw";
 
   String key = "";
   void setToken(String token){
@@ -543,7 +542,7 @@ class ApiServices {
     final url = Uri.parse(ApiUrls.kUpdateBasicInfo);
     final headers = {
       "Content-Type": "application/json",
-      'Authorization': 'Bearer $token',
+      'Authorization':  jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
     };
     final jsonData = jsonEncode(basicUpdate);
 
@@ -1732,7 +1731,7 @@ class ApiServices {
     final url = Uri.parse(ApiUrls.kCertificationAdd);
     final headers = {
       "Content-Type": "application/json",
-      'Authorization': jwtToken,
+      'Authorization':  jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
     };
     final jsonData = jsonEncode(quall);
 

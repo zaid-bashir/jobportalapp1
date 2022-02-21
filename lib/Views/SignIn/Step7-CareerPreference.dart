@@ -723,7 +723,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
         autoValidateMode: AutovalidateMode.onUserInteraction,
         validator: (value) {
           if (value.isEmpty) {
-            return " Select Job Type";
+            return " Select Industries Type";
           }
           return null;
         },
@@ -740,7 +740,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
             print(selectedSkillsJob);
           });
         },
-        hint: "Select Job Type",
+        hint: "Select Industries Type",
         showSearchBox: true,
         popupItemBuilder: (context, Industry item, bool isSelected) {
           return Container(

@@ -2500,8 +2500,8 @@ class _ProfilePageState extends State<ProfilePage>
                             Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => Research()))
-                                .then((value) => getResearch());
+                                        builder: (context) => LanguagesAdd()))
+                                .then((value) => getLanguage());
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -3058,7 +3058,7 @@ class _ProfilePageState extends State<ProfilePage>
                 MaterialPageRoute(
                     builder: (context) => ItSkillAdds(
                           uuid: _apiResponse.data[index].candidateitskillUuid,
-                        )));
+                        ))).then((value) => getItSkill());
           },
           child: Container(
             padding:

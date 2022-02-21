@@ -3,71 +3,65 @@ import 'Connect.dart';
 class ApiUrls extends Connect{
 
   static const String baseUrl = "http://192.168.0.20:9030/jobportal-app/api/";
-  static String kgetOTP = baseUrl+"generate-otp";
-  static String kverifyOTP =  baseUrl+"validate-otp";
-  static String ktitles = baseUrl+ "populate/title";
-  static String kgender = baseUrl+"populate/gender";
-  static String kPassingYear = baseUrl+"populate/year";
-  static String kGradingSystem = baseUrl+"populate/grading-system";
-  static String kShift = baseUrl+"populate/shift";
-  static String kjobrole = baseUrl+"populate/jobrole?query=";
-  static String kHighestQualification = baseUrl+"populate/qualification?query=";
-  static String kCourse =  baseUrl+"populate/course?query=";
-  static String kStream = baseUrl+"populate/stream?query=";
-  static String kindustry = baseUrl+"populate/industry?query=";
-  static String kcompany = baseUrl+"populate/organization?query=";
-  static String kNationality = baseUrl+"populate/nationality?query=";
-  static String kCity =  baseUrl+"populate/city?query=";
-  static String kCountry = baseUrl+"populate/country?query=";
-  static String kCaste = baseUrl+"populate/reservedcategory";
-  static String kMarital = baseUrl+"populate/marital-status";
-  static String kInstitute = baseUrl+"populate/institute?query=";
-  static String kItskill =  baseUrl+"populate/itskill?query=";
-  // static String kQualify = baseUrl+"candidate-registration/step3-qualificationdetail";
-  // static String kItSkill = baseUrl+"candidate-registration/step6-itskill";
-  static String kLocation = baseUrl+"populate/city?query=";
-  // static String kBasicDetial = baseUrl+"candidate-registration/step2-basicdetail";
+  static String kgetOTP = Connect.AppURL()+"generate-otp";
+  static String kverifyOTP =  Connect.AppURL()+"validate-otp";
+  static String ktitles = Connect.AppURL()+ "populate/title";
+  static String kgender = Connect.AppURL()+"populate/gender";
+  static String kPassingYear = Connect.AppURL()+"populate/year";
+  static String kGradingSystem = Connect.AppURL()+"populate/grading-system";
+  static String kShift = Connect.AppURL()+"populate/shift";
+  static String kjobrole = Connect.AppURL()+"populate/jobrole?query=";
+  static String kHighestQualification = Connect.AppURL()+"populate/qualification?query=";
+  static String kCourse =  Connect.AppURL()+"populate/course?query=";
+  static String kStream = Connect.AppURL()+"populate/stream?query=";
+  static String kindustry = Connect.AppURL()+"populate/industry?query=";
+  static String kcompany = Connect.AppURL()+"populate/organization?query=";
+  static String kNationality = Connect.AppURL()+"populate/nationality?query=";
+  static String kCity =  Connect.AppURL()+"populate/city?query=";
+  static String kCountry = Connect.AppURL()+"populate/country?query=";
+  static String kCaste = Connect.AppURL()+"populate/reservedcategory";
+  static String kMarital = Connect.AppURL()+"populate/marital-status";
+  static String kInstitute = Connect.AppURL()+"populate/institute?query=";
+  static String kItskill =  Connect.AppURL()+"populate/itskill?query=";
+  static String kLocation = Connect.AppURL()+"populate/city?query=";
  
-  // static String kPreference = baseUrl+"candidate-registration/step7-careerpreference";
-  // static String kPersonal = baseUrl+"candidate-registration/step8-personaldetail";
-  static String kEmpType = baseUrl+"populate/employmenttype";
-  static String kJobType = baseUrl+"populate/jobtype";
-  // static String kProfession = baseUrl+"candidate-registration/step4-professionaldetail";
-  static String kKeySkills = baseUrl+"populate/keyskill?query=";
-  // static String kpostSkill =  baseUrl+"candidate-registration/step5-keyskill";
+
+  static String kEmpType =  Connect.AppURL() +"populate/employmenttype";
+  static String kJobType =  Connect.AppURL() +"populate/jobtype";
+  static String kKeySkills =  Connect.AppURL() +"populate/keyskill?query=";
   static String kGetprofileNoticePeriod = Connect.AppURL() + "populate/notice";
 
   static String kGetJobList =  "http://192.168.0.20:9030/jobportal-app/test/job-list";
-  static String kGetItSkill =  "http://192.168.0.20:9030/jobportal-app/api/candidate/itskill-list";
+  static String kGetItSkill =  Connect.AppURL() + "candidate/itskill-list";
 
   static String kLogin = Connect.AppURL()+"jwt/login";
-  static String kItSkillAdd = "http://192.168.0.20:9030/jobportal-app/api/candidate/itskill-add";
-  static String kItSkillUpdate = "http://192.168.0.20:9030/jobportal-app/api/candidate/itskill-add";
-  static String kItSkillDelete = "http://192.168.0.20:9030/jobportal-app/api/candidate/itskill-add";
-  static String kGetQualificationPop = "http://192.168.0.20:9030/jobportal-app/api/candidate/qualification-list";
-  static String kGetPersonalPop = "http://192.168.0.20:9030/jobportal-app/api/candidate/personaldetail-list";
-  static String kPersonalUpdate = "http://192.168.0.20:9030/jobportal-app/api/candidate/personaldetail-add";
-  static String kItSkillUpdatePop = "http://192.168.0.20:9030/jobportal-app/api/candidate/itskill-populate?request=";
-  static String kQualificationUpdate  = "http://192.168.0.20:9030/jobportal-app/api/candidate/qualification-add";
-  static String kPopulateLanguage  = "http://192.168.0.20:9030/jobportal-app/api/candidate/language-list";
-  static String kPopulatePatent = "http://192.168.0.20:9030/jobportal-app/api/candidate/patent-list";
-  static String kDropLanguages = "http://192.168.0.20:9030/jobportal-app/api/populate/language?query=";
-  static String kDropProfeciency = "http://192.168.0.20:9030/jobportal-app/api/populate/proficiency?query=";
+  static String kItSkillAdd = Connect.AppURL() + "candidate/itskill-add";
+  static String kItSkillUpdate = Connect.AppURL() + "candidate/itskill-add";
+  static String kItSkillDelete = Connect.AppURL() + "candidate/itskill-add";
+  static String kGetQualificationPop = Connect.AppURL() + "candidate/qualification-list";
+  static String kGetPersonalPop = Connect.AppURL() + "candidate/personaldetail-list";
+  static String kPersonalUpdate = Connect.AppURL() + "candidate/personaldetail-add";
+  static String kItSkillUpdatePop = Connect.AppURL() + "candidate/itskill-populate?request=";
+  static String kQualificationUpdate  = Connect.AppURL() + "candidate/qualification-add";
+  static String kPopulateLanguage  = Connect.AppURL() + "candidate/language-list";
+  static String kPopulatePatent = Connect.AppURL() + "candidate/patent-list";
+  static String kDropLanguages = Connect.AppURL() + "populate/language?query=";
+  static String kDropProfeciency = Connect.AppURL() + "populate/proficiency?query=";
   static String kpopulatecareerpreferenceprofile =Connect.AppURL() + "candidate/careerpreference-list";
-  static String kAddLanguage = "http://192.168.0.20:9030/jobportal-app/api/candidate/language-add";
+  static String kAddLanguage = Connect.AppURL() + "candidate/language-add";
  
-  static String kGetBasicInfoPop="http://192.168.0.20:7028/jobportal-app/api/candidate/basicdetail-list";
+  static String kGetBasicInfoPop= Connect.AppURL()+"candidate/basicdetail-list";
   static String kGetProfessionalPop = Connect.AppURL()+"candidate/professional-list";
   static String kkeySkillsProfile = Connect.AppURL()+"candidate/keyskill-list";
-  static String kLanguageUpdPop = "http://192.168.0.20:9030/jobportal-app/api/candidate/language-populate?request=";
-  static String kPatentAdd = "http://192.168.0.20:9030/jobportal-app/api/candidate/patent-add";
-  static String kPatentUpdPOP = "http://192.168.0.20:9030/jobportal-app/api/candidate/patent-populate?request=";
-  static String kPopulateAwards = "http://192.168.0.20:9030/jobportal-app/api/candidate/award-list";
-  static String kAddAwards = "http://192.168.0.20:9030/jobportal-app/api/candidate/award-add";
+  static String kLanguageUpdPop =  Connect.AppURL() +"candidate/language-populate?request=";
+  static String kPatentAdd =  Connect.AppURL() +"candidate/patent-add";
+  static String kPatentUpdPOP =  Connect.AppURL() +"candidate/patent-populate?request=";
+  static String kPopulateAwards =  Connect.AppURL() +"candidate/award-list";
+  static String kAddAwards =  Connect.AppURL() +"candidate/award-add";
   static String kUpdateBasicInfo =Connect.AppURL()+ "candidate/basicdetail-update";
   static String kProjectUpdatePop = Connect.AppURL() + "candidate/project-populate?request=";
 
-  static String kAwardsUpdPOP = "http://192.168.0.20:9030/jobportal-app/api/candidate/award-populate?request=";
+  static String kAwardsUpdPOP =  Connect.AppURL()+"candidate/award-populate?request=";
   static String kProfessionalAdd = Connect.AppURL()+"candidate/professional-add";
   static String kAddDeleteKeySkills = Connect.AppURL()+"candidate/keyskill-add";
   static String kCareerUpdate= Connect.AppURL()+"candidate/careerpreference-add";
@@ -87,16 +81,16 @@ class ApiUrls extends Connect{
   static String kPresentationAdd= Connect.AppURL()+"candidate/presentation-add";
   static String kResearchPaperList= Connect.AppURL()+"candidate/paper-list";
   static String kResearchPaperAdd= Connect.AppURL()+"candidate/paper-add";
-  static String kResearchPaperUpdPop= "http://192.168.0.20:9030/jobportal-app/api/candidate/paper-populate?request=";
+  static String kResearchPaperUpdPop=  Connect.AppURL()+"candidate/paper-populate?request=";
 
   //testing 
- static String kPreference = "http://192.168.0.20:7038/jobportal-app/api/candidate-registration/step3-careerpreference";
- static String kpostSkill = "http://192.168.0.20:7038/jobportal-app/api/candidate-registration/step6-keyskill";
- static String kItSkill = "http://192.168.0.20:7038/jobportal-app/api/candidate-registration/step7-itskill";
- static String kQualify = "http://192.168.0.20:7038/jobportal-app/api/candidate-registration/step5-qualificationdetail";
- static String kBasicDetial = "http://192.168.0.20:7038/jobportal-app/api/candidate-registration/step2-basicdetail";
- static String kProfession = "http://192.168.0.20:7038/jobportal-app/api/candidate-registration/step4-professionaldetail";
- static String kPersonal = "http://192.168.0.20:7038/jobportal-app/api/candidate-registration/step8-personaldetail";
+ static String kPreference =  Connect.AppURL() + "candidate-registration/step3-careerpreference";
+ static String kpostSkill =  Connect.AppURL() + "candidate-registration/step6-keyskill";
+ static String kItSkill =  Connect.AppURL() + "candidate-registration/step7-itskill";
+ static String kQualify =  Connect.AppURL() + "candidate-registration/step5-qualificationdetail";
+ static String kBasicDetial =  Connect.AppURL() + "candidate-registration/step2-basicdetail";
+ static String kProfession =  Connect.AppURL() + "candidate-registration/step4-professionaldetail";
+ static String kPersonal =  Connect.AppURL() + "candidate-registration/step8-personaldetail";
  
 }
 
