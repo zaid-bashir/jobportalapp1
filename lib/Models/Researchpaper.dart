@@ -4,7 +4,8 @@ class ResearchpaperAdd {
   String candidatepaperTitle;
   String candidatepaperWeblink;
   String candidatepaperDesc;
-  String candidatepaperPublisheddate;
+  String candidatepaperPublisheddate
+  ;
 
   ResearchpaperAdd({
     this.requestType,

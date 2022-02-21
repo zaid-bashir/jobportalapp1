@@ -26,8 +26,7 @@ class _PresentationState extends State<Presentation> {
   TextEditingController desclink = TextEditingController();
 
   PresentationPopulate presentationPopulate;
-String errorMessage;
-
+  String errorMessage;
 
   @override
   void initState() {
@@ -40,7 +39,9 @@ String errorMessage;
       setState(() {
         isLoading = true;
       });
-      apiServices.populatePresentationParticularUpdate(widget.uuid).then((response) {
+      apiServices
+          .populatePresentationParticularUpdate(widget.uuid)
+          .then((response) {
         setState(() {
           isLoading = false;
         });
@@ -174,78 +175,72 @@ String errorMessage;
       ),
       SizedBox(height: 20),
 
-          Padding(
-            padding: const EdgeInsets.all(40.0),
+      Padding(
+        padding: const EdgeInsets.all(40.0),
+        child: Align(
+          alignment: Alignment.centerRight,
+          child: GFButton(
+            onPressed: () async {
+              if (isEditing) {
+                setState(() {
+                  isLoading = true;
+                });
+                final insert = PresentationAddModel(
+                    requestType: "update",
+                    candidatepresentationUuid: widget.uuid,
+                    candidatepresentationTitle: title.text,
+                    candidatepresentationWeblink: weblink.text,
+                    candidatepresentationDesc: desclink.text);
+                final result = await apiServices.presentationAddService(insert);
+                setState(() {
+                  isLoading = false;
+                });
+                if (result.data) {
+                  Navigator.pop(context);
+                } else {
+                  print("error");
+                }
+              } else {
+                // if (formKey.currentState.validate()) {
+                setState(() {
+                  isLoading = true;
+                });
 
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: GFButton(
-                onPressed: () async {
-                  if (isEditing) {
-                    setState(() {
-                      isLoading = true;
-                    });
-                    final insert = PresentationAddModel(
-                        requestType: "update",
-                        candidatepresentationUuid: widget.uuid,
-                        candidatepresentationTitle: title.text,
-                        candidatepresentationWeblink: weblink.text,
-                        candidatepresentationDesc : desclink.text);
-                    final result = await apiServices.presentationAddService(insert);
-                    setState(() {
-    isLoading = false;
-                    });
-                    if (result.data) {
-                      Navigator.pop(context);
-                    } else {
-                      print("error");
-                    }
-                  }
-                  else
-                    {
-                    // if (formKey.currentState.validate()) {
-                    setState(() {
-                      isLoading = true;
-                    });
+                final insert = PresentationAddModel(
+                    requestType: "add",
+                    candidatepresentationTitle: title.text,
+                    candidatepresentationWeblink: weblink.text,
+                    candidatepresentationDesc: desclink.text);
 
-                    final insert = PresentationAddModel(
-                      requestType: "add",
-                      candidatepresentationTitle: title.text,
-                      candidatepresentationWeblink: weblink.text,
-                        candidatepresentationDesc : desclink.text
-                    );
-
-                    final result = await apiServices.presentationAddService(insert);
-                    setState(() {
-                      isLoading = false;
-                    });
-                    if (result.data) {
-                      Navigator.pop(context);
-                    } else {
-                      print("error occured");
-                    }
-                  }
-                },
-                text:   isEditing  ? "Update": "Add",
-                type: GFButtonType.solid,
-
-              ),
-            ),
+                final result = await apiServices.presentationAddService(insert);
+                setState(() {
+                  isLoading = false;
+                });
+                if (result.data) {
+                  Navigator.pop(context);
+                } else {
+                  print("error occured");
+                }
+              }
+            },
+            text: isEditing ? "Update" : "Add",
+            type: GFButtonType.solid,
           ),
-          // SizedBox(
-          //   width: 10,
-          // ),
-          // Padding(
-          //   padding: const EdgeInsets.only(right: 22),
-          // child: GFButton(
-          //     text: "Save",
-          //     type: GFButtonType.solid,
-          //     blockButton: false,
-          //     onPressed: () async {
-          //       Navigator.of(context).pop();
-          //     }),
-          // ),
-
+        ),
+      ),
+      // SizedBox(
+      //   width: 10,
+      // ),
+      // Padding(
+      //   padding: const EdgeInsets.only(right: 22),
+      // child: GFButton(
+      //     text: "Save",
+      //     type: GFButtonType.solid,
+      //     blockButton: false,
+      //     onPressed: () async {
+      //       Navigator.of(context).pop();
+      //     }),
+      // ),
 
       // const SizedBox(
       //   height: 40,

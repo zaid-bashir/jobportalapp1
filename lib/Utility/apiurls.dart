@@ -36,7 +36,6 @@ class ApiUrls extends Connect{
   static String kKeySkills = baseUrl+"populate/keyskill?query=";
   static String kpostSkill =  baseUrl+"candidate-registration/step5-keyskill";
   static String kGetprofileNoticePeriod = Connect.AppURL() + "populate/notice";
-
   static String kGetJobList =  "http://192.168.0.20:9030/jobportal-app/test/job-list";
   static String kGetItSkill =  "http://192.168.0.20:9030/jobportal-app/api/candidate/itskill-list";
   // static String kBasicDetails =  "http://192.168.0.20:9030/jobportal-app/candidate/candidate-overview";
@@ -66,7 +65,6 @@ class ApiUrls extends Connect{
   static String kAddAwards = "http://192.168.0.20:9030/jobportal-app/api/candidate/award-add";
   static String kUpdateBasicInfo =Connect.AppURL()+ "candidate/basicdetail-update";
   static String kProjectUpdatePop = Connect.AppURL() + "candidate/project-populate?request=";
-
   static String kAwardsUpdPOP = "http://192.168.0.20:9030/jobportal-app/api/candidate/award-populate?request=";
   static String kProfessionalAdd = Connect.AppURL()+"candidate/professional-add";
   static String kAddDeleteKeySkills = Connect.AppURL()+"candidate/keyskill-add";
@@ -77,16 +75,20 @@ class ApiUrls extends Connect{
   static String kProjectPopulate=Connect.AppURL()+"candidate/project-list";
   static String kParticularProfessionalUpdate = Connect.AppURL()+"candidate/professional-populate?request=";
   static String kProjectAdd= Connect.AppURL()+"candidate/project-add";
-
   static String kCertificationAdd= Connect.AppURL()+"candidate/certification-add";
   static String kCertfUpdatePop = Connect.AppURL() + "candidate/certification-populate?request=";
   static String kCertificationPopulate=Connect.AppURL()+"candidate/certification-list";
   static String kPopulateSummary  = Connect.AppURL() + "candidate/profilesummary-list";
   static String kSummaryAdd= Connect.AppURL()+"candidate/profilesummary-update";
+
   static String kPresentationPopulate= Connect.AppURL()+"candidate/presentation-list";
   static String kPresentationAdd= Connect.AppURL()+"candidate/presentation-add";
+
+
   static String kResearchPaperList= Connect.AppURL()+"candidate/paper-list";
   static String kResearchPaperAdd= Connect.AppURL()+"candidate/paper-add";
+  static String kResearchPaperUpdPop= "http://192.168.0.20:9030/jobportal-app/api/candidate/paper-populate?request=";
+
 }
 
 

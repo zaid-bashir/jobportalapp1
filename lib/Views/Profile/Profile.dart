@@ -170,7 +170,7 @@ class _ProfilePageState extends State<ProfilePage>
     getPersonal();
     populateKeySkills();
     getProfessional();
-     populateCareerPreferenceProfile();
+    populateCareerPreferenceProfile();
     getQualification();
     getLanguage();
     getProject();
@@ -204,17 +204,13 @@ class _ProfilePageState extends State<ProfilePage>
   ApiResponse<List<PopulateKeySkillsProfileModel>> _apiResponseKeySkillPopulate;
   ApiResponse<List<ProjectPopulate>> apiResponseProjectPopulate;
   ApiResponse<List<CertificationPopulate>> apiResponseCertificationPopulate;
-  ApiResponse <CareerPreferencePopulate>apiResponseCareerPreferencePopulate;
+  ApiResponse<CareerPreferencePopulate> apiResponseCareerPreferencePopulate;
   ApiResponse<List<SummaryPopulate>> apiResponseSummary;
   ApiResponse<List<PresentationPopulate>> apiResponsePresentationPopulate;
   ApiResponse<List<ProfessionalPopulate>> _apiResponse5;
   ApiResponse<List<ResearchpaperAdd>> apiResponseResearchPopulate;
 
-
-
-
   ApiServices apiServices = ApiServices();
-
 
   QualificationPopulate qualify;
   String errorMessage;
@@ -249,8 +245,7 @@ class _ProfilePageState extends State<ProfilePage>
     });
   }
 
-
-  getbasicss() async{
+  getbasicss() async {
     setState(() {
       isLoading = true;
     });
@@ -259,15 +254,18 @@ class _ProfilePageState extends State<ProfilePage>
       isLoading = false;
     });
   }
-  populateCareerPreferenceProfile() async{
+
+  populateCareerPreferenceProfile() async {
     setState(() {
       isLoading = true;
     });
-    apiResponseCareerPreferencePopulate = await apiServices.getCareerPreferencePopulate();
+    apiResponseCareerPreferencePopulate =
+        await apiServices.getCareerPreferencePopulate();
     setState(() {
       isLoading = false;
     });
   }
+
   getCertification() async {
     setState(() {
       isLoading = true;
@@ -329,8 +327,6 @@ class _ProfilePageState extends State<ProfilePage>
     });
   }
 
-
-
   getPersonal() async {
     setState(() {
       isLoading = true;
@@ -371,8 +367,6 @@ class _ProfilePageState extends State<ProfilePage>
     });
   }
 
-
-
   TextEditingController skillSearchCont = TextEditingController();
   String queries;
   ApiResponse<List<ITSkill>> _apiResponseITSkill;
@@ -407,15 +401,22 @@ class _ProfilePageState extends State<ProfilePage>
                         ),
                       ),
                       GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => SummaryAdd()))
-                                .then((value) => getSummary());
-                          },
-                          child: Text('Add',style: TextStyle(color:Color(0xff3e61ed),fontSize: 15,fontWeight: FontWeight.bold ),),
-                      ), ],
+                        onTap: () {
+                          Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SummaryAdd()))
+                              .then((value) => getSummary());
+                        },
+                        child: Text(
+                          'Add',
+                          style: TextStyle(
+                              color: Color(0xff3e61ed),
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Padding(
@@ -493,8 +494,6 @@ class _ProfilePageState extends State<ProfilePage>
     return childs;
   }
 
-
-
   List<Widget> getPersonalList() {
     List<Widget> childs = _apiResponse3.data
         .map(
@@ -531,8 +530,7 @@ class _ProfilePageState extends State<ProfilePage>
                                       Ex: e.candidateExservicemen,
                                     ))).then((value) => getPersonal());
                       },
-                      child:
-                          const Icon(Icons.edit, color: Color(0xff3e61ed)),
+                      child: const Icon(Icons.edit, color: Color(0xff3e61ed)),
                     ),
                   ],
                 ),
@@ -1046,13 +1044,13 @@ class _ProfilePageState extends State<ProfilePage>
                               context,
                               MaterialPageRoute(
                                   builder: (context) => UpdateBasicDetails(
-                                    // fName: e.candidateFirstName,
-                                    // mName: e.candidateMiddleName,
-                                    // lName: e.candidateLastName,
-                                    // phone: e.candidateMobile1,
-                                    // email: e.candidateEmail1,
-                                    // gender: e.candidateGenderId,
-                                  )));
+                                      // fName: e.candidateFirstName,
+                                      // mName: e.candidateMiddleName,
+                                      // lName: e.candidateLastName,
+                                      // phone: e.candidateMobile1,
+                                      // email: e.candidateEmail1,
+                                      // gender: e.candidateGenderId,
+                                      )));
                         },
                         child: Icon(Icons.edit, color: Color(0xff3e61ed)))
                   ],
@@ -1092,7 +1090,10 @@ class _ProfilePageState extends State<ProfilePage>
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(top: 5),
-                                      child: Text( _apiResponseBasics.data.candidateName ?? "clustech",
+                                      child: Text(
+                                          _apiResponseBasics
+                                                  .data.candidateName ??
+                                              "clustech",
                                           style: TextStyle(
                                               fontSize: 14.0,
                                               fontFamily: "ProximaNova",
@@ -1117,7 +1118,10 @@ class _ProfilePageState extends State<ProfilePage>
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(top: 5.0),
-                                      child: Text( _apiResponseBasics.data.candidateMobile1 ?? "1234",
+                                      child: Text(
+                                          _apiResponseBasics
+                                                  .data.candidateMobile1 ??
+                                              "1234",
                                           style: TextStyle(
                                               fontSize: 14.0,
                                               fontFamily: "ProximaNova",
@@ -1151,7 +1155,10 @@ class _ProfilePageState extends State<ProfilePage>
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(top: 5.0),
-                                      child: Text(_apiResponseBasics.data.candidateEmail1 ?? "1234",
+                                      child: Text(
+                                          _apiResponseBasics
+                                                  .data.candidateEmail1 ??
+                                              "1234",
                                           style: TextStyle(
                                               fontSize: 14.0,
                                               fontFamily: "ProximaNova",
@@ -1176,7 +1183,10 @@ class _ProfilePageState extends State<ProfilePage>
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(top: 5.0),
-                                      child: Text(_apiResponseBasics.data.candidateGenderName ?? "1234",
+                                      child: Text(
+                                          _apiResponseBasics
+                                                  .data.candidateGenderName ??
+                                              "1234",
                                           style: TextStyle(
                                               fontSize: 14.0,
                                               fontFamily: "ProximaNova",
@@ -1211,7 +1221,9 @@ class _ProfilePageState extends State<ProfilePage>
                                     Padding(
                                       padding: const EdgeInsets.only(top: 5.0),
                                       child: Text(
-                                          _apiResponseBasics.data.candidateTotalWorkExp ?? "1234",
+                                          _apiResponseBasics
+                                                  .data.candidateTotalWorkExp ??
+                                              "1234",
                                           style: TextStyle(
                                               fontSize: 14.0,
                                               fontFamily: "ProximaNova",
@@ -1236,7 +1248,9 @@ class _ProfilePageState extends State<ProfilePage>
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(top: 5.0),
-                                      child: Text( _apiResponseBasics.data.preferedJobRoleNames,
+                                      child: Text(
+                                          _apiResponseBasics
+                                              .data.preferedJobRoleNames,
                                           style: TextStyle(
                                               fontSize: 14.0,
                                               fontFamily: "ProximaNova",
@@ -1253,7 +1267,6 @@ class _ProfilePageState extends State<ProfilePage>
                   ),
                 ),
               ),
-
               Padding(
                 padding: const EdgeInsets.only(top: 10, left: 25, right: 25),
                 child: Row(
@@ -1276,7 +1289,13 @@ class _ProfilePageState extends State<ProfilePage>
                                     builder: (context) => QualificationAdd()))
                             .then((value) => getQualification());
                       },
-                      child: Text('Add',style: TextStyle(color:Color(0xff3e61ed),fontSize: 15,fontWeight: FontWeight.bold ),),
+                      child: Text(
+                        'Add',
+                        style: TextStyle(
+                            color: Color(0xff3e61ed),
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold),
+                      ),
                     )
                   ],
                 ),
@@ -1295,7 +1314,6 @@ class _ProfilePageState extends State<ProfilePage>
                     child: Column(
                       children: [
                         qualificationList(context),
-
                       ],
                     ),
                   ),
@@ -1325,7 +1343,13 @@ class _ProfilePageState extends State<ProfilePage>
                             )
                             .then((value) => getProfessional());
                       },
-                      child:Text('Add',style: TextStyle(color:Color(0xff3e61ed),fontSize: 15,fontWeight: FontWeight.bold ),),
+                      child: Text(
+                        'Add',
+                        style: TextStyle(
+                            color: Color(0xff3e61ed),
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold),
+                      ),
                     )
                   ],
                 ),
@@ -1365,17 +1389,23 @@ class _ProfilePageState extends State<ProfilePage>
                       ),
                     ),
                     GestureDetector(
-                        onTap: () {
-                          Navigator.of(context)
-                              .push(
-                                MaterialPageRoute(
-                                  builder: (context) => AddSkillsPage(),
-                                ),
-                              )
-                              .then((value) => populateKeySkills());
-                        },
-                        child:
-                        Text('Add',style: TextStyle(color:Color(0xff3e61ed),fontSize: 15,fontWeight: FontWeight.bold ),),)
+                      onTap: () {
+                        Navigator.of(context)
+                            .push(
+                              MaterialPageRoute(
+                                builder: (context) => AddSkillsPage(),
+                              ),
+                            )
+                            .then((value) => populateKeySkills());
+                      },
+                      child: Text(
+                        'Add',
+                        style: TextStyle(
+                            color: Color(0xff3e61ed),
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -1450,15 +1480,22 @@ class _ProfilePageState extends State<ProfilePage>
                       ),
                     ),
                     GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ItSkillAdds()))
-                              .then((value) => getItSkill());
-                        },
-                        child:Text('Add',style: TextStyle(color:Color(0xff3e61ed),fontSize: 15,fontWeight: FontWeight.bold ),),
-                    ), ],
+                      onTap: () {
+                        Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ItSkillAdds()))
+                            .then((value) => getItSkill());
+                      },
+                      child: Text(
+                        'Add',
+                        style: TextStyle(
+                            color: Color(0xff3e61ed),
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               Padding(
@@ -1505,8 +1542,7 @@ class _ProfilePageState extends State<ProfilePage>
                                 builder: (context) =>
                                     UpdateCareerPreference()));
                       },
-                      child:
-                          const Icon(Icons.edit, color: Color(0xff3e61ed)),
+                      child: const Icon(Icons.edit, color: Color(0xff3e61ed)),
                     )
                   ],
                 ),
@@ -1518,7 +1554,6 @@ class _ProfilePageState extends State<ProfilePage>
                   right: 20,
                 ),
                 child: Card(
-
                   elevation: 5,
                   child: Padding(
                       padding: const EdgeInsets.only(bottom: 15),
@@ -1551,7 +1586,8 @@ class _ProfilePageState extends State<ProfilePage>
                                             padding:
                                                 const EdgeInsets.only(top: 5),
                                             child: Text(
-                                            apiResponseCareerPreferencePopulate.data.industryName,
+                                                apiResponseCareerPreferencePopulate
+                                                    .data.industryName,
                                                 style: TextStyle(
                                                     fontSize: 14.0,
                                                     fontFamily: "ProximaNova",
@@ -1580,7 +1616,8 @@ class _ProfilePageState extends State<ProfilePage>
                                             padding:
                                                 const EdgeInsets.only(top: 5.0),
                                             child: Text(
-                                                apiResponseCareerPreferencePopulate.data.jobtypeName,
+                                                apiResponseCareerPreferencePopulate
+                                                    .data.jobtypeName,
                                                 style: TextStyle(
                                                     fontSize: 14.0,
                                                     fontFamily: "ProximaNova",
@@ -1618,8 +1655,8 @@ class _ProfilePageState extends State<ProfilePage>
                                             padding:
                                                 const EdgeInsets.only(top: 5.0),
                                             child: Text(
-                                                apiResponseCareerPreferencePopulate.data.employmenttypeName
-                                                    ,
+                                                apiResponseCareerPreferencePopulate
+                                                    .data.employmenttypeName,
                                                 style: TextStyle(
                                                     fontSize: 14.0,
                                                     fontFamily: "ProximaNova",
@@ -1648,7 +1685,8 @@ class _ProfilePageState extends State<ProfilePage>
                                             padding:
                                                 const EdgeInsets.only(top: 5.0),
                                             child: Text(
-                                                apiResponseCareerPreferencePopulate.data.cityName ,
+                                                apiResponseCareerPreferencePopulate
+                                                    .data.cityName,
                                                 style: TextStyle(
                                                     fontSize: 14.0,
                                                     fontFamily: "ProximaNova",
@@ -1686,7 +1724,9 @@ class _ProfilePageState extends State<ProfilePage>
                                             padding:
                                                 const EdgeInsets.only(top: 5.0),
                                             child: Text(
-                                                apiResponseCareerPreferencePopulate.data.candidateExpectedctc ??
+                                                apiResponseCareerPreferencePopulate
+                                                        .data
+                                                        .candidateExpectedctc ??
                                                     "12000",
                                                 style: TextStyle(
                                                     fontSize: 14.0,
@@ -1716,7 +1756,12 @@ class _ProfilePageState extends State<ProfilePage>
                                             padding:
                                                 const EdgeInsets.only(top: 5.0),
                                             child: Text(
-                                            apiResponseCareerPreferencePopulate.data.shiftName == "" ? "flexible":      apiResponseCareerPreferencePopulate.data.shiftName ,
+                                                apiResponseCareerPreferencePopulate
+                                                            .data.shiftName ==
+                                                        ""
+                                                    ? "flexible"
+                                                    : apiResponseCareerPreferencePopulate
+                                                        .data.shiftName,
                                                 style: TextStyle(
                                                     fontSize: 14.0,
                                                     fontFamily: "ProximaNova",
@@ -1777,7 +1822,6 @@ class _ProfilePageState extends State<ProfilePage>
               Column(
                 children: getPersonalList(),
               ),
-
               Padding(
                 padding: const EdgeInsets.only(left: 25, top: 10, right: 25),
                 child: Row(
@@ -1883,7 +1927,6 @@ class _ProfilePageState extends State<ProfilePage>
                         fontSize: 16.5,
                       ),
                     ),
-
                   ],
                 ),
               ),
@@ -1920,17 +1963,16 @@ class _ProfilePageState extends State<ProfilePage>
                         fontSize: 16.5,
                       ),
                     ),
-                    // GestureDetector(
-                    //   onTap: () {
-                    //     Navigator.push(
-                    //             context,
-                    //             MaterialPageRoute(
-                    //                 builder: (context) => Presentation()))
-                    //         .then((value) => getPresentation());
-                    //   },
-                    //   child:
-                    //       const Icon(Icons.edit, color: Color(0xff3e61ed)),
-                    // )
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Presentation()))
+                            .then((value) => getPresentation());
+                      },
+                      child: const Icon(Icons.edit, color: Color(0xff3e61ed)),
+                    )
                   ],
                 ),
               ),
@@ -1967,17 +2009,17 @@ class _ProfilePageState extends State<ProfilePage>
                         fontSize: 16.5,
                       ),
                     ),
-                    // GestureDetector(
-                    //     onTap: () {
-                    //       Navigator.push(
-                    //           context,
-                    //           MaterialPageRoute(
-                    //               builder: (context) => AddPatents()));
-                    //     },
-                    //     child: const Icon(
-                    //       Icons.edit,
-                    //       color: Color(0xff3e61ed),
-                    //     ))
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AddPatents()));
+                        },
+                        child: const Icon(
+                          Icons.edit,
+                          color: Color(0xff3e61ed),
+                        ))
                   ],
                 ),
               ),
@@ -2002,7 +2044,7 @@ class _ProfilePageState extends State<ProfilePage>
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      "RESEARCH PUBLICATION",
+                      "RESEARCH PUBLICATIiiON",
                       style: TextStyle(
                         fontFamily: "ProximaNova",
                         fontWeight: FontWeight.bold,
@@ -2010,17 +2052,16 @@ class _ProfilePageState extends State<ProfilePage>
                         fontSize: 16.5,
                       ),
                     ),
-                    // GestureDetector(
-                    //   onTap: () {
-                    //     Navigator.push(
-                    //             context,
-                    //             MaterialPageRoute(
-                    //                 builder: (context) => Research()))
-                    //         .then((value) => getResearch());
-                    //   },
-                    //   child:
-                    //       const Icon(Icons.edit, color: Color(0xff3e61ed)),
-                    // )
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Research()))
+                            .then((value) => getResearch());
+                      },
+                      child: const Icon(Icons.edit, color: Color(0xff3e61ed)),
+                    )
                   ],
                 ),
               ),
@@ -2043,9 +2084,6 @@ class _ProfilePageState extends State<ProfilePage>
                   ),
                 ),
               ),
-
-
-
               Padding(
                 padding: const EdgeInsets.only(left: 25, top: 10, right: 25),
                 child: Row(
@@ -2427,36 +2465,13 @@ class _ProfilePageState extends State<ProfilePage>
                       Padding(
                         padding:
                             const EdgeInsets.only(left: 25, right: 25, top: 25),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            GestureDetector(
-                                onTap: () {},
-                                child: Icon(Icons.control_point_outlined,
-                                    color: Color(0xff3e61ed))),
-                            SizedBox(width: 10),
-                            Text(
-                              ' Research Publication',
-                              style: TextStyle(
-                                fontSize: 14.0,
-                                fontFamily: "ProximaNova",
-                                color: Color(0xff3e61ed),
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(left: 25, right: 25, top: 25),
                         child: GestureDetector(
                           onTap: () {
                             Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => AddPatents()))
-                                .then((value) => getPatent());
+                                        builder: (context) => Research()))
+                                .then((value) => getResearch());
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -2465,7 +2480,7 @@ class _ProfilePageState extends State<ProfilePage>
                                   color: Color(0xff3e61ed)),
                               SizedBox(width: 10),
                               Text(
-                                'Patents',
+                                'Research Publication',
                                 style: TextStyle(
                                   fontSize: 14.0,
                                   fontFamily: "ProximaNova",
@@ -2485,8 +2500,8 @@ class _ProfilePageState extends State<ProfilePage>
                             Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => LanguagesAdd()))
-                                .then((value) => getLanguage());
+                                        builder: (context) => Research()))
+                                .then((value) => getResearch());
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -2637,8 +2652,6 @@ class _ProfilePageState extends State<ProfilePage>
           );
   }
 
-
-
   Widget professionallist(BuildContext context) {
     // final orientation = MediaQuery.of(context).orientation;
     return ListView.separated(
@@ -2765,13 +2778,12 @@ class _ProfilePageState extends State<ProfilePage>
                         fontSize: 12.5,
                       ),
                       children: [
-
                         TextSpan(
-                          text:   _apiResponse5.data[index]
+                          text: _apiResponse5.data[index]
                                       .candidateexpIscurrentcompany ==
                                   "1"
-                              ?   "Present"
-                              :  "to" + _apiResponse5.data[index].EndDate,
+                              ? "Present"
+                              : "to" + _apiResponse5.data[index].EndDate,
                           style: const TextStyle(
                             fontFamily: "ProximaNova",
                             color: Colors.grey,
@@ -3581,7 +3593,8 @@ class _ProfilePageState extends State<ProfilePage>
                   ],
                 ),
                 Text(
-                  _apiResponsePatent.data[index].candidatepatentIssuedate.split(" ")[0] ??
+                  _apiResponsePatent.data[index].candidatepatentIssuedate
+                          .split(" ")[0] ??
                       "2 years",
                   style: const TextStyle(
                     fontFamily: "ProximaNova",
@@ -3614,7 +3627,6 @@ class _ProfilePageState extends State<ProfilePage>
                     fontSize: 13.5,
                   ),
                 ),
-
               ],
             ),
           ),
@@ -4213,6 +4225,7 @@ class _ProfilePageState extends State<ProfilePage>
     );
   }
 
+
   Widget awardsList(BuildContext context) {
     // final orientation = MediaQuery.of(context).orientation;
     return ListView.separated(
@@ -4332,8 +4345,6 @@ class _ProfilePageState extends State<ProfilePage>
                     fontSize: 13.5,
                   ),
                 ),
-
-
               ],
             ),
           ),
@@ -4462,8 +4473,6 @@ class _ProfilePageState extends State<ProfilePage>
                     fontSize: 13.5,
                   ),
                 ),
-
-
               ],
             ),
           ),
@@ -4479,4 +4488,3 @@ class _ProfilePageState extends State<ProfilePage>
     super.dispose();
   }
 }
-
