@@ -184,7 +184,7 @@ class HomePage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Hello Isra",
+          Text("Hello Tahseen",
               style: TextStyle(
                 fontSize: 15,
                 fontFamily: "ProximaNova",
@@ -798,7 +798,7 @@ class HomePage extends StatelessWidget {
                   height: 10,
                 ),
                 const Text(
-                  "2 Recruiters express interest in your profile in pst 60days",
+                  "2 Recruiters express interest in your profile in past 60days",
                   style: TextStyle(
                       fontSize: 14,
                       fontFamily: "ProximaNova",

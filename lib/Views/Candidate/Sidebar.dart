@@ -56,7 +56,7 @@ class _SideMenuState extends State<SideMenu> {
                           padding: const EdgeInsets.only(top: 20),
                           child: Column(
                             children: [
-                              Text("Vijay Niranjan",   style: TextStyle(
+                              Text("Tahseen",   style: TextStyle(
                                 fontFamily: "ProximaNova",
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: 1.5,
