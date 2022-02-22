@@ -4153,7 +4153,9 @@ class _ProfilePageState extends State<ProfilePage>
                           text: apiResponseCertificationPopulate
                                   .data[index].candidatecertificationIssuedby ??
                               "",
+
                           style: const TextStyle(
+                            overflow: TextOverflow.ellipsis,
                             fontFamily: "ProximaNova",
                             color: Colors.grey,
                             fontWeight: FontWeight.w500,

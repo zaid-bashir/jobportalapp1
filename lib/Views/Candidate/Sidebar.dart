@@ -67,7 +67,7 @@ class _SideMenuState extends State<SideMenu> {
                               ),
                               GestureDetector(
                                 onTap: (){
-                                  // Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfilePage()));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfilePage()));
                                 },
                                 child: Text("Update Profile",   style: TextStyle(
                                   color: Color(0xff3e61ed),
