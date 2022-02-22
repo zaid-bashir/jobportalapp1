@@ -2,7 +2,6 @@ import 'Connect.dart';
 
 class ApiUrls extends Connect{
 
-  static const String baseUrl = "http://192.168.0.20:9030/jobportal-app/api/";
   static String kgetOTP = Connect.AppURL()+"generate-otp";
   static String kverifyOTP =  Connect.AppURL()+"validate-otp";
   static String ktitles = Connect.AppURL()+ "populate/title";

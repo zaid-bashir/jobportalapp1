@@ -26,15 +26,15 @@ class _SideMenuState extends State<SideMenu> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 250,
       child: Drawer(
         child: ListView(
           children: <Widget>[
             FadeInDown(
-              delay: Duration(milliseconds: 500),
-              duration: Duration(milliseconds: 500),
-              child: Container(
+              delay: const Duration(milliseconds: 500),
+              duration: const Duration(milliseconds: 500),
+              child: SizedBox(
                 height: 100,
                 child: DrawerHeader(
 
@@ -49,27 +49,27 @@ class _SideMenuState extends State<SideMenu> {
                             color: Colors.grey.shade900,size: 35,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 20,
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 20),
                           child: Column(
                             children: [
-                              Text("Tahseen",   style: TextStyle(
+                              const Text("Tahseen",   style: TextStyle(
                                 fontFamily: "ProximaNova",
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: 1.5,
                                 fontSize: 14.5,
                               ),),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               GestureDetector(
                                 onTap: (){
                                   Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfilePage()));
                                 },
-                                child: Text("Update Profile",   style: TextStyle(
+                                child: const Text("Update Profile",   style: TextStyle(
                                   color: Color(0xff3e61ed),
                                   fontFamily: "ProximaNova",
                                   fontWeight: FontWeight.bold,
@@ -180,7 +180,7 @@ class _SideMenuState extends State<SideMenu> {
                   title: "Explore Jobs",
                   svgSrc:  Icons.manage_search_outlined,
                   press: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>ExploreJobs()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>const ExploreJobs()));
                   },
                 ),
               ),
@@ -194,7 +194,7 @@ class _SideMenuState extends State<SideMenu> {
                   title: "Saved Jobs",
                   svgSrc:  Icons.bookmark_border_outlined,
                   press: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>SavedJobs()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>const SavedJobs()));
 
                   },
                 ),
@@ -209,7 +209,7 @@ class _SideMenuState extends State<SideMenu> {
                   title: "Suggested Jobs",
                   svgSrc:  Icons.work_outline_outlined,
                   press: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>SuggestJobs()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>const SuggestJobs()));
 
                   },
                 ),
@@ -218,7 +218,7 @@ class _SideMenuState extends State<SideMenu> {
             FadeInDownBig(
               delay: const Duration(milliseconds: 500),
               duration: const Duration(milliseconds: 500),
-              child: Divider(
+              child: const Divider(
                 color: Colors.grey,
                 thickness: 0.8,
                 indent: 8.0,
@@ -260,7 +260,7 @@ class _SideMenuState extends State<SideMenu> {
                   title: "Settings",
                   svgSrc: Icons.manage_accounts_outlined,
                   press: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => Settings()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const Settings()));
                   },
                 ),
               ),
@@ -307,11 +307,11 @@ class DrawerListTile extends StatelessWidget {
       horizontalTitleGap: 0.0,
       leading:Icon(
         svgSrc,
-        color: Color(0xff3e61ed),
+        color: const Color(0xff3e61ed),
       ),
       title: Text(
         title,
-        style: TextStyle(
+        style: const TextStyle(
           fontFamily: Constants.OPEN_SANS,
           fontWeight: FontWeight.w600,
           fontSize: 14.0,
