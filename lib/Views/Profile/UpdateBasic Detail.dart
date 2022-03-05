@@ -3,6 +3,7 @@
 
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
@@ -11,6 +12,7 @@ import 'package:job_portal/Models/BasicInfoPopulate.dart';
 import 'package:job_portal/Models/CurerntLocation.dart';
 import 'package:job_portal/Models/GetTitle.dart';
 import 'package:job_portal/Models/JobRole.dart';
+import 'package:job_portal/Models/RegisterError.dart';
 
 
 import 'package:job_portal/Models/custumradiomodel.dart';
@@ -156,6 +158,18 @@ class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
 
   //ApiResponse Generic Objects
   //===========================
+
+  RegisterError registerError = RegisterError(
+      candidateEmail1: "Enter Email!",
+      candidateLastName: "Enter Last Name!",
+      candidateCurrentCityId: "Select Current Location!",
+      candidateMobile1: "Enter Mobile!",
+      candidatePreferredJobRoleList: "Select Preferred Job Roles!",
+      candidateFirstName: "Enter First Name!",
+      candidateGenderId: "Select Gender!");
+
+
+
   ApiResponse<List<GetTitle>> _apiResponse;
   ApiResponse<List<JobCategory>> _apiResponseJobCategory;
   ApiResponse<List<CurrentLocation>> _apiResponseCurrentLocation;
@@ -256,17 +270,11 @@ class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 20, top: 10),
-            child: Row(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  icon: const Icon(Icons.arrow_back),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
+
                 const Text(
                   "Basic Information",
                   style: TextStyle(
@@ -274,6 +282,16 @@ class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
                       fontWeight: FontWeight.bold,
                       fontFamily: "ProximaNova"),
                 ),
+                Text(
+                  "Add basic details for the recruiter to know you."
+                  ,
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontFamily: "ProximaNova",
+                    color: Colors.grey,
+                  ),
+                ),
+
               ],
             ),
           ),
@@ -309,8 +327,8 @@ class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
                                   selectedUser = newValue;
                                 });
                               },
-                              validator: (value) =>
-                              value == null ? ' Enter Title' : null,
+                              // validator: (value) =>
+                              // value == null ? ' Enter Title' : null,
                               items: _apiResponse.data.map((GetTitle user) {
                                 return DropdownMenuItem<GetTitle>(
                                   value: user,
@@ -329,8 +347,13 @@ class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
                         Expanded(
                           flex: 5,
                           child: TextFormField(
+                            maxLines: 20,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]"))
+                            ],
                             controller: fnameController,
                             decoration: InputDecoration(
+
                               contentPadding: EdgeInsets.all(8.0),
                               labelText: 'First Name:',
                               labelStyle: TextStyle(
@@ -355,7 +378,7 @@ class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
                             AutovalidateMode.onUserInteraction,
                             validator: (value) {
                               if (value.isEmpty) {
-                                return "Enter First Name";
+                                return registerError.candidateFirstName;
                               } else {
                                 return null;
                               }
@@ -377,6 +400,10 @@ class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
                         children: [
                           Expanded(
                             child: TextFormField(
+                              maxLines:20,
+                              inputFormatters: <TextInputFormatter>[
+                                FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]"))
+                              ],
                               controller: mnameController,
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(8.0),
@@ -399,8 +426,7 @@ class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
                                 ),
                               ),
                               keyboardType: TextInputType.name,
-                              autovalidateMode:
-                              AutovalidateMode.onUserInteraction,
+
                             ),
                           ),
                           const SizedBox(
@@ -408,6 +434,10 @@ class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
                           ),
                           Expanded(
                             child: TextFormField(
+                              maxLines: 20,
+                              inputFormatters: <TextInputFormatter>[
+                                FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]"))
+                              ],
                               controller: lnameController,
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(8.0),
@@ -434,9 +464,10 @@ class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
                               AutovalidateMode.onUserInteraction,
                               validator: (value) {
                                 if (value.isEmpty) {
-                                  return "Enter Last Name";
+                                  return registerError.candidateLastName;
+                                } else {
+                                  return null;
                                 }
-                                return null;
                               },
                             ),
                           ),
@@ -660,7 +691,7 @@ class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
                         },
                         validator: (val) {
                           if (val == null) {
-                            return "This field is required";
+                            return registerError.candidateGenderId;
                           } else {
                             return null;
                           }
@@ -703,7 +734,7 @@ class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
                         },
                         validator: (val) {
                           if (val == null) {
-                            return "This field is required";
+                            return "Select experience";
                           } else {
                             return null;
                           }
@@ -750,7 +781,7 @@ class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
                                   });
                                 },
                                 validator: (value) => value == null
-                                    ? ' Fill year'
+                                    ? 'Select year'
                                     : null,
                                 items: [
                                   "0",
@@ -801,7 +832,7 @@ class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
                                   });
                                 },
                                 validator: (value) => value == null
-                                    ? ' Fill month'
+                                    ? 'Select month'
                                     : null,
                                 items: [
                                   "0",
@@ -893,20 +924,19 @@ class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
                     type: GFButtonType.solid,
                     blockButton: false,
                     onPressed: () async {
-                      // if (_fbKey.currentState.saveAndValidate()) {
+                      if (_fbKey.currentState.saveAndValidate()) {
                       final insert = BasicDetialModel(
-
-                        candidateTitleId: int.parse(selectedUser.titleId),
-                        // candidateMobile1: widget.mobileNo,
+                        candidateTitleId: selectedUser.titleId,
+                        candidateMobile1: widget.phone,
                         candidateFirstName: fnameController.text,
                         candidateMiddleName: mnameController.text,
                         candidateLastName: lnameController.text,
                         candidateEmail1: emailController.text,
-                        candidateName: fnameController.text +
-                            " " +
-                            mnameController.text +
-                            " " +
-                            lnameController.text,
+                        // candidateName: fnameController.text +
+                        //     " " +
+                        //     mnameController.text +
+                        //     " " +
+                        //     lnameController.text,
                         experience:experienceRadioId.toString() ,
                         candidateGenderId: genderRadioId,
                         candidateTotalworkexp:
@@ -927,7 +957,7 @@ class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
 
                       }
                       Navigator.of(context).pop();
-                      // }
+                      }
                     }),
               ),
             ],
@@ -957,7 +987,7 @@ class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
       Padding(
         padding: const EdgeInsets.all(8.0),
         child: DropdownSearch<JobCategory>.multiSelection(
-          autoValidateMode: AutovalidateMode.onUserInteraction,
+          // autoValidateMode: AutovalidateMode.onUserInteraction,
           validator: (value) {
             if (value.isEmpty) {
               return "Select Preferred Role";
@@ -977,14 +1007,7 @@ class _UpdateBasicDetailsState extends State<UpdateBasicDetails> {
               print(jobroleList);
             });
           },
-          // onFind: (val) async {
-          //   setState(() {
-          //     query = val;
-          //   });
-          //   fetchCompany(query: query);
-          //   return _apiResponse.data;
-          // },
-          // ignore: deprecated_member_use
+
           hint: "Select Preferred Role",
           showSearchBox: true,
           popupItemBuilder: (context, JobCategory item, bool isSelected) {

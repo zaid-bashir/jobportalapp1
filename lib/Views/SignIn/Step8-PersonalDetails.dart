@@ -1,8 +1,7 @@
-// ignore_for_file: must_be_immutable, unused_import, avoid_print
-
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:date_field/date_field.dart';
+import 'package:flutter/services.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/Country.dart';
@@ -12,6 +11,7 @@ import 'package:job_portal/Models/Nationality.dart';
 import 'package:job_portal/Models/PersonalDetails-post.dart';
 import 'package:job_portal/Models/location.dart';
 import 'package:job_portal/Services/ApiServices.dart';
+import 'package:job_portal/Utility/Connect.dart';
 import 'package:job_portal/Views/Candidate/BottomNavbar.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:intl/intl.dart';
@@ -51,6 +51,8 @@ class _PersonalDetailsState extends State<PersonalDetails> {
   Marital Marial;
   Category Caste;
   DateTime selectedDate;
+  DateTime lastDate = DateTime.now();
+  // int start = DateTime.now() - 50;
   int groupValue = 0;
   int groupValue2 = 0;
   YearPicker selectedDate2;
@@ -133,14 +135,6 @@ class _PersonalDetailsState extends State<PersonalDetails> {
     });
   }
 
-  // List<String> getNationality() {
-  //   List<Nationality> getNatio = _apiResponse2.data;
-  //   List<String> natioData = [];
-  //   for (int i = 0; i < getNatio.length; i++) {
-  //     natioData.add(getNatio[i].countryNationality);
-  //   }
-  //   return natioData;
-  // }
 
   String Nationalities;
 
@@ -154,21 +148,30 @@ class _PersonalDetailsState extends State<PersonalDetails> {
     });
   }
 
-  // List<String> getCountry() {
-  //   List<Country> countData = _apiResponse3.data;
-  //   List<String> counData = [];
-  //   for (int i = 0; i < countData.length; i++) {
-  //     counData.add(countData[i].countryName);
-  //   }
-  //   return counData;
-  // }
+
 
   String Countries;
+
+  RichText getRequiredLabel({String fieldName}) {
+    return RichText(
+      text: TextSpan(
+          style: const TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+              fontFamily: "ProximaNova"),
+          text: fieldName,
+          // ignore: prefer_const_literals_to_create_immutables
+          children: [
+            const TextSpan(text: '*', style: TextStyle(color: Colors.red)),
+          ]),
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return isLoading
-        ? Center(child: CircularProgressIndicator())
+        ? const Center(child: CircularProgressIndicator())
         : SafeArea(
             child: Scaffold(
             body: SingleChildScrollView(
@@ -178,24 +181,23 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        // IconButton(
-                        //     onPressed: () {
-                        //       Navigator.pop(context);
-                        //     },
-                        //     icon: const Icon(Icons.arrow_back)),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        const Text(
-                          "Personal Details",
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "ProximaNova"),
-                        ),
-                      ],
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    const Text(
+                      "Personal Details",
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "ProximaNova"),
+                    ),
+                    Text(
+                      "Add personal datails to complete your profile",
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontFamily: "ProximaNova",
+                        color: Colors.grey,
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0),
@@ -266,7 +268,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                   ),
                                 ),
                               ),
-                              Text(
+                              const Text(
                                 'Address',
                                 style: TextStyle(
                                     fontSize: 15,
@@ -276,7 +278,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                               TextFormField(
                                 controller: addressController,
 
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   hintText: "Address",
                                   hintStyle: TextStyle(
                                     color: Colors.blueGrey,
@@ -299,7 +301,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                 height: 8,
                               ),
                               DropdownSearch<Cities>(
-                                dropdownSearchDecoration: InputDecoration(
+                                dropdownSearchDecoration: const InputDecoration(
                                     border: UnderlineInputBorder(
                                     )
                                 ),
@@ -325,10 +327,10 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                 popupItemBuilder:
                                     (context, Cities item, bool isSelected) {
                                   return Container(
-                                    margin: EdgeInsets.symmetric(horizontal: 8),
+                                    margin: const EdgeInsets.symmetric(horizontal: 8),
                                     child: Card(
                                       child: Padding(
-                                        padding: EdgeInsets.all(8.0),
+                                        padding: const EdgeInsets.all(8.0),
                                         child: Text(item.cityName),
                                       ),
                                     ),
@@ -338,15 +340,19 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                               const SizedBox(
                                 height: 15,
                               ),
-                              Text('Pin Code',
+                              const Text('Pin Code',
                                   style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold,
                                       fontFamily: "ProximaNova")),
                               TextFormField(
-
+                                maxLength: 6,
+                                keyboardType: TextInputType.number,
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.allow(RegExp("[0-9]"))
+                                ],
                                 controller: pincodeController,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   hintText: "Pin Code",
                                   hintStyle: TextStyle(
                                     color: Colors.blueGrey,
@@ -372,23 +378,29 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                 height: 10,
                               ),
                               DateTimeFormField(
+                                firstDate: DateTime(lastDate.year-50) ,
+                                lastDate: lastDate,
                                 decoration: const InputDecoration(
-                                  border: const UnderlineInputBorder(
-                                    borderSide: const BorderSide(
+                                  border: UnderlineInputBorder(
+                                    borderSide: BorderSide(
                                       color: Colors.grey,
                                     ),
                                   ),
-                                  hintText: 'D.O.B',
+                                  hintText: 'Date of birth',
                                   // hintStyle: heading6.copyWith(color: textGrey),
                                   // errorStyle: TextStyle(color: Colors.redAccent),
                                   suffixIcon: Icon(Icons.event_note),
                                 ),
                                 // initialValue: date,
                                 mode: DateTimeFieldPickerMode.date,
-                                autovalidateMode: AutovalidateMode.always,
-                                validator: (e) => (e?.day ?? 0) == 1
-                                    ? ' not the first day'
-                                    : null,
+                                // autovalidateMode: AutovalidateMode.always,
+                                validator: (e) {
+                                  if(e == null){
+                                    return "Enter Date of birth";
+                                  }else{
+                                    return null;
+                                  }
+                                },
 
                                 onDateSelected: (date) {
                                   setState(() {
@@ -409,7 +421,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                 height: 10,
                               ),
                               DropdownButtonFormField<Marital>(
-                                hint: Text(
+                                hint: const Text(
                                   "Select Status",
                                   style: TextStyle(
                                       fontSize: 15,
@@ -428,7 +440,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                     value: user,
                                     child: Text(
                                       user.maritalName,
-                                      style: TextStyle(color: Colors.black),
+                                      style: const TextStyle(color: Colors.black),
                                     ),
                                   );
                                 }).toList(),
@@ -445,7 +457,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                 height: 10,
                               ),
                               DropdownButtonFormField<Category>(
-                                hint: Text(
+                                hint: const Text(
                                   "Category",
                                   style: TextStyle(
                                       fontSize: 15,
@@ -464,7 +476,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                     value: user,
                                     child: Text(
                                       user.reservedName,
-                                      style: TextStyle(color: Colors.black),
+                                      style: const TextStyle(color: Colors.black),
                                     ),
                                   );
                                 }).toList(),
@@ -563,147 +575,113 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                 height: 3,
                               ),
                               exservicemenGroupValue == 1
-                                  ? Row(
-                                      children: [
-                                        Expanded(
-                                          flex: 1,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Container(
-                                              decoration: const BoxDecoration(
-                                                border: Border(
-                                                    bottom: BorderSide(
-                                                        color: Colors.grey)),
-                                              ),
-                                              child:
-                                                  DropdownButtonHideUnderline(
-                                                child: GFDropdown(
-                                                  hint: const Text(
-                                                    "Years",
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontFamily:
-                                                            "ProximaNova"),
-                                                  ),
-                                                  borderRadius:
-                                                      const BorderRadius
-                                                              .horizontal(
-                                                          left: Radius.zero,
-                                                          right: Radius.zero),
-                                                  value: mySelectionYear,
-                                                  onChanged: (newValue) {
-                                                    setState(() {
-                                                      mySelectionYear =
-                                                          newValue;
-                                                    });
-                                                  },
-                                                  items: [
-                                                    "0",
-                                                    "1",
-                                                    "2",
-                                                    "3",
-                                                    "4",
-                                                    "5",
-                                                    "6",
-                                                    "7",
-                                                    "8",
-                                                    "9",
-                                                    "10",
-                                                    "11",
-                                                    "12"
-                                                  ]
-                                                      .map(
-                                                        (value) =>
-                                                            DropdownMenuItem(
-                                                                value: value,
-                                                                child: Text(
-                                                                  value,
-                                                                  style: const TextStyle(
-                                                                      fontSize:
-                                                                          15,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                      fontFamily:
-                                                                          "ProximaNova"),
-                                                                )),
-                                                      )
-                                                      .toList(),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
+                                  ?
+                              Row(
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        child: DropdownButtonFormField<String>(
+
+
+                                          hint: Text("Years"),
+                                          value: mySelectionYear,
+                                          onChanged: (newValue) {
+                                            setState(() {
+                                              mySelectionYear = newValue;
+                                            });
+                                          },
+                                          validator: (value) => value == null
+                                              ? 'Select Year'
+                                              : null,
+                                          items: [
+                                            "0",
+                                            "1",
+                                            "2",
+                                            "3",
+                                            "4",
+                                            "5",
+                                            "6",
+                                            "7",
+                                            "8",
+                                            "9",
+                                            "10",
+                                            "11",
+                                            "12"
+                                          ]
+                                              .map(
+                                                (value) => DropdownMenuItem(
+                                                value: value,
+                                                child: Text(
+                                                  value,
+                                                  style: const TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                      FontWeight.bold,
+                                                      fontFamily:
+                                                      "ProximaNova"),
+                                                )),
+                                          )
+                                              .toList(),
                                         ),
-                                        Expanded(
-                                          flex: 1,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Container(
-                                              decoration: const BoxDecoration(
-                                                border: Border(
-                                                    bottom: BorderSide(
-                                                        color: Colors.grey)),
-                                              ),
-                                              child:
-                                                  DropdownButtonHideUnderline(
-                                                child: GFDropdown(
-                                                  hint: const Text(
-                                                    "Months",
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontFamily:
-                                                            "ProximaNova"),
-                                                  ),
-                                                  value: mySelectionMonth,
-                                                  onChanged: (newValue) {
-                                                    setState(() {
-                                                      mySelectionMonth =
-                                                          newValue;
-                                                    });
-                                                  },
-                                                  items: [
-                                                    "0",
-                                                    "1",
-                                                    "2",
-                                                    "3",
-                                                    "4",
-                                                    "5",
-                                                    "6",
-                                                    "7",
-                                                    "8",
-                                                    "9",
-                                                    "10",
-                                                    "11",
-                                                    "12",
-                                                  ]
-                                                      .map(
-                                                        (value) =>
-                                                            DropdownMenuItem(
-                                                                value: value,
-                                                                child: Text(
-                                                                  value,
-                                                                  style: const TextStyle(
-                                                                      fontSize:
-                                                                          15,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                      fontFamily:
-                                                                          "ProximaNova"),
-                                                                )),
-                                                      )
-                                                      .toList(),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        child: DropdownButtonFormField<String>(
+
+
+                                          hint: Text("Months"),
+                                          value: mySelectionMonth,
+                                          onChanged: (newValue) {
+                                            setState(() {
+                                              mySelectionMonth = newValue;
+                                            });
+                                          },
+                                          validator: (value) => value == null
+                                              ? 'Select Month'
+                                              : null,
+                                          items: [
+                                            "0",
+                                            "1",
+                                            "2",
+                                            "3",
+                                            "4",
+                                            "5",
+                                            "6",
+                                            "7",
+                                            "8",
+                                            "9",
+                                            "10",
+                                            "11",
+                                            "12"
+                                          ]
+                                              .map(
+                                                (value) => DropdownMenuItem(
+                                                value: value,
+                                                child: Text(
+                                                  value,
+                                                  style: const TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                      FontWeight.bold,
+                                                      fontFamily:
+                                                      "ProximaNova"),
+                                                )),
+                                          )
+                                              .toList(),
                                         ),
-                                      ],
-                                    )
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
                                   : Container(),
 
                               const Padding(
@@ -723,7 +701,6 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                 padding: const EdgeInsets.only(left: 10),
                                 child: Row(
                                   children: [
-
                                     GFRadio(
                                       size: 20,
                                       activeBorderColor:
@@ -777,27 +754,32 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                 ),
                               ),
                               groupValue == 1
-                                  ? Padding(
+                                  ?  Padding(
                                       padding: EdgeInsets.only(
                                         top: 15,
                                       ),
-                                      child: Text("Disability Type",
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "ProximaNova")),
+                                      child: getRequiredLabel(fieldName: "Disablity"),
                                     )
                                   : Container(),
                               groupValue == 2
-                                  ? SizedBox(
+                                  ? const SizedBox(
                                       height: 5,
                                     )
                                   : Container(),
                               groupValue == 1
                                   ? TextFormField(
-
+                                validator: (input){
+                                  if(input.isEmpty){
+                                    return "Enter Disability Type";
+                                  }else{
+                                    return null;
+                                  }
+                                },
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]"))
+                                ],
                                       controller: disabilityController,
-                                      decoration: InputDecoration(
+                                      decoration: const InputDecoration(
                                         hintText: "Disability Type",
                                         hintStyle: TextStyle(
                                           color: Colors.blueGrey,
@@ -810,28 +792,34 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                     )
                                   : Container(),
                               groupValue == 1
-                                  ? Padding(
-                                      padding: EdgeInsets.only(
+                                  ?  Padding(
+                                      padding: const EdgeInsets.only(
                                         top: 15,
                                       ),
-                                      child: Text("Is Assistance Required",
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "ProximaNova")),
+                                      child: getRequiredLabel(fieldName: "Describe Assistance Required"),
                                     )
                                   : Container(),
                               groupValue == 2
-                                  ? SizedBox(
+                                  ? const SizedBox(
                                       height: 5,
                                     )
                                   : Container(),
                               groupValue == 1
                                   ? TextFormField(
 
+                                validator: (input){
+                                  if(input.isEmpty){
+                                    return "Enter Describe Assistance Required";
+                                  }else{
+                                    return null;
+                                  }
+                                },
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]"))
+                                ],
                                       controller: assistanceController,
-                                      decoration: InputDecoration(
-                                        hintText: "Is Assistance Required",
+                                      decoration: const InputDecoration(
+                                        hintText: "Describe Assistance Required",
                                         hintStyle: TextStyle(
                                           color: Colors.blueGrey,
                                           fontFamily: "ProximaNova",
@@ -842,7 +830,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                       ),
                                     )
                                   : Container(),
-                              Padding(
+                              const Padding(
                                 padding: EdgeInsets.only(
                                   top: 15,
                                 ),
@@ -854,9 +842,11 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                               ),
                               // EDit
                               TextFormField(
-
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.allow(RegExp("[A-Z+0-9]"))
+                                ],
                                 controller: panController,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   hintText: "PAN Number",
                                   hintStyle: TextStyle(
                                     color: Colors.blueGrey,
@@ -866,8 +856,20 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                     fontSize: 14.5,
                                   ),
                                 ),
+                                maxLength: 10,
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
+                                validator: (value){
+                                  if(Connect.validateMyPan(value)){
+                                    return null;
+                                  }if(value.isEmpty){
+                                    return null;
+                                  }
+                                  else{
+                                    return "Enter Valid PAN Number";
+                                  }
+                                },
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               const Text('Nationality',
@@ -879,7 +881,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                 height: 8,
                               ),
                               DropdownSearch<Nationality>(
-                                dropdownSearchDecoration: InputDecoration(
+                                dropdownSearchDecoration: const InputDecoration(
                                     border: UnderlineInputBorder(
                                     )
                                 ),
@@ -908,17 +910,17 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                 popupItemBuilder: (context, Nationality item,
                                     bool isSelected) {
                                   return Container(
-                                    margin: EdgeInsets.symmetric(horizontal: 8),
+                                    margin: const EdgeInsets.symmetric(horizontal: 8),
                                     child: Card(
                                       child: Padding(
-                                        padding: EdgeInsets.all(8.0),
+                                        padding: const EdgeInsets.all(8.0),
                                         child: Text(item.countryNationality),
                                       ),
                                     ),
                                   );
                                 },
                               ),
-                              Padding(
+                              const Padding(
                                 padding: EdgeInsets.only(
                                   top: 15,
                                 ),
@@ -929,9 +931,11 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                         fontFamily: "ProximaNova")),
                               ),
                               TextFormField(
-
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.allow(RegExp("[A-Z+0-9]"))
+                                ],
                                 controller: passportController,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   hintText: "Passport Number",
                                   hintStyle: TextStyle(
                                     color: Colors.blueGrey,
@@ -941,6 +945,18 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                     fontSize: 14.5,
                                   ),
                                 ),
+                                maxLength: 9,
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
+                                validator: (value){
+                                  if(Connect.validateMyPassport(value)){
+                                    return null;
+                                  }if(value.isEmpty){
+                                    return null;
+                                  }
+                                  else{
+                                    return "Enter Valid Passport Number";
+                                  }
+                                },
                               ),
                               const Padding(
                                 padding: EdgeInsets.only(
@@ -1041,11 +1057,11 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                         popupItemBuilder: (context,
                                             Country item, bool isSelected) {
                                           return Container(
-                                            margin: EdgeInsets.symmetric(
+                                            margin: const EdgeInsets.symmetric(
                                                 horizontal: 8),
                                             child: Card(
                                               child: Padding(
-                                                padding: EdgeInsets.all(8.0),
+                                                padding: const EdgeInsets.all(8.0),
                                                 child: Text(item.countryName),
                                               ),
                                             ),

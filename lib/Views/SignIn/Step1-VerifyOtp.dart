@@ -1,58 +1,109 @@
-// ignore_for_file: prefer_const_constructors, avoid_single_cascade_in_expression_statements, must_be_immutable, unnecessary_string_interpolations, avoid_print, unnecessary_const
+// ignore_for_file: must_be_immutable, unnecessary_string_interpolations, prefer_final_fields, unused_field, avoid_print, deprecated_member_use, unused_local_variable
+
+import 'dart:async';
+import 'dart:convert';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_verification_code/flutter_verification_code.dart';
+import 'package:flutter/services.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
+import 'package:job_portal/Models/GetOtp.dart';
 import 'package:job_portal/Models/VerifyOtp.dart';
 import 'package:job_portal/Services/ApiServices.dart';
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:job_portal/Views/SignIn/Step2-BasicDetails.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 
 class VerifyOTP extends StatefulWidget {
-  VerifyOTP({Key key, this.registerMobile, this.otp}) : super(key: key);
-
+  VerifyOTP({Key key, this.registerMobile, this.otp, this.countryCode})
+      : super(key: key);
   String registerMobile;
-  int otp;
-
+  dynamic otp;
+  String countryCode;
   @override
   _VerifyOTPState createState() => _VerifyOTPState();
 }
 
 class _VerifyOTPState extends State<VerifyOTP> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  bool isResendVisible = false;
+  String currentText = "";
+  var otpController = TextEditingController();
   bool isLoading = false;
   ApiServices apiServices = ApiServices();
-  ApiResponse<int> _apiResponse;
+  ApiResponse<String> _apiResponse;
+  ApiResponse<dynamic> _apiResponseGetOTP;
   bool _onEditing = true;
   String _code = "0";
+  int start = 60;
+  bool wait = false;
+  String buttonName = "Verify OTP";
+  ScaffoldState scaffold;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          // action: SnackBarAction(label: "JobPortalApp", onPressed: (){}),
+          content: Row(children: [
+            const Icon(
+              Icons.done,
+              color: Colors.white,
+            ),
+            const SizedBox(width: 7),
+            Expanded(
+              child: Text(
+                  "OTP Successfully Sent to Mobile Number ${widget.countryCode}-${widget.registerMobile}"),
+            ),
+          ]),
+          backgroundColor: Colors.green,
+          duration: const Duration(milliseconds: 2500),
+        ),
+      ),
+    );
+    // startTimer();
+  }
+
   var key = GlobalKey<FormState>();
 
-  verifyOTP(String otp) async {
+    fetchOTP({String mobileNumber, String countryCode}) async {
     setState(() {
       isLoading = true;
     });
-    _apiResponse = await apiServices.otpVerifyGet(OTPVerify(
-        registerMobile: "${widget.registerMobile}", otp: int.parse(otp)));
+    _apiResponseGetOTP = await apiServices.otpGet(
+        objGetOtp: GetOTP(registerMobile: mobileNumber),
+        countryCode: countryCode);
     setState(() {
       isLoading = false;
     });
   }
 
-  @override
-  void initState() {
-    super.initState();
+  verifyOTP(String otp) async {
+    print(otp);
+    setState(() {
+      isLoading = true;
+    });
+    _apiResponse = await apiServices.otpVerifyGet(
+        OTPVerify(registerMobile: "${widget.registerMobile}", otp: otp));
+    setState(() {
+      isLoading = false;
+    });
   }
+
+  void showSnack() {}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: ListView(
         children: [
           Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              // height: MediaQuery.of(context).size.height,
               width: double.infinity,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -71,7 +122,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
                     duration: const Duration(milliseconds: 500),
                     child: const Text(
                       "Verification",
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           fontFamily: "ProximaNova"),
@@ -84,7 +135,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
                     delay: const Duration(milliseconds: 500),
                     duration: const Duration(milliseconds: 500),
                     child: Text(
-                      " enter the 6 digit code sent to \n +91-${widget.registerMobile}",
+                      "Enter the 6 digit OTP recieved on your registered mobile no\n ${widget.countryCode}-${widget.registerMobile}",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 16,
@@ -96,47 +147,36 @@ class _VerifyOTPState extends State<VerifyOTP> {
                     height: 30,
                   ),
                   // Verification Code Input
-                  FadeInDown(
-                    key: key,
-                    child: VerificationCode(
-                      textStyle:
-                          TextStyle(fontSize: 20.0, color: Colors.red[900]),
-                      underlineColor: Colors.amber,
-                      keyboardType: TextInputType.number,
-                      length: 6,
-                      clearAll: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'clear all',
-                          style: TextStyle(
-                              fontSize: 14.0,
-                              decoration: TextDecoration.underline,
-                              color: Colors.blue[700]),
-                        ),
-                      ),
-                      onCompleted: (String value) {
-                        setState(() {
-                          _code = value;
-                        });
-                      },
-                      onEditing: (bool value) {
-                        setState(() {
-                          _onEditing = value;
-                        });
-                      },
+                  PinCodeTextField(
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(RegExp("[0-9]"))
+                    ],
+                    keyboardType: TextInputType.number,
+                    autoFocus: true,
+                    focusNode: FocusNode(canRequestFocus: true),
+                    length: 6,
+                    obscureText: false,
+                    animationType: AnimationType.fade,
+                    pinTheme: PinTheme(
+                      shape: PinCodeFieldShape.box,
+                      borderRadius: BorderRadius.circular(5),
+                      fieldHeight: 50,
+                      fieldWidth: 40,
+                      activeFillColor: Colors.white,
                     ),
+                    animationDuration: const Duration(milliseconds: 300),
+                    backgroundColor: Colors.blue.shade50,
+                    // onCompleted: (v) {
+                    //   _code = v;
+                    // },
+                    onChanged: (value) {
+                      debugPrint(value);
+                      currentText = value;
+                    },
+                    appContext: context,
                   ),
                   const SizedBox(
                     height: 20,
-                  ),
-
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Center(
-                      child: _onEditing
-                          ? Text(' enter full code')
-                          : Text('Your code: $_code'),
-                    ),
                   ),
 
                   const SizedBox(
@@ -149,18 +189,14 @@ class _VerifyOTPState extends State<VerifyOTP> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Don't receive the OTP?",
+                          "Didn't receive the OTP?",
                           style: TextStyle(
                               fontSize: 14, color: Colors.grey.shade500),
                         ),
                         const SizedBox(
                           width: 10,
                         ),
-                        TextButton.icon(
-                          onPressed: () {},
-                          icon: const Icon(Icons.reset_tv),
-                          label: const Text("Resend"),
-                        ),
+                        isResendVisible ? showResendButton() : const SizedBox(),
                       ],
                     ),
                   ),
@@ -173,118 +209,147 @@ class _VerifyOTPState extends State<VerifyOTP> {
                     child: MaterialButton(
                       elevation: 0,
                       onPressed: () async {
-                        print("======================");
-                        print(_code);
-                        print("======================");
-
-                        await verifyOTP(_code);
-                        print("======================");
-                        print(_apiResponse.data);
-                        print("======================");
-                        if (_apiResponse.data == 1) {
-                          AwesomeDialog(
-                            context: context,
-                            animType: AnimType.SCALE,
-                            dialogType: DialogType.INFO,
-                            title: 'JobPortalApp',
-                            desc: ' enter your OTP',
-                            // btnOkOnPress: () {
-                            //   Navigator.of(context).pop();
-                            // },
-                          ).show();
-                        }
-                        if (_apiResponse.data == 2) {
-                          AwesomeDialog(
-                            context: context,
-                            animType: AnimType.SCALE,
-                            dialogType: DialogType.INFO,
-                            title: 'JobPortalApp',
-                            desc: 'OTP Length not valid',
-                            // btnOkOnPress: () {
-                            //   Navigator.of(context).pop();
-                            // },
-                          ).show();
-                        }
-                        if (_apiResponse.data == 4) {
-                          AwesomeDialog(
-                            context: context,
-                            animType: AnimType.SCALE,
-                            dialogType: DialogType.ERROR,
-                            title: 'JobPortalApp',
-                            desc: 'OTP Expired',
-                            // btnOkOnPress: () {
-                            //   Navigator.of(context).pop();
-                            // },
-                          ).show();
-                        }
-                        if (_apiResponse.data == 5) {
-                          AwesomeDialog(
-                            context: context,
-                            animType: AnimType.SCALE,
-                            dialogType: DialogType.INFO,
-                            title: 'JobPortalApp',
-                            desc: 'Incorrect OTP Or Mobile Number',
-                            // btnOkOnPress: () {
-                            //   Navigator.of(context).pop();
-                            // },
-                          ).show();
-                        }
-                        if (_apiResponse.data == 6) {
-                          AwesomeDialog(
-                            context: context,
-                            animType: AnimType.SCALE,
-                            dialogType: DialogType.ERROR,
-                            title: 'JobPortalApp',
-                            desc: "Verification Process failed\nTry Again...",
-                            // btnOkOnPress: () {
-                            //   Navigator.of(context).pop();
-                            // },
-                          ).show();
-                        }
-                        if (_apiResponse.data == 3) {
-                          AwesomeDialog(
-                            context: context,
-                            animType: AnimType.SCALE,
-                            dialogType: DialogType.SUCCES,
-                            title: 'JobPortalApp',
-                            desc:
-                                'Mobile Number +91-${widget.registerMobile} Successfully Verified',
-                            btnOkOnPress: () {
-                              Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => BasicDetails(
-                                            mobileNo: widget.registerMobile,
-                                          )),
-                                  (route) => false);
-                              // Navigator.of(context).push(
-                              //   MaterialPageRoute(
-                              //     builder: (context) => BasicDetails(mobileNo: widget.registerMobile,),
-                              //   ),
-                              // );
-                            },
-                          ).show();
-                        }
-                        if (int.parse(_code) == 0) {
-                          AwesomeDialog(
-                            context: context,
-                            animType: AnimType.SCALE,
-                            dialogType: DialogType.ERROR,
-                            title: 'JobPortalApp',
-                            desc: ' enter Valid OTP',
-                          ).show();
+                        await verifyOTP(currentText);
+                        if (_apiResponse.responseCode == 200) {
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(
+                                SnackBar(
+                                  content: Row(children: [
+                                    const Icon(
+                                      Icons.done,
+                                      color: Colors.white,
+                                    ),
+                                    const SizedBox(width: 7),
+                                    Expanded(
+                                      child: Text(jsonDecode(
+                                          _apiResponse.data)['response']),
+                                    ),
+                                  ]),
+                                  backgroundColor: Colors.green,
+                                  duration: const Duration(milliseconds: 1500),
+                                ),
+                              )
+                              .closed
+                              .then((reason) {
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => BasicDetails(
+                                          countryCode: widget.countryCode,
+                                          mobileNo: widget.registerMobile,
+                                        )),
+                                (route) => false);
+                          });
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Row(children: [
+                              const Icon(
+                                Icons.error_outline,
+                                color: Colors.white,
+                              ),
+                              const SizedBox(width: 7),
+                              Expanded(child: Text(jsonDecode(_apiResponse.data)['message'])),
+                            ]),
+                            backgroundColor: Colors.red,
+                            duration: const Duration(milliseconds: 2500),
+                          ));
                         }
                       },
                       color: Colors.orange.shade400,
                       minWidth: MediaQuery.of(context).size.width * 0.8,
                       height: 50,
-                      child: const Text("Verify OTP"),
+                      child: Text(buttonName),
                     ),
                   ),
                 ],
               )),
+          const SizedBox(
+            height: 20,
+          ),
+          Center(
+            child: RichText(
+                text: TextSpan(
+              children: [
+                const TextSpan(
+                  text: "Send OTP again in ",
+                  style: TextStyle(fontSize: 16, color: Colors.black),
+                ),
+                TextSpan(
+                  text: "00:$start",
+                  style:
+                      const TextStyle(fontSize: 16, color: Colors.pinkAccent),
+                ),
+                const TextSpan(
+                  text: " sec ",
+                  style: TextStyle(fontSize: 16, color: Colors.black),
+                ),
+              ],
+            )),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
         ],
       ),
+    );
+  }
+
+  // void startTimer() {
+  //   const onsec = Duration(seconds: 1);
+  //   Timer _timer = Timer.periodic(onsec, (timer) {
+  //     if (start == 0) {
+  //       setState(() {
+  //         isResendVisible = true;
+  //         timer.cancel();
+  //         buttonName = "Verify OTP";
+  //         wait = false;
+  //       });
+  //     } else {
+  //       setState(() {
+  //         start--;
+  //       });
+  //     }
+  //   });
+  // }
+
+  Widget showResendButton() {
+    return TextButton.icon(
+      onPressed: () async {
+        await fetchOTP(countryCode: widget.countryCode,mobileNumber: widget.registerMobile);
+        if (_apiResponseGetOTP.responseCode == 200) {
+          setState(() {
+            
+            // startTimer();
+          });
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Row(children: [
+                      const Icon(
+                        Icons.verified_outlined,
+                        color: Colors.white,
+                      ),
+                      const SizedBox(width: 7),
+                      Text("OTP Successfully Sent to Mobile Number ${widget.countryCode}-${widget.registerMobile}"),
+                    ]),
+                    backgroundColor: Colors.green,
+                    duration: const Duration(milliseconds: 2500),
+                  ));
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Row(children: [
+                      const Icon(
+                        Icons.error_outline,
+                        color: Colors.white,
+                      ),
+                      const SizedBox(width: 7),
+                      Text("${_apiResponseGetOTP.data['message']}"),
+                    ]),
+                    backgroundColor: Colors.red,
+                    duration: const Duration(milliseconds: 2500),
+                  ));
+                }
+      },
+      icon: const Icon(Iconsax.monitor_mobbile),
+      label: const Text("Resend OTP"),
     );
   }
 }

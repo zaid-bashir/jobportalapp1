@@ -1,5 +1,7 @@
+import 'package:date_field/date_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:getwidget/components/button/gf_button.dart';
 import 'package:getwidget/types/gf_button_type.dart';
@@ -18,14 +20,16 @@ class Research extends StatefulWidget {
 class _ResearchState extends State<Research> {
   bool get isEditing => widget.uuid != null;
   bool isLoading = false;
+  bool isLoadingResearch = false;
   var formKey = GlobalKey<FormState>();
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   ApiServices apiServices = ApiServices();
   TextEditingController titleresearch = TextEditingController();
   TextEditingController weburl = TextEditingController();
-  TextEditingController publishedon = TextEditingController();
-  TextEditingController description = TextEditingController();
 
+  TextEditingController description = TextEditingController();
+  DateTime selectedDate;
+  DateTime lastDate = DateTime.now();
   ResearchpaperAdd researchpaper;
   String errorMessage;
 
@@ -53,7 +57,7 @@ class _ResearchState extends State<Research> {
         researchpaper = response.data;
         titleresearch .text = researchpaper.candidatepaperTitle;
         weburl.text = researchpaper.candidatepaperWeblink;
-        publishedon.text = researchpaper.candidatepaperPublisheddate;
+
         description.text = researchpaper.candidatepaperDesc;
 
       });
@@ -66,17 +70,11 @@ class _ResearchState extends State<Research> {
         body: ListView(children: [
       Padding(
         padding: const EdgeInsets.only(left: 20, top: 10),
-        child: Row(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            IconButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              icon: const Icon(Icons.arrow_back),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
+
             const Text(
               "Research Publication",
               style: TextStyle(
@@ -84,6 +82,16 @@ class _ResearchState extends State<Research> {
                   fontWeight: FontWeight.bold,
                   fontFamily: "ProximaNova"),
             ),
+            Text(
+              "Add details and links for your publications."
+              ,
+              style: TextStyle(
+                fontSize: 12,
+                fontFamily: "ProximaNova",
+                color: Colors.grey,
+              ),
+            ),
+
           ],
         ),
       ),
@@ -109,6 +117,9 @@ class _ResearchState extends State<Research> {
                             fontFamily: "ProximaNova")),
                   ),
                   TextFormField(
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]"))
+                    ],
                     controller: titleresearch,
                     textCapitalization: TextCapitalization.characters,
                     decoration: InputDecoration(
@@ -156,19 +167,34 @@ class _ResearchState extends State<Research> {
                             fontWeight: FontWeight.bold,
                             fontFamily: "ProximaNova")),
                   ),
-                  TextFormField(
-                    controller: publishedon,
-                    textCapitalization: TextCapitalization.characters,
+                SizedBox(
+                  height: 10,
+                ),
+                  DateTimeFormField(
                     decoration: InputDecoration(
-                      hintText: "Published On",
-                      hintStyle: TextStyle(
-                        color: Colors.blueGrey,
-                        fontFamily: "ProximaNova",
-                        fontWeight: FontWeight.w500,
-                        letterSpacing: 1.5,
-                        fontSize: 14.5,
+                      border: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.grey,
+                        ),
                       ),
+                      hintText: 'Published Date',
+                      // hintStyle: heading6.copyWith(color: textGrey),
+                      // errorStyle: TextStyle(color: Colors.redAccent),
+                      suffixIcon: Icon(Icons.event_note),
                     ),
+                    // initialValue: date,
+                    lastDate:lastDate,
+                    mode: DateTimeFieldPickerMode.date,
+                    autovalidateMode: AutovalidateMode.always,
+                    validator: (e) => (e?.day ?? 0) == 1
+                        ? 'Except first day'
+                        : null,
+                    // initialDate: date  ,
+                    onDateSelected: (date) {
+                      setState(() {
+                        selectedDate = date;
+                      });
+                    },
                   ),
                   Padding(
                     padding: EdgeInsets.only(
@@ -205,21 +231,95 @@ class _ResearchState extends State<Research> {
 
       Padding(
         padding: const EdgeInsets.all(40.0),
-        child: Align(
-          alignment: Alignment.centerRight,
-          child: GFButton(
-            onPressed: () async {
-              if (isEditing) {
-              setState(() {
-                isLoading = true;
-              });
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            GFButton(
+              onPressed: () async{
+                setState(() {
+                  isLoadingResearch = true;
+                });
                 final insert = ResearchpaperAdd(
-                    requestType: "update",
-                  candidatepaperUuid : widget.uuid,
-                  candidatepaperTitle: titleresearch.text,
-                  candidatepaperWeblink: weburl.text,
-                    candidatepaperPublisheddate: publishedon.text
+                  requestType: "delete",
+                  candidatepaperUuid: widget.uuid,
                 );
+
+                final result =
+                await apiServices.researchpaperAdd(insert);
+                setState(() {
+                  isLoadingResearch = false;
+                });
+                if (result.data) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Row(children: const [
+                      Icon(
+                        Icons.done_outlined,
+                      ),
+                      SizedBox(width: 7),
+                      Text("Successfully Deleted"),
+                    ]),
+                    backgroundColor: Colors.green,
+                    duration: const Duration(milliseconds: 2500),
+                  ));
+
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Row(
+                      children: const [
+                        Icon(Icons.error),
+                        SizedBox(width: 7),
+                        Text("An Error Occured"),
+                      ],
+                    ),
+                    backgroundColor: Colors.red,
+                    duration: const Duration(milliseconds: 2500),
+                  ));
+                }
+
+
+
+                Navigator.of(context).pop();
+              },
+              text: "Delete",
+              type: GFButtonType.solid,
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            GFButton(
+              onPressed: () async {
+                if (isEditing) {
+                setState(() {
+                  isLoading = true;
+                });
+                  final insert = ResearchpaperAdd(
+                      requestType: "update",
+                    candidatepaperUuid : widget.uuid,
+                    candidatepaperTitle: titleresearch.text,
+                    candidatepaperWeblink: weburl.text,
+                     candidatepaperDesc: description.text,
+                    candidatepaperPublisheddate: selectedDate.toString().split(" ")[0],
+                  );
+                  final result = await apiServices.researchpaperAdd(insert);
+                  setState(() {
+                    isLoading = false;
+                  });
+                  if (result.data) {
+                    Navigator.pop(context);
+                  } else {
+                    print("error");
+                  }
+                }
+                else
+                {
+                final insert = ResearchpaperAdd(
+                    requestType: "add",
+                    candidatepaperTitle: titleresearch.text,
+                    candidatepaperWeblink: weburl.text,
+                    candidatepaperDesc : description.text,
+                  candidatepaperPublisheddate: selectedDate.toString().split(" ")[0],
+                );
+
                 final result = await apiServices.researchpaperAdd(insert);
                 setState(() {
                   isLoading = false;
@@ -227,52 +327,17 @@ class _ResearchState extends State<Research> {
                 if (result.data) {
                   Navigator.pop(context);
                 } else {
-                  print("error");
+                  print("error occured");
                 }
-              }
-              else
-              {
-              final insert = ResearchpaperAdd(
-                  requestType: "add",
-                  candidatepaperTitle: titleresearch.text,
-                  candidatepaperWeblink: weburl.text,
-                  // candidatepaperDesc : description.text,
-                  candidatepaperPublisheddate: publishedon.text
-              );
-
-              final result = await apiServices.researchpaperAdd(insert);
-              setState(() {
-                isLoading = false;
-              });
-              if (result.data) {
-                Navigator.pop(context);
-              } else {
-                print("error occured");
-              }
-              }
-            },
-            text:  isEditing ? "Update" :  "Add",
-            type: GFButtonType.solid,
-          ),
+                }
+              },
+              text:  isEditing ? "Update" :  "Add",
+              type: GFButtonType.solid,
+            ),
+          ],
         ),
       ),
-      // SizedBox(
-      //   width: 10,
-      // ),
-      // Padding(
-      //   padding: const EdgeInsets.only(right: 22),
-      // child: GFButton(
-      //     text: "Save",
-      //     type: GFButtonType.solid,
-      //     blockButton: false,
-      //     onPressed: () async {
-      //       Navigator.of(context).pop();
-      //     }),
-      // ),
 
-      // const SizedBox(
-      //   height: 40,
-      // ),
     ]));
   }
 }

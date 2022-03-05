@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:job_portal/Services/ApiServices.dart';
+import 'package:job_portal/Views/Candidate/BottomNavbar.dart';
 import 'package:job_portal/Views/Home/screens/LandingPage.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -8,12 +10,17 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   @override
+  dynamic token;
+  getToken()async{
+    token = await secureStorage.read(key: "token");
+  }
   void initState() {
+    getToken();
     var d = const Duration(seconds: 5);
     Future.delayed(d, () {
       Navigator.pushAndRemoveUntil(context,
           MaterialPageRoute(builder: (context) {
-            return LandingPage();
+            return  token != null ? Navbar():  LandingPage();
           }), (route) => false);
     });
 
@@ -37,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
               // width: 100.0,
             ),
           ),
-          Text("Welcome Job Portal",style:TextStyle(
+          Text("Welcome to Job Portal",style:TextStyle(
             fontFamily: "OpenSans",
             fontWeight: FontWeight.w500,
             letterSpacing: 1.5,

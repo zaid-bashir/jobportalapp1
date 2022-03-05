@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:date_field/date_field.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:getwidget/components/radio/gf_radio.dart';
 import 'package:getwidget/getwidget.dart';
@@ -30,6 +31,7 @@ class ProfessionAdd extends StatefulWidget {
 
 class _ProfessionAddState extends State<ProfessionAdd> {
   bool get isEditing => widget.uuid != null;
+
   String query;
   String mycompany = "";
   String myindustry = "";
@@ -72,6 +74,7 @@ class _ProfessionAddState extends State<ProfessionAdd> {
   bool isLoading = false;
   bool isLoadingCurrentCopmpany = false;
   bool toggleYes = false;
+  bool isLoadingProfessionalProfile = false;
 
   ApiServices apiServices = ApiServices();
 
@@ -194,24 +197,25 @@ class _ProfessionAddState extends State<ProfessionAdd> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: const Icon(Icons.arrow_back)),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      const Text(
-                        "Professional Details",
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "ProximaNova"),
-                      ),
-                    ],
+
+                  const Text(
+                    "Professional Details",
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: "ProximaNova"),
+                  ),
+                  Text(
+                    "Add your professional details to help us find a better fitted job for you."
+                    ,
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontFamily: "ProximaNova",
+                      color: Colors.grey,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
                   ),
                   Card(
                     child: Column(
@@ -320,7 +324,12 @@ class _ProfessionAddState extends State<ProfessionAdd> {
                               groupValue == 1
                                   ? Padding(
                                 padding: const EdgeInsets.only(top: 8.0),
-                                child: TypeAheadField(
+                                child: TypeAheadFormField(
+                                  validator: (value) {
+                                    if(value.isEmpty){
+                                      return "Select Current Organization";
+                                    }
+                                  },
                                   textFieldConfiguration:
                                   TextFieldConfiguration(
                                       controller: this
@@ -368,6 +377,10 @@ class _ProfessionAddState extends State<ProfessionAdd> {
                                   : Container(),
                               groupValue == 1
                                   ? TextFormField(
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]"))
+                                ],
+                                keyboardType: TextInputType.number,
                                 controller: currentDesignationCntrl,
                                 decoration: InputDecoration(
                                   hintText: "Current Designation",
@@ -381,7 +394,7 @@ class _ProfessionAddState extends State<ProfessionAdd> {
                                 ),
                                 validator: (value) {
                                   if (value.isEmpty) {
-                                    return "this field is required";
+                                    return "Select Current Designation";
                                   }
                                   return null;
                                 },
@@ -392,7 +405,7 @@ class _ProfessionAddState extends State<ProfessionAdd> {
                                 padding: EdgeInsets.only(
                                   top: 15,
                                 ),
-                                child: Text("Current Salary *",
+                                child: Text("Current Annual Salary *",
                                     style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
@@ -406,9 +419,14 @@ class _ProfessionAddState extends State<ProfessionAdd> {
                                   : Container(),
                               groupValue == 1
                                   ? TextFormField(
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.allow(RegExp("[0-9]"))
+                                ],
+                                keyboardType: TextInputType.number,
                                 controller: salaryCountProfile,
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
                                 decoration: InputDecoration(
-                                  hintText: "Current Salary",
+                                  hintText: "Add Annual Salary",
                                   hintStyle: TextStyle(
                                     color: Colors.blueGrey,
                                     fontFamily: "ProximaNova",
@@ -417,9 +435,15 @@ class _ProfessionAddState extends State<ProfessionAdd> {
                                     fontSize: 14.5,
                                   ),
                                 ),
-                                validator: (value) {
+                                validator: (String value) {
                                   if (value.isEmpty) {
-                                    return "This Field is Required";
+                                    return "Enter Current Annual Salary";
+                                  }
+                                  if(value.length < 6){
+                                    return "Salary should be more than 5 digits";
+                                  }
+                                  if(value.length > 7){
+                                    return "Salary should be less than 7 digits";
                                   }
                                   return null;
                                 },
@@ -462,12 +486,14 @@ class _ProfessionAddState extends State<ProfessionAdd> {
 
                                   initialValue: date,
                                   mode: DateTimeFieldPickerMode.date,
-                                  autovalidateMode:
-                                  AutovalidateMode.always,
-                                  validator: (e) => (e?.day ?? 0) == 1
-                                      ? 'Except first day'
-                                      : null,
-
+                                  validator: (e) {
+                                    if(e == null){
+                                      return "Enter Working Since";
+                                    }else{
+                                      return null;
+                                    }
+                                  },
+                                  lastDate: DateTime.now(),
                                   onDateSelected: (date) {
                                     setState(() {
                                       selectedDateWorkingSince = date;
@@ -509,8 +535,9 @@ class _ProfessionAddState extends State<ProfessionAdd> {
                                       profileSelectedUser = newValue;
                                     });
                                   },
-                                  validator: (value) => value == null
-                                      ?  'Fill Notice Period'
+                                  validator: (value) =>
+                                  value == null
+                                      ? 'Select Notice Period'
                                       : null,
                                   items: _apiResponseProfile.data
                                       .map((GetProfileNoticePeriod user) {
@@ -542,7 +569,12 @@ class _ProfessionAddState extends State<ProfessionAdd> {
                               groupValue == 0
                                   ? Padding(
                                 padding: const EdgeInsets.only(top: 8.0),
-                                child: TypeAheadField(
+                                child: TypeAheadFormField(
+                                  validator: (value) {
+                                    if(value.isEmpty){
+                                      return "Select Previous Organization";
+                                    }
+                                  },
                                   textFieldConfiguration:
                                   TextFieldConfiguration(
                                       controller: this
@@ -597,6 +629,15 @@ class _ProfessionAddState extends State<ProfessionAdd> {
                                   : Container(),
                               groupValue == 0
                                   ? TextFormField(
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return "Select Previous Designation";
+                                  }
+                                  return null;
+                                },
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]"))
+                                ],
                                 controller: previousDesignationCntrl,
                                 decoration: InputDecoration(
                                   hintText: "Previous Designation",
@@ -621,7 +662,7 @@ class _ProfessionAddState extends State<ProfessionAdd> {
                                 padding: EdgeInsets.only(
                                   top: 15,
                                 ),
-                                child: Text("Previous Salary",
+                                child: Text("Previous Annual Salary",
                                     style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
@@ -630,16 +671,28 @@ class _ProfessionAddState extends State<ProfessionAdd> {
                                   : Container(),
                               groupValue == 0
                                   ? TextFormField(
+                                keyboardType: TextInputType.number,
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.allow(RegExp("[0-9]"))
+                                ],
                                 controller: previousSalaryCntrl,
-                                // validator: (value) {
-                                //   if (value.isEmpty) {
-                                //     return "This Field is Required";
-                                //   }
-                                //   return null;
-                                // },
+
+                                validator: (String input) {
+                                  if (input.isEmpty) {
+                                    return "Enter Previous Annual Salary";
+                                  }
+                                  if(input.length < 6){
+                                    return "Salary should be more than 5 digits";
+                                  }
+                                  if(input.length > 7){
+                                    return "Salary should be less than 7 digits";
+                                  }
+                                  return null;
+                                },
                                 decoration: InputDecoration(
 
-                                  hintText: "Previous Annually Salary",
+                                  hintText: "Add Annual Salary",
                                   hintStyle: TextStyle(
                                     color: Colors.blueGrey,
                                     fontFamily: "ProximaNova",
@@ -691,10 +744,13 @@ class _ProfessionAddState extends State<ProfessionAdd> {
                                         DateTimeFieldPickerMode.date,
                                         autovalidateMode:
                                         AutovalidateMode.always,
-                                        validator: (e) => (e?.day ?? 0) ==
-                                            0
-                                            ? ''
-                                            : null,
+                                        validator: (e) {
+                                          if(e == null){
+                                            return "Enter Start Date";
+                                          }else{
+                                            return null;
+                                          }
+                                        },
 
                                         onDateSelected: (date) {
                                           setState(() {
@@ -728,11 +784,13 @@ class _ProfessionAddState extends State<ProfessionAdd> {
                                         DateTimeFieldPickerMode.date,
                                         autovalidateMode:
                                         AutovalidateMode.always,
-                                        validator: (e) => (e?.day ?? 0) ==
-                                            1
-                                            ?
-                                        ''
-                                            : null,
+                                        validator: (e) {
+                                          if(e == null){
+                                            return "Enter End Date";
+                                          }else{
+                                            return null;
+                                          }
+                                        },
 
                                         onDateSelected: (date) {
                                           setState(() {
@@ -756,9 +814,62 @@ class _ProfessionAddState extends State<ProfessionAdd> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: Align(
-                        alignment: Alignment.centerRight,
-                        child: GFButton(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        GFButton(
+                          onPressed: () async{
+
+                            setState(() {
+                              isLoadingProfessionalProfile = true;
+                            });
+                            final insert = PostProfession(
+                                requestType: "delete",
+                                candidateexpUuid:
+                              widget.uuid);
+
+                            final result =
+                            await apiServices.professionalProfileAdd(insert);
+                            setState(() {
+                              isLoadingProfessionalProfile = false;
+                            });
+                            if (result.data) {
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Row(children: const [
+                                  Icon(
+                                    Icons.done_outlined,
+                                  ),
+                                  SizedBox(width: 7),
+                                  Text("Successfully Deleted"),
+                                ]),
+                                backgroundColor: Colors.green,
+                                duration: const Duration(milliseconds: 2500),
+                              ));
+
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Row(
+                                  children: const [
+                                    Icon(Icons.error),
+                                    SizedBox(width: 7),
+                                    Text("An Error Occured"),
+                                  ],
+                                ),
+                                backgroundColor: Colors.red,
+                                duration: const Duration(milliseconds: 2500),
+                              ));
+                            }
+
+
+                            Navigator.of(context).pop();
+                          },
+                          text: "Delete",
+                          type: GFButtonType.solid,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        GFButton(
                             onPressed: () async {
                               if (formKey.currentState.validate()) {
                                     if(isEditing){
@@ -875,8 +986,10 @@ class _ProfessionAddState extends State<ProfessionAdd> {
                               }
 
                             },
-                            text: "Add",
-                            type: GFButtonType.solid)),
+                            text: isEditing ? "Update" : "Add",
+                            type: GFButtonType.solid),
+                      ],
+                    ),
                   ),
                 ],
               ),

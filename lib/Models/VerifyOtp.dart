@@ -1,6 +1,6 @@
 class OTPVerify{
   String registerMobile;
-  int otp;
+  dynamic otp;
 
   OTPVerify({this.registerMobile,this.otp});
 

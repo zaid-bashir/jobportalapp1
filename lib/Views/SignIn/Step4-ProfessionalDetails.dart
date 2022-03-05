@@ -3,7 +3,9 @@
 import 'package:date_field/date_field.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/GetCompany.dart';
@@ -110,14 +112,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
   //   });
   // }
 
-  List<String> parseData() {
-    List<Company> category = _apiResponseCurrentCompany.data;
-    List<String> dataItems = [];
-    for (int i = 0; i < category.length; i++) {
-      dataItems.add(category[i].organizationName);
-    }
-    return dataItems;
-  }
+
 
   //Industry
   fetchIndustry({String query}) async {
@@ -130,14 +125,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
     });
   }
 
-  List<String> parseIndustry() {
-    List<Industry> category = _apiResponseIndustry.data;
-    List<String> dataItems = [];
-    for (int i = 0; i < category.length; i++) {
-      dataItems.add(category[i].industryName);
-    }
-    return dataItems;
-  }
+
 
   // richtext
   RichText getRequiredLabel({String fieldName}) {
@@ -150,7 +138,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
           text: fieldName,
           // ignore: prefer_const_literals_to_create_immutables
           children: [
-            const TextSpan(text: ' *', style: TextStyle(color: Colors.red)),
+            const TextSpan(text: '*', style: TextStyle(color: Colors.red)),
           ]),
     );
   }
@@ -168,24 +156,23 @@ class _WorkingProfessionState extends State<WorkingProfession> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      // IconButton(
-                      //     onPressed: () {
-                      //       Navigator.pop(context);
-                      //     },
-                      //     icon: const Icon(Icons.arrow_back)),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      const Text(
-                        "Professional Details",
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "ProximaNova"),
-                      ),
-                    ],
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  const Text(
+                    "Professional Details",
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: "ProximaNova"),
+                  ),
+                  Text(
+                    "Add the details of your current/previous job for recruiters to know your experience",
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontFamily: "ProximaNova",
+                      color: Colors.grey,
+                    ),
                   ),
                   Card(
                     child: Column(
@@ -223,8 +210,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                   children: [
                                     GFRadio(
                                       size: 20,
-                                      activeBorderColor:
-                                      const Color(0xff3e61ed),
+                                      activeBorderColor: const Color(0xff3e61ed),
                                       value: 1,
                                       groupValue: groupValue,
                                       onChanged: (value) {
@@ -296,14 +282,19 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                               groupValue == 1
                                   ? Padding(
                                 padding: const EdgeInsets.only(top: 8.0),
-                                child: TypeAheadField(
+                                child: TypeAheadFormField(
+                                  validator: (value) {
+                                    if(value.isEmpty){
+                                      return "Enter Current Organization Name";
+                                    }
+                                  },
                                   textFieldConfiguration:
                                   TextFieldConfiguration(
                                     // ignore: unnecessary_this
                                       controller: this
                                           .currentOrganisationNameCntrl,
                                       decoration: InputDecoration(
-                                          labelText: 'Organization')),
+                                    hintText: 'Select Current Organization Name')),
                                   debounceDuration:
                                   Duration(milliseconds: 500),
                                   suggestionsCallback:
@@ -345,6 +336,9 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                   : Container(),
                               groupValue == 1
                                   ? TextFormField(
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]"))
+                                ],
                                 controller: currentCompanyCntrl,
                                 decoration: InputDecoration(
                                   hintText: "Current Designation",
@@ -369,7 +363,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                 padding: EdgeInsets.only(
                                   top: 15,
                                 ),
-                                child: Text("Current Salary *",
+                                child: Text("Current  Annual Salary",
                                     style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
@@ -382,25 +376,52 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                               )
                                   : Container(),
                               groupValue == 1
-                                  ? TextFormField(
+                                  ? Row(
+                                mainAxisSize: MainAxisSize.max,
+
+                                children: [
+                                  const Icon(FontAwesomeIcons.rupeeSign),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                      Expanded(
+                                        child: TextFormField(
+                                inputFormatters: <TextInputFormatter>[
+                                        FilteringTextInputFormatter.allow(RegExp("[0-9]"))
+                                ],
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
+
+                                keyboardType: TextInputType.number,
                                 controller: salaryCount,
                                 decoration: InputDecoration(
-                                  hintText: "Current Salary",
-                                  hintStyle: TextStyle(
-                                    color: Colors.blueGrey,
-                                    fontFamily: "ProximaNova",
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: 1.5,
-                                    fontSize: 14.5,
-                                  ),
+                                        hintText: "Current Annual Salary",
+                                        hintStyle: TextStyle(
+                                          color: Colors.blueGrey,
+                                          fontFamily: "ProximaNova",
+                                          fontWeight: FontWeight.w500,
+                                          letterSpacing: 1.5,
+                                          fontSize: 14.5,
+                                        ),
                                 ),
                                 validator: (value) {
-                                  if (value.isEmpty) {
-                                    return "Enter Current Salary";
-                                  }
-                                  return null;
+                                        if (value.isEmpty) {
+                                          return "Enter Current Annual Salary";
+                                        }
+                                        if (value.startsWith("0")) {
+                                          return "Salary should Not Start With Zero";
+                                        }
+                                        if(value.length < 6){
+                                          return "Salary Should More Than 5 Digits";
+                                        }
+                                        if(value.length > 7){
+                                          return "Salary Should Less Than 7 Digits";
+                                        }
+                                        return null;
                                 },
-                              )
+                              ),
+                                      ),
+                                    ],
+                                  )
                                   : Container(),
                               groupValue == 1
                                   ? Padding(
@@ -437,13 +458,14 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                   ),
                                   // initialValue: date,
                                   mode: DateTimeFieldPickerMode.date,
-                                  autovalidateMode:
-                                  AutovalidateMode.always,
-                                  validator: (e) =>
-                                  (e?.day ?? 0) == 1
-                                      ? 'Select Start Date'
-                                      : null,
-
+                                  validator: (e) {
+                                    if(e == null){
+                                      return "Enter Working Since";
+                                    }else{
+                                      return null;
+                                    }
+                                  },
+                                   lastDate: DateTime.now(),
                                   onDateSelected: (date) {
                                     setState(() {
                                       selectedDate = date;
@@ -509,7 +531,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                 padding: EdgeInsets.only(
                                   top: 15,
                                 ),
-                                child: Text("Previous  Organization Name",
+                                child: Text("Previous Organization Name",
                                     style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
@@ -519,14 +541,19 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                               groupValue == 0
                                   ? Padding(
                                 padding: const EdgeInsets.only(top: 8.0),
-                                child: TypeAheadField(
+                                child: TypeAheadFormField(
+                                  validator: (value) {
+                                    if(value.isEmpty){
+                                      return "Select Previous Organization";
+                                    }
+                                  },
                                   textFieldConfiguration:
                                   TextFieldConfiguration(
                                     // ignore: unnecessary_this
                                       controller: this
                                           .currentOrganisationNameCntrl,
                                       decoration: InputDecoration(
-                                          labelText: 'Organization')),
+                                        hintText: 'Previous Organization Name')),
                                   debounceDuration:
                                   Duration(milliseconds: 500),
                                   suggestionsCallback:
@@ -570,6 +597,9 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                   : Container(),
                               groupValue == 0
                                   ? TextFormField(
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]"))
+                                ],
                                 controller: currentCompanyCntrl,
                                 validator: (value) {
                                   if (value.isEmpty) {
@@ -599,7 +629,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                 padding: EdgeInsets.only(
                                   top: 15,
                                 ),
-                                child: Text("Previous Salary",
+                                child: Text("Previous Annual Salary",
                                     style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
@@ -607,25 +637,51 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                               )
                                   : Container(),
                               groupValue == 0
-                                  ? TextFormField(
+                                  ? Row(
+                                mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      const Icon(FontAwesomeIcons.rupeeSign),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Expanded(
+                                        child: TextFormField(
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
+
+                                inputFormatters: <TextInputFormatter>[
+                                        FilteringTextInputFormatter.allow(RegExp("[0-9]"))
+                                ],
                                 controller: salaryCount,
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return "Enter Previous Salary";
-                                  }
-                                  return null;
+                                keyboardType: TextInputType.number,
+                                validator: (input) {
+                                        if (input.isEmpty) {
+                                          return "Enter Previous Annual Salary";
+                                        }
+                                        if (input.startsWith("0")) {
+                                          return "Salary Should Not Start With Zero";
+                                        }
+                                        if(input.length < 6){
+                                          return "Salary Should More Than 5 Digits";
+                                        }
+                                        if(input.length > 7){
+                                          return "Salary Should Less Than 7 Digits";
+                                        }
+                                        return null;
                                 },
                                 decoration: InputDecoration(
-                                  hintText: "Previous Annually Salary",
-                                  hintStyle: TextStyle(
-                                    color: Colors.blueGrey,
-                                    fontFamily: "ProximaNova",
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: 1.5,
-                                    fontSize: 14.5,
-                                  ),
+                                        hintText: "Previous Annual Salary",
+                                        hintStyle: TextStyle(
+                                          color: Colors.blueGrey,
+                                          fontFamily: "ProximaNova",
+                                          fontWeight: FontWeight.w500,
+                                          letterSpacing: 1.5,
+                                          fontSize: 14.5,
+                                        ),
                                 ),
-                              )
+                              ),
+                                      ),
+                                    ],
+                                  )
                                   : Container(),
                               groupValue == 0
                                   ? Padding(
@@ -650,6 +706,14 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                     ),
                                     Expanded(
                                       child: DateTimeFormField(
+                                        validator: (e) {
+                                          if(e == null){
+                                            return "Enter Start Date";
+                                          }else{
+                                            return null;
+                                          }
+                                        },
+                                        lastDate: DateTime.now(),
                                         decoration: const InputDecoration(
                                           border:
                                           const UnderlineInputBorder(
@@ -666,13 +730,8 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                         // initialValue: date,
                                         mode:
                                         DateTimeFieldPickerMode.date,
-                                        autovalidateMode:
-                                        AutovalidateMode.always,
-                                        validator: (e) =>
-                                        (e?.day ?? 0) ==
-                                            1
-                                            ? 'Select Start Date'
-                                            : null,
+
+
 
                                         onDateSelected: (date) {
                                           setState(() {
@@ -686,6 +745,13 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                     ),
                                     Expanded(
                                       child: DateTimeFormField(
+                                        validator: (e) {
+                                          if(e == null){
+                                            return "Enter End Date";
+                                          }else{
+                                            return null;
+                                          }
+                                        },
                                         decoration: const InputDecoration(
                                           border:
                                           const UnderlineInputBorder(
@@ -699,16 +765,10 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                           suffixIcon:
                                           Icon(Icons.event_note),
                                         ),
+                                        lastDate: DateTime.now(),
                                         // initialValue: date,
                                         mode:
                                         DateTimeFieldPickerMode.date,
-                                        autovalidateMode:
-                                        AutovalidateMode.always,
-                                        validator: (e) =>
-                                        (e?.day ?? 0) ==
-                                            1
-                                            ? 'Select End Date'
-                                            : null,
 
                                         onDateSelected: (date) {
                                           setState(() {
@@ -774,8 +834,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
 
                                 )
                                     : PostProfessionRegistration(
-                                    candidateexpIscurrentcompany:
-                                    0,
+                                    candidateexpIscurrentcompany: 0,
                                     candidateexpOrganizationname:
                                     skillorganization.organizationName,
                                     candidateexpDesignation:
@@ -798,6 +857,13 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                     ? (result.errorMessage ??
                                     "An Error Occurred")
                                     : "Successfully Created";
+                                if(result.data){
+                                  Navigator.pushAndRemoveUntil(context,
+                                      MaterialPageRoute(builder: (context) => QualificationBlueCollar(
+                                        uuid: widget.uuid,
+                                      ),), (
+                                          route) => false);
+                                }else{}
                                 // showDialog(
                                 //   context: context,
                                 //   builder: (_) => AlertDialog(
@@ -820,11 +886,7 @@ class _WorkingProfessionState extends State<WorkingProfession> {
                                 //   }
                                 // });
                               }
-                              Navigator.pushAndRemoveUntil(context,
-                                  MaterialPageRoute(builder: (context) => QualificationBlueCollar(
-                                    uuid: widget.uuid,
-                                  ),), (
-                                      route) => false);
+
 
                               // Navigator.of(context).push(MaterialPageRoute(
                               //   builder: (context) =>

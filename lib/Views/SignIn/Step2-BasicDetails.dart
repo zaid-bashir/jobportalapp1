@@ -1,33 +1,65 @@
-// ignore_for_file: avoid_print
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, prefer_const_constructors, must_be_immutable, prefer_final_fields, non_constant_identifier_names, unused_field
 
+import 'package:advance_notification/advance_notification.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:toast/toast.dart';
+import 'package:logger/logger.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/BasicDetailsPost.dart';
 import 'package:job_portal/Models/CurerntLocation.dart';
 import 'package:job_portal/Models/GetTitle.dart';
 import 'package:job_portal/Models/JobRole.dart';
 import 'package:job_portal/Models/CustumRadioModel.dart';
+import 'package:job_portal/Models/RegisterError.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'Step3-QualificationDetails.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 import 'Step7-CareerPreference.dart';
 
 class BasicDetails extends StatefulWidget {
-  BasicDetails({Key key, this.mobileNo}) : super(key: key);
+  BasicDetails({Key key, this.mobileNo, this.countryCode}) : super(key: key);
   String mobileNo;
-
+  String countryCode;
   @override
   _BasicDetailsState createState() => _BasicDetailsState();
 }
 
+
+// ScaffoldMessenger.of(context)
+//                               .showSnackBar(
+//                                 SnackBar(
+//                                   content: Row(children: [
+//                                     const Icon(
+//                                       Icons.done,
+//                                       color: Colors.white,
+//                                     ),
+//                                     const SizedBox(width: 7),
+//                                     Expanded(
+//                                       child: Text(jsonDecode(
+//                                           _apiResponse.data)['response']),
+//                                     ),
+//                                   ]),
+//                                   backgroundColor: Colors.green,
+//                                   duration: const Duration(milliseconds: 1500),
+//                                 ),
+//                               )
+
 class _BasicDetailsState extends State<BasicDetails> {
+
+  //Scaffolf Key
+  //============
+    final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  //Logger Instance
+  //===============
+  Logger log = Logger();
+
   //Get SharedPreference Bucket
   //===========================
 
@@ -65,6 +97,7 @@ class _BasicDetailsState extends State<BasicDetails> {
   TextEditingController lnameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController jobCategorySearchCon = TextEditingController();
+  TextEditingController myController = TextEditingController();
 
   //RadioButtons
   //============
@@ -91,8 +124,8 @@ class _BasicDetailsState extends State<BasicDetails> {
   String jobRoleID = "";
   String cityID = "";
   int totalExp = 0;
-  Map<String,dynamic> responseError;
-  Map<String,dynamic> responseSuccess;
+  Map<String, dynamic> responseError;
+  Map<String, dynamic> responseSuccess;
   String jwtToken = "";
   List<String> jobroleList = [];
   //Normal Fiels Variables
@@ -110,9 +143,22 @@ class _BasicDetailsState extends State<BasicDetails> {
   bool isLoadingCurrentLocation = false;
   bool isLoading = false;
 
+  //Form Validate Check
+  //===================
+  bool formValidateCheck = false;
+
   //Service Object
   //==============
   ApiServices apiServices = ApiServices();
+
+  RegisterError registerError = RegisterError(
+      candidateEmail1: "Enter Valid Email!",
+      candidateLastName: "Enter Last Name!",
+      candidateCurrentCityId: "Select Current Location!",
+      candidateMobile1: "Enter Mobile!",
+      candidatePreferredJobRoleList: "Select Preferred Job Roles!",
+      candidateFirstName: "Enter First Name!",
+      candidateGenderId: "Select Gender!");
 
   //ApiResponse Generic Objects
   //===========================
@@ -127,7 +173,7 @@ class _BasicDetailsState extends State<BasicDetails> {
     initSharedPreference();
     fetchTitles();
     fetchJobCategory(query: "");
-    fetchCurrentLocation(query: "");
+    // fetchCurrentLocation(query: "");
   }
 
   initSharedPreference() async {
@@ -154,34 +200,16 @@ class _BasicDetailsState extends State<BasicDetails> {
     });
   }
 
-  fetchCurrentLocation({String query}) async {
-    setState(() {
-      isLoadingCurrentLocation = true;
-    });
-    _apiResponseCurrentLocation =
-    await apiServices.getCurrentLocation(query: query);
-    setState(() {
-      isLoadingCurrentLocation = false;
-    });
-  }
-
-  List<String> parseData() {
-    List<JobCategory> category = _apiResponseJobCategory.data;
-    List<String> dataItems = [];
-    for (int i = 0; i < category.length; i++) {
-      dataItems.add(category[i].jobroleName);
-    }
-    return dataItems;
-  }
-
-  List<String> parseLocation() {
-    List<CurrentLocation> location = _apiResponseCurrentLocation.data;
-    List<String> dataItems = [];
-    for (int i = 0; i < location.length; i++) {
-      dataItems.add(location[i].cityName);
-    }
-    return dataItems;
-  }
+  // fetchCurrentLocation({String query}) async {
+  //   setState(() {
+  //     isLoadingCurrentLocation = true;
+  //   });
+  //   _apiResponseCurrentLocation =
+  //   await apiServices.getCurrentLocation(query: query);
+  //   setState(() {
+  //     isLoadingCurrentLocation = false;
+  //   });
+  // }
 
   RichText getRequiredLabel({String fieldName}) {
     return RichText(
@@ -205,14 +233,10 @@ class _BasicDetailsState extends State<BasicDetails> {
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 20, top: 10),
-            child: Row(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              // ignore: prefer_const_literals_to_create_immutables
               children: [
-                // IconButton(
-                //   onPressed: () {
-                //     Navigator.of(context).pop();
-                //   },
-                //   icon: const Icon(Icons.arrow_back),
-                // ),
                 const SizedBox(
                   width: 10,
                 ),
@@ -222,6 +246,14 @@ class _BasicDetailsState extends State<BasicDetails> {
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                       fontFamily: "ProximaNova"),
+                ),
+                Text(
+                  "Add basic detail for the recruiter to know you",
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontFamily: "ProximaNova",
+                    color: Colors.grey,
+                  ),
                 ),
               ],
             ),
@@ -258,8 +290,6 @@ class _BasicDetailsState extends State<BasicDetails> {
                                   selectedUser = newValue;
                                 });
                               },
-                              validator: (value) =>
-                              value == null ? 'Select Title' : null,
                               items: _apiResponse.data.map((GetTitle user) {
                                 return DropdownMenuItem<GetTitle>(
                                   value: user,
@@ -278,8 +308,12 @@ class _BasicDetailsState extends State<BasicDetails> {
                         Expanded(
                           flex: 5,
                           child: TextFormField(
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.allow(
+                                  RegExp("[a-zA-Z]"))
+                            ],
                             controller: fnameController,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               contentPadding: EdgeInsets.all(8.0),
                               labelText: 'First Name:',
                               labelStyle: TextStyle(
@@ -300,11 +334,9 @@ class _BasicDetailsState extends State<BasicDetails> {
                               ),
                             ),
                             keyboardType: TextInputType.name,
-                            autovalidateMode:
-                            AutovalidateMode.onUserInteraction,
                             validator: (value) {
                               if (value.isEmpty) {
-                                return "Enter First Name";
+                                return registerError.candidateFirstName;
                               } else {
                                 return null;
                               }
@@ -326,9 +358,13 @@ class _BasicDetailsState extends State<BasicDetails> {
                         children: [
                           Expanded(
                             child: TextFormField(
+                              inputFormatters: <TextInputFormatter>[
+                                FilteringTextInputFormatter.allow(
+                                    RegExp("[a-zA-Z]"))
+                              ],
                               controller: mnameController,
-                              decoration: InputDecoration(
-                                contentPadding: const EdgeInsets.all(8.0),
+                              decoration: const InputDecoration(
+                                contentPadding: EdgeInsets.all(8.0),
                                 labelText: 'Middle Name:',
                                 labelStyle: TextStyle(
                                     fontSize: 15,
@@ -347,8 +383,6 @@ class _BasicDetailsState extends State<BasicDetails> {
                                 ),
                               ),
                               keyboardType: TextInputType.name,
-                              autovalidateMode:
-                              AutovalidateMode.onUserInteraction,
                             ),
                           ),
                           const SizedBox(
@@ -356,6 +390,10 @@ class _BasicDetailsState extends State<BasicDetails> {
                           ),
                           Expanded(
                             child: TextFormField(
+                              inputFormatters: <TextInputFormatter>[
+                                FilteringTextInputFormatter.allow(
+                                    RegExp("[a-zA-Z]"))
+                              ],
                               controller: lnameController,
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(8.0),
@@ -378,8 +416,6 @@ class _BasicDetailsState extends State<BasicDetails> {
                                 ),
                               ),
                               keyboardType: TextInputType.name,
-                              autovalidateMode:
-                              AutovalidateMode.onUserInteraction,
                               validator: (value) {
                                 if (value.isEmpty) {
                                   return "Enter Last Name";
@@ -419,13 +455,12 @@ class _BasicDetailsState extends State<BasicDetails> {
                           ),
                         ),
                         keyboardType: TextInputType.emailAddress,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
                           if (value.isEmpty) {
-                            return "Enter Email";
+                            return null;
                           }
                           if (!EmailValidator.validate(value)) {
-                            return "Enter Correct Email";
+                            return registerError.candidateEmail1;
                           }
                           return null;
                         },
@@ -454,9 +489,9 @@ class _BasicDetailsState extends State<BasicDetails> {
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         options: genderItems
                             .map((lang) => FormBuilderFieldOption(
-                          value: lang,
-                          child: Text(lang.text),
-                        ))
+                                  value: lang,
+                                  child: Text(lang.text),
+                                ))
                             .toList(growable: false),
                         onChanged: (val) {
                           setState(() {
@@ -468,7 +503,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                         },
                         validator: (val) {
                           if (val == null) {
-                            return "Select Gender";
+                            return registerError.candidateGenderId;
                           } else {
                             return null;
                           }
@@ -497,9 +532,9 @@ class _BasicDetailsState extends State<BasicDetails> {
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         options: experienceItems
                             .map((lang) => FormBuilderFieldOption(
-                          value: lang,
-                          child: Text(lang.text),
-                        ))
+                                  value: lang,
+                                  child: Text(lang.text),
+                                ))
                             .toList(growable: false),
                         onChanged: (val) {
                           setState(() {
@@ -511,7 +546,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                         },
                         validator: (val) {
                           if (val == null) {
-                            return "Select Experience";
+                            return "Select Experience!";
                           } else {
                             return null;
                           }
@@ -525,127 +560,121 @@ class _BasicDetailsState extends State<BasicDetails> {
                     ),
                     experienceRadioId == 1
                         ? const Padding(
-                      padding: EdgeInsets.all(8),
-                      child: Text(
-                        "Experience Tenure:",
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "ProximaNova"),
-                      ),
-                    )
+                            padding: EdgeInsets.all(8),
+                            child: Text(
+                              "Experience Tenure:",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: "ProximaNova"),
+                            ),
+                          )
                         : Container(),
                     const SizedBox(
                       height: 3,
                     ),
                     experienceRadioId == 1
                         ? Row(
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              child: DropdownButtonFormField<String>(
-                                autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                                hint: Text("Years"),
-                                value: mySelectionYear,
-                                onChanged: (newValue) {
-                                  setState(() {
-                                    mySelectionYear = newValue;
-                                  });
-                                },
-                                validator: (value) => value == null
-                                    ? 'Select Year'
-                                    : null,
-                                items: [
-                                  "0",
-                                  "1",
-                                  "2",
-                                  "3",
-                                  "4",
-                                  "5",
-                                  "6",
-                                  "7",
-                                  "8",
-                                  "9",
-                                  "10",
-                                  "11",
-                                  "12"
-                                ]
-                                    .map(
-                                      (value) => DropdownMenuItem(
-                                      value: value,
-                                      child: Text(
-                                        value,
-                                        style: const TextStyle(
-                                            fontSize: 15,
-                                            fontWeight:
-                                            FontWeight.bold,
-                                            fontFamily:
-                                            "ProximaNova"),
-                                      )),
-                                )
-                                    .toList(),
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    child: DropdownButtonFormField<String>(
+                                      hint: Text("Years"),
+                                      value: mySelectionYear,
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          mySelectionYear = newValue;
+                                        });
+                                      },
+                                      validator: (value) =>
+                                          value == null ? 'Select Year' : null,
+                                      items: [
+                                        "0",
+                                        "1",
+                                        "2",
+                                        "3",
+                                        "4",
+                                        "5",
+                                        "6",
+                                        "7",
+                                        "8",
+                                        "9",
+                                        "10",
+                                        "11",
+                                        "12"
+                                      ]
+                                          .map(
+                                            (value) => DropdownMenuItem(
+                                                value: value,
+                                                child: Text(
+                                                  value,
+                                                  style: const TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontFamily:
+                                                          "ProximaNova"),
+                                                )),
+                                          )
+                                          .toList(),
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              child: DropdownButtonFormField<String>(
-                                autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                                hint: Text("Months"),
-                                value: mySelectionMonth,
-                                onChanged: (newValue) {
-                                  setState(() {
-                                    mySelectionMonth = newValue;
-                                  });
-                                },
-                                validator: (value) => value == null
-                                    ? 'Select Month'
-                                    : null,
-                                items: [
-                                  "0",
-                                  "1",
-                                  "2",
-                                  "3",
-                                  "4",
-                                  "5",
-                                  "6",
-                                  "7",
-                                  "8",
-                                  "9",
-                                  "10",
-                                  "11",
-                                  "12"
-                                ]
-                                    .map(
-                                      (value) => DropdownMenuItem(
-                                      value: value,
-                                      child: Text(
-                                        value,
-                                        style: const TextStyle(
-                                            fontSize: 15,
-                                            fontWeight:
-                                            FontWeight.bold,
-                                            fontFamily:
-                                            "ProximaNova"),
-                                      )),
-                                )
-                                    .toList(),
+                              Expanded(
+                                flex: 1,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    child: DropdownButtonFormField<String>(
+                                      hint: Text("Months"),
+                                      value: mySelectionMonth,
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          mySelectionMonth = newValue;
+                                        });
+                                      },
+                                      validator: (value) =>
+                                          value == null ? 'Select Month' : null,
+                                      items: [
+                                        "0",
+                                        "1",
+                                        "2",
+                                        "3",
+                                        "4",
+                                        "5",
+                                        "6",
+                                        "7",
+                                        "8",
+                                        "9",
+                                        "10",
+                                        "11",
+                                        "12"
+                                      ]
+                                          .map(
+                                            (value) => DropdownMenuItem(
+                                                value: value,
+                                                child: Text(
+                                                  value,
+                                                  style: const TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontFamily:
+                                                          "ProximaNova"),
+                                                )),
+                                          )
+                                          .toList(),
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
+                            ],
+                          )
                         : Container(),
                     const SizedBox(
                       height: 20,
@@ -664,9 +693,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                     Center(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child:JobRole(context),
-
-
+                        child: JobRole(context),
                       ),
                     ),
                     const SizedBox(
@@ -685,49 +712,31 @@ class _BasicDetailsState extends State<BasicDetails> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: DropdownSearch<CurrentLocation>(
-                        dropdownSearchDecoration: InputDecoration(
-                            border: UnderlineInputBorder(
-                            )
-                        ),
-                        autoValidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (value) {
-                          if (value == null) {
+                      child: TypeAheadFormField(
+                        validator: (input) {
+                          if (input.isEmpty) {
                             return "Select Current Location";
+                          } else {
+                            return null;
                           }
-                          return null;
                         },
-                        mode: Mode.DIALOG,
-                        items: isLoadingCurrentLocation
-                            ? [CurrentLocation()]
-                            : _apiResponseCurrentLocation.data,
-                        itemAsString: (CurrentLocation obj) {
-                          return obj.cityName;
-                        },
-                        onFind: (val) async {
-                          setState(() {
-                            query = val;
-                          });
-                          return _apiResponseCurrentLocation.data;
-                        },
-                        hint: "Select City",
-                        onChanged: (value) {
-                          jobCategorySearchCon.text = value.cityName.toString();
-                          cityID = value.cityId;
-                          print(value.cityId);
-                        },
-                        showSearchBox: true,
-                        popupItemBuilder:
-                            (context, CurrentLocation item, bool isSelected) {
-                          return Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 8),
-                            child: Card(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(item.cityName),
-                              ),
-                            ),
+                        textFieldConfiguration: TextFieldConfiguration(
+                            controller: myController,
+                            decoration: InputDecoration(
+                                hintText: 'Select Current Location')),
+                        debounceDuration: Duration(milliseconds: 500),
+                        suggestionsCallback: ApiServices.getCurrentLoc,
+                        itemBuilder: (context, CurrentLocation suggestions) {
+                          final skill = suggestions;
+                          return ListTile(
+                            title: Text(skill.cityName),
                           );
+                        },
+                        noItemsFoundBuilder: (context) => Text(""),
+                        onSuggestionSelected: (CurrentLocation suggesstion) {
+                          // final skill = suggesstion;
+                          myController.text = suggesstion.cityName;
+                          cityID = suggesstion.cityId;
                         },
                       ),
                     ),
@@ -738,7 +747,6 @@ class _BasicDetailsState extends State<BasicDetails> {
                 ),
               ),
             ),
-
           ),
           Padding(
             padding: const EdgeInsets.all(20.0),
@@ -751,62 +759,68 @@ class _BasicDetailsState extends State<BasicDetails> {
                   onPressed: () async {
                     if (_fbKey.currentState.saveAndValidate()) {
                       final insert = BasicDetialModel(
-                        candidateTitleId: int.parse(selectedUser.titleId),
-                        candidateMobile1: widget.mobileNo,
+                        candidateTitleId: selectedUser.titleId ?? 0,
+                        candidateMobile1:
+                            widget.countryCode + "-" + widget.mobileNo,
                         candidateFirstName: fnameController.text,
                         candidateMiddleName: mnameController.text,
                         candidateLastName: lnameController.text,
                         candidateEmail1: emailController.text,
-                        candidateName: fnameController.text +
-                            " " +
-                            mnameController.text +
-                            " " +
-                            lnameController.text,
                         candidateGenderId: genderRadioId,
-                        experience:experienceRadioId.toString() ,
+                        experience: experienceRadioId.toString(),
                         candidateTotalworkexp:
-                        experienceRadioId == 2 ? 0 : totalWorkExp(),
-                        candidatePreferredJobRoleList:jobroleList,
+                            experienceRadioId == 2 ? 0 : totalWorkExp(),
+                        candidatePreferredJobRoleList: jobroleList,
                         candidateCurrentCityId: int.parse(cityID),
                       );
-
+                      log.i("=======================================");
+                      log.i("First Name "+insert.candidateFirstName);
+                      log.i("Middle Name "+insert.candidateMiddleName);
+                      log.i("Last Name "+insert.candidateLastName);
+                      log.i("Mobile1 "+insert.candidateMobile1);
+                      log.i("Email1 "+insert.candidateEmail1);
+                      log.i("TitleId "+insert.candidateTitleId);
+                      log.i("GenderId "+insert.candidateGenderId.toString());
+                      log.i("Current City ID "+insert.candidateCurrentCityId.toString());
+                      log.i("JobRole "+insert.candidatePreferredJobRoleList.toString());
+                      log.i("Total Experience "+insert.candidateTotalworkexp.toString());
+                      log.i("Experience "+insert.experience);
+                      log.i("=======================================");
                       final result = await apiServices.postBasicDetials(insert);
                       print("#######################");
-                      if(result.data["error"] != null){
-                        AwesomeDialog(
-                          context: context,
-                          animType: AnimType.SCALE,
-                          dialogType: DialogType.ERROR,
-                          title: 'JobPortalApp',
-                          desc: 'Some Fields are Not Filled,  Fill all the fields',
-                        ).show();
-                        return;
+                      print(result.responseCode);
+                      if (result.responseCode == 400) {
+                        setState(() {
+                          registerError.candidateEmail1 =
+                              result.data['candidateEmail1'];
+                        });
+                        Toast.show(
+                          result.data['candidateEmail1'],
+                          context,
+                          duration: Toast.LENGTH_SHORT,
+                          gravity: Toast.BOTTOM,
+                        );
                       }
+                      !result.error
+                          ? AdvanceSnackBar(
+                                  message: "All fields Saved Successfully...",
+                                  icon: Icon(Icons.verified),
+                                  isIcon: true,
+                                  bgColor: Colors.black)
+                              .show(context)
+                          : SizedBox();
                       responseSuccess = result.data["successResult"];
-                      jwtToken = result.data["token"];
-                      // print(responseError);
-                      print(responseSuccess);
-                      print(jwtToken);
                       print("#######################");
-                      storeDataToSharedPref();
-                      Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context)=> CareerPreference(
-                        // uuid: result.data['successResult']['axelaCandidateUuId'],
-                        token: jwtToken,
-                        // experienceId: experienceRadioId,
-                      ),), (route) => false);
-
-
-
-                      // Navigator.of(context).push(
-                      //   MaterialPageRoute(
-                      //     builder: (context) => CareerPreference(
-                      //       // uuid: result.data['successResult']['axelaCandidateUuId'],
-                      //       token: jwtToken,
-                      //       // experienceId: experienceRadioId,
-                      //     ),
-                      //   ),
-                      // );
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CareerPreference(
+                              experienceId: experienceRadioId,
+                            ),
+                          ),
+                          (route) => false);
                     }
+                    const SizedBox(height: 10);
                   }),
             ),
           ),
@@ -825,18 +839,23 @@ class _BasicDetailsState extends State<BasicDetails> {
 
   void storeDataToSharedPref() {
     pref.setString(keyUuid, responseSuccess['axelaCandidateUuId']);
-    pref.setInt(keyCandiadateId, responseSuccess['axelaCandidateId']).toString();
-    pref.setString(keyToken,jwtToken);
+    pref
+        .setInt(keyCandiadateId, responseSuccess['axelaCandidateId'])
+        .toString();
+    pref.setString(keyToken, jwtToken);
   }
+
   Widget JobRole(BuildContext context) {
     return Column(children: [
       Padding(
         padding: const EdgeInsets.all(8.0),
         child: DropdownSearch<JobCategory>.multiSelection(
-          autoValidateMode: AutovalidateMode.onUserInteraction,
+          dropdownSearchDecoration: InputDecoration(
+            border: UnderlineInputBorder(),
+          ),
           validator: (value) {
             if (value.isEmpty) {
-              return "Select Preferred Role";
+              return "Select Preferred Job Role";
             }
             return null;
           },
@@ -876,5 +895,4 @@ class _BasicDetailsState extends State<BasicDetails> {
       ),
     ]);
   }
-
 }

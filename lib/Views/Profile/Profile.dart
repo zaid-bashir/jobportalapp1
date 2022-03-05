@@ -14,28 +14,23 @@ import 'package:job_portal/Models/BasicInfoPopulate.dart';
 import 'package:job_portal/Models/CareerPreferencePopulate.dart';
 
 import 'package:job_portal/Models/CertificationPopulate.dart';
-import 'package:job_portal/Models/ItSkillAdd.dart';
 import 'package:job_portal/Models/ItSkillRetrive.dart';
 import 'package:job_portal/Models/ItSkills.dart';
 import 'package:job_portal/Models/Language-Populate.dart';
-import 'package:job_portal/Models/LanguagesAdd.dart';
 import 'package:job_portal/Models/Patent-Populate.dart';
-import 'package:job_portal/Models/PatentAdd.dart';
 import 'package:job_portal/Models/KeySkillDeleteProfile.dart';
 import 'package:job_portal/Models/KeySkillProfilePopulate.dart';
 import 'package:job_portal/Models/PersonalDetailsRetrive.dart';
-import 'package:job_portal/Models/PresentaionAdd.dart';
 import 'package:job_portal/Models/Presentation-Populate.dart';
 import 'package:job_portal/Models/ProfileSummaryPopulate.dart';
 import 'package:job_portal/Models/QualificationPopulate.dart';
 import 'package:job_portal/Models/Researchpaper.dart';
-import 'package:job_portal/Models/qualification-post.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Theme/colors.dart';
-import 'package:job_portal/Models/ProfessionDetailsPost.dart';
 import 'package:job_portal/Models/ProfessionalPopulate.dart';
 import 'package:job_portal/Models/ProjectPopulate.dart';
 import 'package:job_portal/Theme/images.dart';
+import 'package:job_portal/Utility/Connect.dart';
 import 'package:job_portal/Views/Candidate/Sidebar.dart';
 import 'package:job_portal/Views/Profile/PresentationAdd.dart';
 import 'package:job_portal/Views/Profile/ProfileSummary.dart';
@@ -180,6 +175,7 @@ class _ProfilePageState extends State<ProfilePage>
     getPresentation();
     getResearch();
     getbasicss();
+    getUserName();
 
     loadingController = AnimationController(
       vsync: this,
@@ -191,9 +187,37 @@ class _ProfilePageState extends State<ProfilePage>
     super.initState();
   }
 
-  bool isLoading;
+
+  bool loadUser;
+
+  dynamic username;
+  getUserName()async{
+    setState(() {
+      loadUser= true;
+    });
+    username = await secureStorage.read(key: "candidateName");
+    setState(() {
+      loadUser= false;
+    });
+  }
+
+
+  bool isLoading = false;
+  bool isLoadingProfileSummary = false;
+  bool isLoadingBasicProfile = false;
+  bool isLoadingQualificationProfile = false;
+  bool isLoadingProfessionalProfile = false;
+  bool isLoadingItSkillsProfile = false;
+  bool isLoadingPersonalProfile = false;
   bool isLoadingPopulateKeySkillsProfile = false;
   bool isLoadingPopulateCareerPreferenceProfile = false;
+  bool isLoadingAwards = false;
+  bool isLoadingProjects = false;
+  bool isLoadingCertification = false;
+  bool isLoadingPresentation = false;
+  bool isLoadingPatents = false;
+  bool isLoadingResearch = false;
+  bool isLoadingLanguages = false;
   ApiResponse<List<ItSkillProfile>> _apiResponse;
   ApiResponse<BasicInfoPopulate> _apiResponseBasics;
   ApiResponse<List<QualificationPopulate>> _apiResponse2;
@@ -217,73 +241,73 @@ class _ProfilePageState extends State<ProfilePage>
 
   getResearch() async {
     setState(() {
-      isLoading = true;
+      isLoadingResearch = true;
     });
     apiResponseResearchPopulate = await apiServices.researchPopulate();
     setState(() {
-      isLoading = false;
+      isLoadingResearch = false;
     });
   }
 
   getPresentation() async {
     setState(() {
-      isLoading = true;
+      isLoadingPresentation = true;
     });
     apiResponsePresentationPopulate = await apiServices.PopulatePresentation();
     setState(() {
-      isLoading = false;
+      isLoadingPresentation = false;
     });
   }
 
   getSummary() async {
     setState(() {
-      isLoading = true;
+      isLoadingProfileSummary = true;
     });
     apiResponseSummary = await apiServices.PopulateSummary();
     setState(() {
-      isLoading = false;
+      isLoadingProfileSummary = false;
     });
   }
 
   getbasicss() async {
     setState(() {
-      isLoading = true;
+      isLoadingBasicProfile = true;
     });
     _apiResponseBasics = await apiServices.PopulateBasicInfo();
     setState(() {
-      isLoading = false;
+      isLoadingBasicProfile = false;
     });
   }
 
   populateCareerPreferenceProfile() async {
     setState(() {
-      isLoading = true;
+      isLoadingPopulateCareerPreferenceProfile = true;
     });
     apiResponseCareerPreferencePopulate =
         await apiServices.getCareerPreferencePopulate();
     setState(() {
-      isLoading = false;
+      isLoadingPopulateCareerPreferenceProfile = false;
     });
   }
 
   getCertification() async {
     setState(() {
-      isLoading = true;
+      isLoadingCertification = true;
     });
     apiResponseCertificationPopulate =
         await apiServices.PopulateCertification();
     setState(() {
-      isLoading = false;
+      isLoadingCertification = false;
     });
   }
 
   getProject() async {
     setState(() {
-      isLoading = true;
+      isLoadingProjects = true;
     });
     apiResponseProjectPopulate = await apiServices.PopulateProject();
     setState(() {
-      isLoading = false;
+      isLoadingProjects = false;
     });
   }
 
@@ -299,71 +323,71 @@ class _ProfilePageState extends State<ProfilePage>
 
   getAwards() async {
     setState(() {
-      isLoading = true;
+      isLoadingAwards = true;
     });
     _apiResponseAwards = await apiServices.populateAwards();
     setState(() {
-      isLoading = false;
+      isLoadingAwards = false;
     });
   }
 
   getPatent() async {
     setState(() {
-      isLoading = true;
+      isLoadingPatents = true;
     });
     _apiResponsePatent = await apiServices.PopulatePatent();
     setState(() {
-      isLoading = false;
+      isLoadingPatents = false;
     });
   }
 
   getLanguage() async {
     setState(() {
-      isLoading = true;
+      isLoadingLanguages = true;
     });
     _apiResponseLang = await apiServices.PopulateLanguage();
     setState(() {
-      isLoading = false;
+      isLoadingLanguages = false;
     });
   }
 
   getPersonal() async {
     setState(() {
-      isLoading = true;
+      isLoadingPersonalProfile = true;
     });
     _apiResponse3 = await apiServices.PopulatePersonal();
     setState(() {
-      isLoading = false;
+      isLoadingPersonalProfile = false;
     });
   }
 
   getQualification() async {
     setState(() {
-      isLoading = true;
+      isLoadingQualificationProfile = true;
     });
     _apiResponse2 = await apiServices.PopulateQualification();
     setState(() {
-      isLoading = false;
+      isLoadingQualificationProfile = false;
     });
   }
 
   getItSkill() async {
     setState(() {
-      isLoading = true;
+      isLoadingItSkillsProfile = true;
     });
     _apiResponse = await apiServices.PopulateItSkill();
     setState(() {
-      isLoading = false;
+      isLoadingItSkillsProfile = false;
     });
   }
 
   getProfessional() async {
     setState(() {
-      isLoading = true;
+      isLoadingProfessionalProfile = true;
     });
     _apiResponse5 = await apiServices.ProfessionalDetailsPopulate();
     setState(() {
-      isLoading = false;
+      isLoadingProfessionalProfile = false;
     });
   }
 
@@ -380,6 +404,26 @@ class _ProfilePageState extends State<ProfilePage>
     setState(() {
       isLoading = false;
     });
+  }
+
+  List<Widget> GetHeadline() {
+    List<Widget> childs = apiResponseSummary.data
+        .map((e) => Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 5),
+                  child: Text(e.candidateHeadline ?? "",
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        letterSpacing: 1.5,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: "ProximaNova",
+                      )),
+                )
+              ],
+            ))
+        .toList();
+    return childs;
   }
 
   List<Widget> GetSummary() {
@@ -401,21 +445,21 @@ class _ProfilePageState extends State<ProfilePage>
                         ),
                       ),
                       GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => SummaryAdd()))
-                              .then((value) => getSummary());
-                        },
-                        child: Text(
-                          'Add',
-                          style: TextStyle(
-                              color: Color(0xff3e61ed),
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        SummaryAdd(
+                                          textfield: e
+                                              .candidateProfilesummary,
+                                          headline: e
+                                              .candidateHeadline,
+                                        )))
+                                .then((value) => getSummary());
+                          },
+                          child: Icon(Icons.edit,
+                              color: Color(0xff3e61ed)))
                     ],
                   ),
                 ),
@@ -431,58 +475,44 @@ class _ProfilePageState extends State<ProfilePage>
                       elevation: 5,
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 25, right: 25, top: 20),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        'My Summmary:',
-                                        style: TextStyle(
-                                          fontFamily: "ProximaNova",
-                                          color: Colors.grey.shade600,
-                                          fontWeight: FontWeight.w500,
-                                          letterSpacing: 1.5,
-                                          fontSize: 14.0,
-                                        ),
-                                      ),
-                                      GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            SummaryAdd(
-                                                              textfield: e
-                                                                  .candidateProfilesummary,
-                                                            )))
-                                                .then((value) => getSummary());
-                                          },
-                                          child: Icon(Icons.edit,
-                                              color: Color(0xff3e61ed)))
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 5),
-                                    child: Text(e.candidateProfilesummary ?? "",
-                                        style: TextStyle(
-                                          fontSize: 12.0,
-                                          color: Colors.black45,
-                                          fontFamily: "ProximaNova",
-                                        )),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ],
+                        child: Padding(
+                          padding: const EdgeInsets.only(top:20,right:25,left:25),
+                          child: Column(
+
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+
+                                      child: Text(e.candidateProfilesummary ?? "",
+                                          overflow:TextOverflow.visible,
+                                          style: TextStyle(
+                                            fontSize: 12.0,
+                                            fontWeight: FontWeight.w300,
+                                            fontFamily: "ProximaNova",
+                                          )),
+                                    ),
+                                    GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          SummaryAdd(
+                                                            textfield: e
+                                                                .candidateProfilesummary,
+                                                            headline: e
+                                                                .candidateHeadline,
+                                                          )))
+                                              .then((value) => getSummary());
+                                        },
+                                        child: Icon(Icons.edit,
+                                            color: Color(0xff3e61ed)))]),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -500,7 +530,7 @@ class _ProfilePageState extends State<ProfilePage>
           (e) => Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 25, top: 10, right: 25),
+                padding: const EdgeInsets.only(left: 25, top: 20, right: 25),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -537,7 +567,7 @@ class _ProfilePageState extends State<ProfilePage>
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                    left: 20, right: 20, top: 10, bottom: 20),
+                    left: 20, right: 20, top: 20, ),
                 child: Card(
                   elevation: 5,
                   child: Column(
@@ -978,9 +1008,9 @@ class _ProfilePageState extends State<ProfilePage>
                       )),
                 ]),
               ),
-              const Text(
-                "Tahseen Abbass",
-                style: TextStyle(
+              Text(
+                username,
+                style: const TextStyle(
                   fontFamily: "ProximaNova",
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1.5,
@@ -990,14 +1020,8 @@ class _ProfilePageState extends State<ProfilePage>
               const SizedBox(
                 height: 10,
               ),
-              const Text(
-                "Senior Software Developer, ClustTech",
-                style: TextStyle(
-                  fontFamily: "ProximaNova",
-                  fontWeight: FontWeight.w500,
-                  letterSpacing: 1.5,
-                  fontSize: 14.5,
-                ),
+              Column(
+                children: GetHeadline(),
               ),
               GFButton(
                   color: const Color(0xff3e61ed),
@@ -1025,7 +1049,7 @@ class _ProfilePageState extends State<ProfilePage>
                 children: GetSummary(),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 25, top: 15, right: 25),
+                padding: const EdgeInsets.only(left: 25, top: 20, right: 25),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -1041,16 +1065,11 @@ class _ProfilePageState extends State<ProfilePage>
                     GestureDetector(
                         onTap: () {
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => UpdateBasicDetails(
-                                      // fName: e.candidateFirstName,
-                                      // mName: e.candidateMiddleName,
-                                      // lName: e.candidateLastName,
-                                      // phone: e.candidateMobile1,
-                                      // email: e.candidateEmail1,
-                                      // gender: e.candidateGenderId,
-                                      )));
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          UpdateBasicDetails()))
+                              .then((value) => getbasicss());
                         },
                         child: Icon(Icons.edit, color: Color(0xff3e61ed)))
                   ],
@@ -1058,7 +1077,7 @@ class _ProfilePageState extends State<ProfilePage>
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                  top: 10,
+                  top: 20,
                   left: 20,
                   right: 20,
                 ),
@@ -1237,7 +1256,7 @@ class _ProfilePageState extends State<ProfilePage>
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      ' Preferred Job Role:',
+                                      'Preferred Job Role:',
                                       style: TextStyle(
                                         fontFamily: "ProximaNova",
                                         color: Colors.grey.shade600,
@@ -1268,7 +1287,7 @@ class _ProfilePageState extends State<ProfilePage>
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 10, left: 25, right: 25),
+                padding: const EdgeInsets.only(top: 20, left: 25, right: 25),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -1302,7 +1321,7 @@ class _ProfilePageState extends State<ProfilePage>
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                  top: 10,
+                  top: 20,
                   left: 20,
                   right: 20,
                 ),
@@ -1313,14 +1332,26 @@ class _ProfilePageState extends State<ProfilePage>
                         bottom: 15, right: 20, left: 20, top: 10),
                     child: Column(
                       children: [
-                        qualificationList(context),
+   _apiResponse2.data.length == 0 ? Column(
+                            children: const [
+                              Text(
+                                "Add your qualification details for us to match you with a perfect job.",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontFamily: "ProximaNova",
+                                  color: Colors.grey,
+                                ),
+                              ),
+
+                        ]):  qualificationList(context),
                       ],
                     ),
+
                   ),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 25, top: 10, right: 25),
+                padding: const EdgeInsets.only(left: 25, top: 20, right: 25),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -1356,7 +1387,7 @@ class _ProfilePageState extends State<ProfilePage>
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                  top: 10,
+                  top: 20,
                   left: 20,
                   right: 20,
                 ),
@@ -1365,17 +1396,35 @@ class _ProfilePageState extends State<ProfilePage>
                   child: Padding(
                     padding: const EdgeInsets.only(
                         bottom: 15, right: 20, left: 20, top: 10),
-                    child: Column(
-                      children: [
-                        professionallist(context),
-                      ],
+                    child: Container(
+                      width: double.infinity,
+
+                      child: Column(
+
+                        children: [
+
+                          _apiResponse5.data.length == 0 ? Column(
+                              children: const [
+                                Text(
+                                  "Add your professional details to help us find a better fitted job for you."
+                                  ,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontFamily: "ProximaNova",
+                                    color: Colors.grey,
+                                  ),
+                                ),
+
+                              ]):  professionallist(context),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
               Padding(
                 key: skillKey,
-                padding: const EdgeInsets.only(left: 25, top: 10, right: 25),
+                padding: const EdgeInsets.only(left: 25, top: 20, right: 25),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -1411,7 +1460,7 @@ class _ProfilePageState extends State<ProfilePage>
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                  top: 10,
+                  top: 20,
                   left: 20,
                   right: 20,
                 ),
@@ -1419,54 +1468,70 @@ class _ProfilePageState extends State<ProfilePage>
                   width: double.infinity,
                   child: Card(
                     elevation: 5,
-                    child: Wrap(
-                      children: _apiResponseKeySkillPopulate.data.map((e) {
-                        return Padding(
-                          padding: const EdgeInsets.only(
-                              right: 8.0, top: 8.0, left: 20, bottom: 4.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(4),
-                              color: Colors.white,
-                              border: Border.all(color: Colors.black45),
-                            ),
-                            child: Wrap(children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 11, left: 5, bottom: 5),
-                                child: Text(
-                                  e.keyskillName,
+                    child: Column(
+                      children: [
+                        _apiResponseKeySkillPopulate.data.length == 0 ? Column(
+                            children: const [
+                              Text(
+                                "Add skills for recruiters to find you easily in keywords search.",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontFamily: "ProximaNova",
+                                  color: Colors.grey,
                                 ),
                               ),
-                              const SizedBox(
-                                width: 5,
+
+                            ]):
+                        Wrap(
+                          children: _apiResponseKeySkillPopulate.data.map((e) {
+                            return Padding(
+                              padding: const EdgeInsets.only(
+                                  right: 8.0, top: 8.0, left: 20, bottom: 4.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(4),
+                                  color: Colors.white,
+                                  border: Border.all(color: Color(0xff3e61ed)),
+                                ),
+                                child: Wrap(children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 11, left: 5, bottom: 5),
+                                    child: Text(
+                                      e.keyskillName,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  IconButton(
+                                      icon: const Icon(Icons.close),
+                                      onPressed: () {
+                                        setState(() {
+                                          isLoadingPopulateKeySkillsProfile = true;
+                                        });
+                                        apiServices.keySkillDeleteProfile(
+                                            obj: KeySkillDeleteProfile(
+                                                requestType: "delete",
+                                                candidatekeyskillUuid:
+                                                    e.candidatekeyskillUuid));
+                                        setState(() {
+                                          populateKeySkills();
+                                          isLoadingPopulateKeySkillsProfile = true;
+                                        });
+                                      }),
+                                ]),
                               ),
-                              IconButton(
-                                  icon: const Icon(Icons.close),
-                                  onPressed: () {
-                                    setState(() {
-                                      isLoading = true;
-                                    });
-                                    apiServices.keySkillDeleteProfile(
-                                        obj: KeySkillDeleteProfile(
-                                            requestType: "delete",
-                                            candidatekeyskillUuid:
-                                                e.candidatekeyskillUuid));
-                                    setState(() {
-                                      populateKeySkills();
-                                      isLoading = true;
-                                    });
-                                  }),
-                            ]),
-                          ),
-                        );
-                      }).toList(),
+                            );
+                          }).toList(),
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 25, top: 10, right: 25),
+                padding: const EdgeInsets.only(left: 25, top: 20, right: 25),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -1500,7 +1565,7 @@ class _ProfilePageState extends State<ProfilePage>
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                  top: 10,
+                  top: 20,
                   left: 20,
                   right: 20,
                 ),
@@ -1508,20 +1573,38 @@ class _ProfilePageState extends State<ProfilePage>
                   elevation: 5,
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 15),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 15, right: 15, top: 10),
-                          child: ItSkillGrid(context),
-                        ),
-                      ],
+                    child: Container(
+                        width:double.infinity,
+                        child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 15, right: 15, top: 10),
+                            child:
+                            _apiResponse.data.length == 0 ? Column(
+                                children: const [
+                                  Text(
+                                    "Add skills and attributes for recruiters to find you easily in keyword search."
+                                    ,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontFamily: "ProximaNova",
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+
+                                ]): ItSkillGrid(context),
+
+
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 25, top: 10, right: 25),
+                padding: const EdgeInsets.only(left: 25, top: 20, right: 25),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -1537,10 +1620,11 @@ class _ProfilePageState extends State<ProfilePage>
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    UpdateCareerPreference()));
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        UpdateCareerPreference()))
+                            .then((value) => populateCareerPreferenceProfile());
                       },
                       child: const Icon(Icons.edit, color: Color(0xff3e61ed)),
                     )
@@ -1549,7 +1633,7 @@ class _ProfilePageState extends State<ProfilePage>
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                  top: 10,
+                  top: 20,
                   left: 20,
                   right: 20,
                 ),
@@ -1774,45 +1858,6 @@ class _ProfilePageState extends State<ProfilePage>
                                   ],
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 25, right: 25, top: 25),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      flex: 2,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'Availability To Join:',
-                                            style: TextStyle(
-                                              fontFamily: "ProximaNova",
-                                              color: Colors.grey.shade600,
-                                              fontWeight: FontWeight.w500,
-                                              letterSpacing: 1.5,
-                                              fontSize: 13.0,
-                                            ),
-                                          ),
-                                          // Padding(
-                                          //   padding:
-                                          //       const EdgeInsets.only(top: 5.0),
-                                          //   child: Text(
-                                          //       apiResponseCareerPreferencePopulate.data.candidateJoindate.toString().split(" ")[0] ??
-                                          //           "yes",
-                                          //       style: TextStyle(
-                                          //           fontSize: 14.0,
-                                          //           fontFamily: "ProximaNova",
-                                          //           fontWeight:
-                                          //               FontWeight.bold)),
-                                          // )
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
                             ],
                           ),
                         ],
@@ -1823,12 +1868,12 @@ class _ProfilePageState extends State<ProfilePage>
                 children: getPersonalList(),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 25, top: 10, right: 25),
+                padding: const EdgeInsets.only(left: 25, top: 20, right: 25),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      "Awards",
+                      "AWARDS",
                       style: TextStyle(
                         fontFamily: "ProximaNova",
                         fontWeight: FontWeight.bold,
@@ -1836,38 +1881,44 @@ class _ProfilePageState extends State<ProfilePage>
                         fontSize: 16.5,
                       ),
                     ),
-                    // GestureDetector(
-                    //     onTap: () {
-                    //       Navigator.push(
-                    //               context,
-                    //               MaterialPageRoute(
-                    //                   builder: (context) => AddAwards()))
-                    //           .then((value) => getAwards());
-                    //     },
-                    //     child: const Icon(
-                    //       Icons.edit,
-                    //       color: Color(0xff3e61ed),
-                    //     ))
                   ],
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                  top: 10,
+                  top: 20,
                   left: 20,
                   right: 20,
                 ),
-                child: Card(
-                  elevation: 5,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 15, right: 15, top: 10, bottom: 10),
-                    child: awardsList(context),
+                child: Container(
+                  width: double.infinity,
+                  child: Card(
+                    elevation: 5,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          left: 15, right: 15, top: 10, bottom: 10),
+                      child:
+
+
+                      _apiResponseAwards.data.length == 0 ? Column(
+                          children: const [
+                            Text(
+                              "Showcase the awards earned by you."
+                              ,
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontFamily: "ProximaNova",
+                                color: Colors.grey,
+                              ),
+                            ),
+
+                          ]): awardsList(context),
+                    ),
                   ),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 10, left: 25, right: 25),
+                padding: const EdgeInsets.only(top: 20, left: 25, right: 25),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -1880,23 +1931,12 @@ class _ProfilePageState extends State<ProfilePage>
                         fontSize: 16.5,
                       ),
                     ),
-                    // GestureDetector(
-                    //   onTap: () {
-                    //     // Navigator.push(
-                    //     //     context,
-                    //     //     MaterialPageRoute(
-                    //     //         builder: (context) => QualificationAdd()))
-                    //     //     .then((value) => getQualification());
-                    //   },
-                    //   child:
-                    //       const Icon(Icons.edit, color: Color(0xff3e61ed)),
-                    // )
                   ],
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                  top: 10,
+                  top: 20,
                   left: 20,
                   right: 20,
                 ),
@@ -1905,16 +1945,33 @@ class _ProfilePageState extends State<ProfilePage>
                   child: Padding(
                     padding: const EdgeInsets.only(
                         bottom: 15, right: 20, left: 20, top: 10),
-                    child: Column(
-                      children: [
-                        projectList(context),
-                      ],
+                    child: Container(
+                      width: double.infinity,
+                      child: Column(
+                        children: [
+
+                          apiResponseProjectPopulate.data.length == 0 ? Column(
+                              children: const [
+                                Text(
+                                  "Add details and links for academic and professional projects that you have worked on. "
+                                  ,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontFamily: "ProximaNova",
+                                    color: Colors.grey,
+                                  ),
+                                ),
+
+                              ]): projectList(context),
+
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 10, left: 25, right: 25),
+                padding: const EdgeInsets.only(top: 20, left: 25, right: 25),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -1932,7 +1989,7 @@ class _ProfilePageState extends State<ProfilePage>
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                  top: 10,
+                  top: 20,
                   left: 20,
                   right: 20,
                 ),
@@ -1941,16 +1998,32 @@ class _ProfilePageState extends State<ProfilePage>
                   child: Padding(
                     padding: const EdgeInsets.only(
                         bottom: 15, right: 20, left: 20, top: 10),
-                    child: Column(
-                      children: [
-                        CertificationGrid(context),
-                      ],
+                    child: Container(
+                      width: double.infinity,
+                      child: Column(
+                        children: [
+
+
+                          apiResponseCertificationPopulate.data.length == 0 ? Column(
+                              children: const [
+                                Text(
+                                  "Add details and links of your certifications.",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontFamily: "ProximaNova",
+                                    color: Colors.grey,
+                                  ),
+                                ),
+
+                              ]):    CertificationGrid(context),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 10, left: 25, right: 25),
+                padding: const EdgeInsets.only(top: 20, left: 25, right: 25),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -1963,22 +2036,12 @@ class _ProfilePageState extends State<ProfilePage>
                         fontSize: 16.5,
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Presentation()))
-                            .then((value) => getPresentation());
-                      },
-                      child: const Icon(Icons.edit, color: Color(0xff3e61ed)),
-                    )
                   ],
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                  top: 10,
+                  top: 20,
                   left: 20,
                   right: 20,
                 ),
@@ -1987,21 +2050,36 @@ class _ProfilePageState extends State<ProfilePage>
                   child: Padding(
                     padding: const EdgeInsets.only(
                         bottom: 15, right: 20, left: 20, top: 10),
-                    child: Column(
-                      children: [
-                        presentationList(context),
-                      ],
+                    child: Container(
+                      width: double.infinity,
+                      child: Column(
+                        children: [
+
+                          apiResponsePresentationPopulate.data.length == 0 ? Column(
+                              children: const [
+                                Text(
+                                  "Add web-links for online presentation."
+                                  ,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontFamily: "ProximaNova",
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ]):    presentationList(context),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 25, top: 10, right: 25),
+                padding: const EdgeInsets.only(left: 25, top: 20, right: 25),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      "Patents",
+                      "PATENTS",
                       style: TextStyle(
                         fontFamily: "ProximaNova",
                         fontWeight: FontWeight.bold,
@@ -2009,23 +2087,12 @@ class _ProfilePageState extends State<ProfilePage>
                         fontSize: 16.5,
                       ),
                     ),
-                    GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AddPatents()));
-                        },
-                        child: const Icon(
-                          Icons.edit,
-                          color: Color(0xff3e61ed),
-                        ))
                   ],
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                  top: 10,
+                  top: 20,
                   left: 20,
                   right: 20,
                 ),
@@ -2034,17 +2101,38 @@ class _ProfilePageState extends State<ProfilePage>
                   child: Padding(
                     padding: const EdgeInsets.only(
                         left: 15, right: 15, top: 10, bottom: 10),
-                    child: patentGrid(context),
+                    child: Container(
+                      width: double.infinity,
+                      child: Column(
+                        children: [
+
+                          _apiResponsePatent.data.length == 0 ? Column(
+                              children: const [
+                                Text(
+                                  "Add details and links of patents filled by you."
+                                  ,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontFamily: "ProximaNova",
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ]):    patentGrid(context),
+
+                        ],
+                      ),
+                    ),
+
                   ),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 10, left: 25, right: 25),
+                padding: const EdgeInsets.only(top: 20, left: 25, right: 25),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      "RESEARCH PUBLICATIiiON",
+                      "RESEARCH PUBLICATION",
                       style: TextStyle(
                         fontFamily: "ProximaNova",
                         fontWeight: FontWeight.bold,
@@ -2052,22 +2140,12 @@ class _ProfilePageState extends State<ProfilePage>
                         fontSize: 16.5,
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Research()))
-                            .then((value) => getResearch());
-                      },
-                      child: const Icon(Icons.edit, color: Color(0xff3e61ed)),
-                    )
                   ],
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                  top: 10,
+                  top: 20,
                   left: 20,
                   right: 20,
                 ),
@@ -2076,21 +2154,36 @@ class _ProfilePageState extends State<ProfilePage>
                   child: Padding(
                     padding: const EdgeInsets.only(
                         bottom: 15, right: 20, left: 20, top: 10),
-                    child: Column(
-                      children: [
-                        researchList(context),
-                      ],
+                    child: Container(
+                      width: double.infinity,
+                      child: Column(
+                        children: [
+
+                          apiResponseResearchPopulate.data.length == 0 ? Column(
+                              children: const [
+                                Text(
+                                  "Add details and links for your publications."
+                                  ,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontFamily: "ProximaNova",
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ]): researchList(context),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 25, top: 10, right: 25),
+                padding: const EdgeInsets.only(left: 25, top: 20, right: 25),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      "Languages",
+                      "LANGUAGES",
                       style: TextStyle(
                         fontFamily: "ProximaNova",
                         fontWeight: FontWeight.bold,
@@ -2098,24 +2191,12 @@ class _ProfilePageState extends State<ProfilePage>
                         fontSize: 16.5,
                       ),
                     ),
-                    // GestureDetector(
-                    //     onTap: () {
-                    //       Navigator.push(
-                    //               context,
-                    //               MaterialPageRoute(
-                    //                   builder: (context) => LanguagesAdd()))
-                    //           .then((value) => getLanguage());
-                    //     },
-                    //     child: const Icon(
-                    //       Icons.edit,
-                    //       color: Color(0xff3e61ed),
-                    //     ))
                   ],
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                  top: 10,
+                  top: 20,
                   left: 20,
                   right: 20,
                 ),
@@ -2124,7 +2205,26 @@ class _ProfilePageState extends State<ProfilePage>
                   child: Padding(
                     padding: const EdgeInsets.only(
                         left: 15, right: 15, top: 10, bottom: 10),
-                    child: LanguageGrid(context),
+                    child:
+                     Container(
+                       width: double.infinity,
+                       child: Column(
+                         children: [
+                           _apiResponseLang.data.length == 0 ? Column(
+                               children: const [
+                                 Text(
+                                   "Add the languages you can speak and understand."
+                                   ,
+                                   style: TextStyle(
+                                     fontSize: 14,
+                                     fontFamily: "ProximaNova",
+                                     color: Colors.grey,
+                                   ),
+                                 ),
+                               ]): LanguageGrid(context),
+                         ],
+                       ),
+                     ),
                   ),
                 ),
               ),
@@ -2310,7 +2410,7 @@ class _ProfilePageState extends State<ProfilePage>
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 25, top: 10, right: 25),
+                padding: const EdgeInsets.only(left: 25, top: 20, right: 25),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -2323,18 +2423,12 @@ class _ProfilePageState extends State<ProfilePage>
                         fontSize: 16.5,
                       ),
                     ),
-                    // GestureDetector(
-                    //     onTap: () {
-                    //
-                    //     },
-                    //     child: Icon(Icons.edit,color:Color(0xff3e61ed))
-                    // ),
                   ],
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                  top: 10,
+                  top: 20,
                   left: 20,
                   right: 20,
                 ),
@@ -2470,6 +2564,36 @@ class _ProfilePageState extends State<ProfilePage>
                             Navigator.push(
                                     context,
                                     MaterialPageRoute(
+                                        builder: (context) => AddPatents()))
+                                .then((value) => getPatent());
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(Icons.control_point_outlined,
+                                  color: Color(0xff3e61ed)),
+                              SizedBox(width: 10),
+                              Text(
+                                'Patents',
+                                style: TextStyle(
+                                  fontSize: 14.0,
+                                  fontFamily: "ProximaNova",
+                                  color: Color(0xff3e61ed),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(left: 25, right: 25, top: 25),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
                                         builder: (context) => Research()))
                                 .then((value) => getResearch());
                           },
@@ -2535,7 +2659,7 @@ class _ProfilePageState extends State<ProfilePage>
   }
 
   Widget presentationList(BuildContext context) {
-    return isLoading
+    return isLoadingPresentation
         ? Center(
             child: CircularProgressIndicator(),
           )
@@ -2546,24 +2670,60 @@ class _ProfilePageState extends State<ProfilePage>
             ),
             itemCount: apiResponsePresentationPopulate.data.length,
             itemBuilder: (_, index) {
-              return GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Presentation(
-                                uuid: apiResponsePresentationPopulate
-                                    .data[index].candidatepresentationUuid,
-                              ))).then((value) => getPresentation());
-                },
-                child: Container(
-                  padding: const EdgeInsets.only(
-                      left: 10, right: 10, top: 5, bottom: 5),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6),
-                      border: Border.all(color: Colors.grey[500])),
-                  child: Column(children: [
-                    Row(
+              return Container(
+                padding: const EdgeInsets.only(
+                    left: 10, right: 10, top: 5, bottom: 5),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6),
+                    border: Border.all(color: Color(0xff3e61ed))),
+                child: Column(children: [
+                  Row(
+                    // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              apiResponsePresentationPopulate
+                                  .data[index].candidatepresentationTitle,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontFamily: "ProximaNova",
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 1.5,
+                                fontSize: 15.0,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Presentation(
+                                          uuid: apiResponsePresentationPopulate
+                                              .data[index].candidatepresentationUuid,
+                                        ))).then((value) => getPresentation());
+                              },
+                              child: Icon(
+                                Icons.edit,
+                                color: Color(0xff3e61ed),
+                              ),
+                            )
+
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
                       // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Expanded(
@@ -2572,81 +2732,20 @@ class _ProfilePageState extends State<ProfilePage>
                             children: [
                               Text(
                                 apiResponsePresentationPopulate
-                                    .data[index].candidatepresentationTitle,
+                                    .data[index].candidatepresentationWeblink,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
                                   fontFamily: "ProximaNova",
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w500,
                                   letterSpacing: 1.5,
-                                  fontSize: 15.0,
+                                  fontSize: 13.0,
                                 ),
                               ),
                             ],
                           ),
                         ),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              GestureDetector(
-                                onTap: () async {
-                                  setState(() {
-                                    isLoading = true;
-                                  });
-                                  final insert = PresentationAddModel(
-                                    requestType: "delete",
-                                    candidatepresentationUuid:
-                                        apiResponsePresentationPopulate
-                                            .data[index]
-                                            .candidatepresentationUuid,
-                                  );
-
-                                  final result = await apiServices
-                                      .presentationAddService(insert);
-                                  setState(() {
-                                    getPresentation();
-                                    isLoading = false;
-                                  });
-                                  if (result.data) {
-                                    print("-----------SUCCESS------------");
-                                  } else {
-                                    print("-----------ERROR------------");
-                                  }
-                                },
-                                child: Icon(
-                                  Icons.delete,
-                                  color: Color(0xff3e61ed),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  apiResponsePresentationPopulate
-                                      .data[index].candidatepresentationWeblink,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    fontFamily: "ProximaNova",
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: 1.5,
-                                    fontSize: 13.0,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ]),
-                  ]),
-                ),
+                      ]),
+                ]),
               );
             },
           );
@@ -2662,150 +2761,109 @@ class _ProfilePageState extends State<ProfilePage>
       physics: const NeverScrollableScrollPhysics(),
       itemCount: _apiResponse5.data.length,
       itemBuilder: (BuildContext context, int index) {
-        return GestureDetector(
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ProfessionAdd(
-                          uuid: _apiResponse5.data[index].candidateexpUuid,
-                        ))).then((value) => getProfessional());
-          },
-          child: Container(
-            padding:
-                const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(6),
-                border: Border.all(color: const Color(0xff3e61ed))),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            _apiResponse5.data[index].Designation,
-                            style: const TextStyle(
-                              overflow: TextOverflow.ellipsis,
-                              fontFamily: "ProximaNova",
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 1.5,
-                              fontSize: 15.0,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    GestureDetector(
-                        onTap: () async {
-                          setState(() {
-                            isLoading = true;
-                          });
-                          final insert = PostProfession(
-                              requestType: "delete",
-                              candidateexpUuid:
-                                  _apiResponse5.data[index].candidateexpUuid);
-
-                          final result =
-                              await apiServices.professionalProfileAdd(insert);
-                          setState(() {
-                            isLoading = false;
-                          });
-                          if (result.data) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Row(children: const [
-                                Icon(
-                                  Icons.done_outlined,
-                                ),
-                                SizedBox(width: 7),
-                                Text("Successfully Deleted"),
-                              ]),
-                              backgroundColor: Colors.green,
-                              duration: const Duration(milliseconds: 2500),
-                            ));
-                            setState(() {
-                              getProfessional();
-                            });
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Row(
-                                children: const [
-                                  Icon(Icons.error),
-                                  SizedBox(width: 7),
-                                  Text("An Error Occured"),
-                                ],
-                              ),
-                              backgroundColor: Colors.red,
-                              duration: const Duration(milliseconds: 2500),
-                            ));
-                          }
-                        },
-                        child:
-                            const Icon(Icons.delete, color: KColors.primary)),
-                  ],
-                ),
-                Text(
-                  _apiResponse5.data[index].OrganizationName ?? "2 years",
-                  style: const TextStyle(
-                    fontFamily: "ProximaNova",
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 1.5,
-                    fontSize: 13.5,
-                  ),
-                ),
-                Text(
-                  _apiResponse5.data[index].Salary ?? "2 years",
-                  style: const TextStyle(
-                    fontFamily: "ProximaNova",
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 1.5,
-                    fontSize: 13.5,
-                  ),
-                ),
-                RichText(
-                  text: TextSpan(
-                      text: _apiResponse5.data[index].StartDate,
-                      style: const TextStyle(
-                        fontFamily: "ProximaNova",
-                        fontWeight: FontWeight.w500,
-                        letterSpacing: 1.5,
-                        fontSize: 12.5,
-                      ),
+        return Container(
+          padding:
+              const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(6),
+              border: Border.all(color: const Color(0xff3e61ed))),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TextSpan(
-                          text: _apiResponse5.data[index]
-                                      .candidateexpIscurrentcompany ==
-                                  "1"
-                              ? "Present"
-                              : "to" + _apiResponse5.data[index].EndDate,
+                        Text(
+                          _apiResponse5.data[index].Designation,
                           style: const TextStyle(
+                            overflow: TextOverflow.ellipsis,
                             fontFamily: "ProximaNova",
-                            color: Colors.grey,
                             fontWeight: FontWeight.bold,
                             letterSpacing: 1.5,
-                            fontSize: 14.5,
+                            fontSize: 15.0,
                           ),
                         ),
-                      ]),
-                ),
-                Text(
-                  _apiResponse5.data[index].NoticePeriod ?? "",
-                  style: const TextStyle(
-                    fontFamily: "ProximaNova",
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 1.5,
-                    fontSize: 13.5,
+                      ],
+                    ),
                   ),
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ProfessionAdd(
+                                  uuid: _apiResponse5.data[index].candidateexpUuid,
+                                ))).then((value) => getProfessional());
+                      },
+
+                      child:
+                      const Icon(Icons.edit, color: KColors.primary)),
+
+
+
+                ],
+              ),
+              Text(
+                _apiResponse5.data[index].OrganizationName ?? "2 years",
+                style: const TextStyle(
+                  fontFamily: "ProximaNova",
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 1.5,
+                  fontSize: 13.5,
                 ),
-              ],
-            ),
+              ),
+              Text(
+                _apiResponse5.data[index].Salary ?? "2 years",
+                style: TextStyle(
+                  fontFamily: "ProximaNova",
+                  color: Colors.grey.shade500,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 1.5,
+                  fontSize: 12.5,
+                ),
+              ),
+              RichText(
+                text: TextSpan(
+                    text: _apiResponse5.data[index].StartDate,
+                    style: TextStyle(
+                      fontFamily: "ProximaNova",
+                      color: Colors.grey.shade500,
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 1.5,
+                      fontSize: 11.5,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: _apiResponse5.data[index]
+                                    .candidateexpIscurrentcompany ==
+                                "1"
+                            ? "Present"
+                            : "to" + _apiResponse5.data[index].EndDate,
+                        style: const TextStyle(
+                          fontFamily: "ProximaNova",
+                          color: Colors.grey,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.5,
+                          fontSize: 14.5,
+                        ),
+                      ),
+                    ]),
+              ),
+              Text(
+                _apiResponse5.data[index].NoticePeriod ?? "",
+                style: TextStyle(
+                  fontFamily: "ProximaNova",
+                  color: Colors.grey.shade500,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 1.5,
+                  fontSize: 11.5,
+                ),
+              ),
+            ],
           ),
         );
       },
@@ -2813,7 +2871,7 @@ class _ProfilePageState extends State<ProfilePage>
   }
 
   Widget qualificationList(BuildContext context) {
-    return isLoading
+    return isLoadingQualificationProfile
         ? Center(
             child: CircularProgressIndicator(),
           )
@@ -2824,24 +2882,82 @@ class _ProfilePageState extends State<ProfilePage>
             ),
             itemCount: _apiResponse2.data.length,
             itemBuilder: (_, index) {
-              return GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => QualificationAdd(
-                                uuid:
-                                    _apiResponse2.data[index].candidatequalUuid,
-                              )));
-                },
-                child: Container(
-                  padding: const EdgeInsets.only(
-                      left: 10, right: 10, top: 5, bottom: 5),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6),
-                      border: Border.all(color: const Color(0xff3e61ed))),
-                  child: Column(children: [
-                    Row(
+              return Container(
+                padding: const EdgeInsets.only(
+                    left: 10, right: 10, top: 5, bottom: 5),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6),
+                    border: Border.all(color: const Color(0xff3e61ed))),
+                child: Column(children: [
+                  Row(
+                    // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              _apiResponse2.data[index].QualificationName,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontFamily: "ProximaNova",
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 1.5,
+                                fontSize: 15.0,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              _apiResponse2.data[index].CourseName == ""
+                                  ? _apiResponse2
+                                          .data[index].getBoardName +
+                                      "-" +
+                                      _apiResponse2
+                                          .data[index].SchoolmediumName
+                                  : _apiResponse2
+                                          .data[index].CourseName +
+                                      "-" +
+                                      _apiResponse2
+                                          .data[index].StreamName,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontFamily: "ProximaNova",
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 1.5,
+                                fontSize: 15.0,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Column(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => QualificationAdd(
+                                        uuid:
+                                        _apiResponse2.data[index].candidatequalUuid,
+                                      )));
+                            },
+
+
+                            child: Icon(Icons.edit,
+                                color: Color(0xff3e61ed)),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  Row(
                       // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Expanded(
@@ -2849,13 +2965,13 @@ class _ProfilePageState extends State<ProfilePage>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                _apiResponse2.data[index].QualificationName,
+                                _apiResponse2.data[index].InstituteName,
                                 overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontFamily: "ProximaNova",
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 1.5,
-                                  fontSize: 15.0,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.grey.shade500,
+                                  fontSize: 13.0,
                                 ),
                               ),
                             ],
@@ -2865,171 +2981,22 @@ class _ProfilePageState extends State<ProfilePage>
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    _apiResponse2.data[index].CourseName == ""
-                                        ? _apiResponse2
-                                                .data[index].getBoardName +
-                                            "-" +
-                                            _apiResponse2
-                                                .data[index].SchoolmediumName
-                                        : _apiResponse2.data[index].CourseName +
-                                            "-" +
-                                            _apiResponse2
-                                                .data[index].StreamName,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                      fontFamily: "ProximaNova",
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: 1.5,
-                                      fontSize: 15.0,
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () async {
-                                      setState(() {
-                                        isLoading = true;
-                                      });
-                                      final insert = QualificationPost(
-                                          requestType: "delete",
-                                          candidatequalUuid: _apiResponse2
-                                              .data[index].candidatequalUuid);
-
-                                      final result = await apiServices
-                                          .qualificationAdd(insert);
-                                      setState(() {
-                                        isLoading = false;
-                                      });
-                                      if (result.data) {
-                                        print("-----------SUCCESS------------");
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(
-                                          content: Row(children: const [
-                                            Icon(
-                                              Icons.done_outlined,
-                                            ),
-                                            SizedBox(width: 7),
-                                            Text("Successfully Deleted"),
-                                          ]),
-                                          backgroundColor: Colors.green,
-                                          duration: const Duration(
-                                              milliseconds: 2500),
-                                        ));
-                                        setState(() {
-                                          getQualification();
-                                        });
-                                      } else {
-                                        print("-----------ERROR------------");
-
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(
-                                          content: Row(
-                                            children: const [
-                                              Icon(Icons.error),
-                                              SizedBox(width: 7),
-                                              Text("An Error Occured"),
-                                            ],
-                                          ),
-                                          backgroundColor: Colors.red,
-                                          duration: const Duration(
-                                              milliseconds: 2500),
-                                        ));
-                                      }
-                                    },
-                                    child: Icon(Icons.delete,
-                                        color: Color(0xff3e61ed)),
-                                  ),
-                                ],
+                              Text(
+                                _apiResponse2
+                                    .data[index].CandidatequalCompletionYear,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontFamily: "ProximaNova",
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.grey.shade500,
+                                  fontSize: 13.0,
+                                ),
                               ),
                             ],
                           ),
                         ),
-                      ],
-                    ),
-                    Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  _apiResponse2.data[index].InstituteName,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    fontFamily: "ProximaNova",
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: 1.5,
-                                    fontSize: 13.0,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  _apiResponse2
-                                      .data[index].CandidatequalCompletionYear,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    fontFamily: "ProximaNova",
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: 1.5,
-                                    fontSize: 13.0,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ]),
-                    // Row(
-                    //     // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    //     children: [
-                    //       Expanded(
-                    //         child: Column(
-                    //           crossAxisAlignment: CrossAxisAlignment.start,
-                    //           children: [
-                    //             Text(
-                    //               _apiResponse2.data[index].CourseName,
-                    //               overflow: TextOverflow.ellipsis,
-                    //               style: const TextStyle(
-                    //                 color:Colors.grey,
-                    //                 fontFamily: "ProximaNova",
-                    //                 // fontWeight: FontWeight.bold,
-                    //                 letterSpacing: 1.5,
-                    //                 fontSize: 12.0,
-                    //               ),
-                    //             ),
-                    //           ],
-                    //         ),
-                    //       ),
-                    //       Expanded(
-                    //         child: Column(
-                    //           crossAxisAlignment: CrossAxisAlignment.start,
-                    //           children: [
-                    //             Text(
-                    //               "${_apiResponse2.data[index].CandidatequalStartYear}",
-                    //               overflow: TextOverflow.ellipsis,
-                    //               style: const TextStyle(
-                    //                 fontFamily: "ProximaNova",
-                    //                 color:Colors.grey,
-                    //                 // fontWeight: FontWeight.bold,
-                    //                 letterSpacing: 1.5,
-                    //                 fontSize: 12.0,
-                    //               ),
-                    //             ),
-                    //           ],
-                    //         ),
-                    //       ),
-                    //     ]),
-                  ]),
-                ),
+                      ]),
+                ]),
               );
             },
           );
@@ -3051,182 +3018,62 @@ class _ProfilePageState extends State<ProfilePage>
       mainAxisSpacing: 6,
       crossAxisCount: (orientation == Orientation.portrait) ? 2 : 3,
       itemBuilder: (BuildContext context, int index) {
-        return GestureDetector(
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ItSkillAdds(
-                          uuid: _apiResponse.data[index].candidateitskillUuid,
-                        ))).then((value) => getItSkill());
-          },
-          child: Container(
-            padding:
-                const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(6),
-                border: Border.all(color: const Color(0xff3e61ed))),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        _apiResponse.data[index].candidateitskillName == ""
-                            ? _apiResponse.data[index].itskillName
-                            : _apiResponse.data[index].candidateitskillName,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontFamily: "ProximaNova",
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.5,
-                          fontSize: 15.0,
-                        ),
-                      ),
-                    ),
-                    // GestureDetector(
-                    //   onTap: ()async{
-                    //     setState(() {
-                    //       isLoading = true;
-                    //     });
-                    //     final insert = ItSkillAdd(
-                    //       requestType:"delete",
-                    //       candidateitskillItskillId: _apiResponse.data[index].candidateitskillItskillId,
-                    //       candidateitskillCandidateId: 1,
-                    //       // candidateitskillExperience: int.parse(_apiResponse.data[index].candidateitskillExperience),
-                    //       candidateitskillLastused: _apiResponse.data[index].candidateitskillLastused,
-                    //       candidateitskillVersion: _apiResponse.data[index].candidateitskillVersion
-                    //     );
-                    //     print(itSkillId);
-                    //     print(itSkillId);
-                    //     final result = await apiServices.itSkillDelete(insert);
-                    //     setState(() {
-                    //       isLoading = false;
-                    //     });
-                    //     // if(result.data){
-                    //     //   Navigator.pop(context);
-                    //     // }
-                    //     // else{
-                    //     //   print("error");
-                    //     // }
-                    //
-                    //
-                    //     const title = "Done";
-                    //     final text = result.error
-                    //         ? (result.errorMessage ?? "An Error Occurred")
-                    //         : "Successfully Deleted";
-                    //     showDialog(
-                    //       context: context,
-                    //       builder: (_) => AlertDialog(
-                    //         title: const Text(title),
-                    //         content: Text(text),
-                    //         actions: [
-                    //           ElevatedButton(
-                    //               onPressed: () {
-                    //                 Navigator.pop(context);
-                    //               },
-                    //               child: const Text("OK"))
-                    //         ],
-                    //       ),
-                    //     ).then((data) {
-                    //       if (result.data) {
-                    //         Navigator.of(context).pop();
-                    //
-                    //       }
-                    //     });
-                    //   },
-                    //     child: Icon(Icons.delete,color: KColors.primary)),
-                    GestureDetector(
-                        onTap: () async {
-                          setState(() {
-                            isLoading = true;
-                          });
-                          final insert = ItSkillAdd(
-                            requestType: "delete",
-                            candidateitskillUuid:
-                                _apiResponse.data[index].candidateitskillUuid,
-                          );
-                          print(itSkillId);
-                          print(itSkillId);
-                          final result =
-                              await apiServices.itSkillDelete(insert);
-                          setState(() {
-                            isLoading = false;
-                          });
-                          if (result.data) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Row(children: const [
-                                Icon(
-                                  Icons.done_outlined,
-                                ),
-                                SizedBox(width: 7),
-                                Text("Successfully Deleted"),
-                              ]),
-                              backgroundColor: Colors.green,
-                              duration: const Duration(milliseconds: 2500),
-                            ));
-                            setState(() {
-                              getItSkill();
-                            });
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Row(
-                                children: const [
-                                  Icon(Icons.error),
-                                  SizedBox(width: 7),
-                                  Text("An Error Occured"),
-                                ],
-                              ),
-                              backgroundColor: Colors.red,
-                              duration: const Duration(milliseconds: 2500),
-                            ));
-                          }
-                        },
-                        child:
-                            const Icon(Icons.delete, color: KColors.primary)),
-                  ],
-                ),
-                Text(
-                  _apiResponse.data[index].candidateitskillExperience ??
-                      "2 years",
-                  style: const TextStyle(
-                    fontFamily: "ProximaNova",
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 1.5,
-                    fontSize: 10.5,
-                  ),
-                ),
-                RichText(
-                  text: TextSpan(
-                      text: "Last Used:",
+        return Container(
+          padding:
+              const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(6),
+              border: Border.all(color: const Color(0xff3e61ed))),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text(
+                      _apiResponse.data[index].candidateitskillName == ""
+                          ? _apiResponse.data[index].itskillName
+                          : _apiResponse.data[index].candidateitskillName,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontFamily: "ProximaNova",
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.bold,
                         letterSpacing: 1.5,
-                        fontSize: 12.5,
+                        fontSize: 15.0,
                       ),
-                      children: [
-                        TextSpan(
-                          text: _apiResponse
-                                  .data[index].candidateitskillLastused
-                                  .toString() ??
-                              "",
-                          style: const TextStyle(
-                            fontFamily: "ProximaNova",
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 1.5,
-                            fontSize: 14.5,
-                          ),
-                        ),
-                      ]),
+                    ),
+                  ),
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ItSkillAdds(
+                                  uuid: _apiResponse.data[index].candidateitskillUuid,
+                                ))).then((value) => getItSkill());
+                      },
+
+
+                      child:
+                      const Icon(Icons.edit, color: KColors.primary)),
+
+                ],
+              ),
+              Text(
+                _apiResponse.data[index].candidateitskillExperience ??
+                    "2 years",
+                style: TextStyle(
+                  fontFamily: "ProximaNova",
+                  color: Colors.grey.shade500,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 1.5,
+                  fontSize: 13.5,
                 ),
-                RichText(
-                  text: TextSpan(
-                    text: "Version:",
+              ),
+              RichText(
+                text: TextSpan(
+                    text: "Last Used:",
                     style: const TextStyle(
                       fontFamily: "ProximaNova",
                       fontWeight: FontWeight.w500,
@@ -3235,22 +3082,46 @@ class _ProfilePageState extends State<ProfilePage>
                     ),
                     children: [
                       TextSpan(
-                        text: _apiResponse.data[index].candidateitskillVersion
+                        text: _apiResponse
+                                .data[index].candidateitskillLastused
                                 .toString() ??
                             "",
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontFamily: "ProximaNova",
-                          color: Colors.grey,
+                          color: Colors.grey.shade500,
                           fontWeight: FontWeight.w500,
                           letterSpacing: 1.5,
-                          fontSize: 14.5,
+                          fontSize: 12,
                         ),
                       ),
-                    ],
+                    ]),
+              ),
+              RichText(
+                text: TextSpan(
+                  text: "Version:",
+                  style: const TextStyle(
+                    fontFamily: "ProximaNova",
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 1.5,
+                    fontSize: 12.5,
                   ),
+                  children: [
+                    TextSpan(
+                      text: _apiResponse.data[index].candidateitskillVersion
+                              .toString() ??
+                          "",
+                      style: TextStyle(
+                        fontFamily: "ProximaNova",
+                        color: Colors.grey.shade500,
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: 1.5,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       },
@@ -3270,224 +3141,103 @@ class _ProfilePageState extends State<ProfilePage>
       mainAxisSpacing: 6,
       crossAxisCount: (orientation == Orientation.portrait) ? 2 : 3,
       itemBuilder: (BuildContext context, int index) {
-        return GestureDetector(
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => LanguagesAdd(
-                          uuid: _apiResponseLang.data[index].candidatelangUuid,
-                        ))).then((value) => getLanguage());
-          },
-          child: Container(
-            padding:
-                const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(6),
-                border: Border.all(color: const Color(0xff3e61ed))),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      _apiResponseLang.data[index].Language == ""
-                          ? _apiResponseLang.data[index].Languagename
-                          : _apiResponseLang.data[index].Language,
-                      style: const TextStyle(
-                        fontFamily: "ProximaNova",
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1.5,
-                        fontSize: 15.0,
-                      ),
+        return Container(
+          padding:
+              const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(6),
+              border: Border.all(color: const Color(0xff3e61ed))),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    _apiResponseLang.data[index].Language == ""
+                        ? _apiResponseLang.data[index].Languagename
+                        : _apiResponseLang.data[index].Language,
+                    style: const TextStyle(
+                      fontFamily: "ProximaNova",
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.5,
+                      fontSize: 15.0,
                     ),
-                    // GestureDetector(
-                    //   onTap: ()async{
-                    //     setState(() {
-                    //       isLoading = true;
-                    //     });
-                    //     final insert = ItSkillAdd(
-                    //       requestType:"delete",
-                    //       candidateitskillItskillId: _apiResponse.data[index].candidateitskillItskillId,
-                    //       candidateitskillCandidateId: 1,
-                    //       // candidateitskillExperience: int.parse(_apiResponse.data[index].candidateitskillExperience),
-                    //       candidateitskillLastused: _apiResponse.data[index].candidateitskillLastused,
-                    //       candidateitskillVersion: _apiResponse.data[index].candidateitskillVersion
-                    //     );
-                    //     print(itSkillId);
-                    //     print(itSkillId);
-                    //     final result = await apiServices.itSkillDelete(insert);
-                    //     setState(() {
-                    //       isLoading = false;
-                    //     });
-                    //     // if(result.data){
-                    //     //   Navigator.pop(context);
-                    //     // }
-                    //     // else{
-                    //     //   print("error");
-                    //     // }
-                    //
-                    //
-                    //     const title = "Done";
-                    //     final text = result.error
-                    //         ? (result.errorMessage ?? "An Error Occurred")
-                    //         : "Successfully Deleted";
-                    //     showDialog(
-                    //       context: context,
-                    //       builder: (_) => AlertDialog(
-                    //         title: const Text(title),
-                    //         content: Text(text),
-                    //         actions: [
-                    //           ElevatedButton(
-                    //               onPressed: () {
-                    //                 Navigator.pop(context);
-                    //               },
-                    //               child: const Text("OK"))
-                    //         ],
-                    //       ),
-                    //     ).then((data) {
-                    //       if (result.data) {
-                    //         Navigator.of(context).pop();
-                    //
-                    //       }
-                    //     });
-                    //   },
-                    //     child: Icon(Icons.delete,color: KColors.primary)),
-                    GestureDetector(
-                        onTap: () async {
-                          setState(() {
-                            isLoading = true;
-                          });
-                          final insert = LanguagesAddModel(
-                            requestType: "delete",
-                            candidatelangUuid:
-                                _apiResponseLang.data[index].candidatelangUuid,
-                          );
-
-                          final result = await apiServices.languagesAdd(insert);
-                          setState(() {
-                            isLoading = false;
-                          });
-                          if (result.data) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Row(children: const [
-                                Icon(
-                                  Icons.done_outlined,
-                                ),
-                                SizedBox(width: 7),
-                                Text("Successfully Deleted"),
-                              ]),
-                              backgroundColor: Colors.green,
-                              duration: const Duration(milliseconds: 2500),
-                            ));
-                            setState(() {
-                              getLanguage();
-                            });
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Row(
-                                children: const [
-                                  Icon(Icons.error),
-                                  SizedBox(width: 7),
-                                  Text("An Error Occured"),
-                                ],
-                              ),
-                              backgroundColor: Colors.red,
-                              duration: const Duration(milliseconds: 2500),
-                            ));
-                          }
-                        },
-                        child:
-                            const Icon(Icons.delete, color: KColors.primary)),
-                  ],
-                ),
-                Text(
-                  _apiResponseLang.data[index].ProficiencyName ?? "2 years",
-                  style: const TextStyle(
-                    fontFamily: "ProximaNova",
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 1.5,
-                    fontSize: 10.5,
                   ),
-                ),
-                RichText(
-                  text: TextSpan(
-                      text: "Ablity:",
-                      style: const TextStyle(
-                        fontFamily: "ProximaNova",
-                        fontWeight: FontWeight.w500,
-                        letterSpacing: 1.5,
-                        fontSize: 12.5,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: _apiResponseLang.data[index].Read == "1"
-                              ? "Read"
-                              : "",
-                          style: const TextStyle(
-                            fontFamily: "ProximaNova",
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 1.5,
-                            fontSize: 14.5,
-                          ),
-                        ),
-                        TextSpan(
-                          text: _apiResponseLang.data[index].Write == "1"
-                              ? " Write"
-                              : "",
-                          style: const TextStyle(
-                            fontFamily: "ProximaNova",
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 1.5,
-                            fontSize: 14.5,
-                          ),
-                        ),
-                        TextSpan(
-                          text: _apiResponseLang.data[index].Speak == "1"
-                              ? " Speak"
-                              : "",
-                          style: const TextStyle(
-                            fontFamily: "ProximaNova",
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 1.5,
-                            fontSize: 14.5,
-                          ),
-                        ),
-                      ]),
-                ),
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LanguagesAdd(
+                                  uuid: _apiResponseLang.data[index].candidatelangUuid,
+                                ))).then((value) => getLanguage());
+                      },
+                      child:
+                      const Icon(Icons.edit, color: KColors.primary)
+                  )
 
-                // RichText(
-                //   text: TextSpan(
-                //     text: "Version:",
-                //     style: const TextStyle(
-                //       fontFamily: "ProximaNova",
-                //       fontWeight: FontWeight.w500,
-                //       letterSpacing: 1.5,
-                //       fontSize: 12.5,
-                //     ),
-                //     children: [
-                //       TextSpan(
-                //         text: _apiResponse.data[index].candidateitskillVersion
-                //             .toString() ??
-                //             "",
-                //         style: const TextStyle(
-                //           fontFamily: "ProximaNova",
-                //           color: Colors.grey,
-                //           fontWeight: FontWeight.w500,
-                //           letterSpacing: 1.5,
-                //           fontSize: 14.5,
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-              ],
-            ),
+
+                ],
+              ),
+              Text(
+                _apiResponseLang.data[index].ProficiencyName ?? "2 years",
+                style: TextStyle(
+                  fontFamily: "ProximaNova",
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 1.5,
+                  fontSize: 11.5,
+                ),
+              ),
+              RichText(
+                text: TextSpan(
+                    text: "Ablity:",
+                    style: const TextStyle(
+                      fontFamily: "ProximaNova",
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 1.5,
+                      fontSize: 12.5,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: _apiResponseLang.data[index].Read == "1"
+                            ? "Read"
+                            : "",
+                        style: TextStyle(
+                          fontFamily: "ProximaNova",
+                          color: Colors.grey.shade500,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.5,
+                          fontSize: 11.5,
+                        ),
+                      ),
+                      TextSpan(
+                        text: _apiResponseLang.data[index].Write == "1"
+                            ? " Write"
+                            : "",
+                        style: TextStyle(
+                          fontFamily: "ProximaNova",
+                          color: Colors.grey.shade500,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.5,
+                          fontSize: 11.5,
+                        ),
+                      ),
+                      TextSpan(
+                        text: _apiResponseLang.data[index].Speak == "1"
+                            ? " Speak"
+                            : "",
+                        style: TextStyle(
+                          fontFamily: "ProximaNova",
+                          color: Colors.grey.shade500,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.5,
+                          fontSize: 11.5,
+                        ),
+                      ),
+                    ]),
+              ),
+            ],
           ),
         );
       },
@@ -3504,131 +3254,85 @@ class _ProfilePageState extends State<ProfilePage>
       physics: const NeverScrollableScrollPhysics(),
       itemCount: _apiResponsePatent.data.length,
       itemBuilder: (BuildContext context, int index) {
-        return GestureDetector(
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => AddPatents(
-                          uuid: _apiResponsePatent
-                              .data[index].candidatepatentUuid,
-                        ))).then((value) => getPatent());
-          },
-          child: Container(
-            padding:
-                const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(6),
-                border: Border.all(color: const Color(0xff3e61ed))),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            _apiResponsePatent.data[index].candidatepatentTitle,
-                            style: const TextStyle(
-                              overflow: TextOverflow.ellipsis,
-                              fontFamily: "ProximaNova",
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 1.5,
-                              fontSize: 15.0,
-                            ),
+        return Container(
+          padding:
+              const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(6),
+              border: Border.all(color: const Color(0xff3e61ed))),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          _apiResponsePatent.data[index].candidatepatentTitle,
+                          style: const TextStyle(
+                            overflow: TextOverflow.ellipsis,
+                            fontFamily: "ProximaNova",
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1.5,
+                            fontSize: 15.0,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    GestureDetector(
-                        onTap: () async {
-                          setState(() {
-                            isLoading = true;
-                          });
-                          final insert = AddPatent(
-                            requestType: "delete",
-                            candidatepatentUuid: _apiResponsePatent
-                                .data[index].candidatepatentUuid,
-                          );
+                  ),
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AddPatents(
+                                  uuid: _apiResponsePatent
+                                      .data[index].candidatepatentUuid,
+                                ))).then((value) => getPatent());
+                      },
+                      child:
+                      const Icon(Icons.edit, color: KColors.primary))
 
-                          final result =
-                              await apiServices.patentsDelete(insert);
-                          setState(() {
-                            isLoading = false;
-                          });
-                          if (result.data) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Row(children: const [
-                                Icon(
-                                  Icons.done_outlined,
-                                ),
-                                SizedBox(width: 7),
-                                Text("Successfully Deleted"),
-                              ]),
-                              backgroundColor: Colors.green,
-                              duration: const Duration(milliseconds: 2500),
-                            ));
-                            setState(() {
-                              getPatent();
-                            });
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Row(
-                                children: const [
-                                  Icon(Icons.error),
-                                  SizedBox(width: 7),
-                                  Text("An Error Occured"),
-                                ],
-                              ),
-                              backgroundColor: Colors.red,
-                              duration: const Duration(milliseconds: 2500),
-                            ));
-                          }
-                        },
-                        child:
-                            const Icon(Icons.delete, color: KColors.primary)),
-                  ],
+                ],
+              ),
+              Text(
+                _apiResponsePatent.data[index].candidatepatentIssuedate
+                        .split(" ")[0] ??
+                    "2 years",
+                style: const TextStyle(
+                  fontFamily: "ProximaNova",
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 1.5,
+                  fontSize: 13,
                 ),
-                Text(
-                  _apiResponsePatent.data[index].candidatepatentIssuedate
-                          .split(" ")[0] ??
-                      "2 years",
-                  style: const TextStyle(
-                    fontFamily: "ProximaNova",
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 1.5,
-                    fontSize: 13.5,
-                  ),
+              ),
+              Text(
+                _apiResponsePatent.data[index].candidatepatentOffice ??
+                    "2 years",
+                style: TextStyle(
+                  fontFamily: "ProximaNova",
+                  color: Colors.grey.shade500,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 1.5,
+                  fontSize: 12.5,
                 ),
-                Text(
-                  _apiResponsePatent.data[index].candidatepatentOffice ??
-                      "2 years",
-                  style: const TextStyle(
-                    fontFamily: "ProximaNova",
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 1.5,
-                    fontSize: 13.5,
-                  ),
+              ),
+              Text(
+                _apiResponsePatent.data[index].candidatepatentDesc == ""
+                    ? ""
+                    : _apiResponsePatent.data[index].candidatepatentDesc,
+                style: TextStyle(
+                  fontFamily: "ProximaNova",
+                  color: Colors.grey.shade500,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 1.5,
+                  fontSize: 12,
                 ),
-                Text(
-                  _apiResponsePatent.data[index].candidatepatentDesc == ""
-                      ? ""
-                      : _apiResponsePatent.data[index].candidatepatentDesc,
-                  style: const TextStyle(
-                    fontFamily: "ProximaNova",
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 1.5,
-                    fontSize: 13.5,
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       },
@@ -3636,7 +3340,7 @@ class _ProfilePageState extends State<ProfilePage>
   }
 
   Widget projectList(BuildContext context) {
-    return isLoading
+    return isLoadingProjects
         ? Center(
             child: CircularProgressIndicator(),
           )
@@ -3647,46 +3351,14 @@ class _ProfilePageState extends State<ProfilePage>
             ),
             itemCount: apiResponseProjectPopulate.data.length,
             itemBuilder: (_, index) {
-              return GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Projects(
-                                uuid: apiResponseProjectPopulate
-                                    .data[index].candidateprojectUuid,
-                              )));
-                },
-                child: Container(
-                  padding: const EdgeInsets.only(
-                      left: 10, right: 10, top: 5, bottom: 5),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6),
-                      border: Border.all(color: Colors.grey[500])),
-                  child: Column(children: [
-                    Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  apiResponseProjectPopulate
-                                      .data[index].candidateprojectType,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    fontFamily: "ProximaNova",
-                                    fontWeight: FontWeight.bold,
-                                    letterSpacing: 1.5,
-                                    fontSize: 13.0,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ]),
-                    Row(
+              return Container(
+                padding: const EdgeInsets.only(
+                    left: 10, right: 10, top: 5, bottom: 5),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6),
+                    border: Border.all(color: Color(0xff3e61ed))),
+                child: Column(children: [
+                  Row(
                       // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Expanded(
@@ -3695,13 +3367,192 @@ class _ProfilePageState extends State<ProfilePage>
                             children: [
                               Text(
                                 apiResponseProjectPopulate
-                                    .data[index].candidateprojectTitle,
+                                    .data[index].candidateprojectType,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
                                   fontFamily: "ProximaNova",
                                   fontWeight: FontWeight.bold,
                                   letterSpacing: 1.5,
-                                  fontSize: 15.0,
+                                  fontSize: 13.0,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ]),
+                  Row(
+                    // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              apiResponseProjectPopulate
+                                  .data[index].candidateprojectTitle,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontFamily: "ProximaNova",
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 1.5,
+                                fontSize: 15.0,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  apiResponseProjectPopulate
+                                      .data[index].candidateprojectClient,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    fontFamily: "ProximaNova",
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 1.5,
+                                    fontSize: 15.0,
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Projects(
+                                              uuid: apiResponseProjectPopulate
+                                                  .data[index].candidateprojectUuid,
+                                            )));
+                                  },
+                                    child: const Icon(Icons.edit, color: KColors.primary),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                apiResponseProjectPopulate
+                                    .data[index].candidateprojectStatus,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontFamily: "ProximaNova",
+                                  fontWeight: FontWeight.w500,
+                                  letterSpacing: 1.5,
+                                  fontSize: 14.0,
+                                ),
+                              ),
+                              apiResponseProjectPopulate.data[index]
+                                          .candidateprojectStatus ==
+                                      1
+                                  ? Text(
+                                      apiResponseProjectPopulate.data[index]
+                                              .candidateprojectStartdate +
+                                          "-" +
+                                          apiResponseProjectPopulate
+                                              .data[index]
+                                              .candidateprojectEnddate,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                        fontFamily: "ProximaNova",
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.w500,
+                                        letterSpacing: 1.5,
+                                        fontSize: 13.5,
+                                      ),
+                                    )
+                                  : Text(
+                                      apiResponseProjectPopulate.data[index]
+                                          .candidateprojectStartdate,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                        fontFamily: "ProximaNova",
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.w500,
+                                        letterSpacing: 1.5,
+                                        fontSize: 13.5,
+                                      ),
+                                    ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              InkWell(
+                                focusColor: Colors.blueGrey,
+                                onTap: () => launch(apiResponseProjectPopulate
+                                    .data[index].candidateprojectWeblink),
+                                child: Text(
+                                  apiResponseProjectPopulate
+                                      .data[index].candidateprojectWeblink,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    fontFamily: "ProximaNova",
+                                    fontWeight: FontWeight.w500,
+                                    letterSpacing: 1.5,
+                                    fontSize: 13.0,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ]),
+                  Row(
+                      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                apiResponseProjectPopulate
+                                    .data[index].candidateprojectDesc,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontFamily: "ProximaNova",
+                                  fontWeight: FontWeight.w500,
+                                  letterSpacing: 1.5,
+                                  fontSize: 14.0,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ]),
+                  Row(
+                      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                apiResponseProjectPopulate
+                                    .data[index].projectLocation,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontFamily: "ProximaNova",
+                                  fontWeight: FontWeight.w500,
+                                  letterSpacing: 1.5,
+                                  fontSize: 14.0,
                                 ),
                               ),
                             ],
@@ -3711,303 +3562,102 @@ class _ProfilePageState extends State<ProfilePage>
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    apiResponseProjectPopulate
-                                        .data[index].candidateprojectClient,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                      fontFamily: "ProximaNova",
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: 1.5,
-                                      fontSize: 15.0,
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () async {
-                                      setState(() {
-                                        isLoading = true;
-                                      });
-                                      final insert = ProjectPopulate(
-                                          requestType: "delete",
-                                          candidateprojectUuid:
-                                              apiResponseProjectPopulate
-                                                  .data[index]
-                                                  .candidateprojectUuid);
-
-                                      final result =
-                                          await apiServices.projectAdd(insert);
-                                      setState(() {
-                                        isLoading = false;
-                                      });
-                                      if (result.data) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(
-                                          content: Row(children: const [
-                                            Icon(
-                                              Icons.done_outlined,
-                                            ),
-                                            SizedBox(width: 7),
-                                            Text("Successfully Deleted"),
-                                          ]),
-                                          backgroundColor: Colors.green,
-                                          duration: const Duration(
-                                              milliseconds: 2500),
-                                        ));
-                                        setState(() {
-                                          getProject();
-                                        });
-                                      } else {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(
-                                          content: Row(
-                                            children: const [
-                                              Icon(Icons.error),
-                                              SizedBox(width: 7),
-                                              Text("An Error Occured"),
-                                            ],
-                                          ),
-                                          backgroundColor: Colors.red,
-                                          duration: const Duration(
-                                              milliseconds: 2500),
-                                        ));
-                                      }
-                                    },
-                                    child: Icon(
-                                      Icons.delete,
-                                      color: Color(0xff3e61ed),
-                                    ),
-                                  ),
-                                ],
+                              Text(
+                                apiResponseProjectPopulate
+                                    .data[index].candidateprojectSite,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontFamily: "ProximaNova",
+                                  fontWeight: FontWeight.w500,
+                                  letterSpacing: 1.5,
+                                  fontSize: 14.0,
+                                ),
                               ),
                             ],
                           ),
                         ),
-                      ],
-                    ),
-                    Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  apiResponseProjectPopulate
-                                      .data[index].candidateprojectStatus,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    fontFamily: "ProximaNova",
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: 1.5,
-                                    fontSize: 14.0,
-                                  ),
-                                ),
+                      ]),
+                  Row(
+                      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
                                 apiResponseProjectPopulate.data[index]
-                                            .candidateprojectStatus ==
-                                        1
-                                    ? Text(
-                                        apiResponseProjectPopulate.data[index]
-                                                .candidateprojectStartdate +
-                                            "-" +
-                                            apiResponseProjectPopulate
-                                                .data[index]
-                                                .candidateprojectEnddate,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                          fontFamily: "ProximaNova",
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.w500,
-                                          letterSpacing: 1.5,
-                                          fontSize: 13.5,
-                                        ),
-                                      )
-                                    : Text(
-                                        apiResponseProjectPopulate.data[index]
-                                            .candidateprojectStartdate,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                          fontFamily: "ProximaNova",
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.w500,
-                                          letterSpacing: 1.5,
-                                          fontSize: 13.5,
-                                        ),
-                                      ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                InkWell(
-                                  focusColor: Colors.blueGrey,
-                                  onTap: () => launch(apiResponseProjectPopulate
-                                      .data[index].candidateprojectWeblink),
-                                  child: Text(
-                                    apiResponseProjectPopulate
-                                        .data[index].candidateprojectWeblink,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                      fontFamily: "ProximaNova",
-                                      fontWeight: FontWeight.w500,
-                                      letterSpacing: 1.5,
-                                      fontSize: 13.0,
-                                    ),
-                                  ),
+                                    .candidateprojectEmploymenttypeId,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontFamily: "ProximaNova",
+                                  fontWeight: FontWeight.w500,
+                                  letterSpacing: 1.5,
+                                  fontSize: 14.0,
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ]),
-                    Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  apiResponseProjectPopulate
-                                      .data[index].candidateprojectDesc,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    fontFamily: "ProximaNova",
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: 1.5,
-                                    fontSize: 14.0,
-                                  ),
+                        ),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                apiResponseProjectPopulate
+                                    .data[index].candidateprojectTeamsize,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontFamily: "ProximaNova",
+                                  fontWeight: FontWeight.w500,
+                                  letterSpacing: 1.5,
+                                  fontSize: 14.0,
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ]),
-                    Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  apiResponseProjectPopulate
-                                      .data[index].projectLocation,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    fontFamily: "ProximaNova",
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: 1.5,
-                                    fontSize: 14.0,
-                                  ),
+                        ),
+                      ]),
+                  Row(
+                      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                apiResponseProjectPopulate.data[index]
+                                    .candidateprojectRoledescription,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontFamily: "ProximaNova",
+                                  fontWeight: FontWeight.w500,
+                                  letterSpacing: 1.5,
+                                  fontSize: 14.0,
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  apiResponseProjectPopulate
-                                      .data[index].candidateprojectSite,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    fontFamily: "ProximaNova",
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: 1.5,
-                                    fontSize: 14.0,
-                                  ),
+                        ),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                apiResponseProjectPopulate
+                                    .data[index].candidateprojectSkillsused,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontFamily: "ProximaNova",
+                                  fontWeight: FontWeight.w500,
+                                  letterSpacing: 1.5,
+                                  fontSize: 14.0,
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ]),
-                    Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  apiResponseProjectPopulate.data[index]
-                                      .candidateprojectEmploymenttypeId,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    fontFamily: "ProximaNova",
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: 1.5,
-                                    fontSize: 14.0,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  apiResponseProjectPopulate
-                                      .data[index].candidateprojectTeamsize,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    fontFamily: "ProximaNova",
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: 1.5,
-                                    fontSize: 14.0,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ]),
-                    Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  apiResponseProjectPopulate.data[index]
-                                      .candidateprojectRoledescription,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    fontFamily: "ProximaNova",
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: 1.5,
-                                    fontSize: 14.0,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  apiResponseProjectPopulate
-                                      .data[index].candidateprojectSkillsused,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    fontFamily: "ProximaNova",
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: 1.5,
-                                    fontSize: 14.0,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ]),
-                  ]),
-                ),
+                        ),
+                      ]),
+                ]),
               );
             },
           );
@@ -4024,209 +3674,159 @@ class _ProfilePageState extends State<ProfilePage>
       mainAxisSpacing: 6,
       crossAxisCount: (orientation == Orientation.portrait) ? 2 : 3,
       itemBuilder: (BuildContext context, int index) {
-        return GestureDetector(
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => Certification(
-                          uuid: apiResponseCertificationPopulate
-                              .data[index].candidatecertificationUuid,
-                        ))).then((value) => getCertification());
-          },
-          child: Container(
-            padding:
-                const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(6),
-                border: Border.all(color: Colors.grey.shade500)),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        apiResponseCertificationPopulate
-                                .data[index].candidatecertificationName ??
-                            "",
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontFamily: "ProximaNova",
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.5,
-                          fontSize: 15.0,
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                        onTap: () async {
-                          setState(() {
-                            isLoading = true;
-                          });
-                          final insert = CertificationPopulate(
-                            requestType: "delete",
-                            candidatecertificationUuid:
-                                apiResponseCertificationPopulate
-                                    .data[index].candidatecertificationUuid,
-                          );
-
-                          final result =
-                              await apiServices.certificationAdd(insert);
-                          setState(() {
-                            isLoading = false;
-                          });
-                          if (result.data) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Row(children: const [
-                                Icon(
-                                  Icons.done_outlined,
-                                ),
-                                SizedBox(width: 7),
-                                Text("Successfully Deleted"),
-                              ]),
-                              backgroundColor: Colors.green,
-                              duration: const Duration(milliseconds: 2500),
-                            ));
-                            setState(() {
-                              getCertification();
-                            });
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Row(
-                                children: const [
-                                  Icon(Icons.error),
-                                  SizedBox(width: 7),
-                                  Text("An Error Occured"),
-                                ],
-                              ),
-                              backgroundColor: Colors.red,
-                              duration: const Duration(milliseconds: 2500),
-                            ));
-                          }
-                        },
-                        child:
-                            const Icon(Icons.delete, color: KColors.primary)),
-                  ],
-                ),
-                Text(
-                  apiResponseCertificationPopulate
-                          .data[index].candidatecertificationCertificationid ??
-                      "",
-                  style: const TextStyle(
-                    fontFamily: "ProximaNova",
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 1.5,
-                    fontSize: 10.5,
-                  ),
-                ),
-                InkWell(
-                  focusColor: Colors.blueGrey,
-                  onTap: () => launch(apiResponseCertificationPopulate
-                      .data[index].candidatecertificationWeblink),
-                  child: Text(
-                    apiResponseCertificationPopulate
-                            .data[index].candidatecertificationWeblink ??
-                        "",
-                    style: const TextStyle(
-                      fontFamily: "ProximaNova",
-                      color: Colors.grey,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: 1.5,
-                      fontSize: 10.5,
-                    ),
-                  ),
-                ),
-                RichText(
-                  text: TextSpan(
-                      text: "Issued By:",
+        return Container(
+          padding:
+              const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(6),
+              border: Border.all(color: Color(0xff3e61ed))),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text(
+                      apiResponseCertificationPopulate
+                              .data[index].candidatecertificationName ??
+                          "",
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontFamily: "ProximaNova",
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1.5,
+                        fontSize: 15.0,
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Certification(
+                                      uuid: apiResponseCertificationPopulate
+                                          .data[index]
+                                          .candidatecertificationUuid,
+                                    ))).then((value) => getCertification());
+                      },
+                      child: const Icon(Icons.edit, color: KColors.primary))
+                ],
+              ),
+              Text(
+                apiResponseCertificationPopulate
+                        .data[index].candidatecertificationCertificationid ??
+                    "",
+                style: const TextStyle(
+                  fontFamily: "ProximaNova",
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 1.5,
+                  fontSize: 13.5,
+                ),
+              ),
+              InkWell(
+                focusColor: Colors.blueGrey,
+                onTap: () => launch(apiResponseCertificationPopulate
+                    .data[index].candidatecertificationWeblink),
+                child: Text(
+                  apiResponseCertificationPopulate
+                          .data[index].candidatecertificationWeblink ??
+                      "",
+                  style: TextStyle(
+                    fontFamily: "ProximaNova",
+                    color: Colors.grey.shade500,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 1.5,
+                    fontSize: 12.5,
+                  ),
+                ),
+              ),
+              RichText(
+                text: TextSpan(
+                    text: "Issued By:",
+                    style: const TextStyle(
+                      fontFamily: "ProximaNova",
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 1.5,
+                      fontSize: 12.5,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: apiResponseCertificationPopulate
+                                .data[index].candidatecertificationIssuedby ??
+                            "",
+                        style: TextStyle(
+                          overflow: TextOverflow.ellipsis,
+                          fontFamily: "ProximaNova",
+                          color: Colors.grey.shade500,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 1.5,
+                          fontSize: 11.5,
+                        ),
+                      ),
+                    ]),
+              ),
+              RichText(
+                text: TextSpan(
+                  text: "Issued Date:",
+                  style: const TextStyle(
+                    fontFamily: "ProximaNova",
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 1.5,
+                    fontSize: 12.5,
+                  ),
+                  children: [
+                    TextSpan(
+                      text: apiResponseCertificationPopulate
+                              .data[index].candidatecertificationIssuedate
+                              .toString()
+                              .split(" ")[0] ??
+                          "",
+                      style: TextStyle(
+                        fontFamily: "ProximaNova",
+                        color: Colors.grey.shade500,
                         fontWeight: FontWeight.w500,
                         letterSpacing: 1.5,
-                        fontSize: 12.5,
+                        fontSize: 10.5,
                       ),
-                      children: [
-                        TextSpan(
-                          text: apiResponseCertificationPopulate
-                                  .data[index].candidatecertificationIssuedby ??
-                              "",
-
-                          style: const TextStyle(
-                            overflow: TextOverflow.ellipsis,
-                            fontFamily: "ProximaNova",
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 1.5,
-                            fontSize: 13,
-                          ),
-                        ),
-                      ]),
-                ),
-                RichText(
-                  text: TextSpan(
-                    text: "Issued Date:",
-                    style: const TextStyle(
-                      fontFamily: "ProximaNova",
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: 1.5,
-                      fontSize: 12.5,
                     ),
-                    children: [
-                      TextSpan(
-                        text: apiResponseCertificationPopulate
-                                .data[index].candidatecertificationIssuedate
-                                .toString()
-                                .split(" ")[0] ??
-                            "",
-                        style: const TextStyle(
-                          fontFamily: "ProximaNova",
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 1.5,
-                          fontSize: 13,
-                        ),
-                      ),
-                    ],
-                  ),
+                  ],
                 ),
-                RichText(
-                  text: TextSpan(
-                    text: "Validity:",
-                    style: const TextStyle(
-                      fontFamily: "ProximaNova",
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: 1.5,
-                      fontSize: 12.5,
+              ),
+              RichText(
+                text: TextSpan(
+                  text: "Validity:",
+                  style: const TextStyle(
+                    fontFamily: "ProximaNova",
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 1.5,
+                    fontSize: 12.5,
+                  ),
+                  children: [
+                    TextSpan(
+                      text: apiResponseCertificationPopulate
+                              .data[index].candidatecertificationExpirydate
+                              .toString()
+                              .split(" ")[0] ??
+                          "",
+                      style: TextStyle(
+                        fontFamily: "ProximaNova",
+                        color: Colors.grey.shade500,
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: 1.5,
+                        fontSize: 10.5,
+                      ),
                     ),
-                    children: [
-                      TextSpan(
-                        text: apiResponseCertificationPopulate
-                                .data[index].candidatecertificationExpirydate
-                                .toString()
-                                .split(" ")[0] ??
-                            "",
-                        style: const TextStyle(
-                          fontFamily: "ProximaNova",
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 1.5,
-                          fontSize: 13,
-                        ),
-                      ),
-                    ],
-                  ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       },
     );
   }
-
 
   Widget awardsList(BuildContext context) {
     // final orientation = MediaQuery.of(context).orientation;
@@ -4238,117 +3838,89 @@ class _ProfilePageState extends State<ProfilePage>
       physics: const NeverScrollableScrollPhysics(),
       itemCount: _apiResponseAwards.data.length,
       itemBuilder: (BuildContext context, int index) {
-        return GestureDetector(
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => AddAwards(
-                          uuid:
-                              _apiResponseAwards.data[index].candidateawardUuid,
-                        ))).then((value) => getAwards());
-          },
-          child: Container(
-            padding:
-                const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(6),
-                border: Border.all(color: const Color(0xff3e61ed))),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            _apiResponseAwards.data[index].candidateawardTitle,
-                            style: const TextStyle(
-                              overflow: TextOverflow.ellipsis,
-                              fontFamily: "ProximaNova",
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 1.5,
-                              fontSize: 15.0,
-                            ),
+        return Container(
+          padding:
+              const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(6),
+              border: Border.all(color: const Color(0xff3e61ed))),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          _apiResponseAwards.data[index].candidateawardTitle,
+                          style: const TextStyle(
+                            overflow: TextOverflow.ellipsis,
+                            fontFamily: "ProximaNova",
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1.5,
+                            fontSize: 15.0,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    GestureDetector(
-                        onTap: () async {
-                          setState(() {
-                            isLoading = true;
-                          });
-                          final insert = Awards(
-                            requestType: "delete",
-                            candidateawardUuid: _apiResponseAwards
-                                .data[index].candidateawardUuid,
-                          );
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AddAwards(
+                                uuid:
+                                _apiResponseAwards.data[index].candidateawardUuid,
+                              ))).then((value) => getAwards());
+                    },
+                          child: const Icon(Icons.edit, color: KColors.primary),
 
-                          final result = await apiServices.awardsAdd(insert);
-                          setState(() {
-                            isLoading = false;
-                          });
-                          if (result.data) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Row(children: const [
-                                Icon(
-                                  Icons.done_outlined,
-                                ),
-                                SizedBox(width: 7),
-                                Text("Successfully Deleted"),
-                              ]),
-                              backgroundColor: Colors.green,
-                              duration: const Duration(milliseconds: 2500),
-                            ));
-                            setState(() {
-                              getAwards();
-                            });
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Row(
-                                children: const [
-                                  Icon(Icons.error),
-                                  SizedBox(width: 7),
-                                  Text("An Error Occured"),
-                                ],
-                              ),
-                              backgroundColor: Colors.red,
-                              duration: const Duration(milliseconds: 2500),
-                            ));
-                          }
-                        },
-                        child:
-                            const Icon(Icons.delete, color: KColors.primary)),
-                  ],
+                  )
+
+                ],
+              ),
+              InkWell(
+                onTap: () => launch(
+                  _apiResponseAwards.data[index].candidateawardWeblink ??
+                      "2 years",
                 ),
-                Text(
-                  _apiResponseAwards.data[index].candidateawardDate ??
+                child: Text(
+                  _apiResponseAwards.data[index].candidateawardWeblink ??
                       "2 years",
                   style: const TextStyle(
                     fontFamily: "ProximaNova",
-                    color: Colors.grey,
                     fontWeight: FontWeight.w500,
                     letterSpacing: 1.5,
-                    fontSize: 13.5,
+                    fontSize: 13,
                   ),
                 ),
-                Text(
-                  _apiResponseAwards.data[index].candidateawardDesc ??
-                      "2 years",
-                  style: const TextStyle(
-                    fontFamily: "ProximaNova",
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 1.5,
-                    fontSize: 13.5,
-                  ),
+              ),
+              Text(
+                _apiResponseAwards.data[index].candidateawardDate ??
+                    "2 years",
+                style: const TextStyle(
+                  fontFamily: "ProximaNova",
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 1.5,
+                  fontSize: 13,
                 ),
-              ],
-            ),
+              ),
+              Text(
+                _apiResponseAwards.data[index].candidateawardDesc ??
+                    "2 years",
+                style: TextStyle(
+                  fontFamily: "ProximaNova",
+                  color: Colors.grey.shade500,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 1.5,
+                  fontSize: 12.5,
+                ),
+              ),
+            ],
           ),
         );
       },
@@ -4363,120 +3935,94 @@ class _ProfilePageState extends State<ProfilePage>
       ),
       itemCount: apiResponseResearchPopulate.data.length,
       itemBuilder: (_, index) {
-        return GestureDetector(
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => Research(
-                          uuid: apiResponseResearchPopulate
-                              .data[index].candidatepaperUuid,
-                        ))).then((value) => getResearch());
-          },
-          child: Container(
-            padding:
-                const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(6),
-                border: Border.all(color: const Color(0xff3e61ed))),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            apiResponseResearchPopulate
-                                .data[index].candidatepaperTitle,
-                            style: const TextStyle(
-                              overflow: TextOverflow.ellipsis,
-                              fontFamily: "ProximaNova",
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 1.5,
-                              fontSize: 15.0,
-                            ),
+        return Container(
+          padding:
+              const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(6),
+              border: Border.all(color: const Color(0xff3e61ed))),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          apiResponseResearchPopulate
+                              .data[index].candidatepaperTitle,
+                          style: const TextStyle(
+                            overflow: TextOverflow.ellipsis,
+                            fontFamily: "ProximaNova",
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1.5,
+                            fontSize: 15.0,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    GestureDetector(
-                        onTap: () async {
-                          setState(() {
-                            isLoading = true;
-                          });
-                          final insert = ResearchpaperAdd(
-                            requestType: "delete",
-                            candidatepaperUuid: apiResponseResearchPopulate
-                                .data[index].candidatepaperUuid,
-                          );
+                  ),
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Research(
+                                  uuid: apiResponseResearchPopulate
+                                      .data[index].candidatepaperUuid,
+                                ))).then((value) => getResearch());
+                      },
 
-                          final result =
-                              await apiServices.researchpaperAdd(insert);
-                          setState(() {
-                            isLoading = false;
-                          });
-                          if (result.data) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Row(children: const [
-                                Icon(
-                                  Icons.done_outlined,
-                                ),
-                                SizedBox(width: 7),
-                                Text("Successfully Deleted"),
-                              ]),
-                              backgroundColor: Colors.green,
-                              duration: const Duration(milliseconds: 2500),
-                            ));
-                            setState(() {
-                              getResearch();
-                            });
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Row(
-                                children: const [
-                                  Icon(Icons.error),
-                                  SizedBox(width: 7),
-                                  Text("An Error Occured"),
-                                ],
-                              ),
-                              backgroundColor: Colors.red,
-                              duration: const Duration(milliseconds: 2500),
-                            ));
-                          }
-                        },
-                        child:
-                            const Icon(Icons.delete, color: KColors.primary)),
-                  ],
-                ),
-                Text(
+                      child:
+                      const Icon(Icons.edit, color: KColors.primary)),
+
+
+
+                ],
+              ),
+              InkWell(
+                onTap: () => launch(apiResponseResearchPopulate
+                        .data[index].candidatepaperWeblink ??
+                    "2 years"),
+                child: Text(
                   apiResponseResearchPopulate
                           .data[index].candidatepaperWeblink ??
                       "2 years",
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontFamily: "ProximaNova",
-                    color: Colors.grey,
                     fontWeight: FontWeight.w500,
                     letterSpacing: 1.5,
                     fontSize: 13.5,
                   ),
                 ),
-                Text(
-                  apiResponseResearchPopulate.data[index].candidatepaperDesc ??
-                      "2 years",
-                  style: const TextStyle(
-                    fontFamily: "ProximaNova",
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 1.5,
-                    fontSize: 13.5,
-                  ),
+              ),
+              Text(
+                apiResponseResearchPopulate
+                        .data[index].candidatepaperPublisheddate ??
+                    "2 years",
+                style: TextStyle(
+                  fontFamily: "ProximaNova",
+                  color: Colors.grey.shade500,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 1.5,
+                  fontSize: 12.5,
                 ),
-              ],
-            ),
+              ),
+              Text(
+                apiResponseResearchPopulate.data[index].candidatepaperDesc ??
+                    "2 years",
+                style: TextStyle(
+                  fontFamily: "ProximaNova",
+                  color: Colors.grey.shade500,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 1.5,
+                  fontSize: 11.5,
+                ),
+              ),
+            ],
           ),
         );
       },

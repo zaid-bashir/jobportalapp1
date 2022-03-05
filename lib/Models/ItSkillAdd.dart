@@ -3,7 +3,7 @@ class ItSkillAdd{
   String candidateitskillUuid;
   int candidateitskillItskillId;
   int candidateitskillCandidateId;
-  int candidateitskillVersion;
+  double candidateitskillVersion;
   int candidateitskillLastused;
   int candidateitskillExperience;
   String candidateitskillName;

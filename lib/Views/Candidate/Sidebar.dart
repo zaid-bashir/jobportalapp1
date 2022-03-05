@@ -1,10 +1,12 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Views/Profile/Profile.dart';
 import 'package:job_portal/Views/Candidate/JobSaved.dart';
 import 'package:job_portal/Views/Candidate/Settings.dart';
 import 'package:job_portal/Views/Candidate/JobSuggested.dart';
 import 'package:job_portal/Views/Home/constants/Constants.dart';
+import 'package:job_portal/Views/SignIn/SignIn.dart';
 import 'package:job_portal/Views/SignIn/Step6-ItSkills.dart';
 
 
@@ -23,6 +25,27 @@ class SideMenu extends StatefulWidget {
 
 class _SideMenuState extends State<SideMenu> {
   String test = "info";
+
+
+
+@override
+  initState() {
+  getUserName();
+  super.initState();
+}
+
+  bool loadUser;
+
+  dynamic username;
+  getUserName()async{
+    setState(() {
+      loadUser= true;
+    });
+    username = await secureStorage.read(key: "candidateName");
+    setState(() {
+      loadUser= false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,12 +79,14 @@ class _SideMenuState extends State<SideMenu> {
                           padding: const EdgeInsets.only(top: 20),
                           child: Column(
                             children: [
-                              const Text("Tahseen",   style: TextStyle(
-                                fontFamily: "ProximaNova",
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 1.5,
-                                fontSize: 14.5,
-                              ),),
+                               FittedBox(
+                                 child: Text(username,style: const TextStyle(
+                                  fontFamily: "ProximaNova",
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 1.5,
+                                  fontSize: 14.5,
+                                                             ),),
+                               ),
                               const SizedBox(
                                 height: 10,
                               ),
@@ -273,8 +298,9 @@ class _SideMenuState extends State<SideMenu> {
                 child: DrawerListTile(
                   title: "Sign out",
                   svgSrc: Icons.logout_outlined,
-                  press: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>ItSkills()));
+                  press: () async{
+                    await  secureStorage.deleteAll();
+                    Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context)=>LoginPage()), (route) => false);
                   },
                 ),
               ),

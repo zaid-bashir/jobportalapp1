@@ -28,7 +28,6 @@ class ApiUrls extends Connect {
   static String kJobType = Connect.AppURL() + "populate/jobtype";
   static String kKeySkills = Connect.AppURL() + "populate/keyskill?query=";
   static String kGetprofileNoticePeriod = Connect.AppURL() + "populate/notice";
-
   static String kGetJobList =
       "http://192.168.0.20:9030/jobportal-app/test/job-list";
   static String kGetItSkill = Connect.AppURL() + "candidate/itskill-list";
@@ -125,6 +124,9 @@ class ApiUrls extends Connect {
       Connect.AppURL() + "candidate-registration/step2-basicdetail";
   static String kProfession =
       Connect.AppURL() + "candidate-registration/step4-professionaldetail";
-  static String kPersonal =
-      Connect.AppURL() + "candidate-registration/step8-personaldetail";
+  static String kPersonal = Connect.AppURL() + "candidate-registration/step8-personaldetail";
+  static String kBoardDrop = Connect.AppURL() + "populate/board?query=";
+  static String kSchoolMedium = Connect.AppURL() + "populate/schoolmedium?query=";
+  static String kgetResponseFromServer = Connect.AppURL() + "populate/jobtype";
+  
 }

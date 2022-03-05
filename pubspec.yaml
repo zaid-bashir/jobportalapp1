@@ -27,19 +27,26 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  async_loader: ^0.1.2
+  flutter_secure_storage: ^5.0.2
   animate_do: ^2.0.0
+  flutter_otp_timer: ^0.9.7
+  pin_entry_text_field: ^0.1.4
   textfield_search: ^0.9.2
   flutter_typeahead: ^3.2.4
   date_field: ^2.1.2
   dio: ^4.0.0
+  toast: ^0.1.5
   dotted_border: ^2.0.0+1
   dropdown_search: ^2.0.0
   file_picker: ^4.1.6
   find_dropdown: null
   fl_chart: ^0.40.6
   url_launcher: ^6.0.18
+  flutter_otp_text_field: ^1.0.0
   flutter_speed_dial: ^5.0.0+1
   shimmer: ^2.0.0
+  country_code_picker:
 
 
 
@@ -65,6 +72,8 @@ dependencies:
   provider: null
   search_choices: ^2.0.16
   shared_preferences: null
+  advance_notification: ^1.0.5
+  pin_code_fields: ^7.3.0
 
 dev_dependencies:
   awesome_dialog: ^2.1.2

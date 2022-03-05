@@ -1,17 +1,16 @@
-// ignore_for_file: must_be_immutable, avoid_print
-
 import 'dart:io';
 
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
+import 'package:job_portal/Models/Boards.dart';
 import 'package:job_portal/Models/GradingSystem.dart';
 import 'package:job_portal/Models/InstituteQualified.dart';
 import 'package:job_portal/Models/PassingYear.dart';
 import 'package:job_portal/Models/QualificationDetails.dart';
+import 'package:job_portal/Models/SchoolMedium.dart';
 import 'package:job_portal/Models/Stream.dart';
 import 'package:job_portal/Models/qualification-post.dart';
 import 'package:job_portal/Services/ApiServices.dart';
@@ -19,10 +18,12 @@ import 'package:job_portal/Views/SignIn/Step4-ProfessionalDetails.dart';
 import 'package:job_portal/Views/SignIn/Step5-KeySkills.dart';
 
 class QualificationBlueCollar extends StatefulWidget {
-   QualificationBlueCollar({Key key, this.uuid,this.token,this.experienceId}) : super(key: key);
+  QualificationBlueCollar({Key key, this.uuid, this.token, this.experienceId})
+      : super(key: key);
   String uuid;
   String token;
   int experienceId;
+
   @override
   _QualificationBlueCollarState createState() =>
       _QualificationBlueCollarState();
@@ -61,10 +62,14 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
   String Courses;
   String Stream;
   String highQualID = "";
+  String board = "";
+  String mediumId = "";
   String courseId = "";
   String streamId = "";
   String instituteId = "";
   String yearID = "";
+
+  bool visibleGrade = false;
 
   int courseTypeGroupValue = 0;
 
@@ -74,24 +79,28 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
 
   bool isLoading = false;
   ApiServices apiServices = ApiServices();
-  ApiResponse<List<Institute>> _apiResponseInstitute;
+
+  // ApiResponse<List<Institute>> _apiResponseInstitute;
   ApiResponse<List<GradingSystem>> _apiResponse;
   ApiResponse<List<PassingYear>> _apiResponse2;
-  ApiResponse<List<Qualification>> _apiResponsequalification;
-  ApiResponse<List<Qualification>> _apiResponsecourse;
-  ApiResponse<List<Streams>> _apiResponsestream;
+
+  // ApiResponse<List<Qualification>> _apiResponsequalification;
+  // ApiResponse<List<Qualification>> _apiResponsecourse;
+  // ApiResponse<List<Streams>> _apiResponsestream;
+  // ApiResponse<List<Boards>> _apiResponseBoards;
 
   TextEditingController profileCont = TextEditingController();
   TextEditingController gradeCont = TextEditingController();
   TextEditingController courseSearchCont = TextEditingController();
   TextEditingController streamSearchCont = TextEditingController();
   TextEditingController instituteSearchCont = TextEditingController();
+  TextEditingController boardsSearchCont = TextEditingController();
+  TextEditingController mediumSearchCont = TextEditingController();
   TextEditingController yearSearchCont = TextEditingController();
   TextEditingController headline = TextEditingController();
 
   @override
   void initState() {
-
     fetchPassingYear();
     fetchGradingSystem();
     loadingController = AnimationController(
@@ -104,47 +113,8 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
     super.initState();
   }
 
-
-
-
-  List<String> getStream() {
-    List<Streams> stream = _apiResponsestream.data;
-    List<String> streamItems = [];
-    for (int i = 0; i < stream.length; i++) {
-      streamItems.add(stream[i].streamName);
-    }
-    return streamItems;
-  }
-
-  List<String> getData() {
-    List<Qualification> data = _apiResponsequalification.data;
-    List<String> dataItems = [];
-    for (int i = 0; i < data.length; i++) {
-      dataItems.add(data[i].qualName);
-    }
-    return dataItems;
-  }
-
-  List<String> getCourses() {
-    List<Qualification> Courses = _apiResponsecourse.data;
-    List<String> courseItems = [];
-    for (int i = 0; i < Courses.length; i++) {
-      courseItems.add(Courses[i].courseName);
-    }
-    return courseItems;
-  }
-
-  // institute qualified
-
-
-  List<String> parseInstitute() {
-    List<Institute> institute = _apiResponseInstitute.data;
-    List<String> dataItems = [];
-    for (int i = 0; i < institute.length; i++) {
-      dataItems.add(institute[i].instituteName);
-    }
-    return dataItems;
-  }
+  bool isVisible = false;
+  bool isVisible2 = true;
 
   String query;
   String querys;
@@ -184,26 +154,34 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                // ignore: prefer_const_literals_to_create_immutables
-                children: [
-                  // IconButton(
-                  //   onPressed: () {
-                  //     Navigator.of(context).pop();
-                  //   },
-                  //   icon: Icon(Icons.arrow_back),
-                  // ),
-                  const SizedBox(
-                    width: 30,
-                  ),
-                  Text(
-                    "Qualification Details",
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: "ProximaNova",
-                        fontWeight: FontWeight.bold),
-                  ),
-                ],
+              child: StreamBuilder<Object>(
+                stream: null,
+                builder: (context, snapshot) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+
+                      const SizedBox(
+                        width: 30,
+                      ),
+                      Text(
+                        "Qualification Details",
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontFamily: "ProximaNova",
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        "Add your qualification details for us to match you with a perfect job",
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontFamily: "ProximaNova",
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  );
+                }
               ),
             ),
             const SizedBox(
@@ -306,34 +284,34 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(10),
-                      child: Text(
-                        "Profile Headline",
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "ProximaNova"),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: TextFormField(
-                        controller: headline,
-                        maxLines: 2,
-                        decoration: InputDecoration(
-                          labelText: "Profile Headline",
-                          border: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    // const SizedBox(
+                    //   height: 10,
+                    // ),
+                    // Padding(
+                    //   padding: EdgeInsets.all(10),
+                    //   child: Text(
+                    //     "Profile Headline",
+                    //     style: TextStyle(
+                    //         fontSize: 15,
+                    //         fontWeight: FontWeight.bold,
+                    //         fontFamily: "ProximaNova"),
+                    //   ),
+                    // ),
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(horizontal: 10),
+                    //   child: TextFormField(
+                    //     controller: headline,
+                    //     maxLines: 2,
+                    //     decoration: InputDecoration(
+                    //       labelText: "Profile Headline",
+                    //       border: UnderlineInputBorder(
+                    //         borderSide: BorderSide(
+                    //           color: Colors.grey,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                     const SizedBox(
                       height: 10,
                     ),
@@ -352,193 +330,257 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: TypeAheadField(
+                      child: TypeAheadFormField(
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Select Highest Qualification';
+                          }
+                        },
                         textFieldConfiguration: TextFieldConfiguration(
-                            controller: this. qualificationSearchCon,
-                            decoration: InputDecoration(
-                                hintText: 'Qualification'
-                            )
-                        ),
+                            controller: this.qualificationSearchCon,
+                            decoration:
+                                InputDecoration(hintText: 'Select Highest Qualification')),
                         debounceDuration: Duration(milliseconds: 500),
                         suggestionsCallback: ApiServices.getQualification,
-                        itemBuilder: (context, Qualification suggestions){
+                        itemBuilder: (context, Qualification suggestions) {
                           final quall = suggestions;
                           return ListTile(
-                            title: Text(quall.qualName) ,
+                            title: Text(quall.qualName),
                           );
                         },
-                        noItemsFoundBuilder: (context)=>Text(""),
-
-                        onSuggestionSelected: (Qualification suggesstion){
+                        noItemsFoundBuilder: (context) => Text(""),
+                        onSuggestionSelected: (Qualification suggesstion) {
                           // final skill = suggesstion;
-                          qualificationSearchCon.text  = suggesstion.qualName;
+                          qualificationSearchCon.text = suggesstion.qualName;
                           highQualID = suggesstion.qualId;
-
+                          print(highQualID);
+                          setState(() {
+                            if (highQualID == "3" || highQualID == "2"||highQualID == "1") {
+                              isVisible = true;
+                              isVisible2 = false;
+                            }else{
+                              isVisible = false;
+                              isVisible2 = true;
+                            }
+                          });
                         },
                       ),
-                      // FindDropdown(
-                      //   searchBoxDecoration: InputDecoration(
-                      //     border: UnderlineInputBorder(
-                      //       borderSide: BorderSide(
-                      //         color: Colors.grey,
-                      //       ),
-                      //     ),
-                      //   ),
-                      //   items: getData(),
-                      //   searchHint: "Highest Qualification",
-                      //   onFind: (val) async {
-                      //     setState(() {
-                      //       query = val;
-                      //     });
-                      //     await fetchHighestQualification(query: query);
-                      //     getData();
-                      //     return [""];
-                      //   },
-                      //   onChanged: (item) {
-                      //     setState(() {
-                      //       highQual = item;
-                      //     });
-                      //   },
-                      // ),
                     ),
-                    const SizedBox(
+                    SizedBox(
                       height: 10,
+                    ),
+                    Visibility(
+                      visible: isVisible,
+                      child: Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Text(
+                          "Select Board",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "ProximaNova"),
+                        ),
+                      ),
+                    ),
+                    Visibility(
+                      visible: isVisible,
+                      child: const SizedBox(
+                        height: 10,
+                      ),
+                    ),
+                    Visibility(
+                      visible: isVisible,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                        child: TypeAheadFormField(
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Select Board';
+                            }
+                          },
+                          textFieldConfiguration: TextFieldConfiguration(
+                              controller: this.boardsSearchCont,
+                              decoration: InputDecoration(hintText: 'Select Board')),
+                          debounceDuration: Duration(milliseconds: 500),
+                          suggestionsCallback: ApiServices.getBoards,
+                          itemBuilder: (context, Boards suggestions) {
+                            final skill = suggestions;
+                            return ListTile(
+                              title: Text(skill.boardName),
+                            );
+                          },
+                          noItemsFoundBuilder: (context) => Text(""),
+                          onSuggestionSelected: (Boards suggesstion) {
+                            // final skill = suggesstion;
+                            boardsSearchCont.text = suggesstion.boardName;
+                            board = suggesstion.boardId;
+                          },
+                        ),
+                      ),
+                    ),
+
+                    Visibility(
+                      visible: isVisible,
+                      child: Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Text(
+                          "Select Medium",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "ProximaNova"),
+                        ),
+                      ),
+                    ),
+                    Visibility(
+                      visible: isVisible,
+                      child: const SizedBox(
+                        height: 10,
+                      ),
+                    ),
+                    Visibility(
+                      visible: isVisible,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                        child: TypeAheadFormField(
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Select Medium';
+                            }
+                          },
+                          textFieldConfiguration: TextFieldConfiguration(
+                              controller: mediumSearchCont,
+                              decoration: const InputDecoration(hintText: 'Select Medium')),
+                          debounceDuration: const Duration(milliseconds: 500),
+                          suggestionsCallback: ApiServices.getMedium,
+                          itemBuilder: (context, Medium suggestions) {
+                            final skill = suggestions;
+                            return ListTile(
+                              title: Text(skill.schoolmediumName),
+                            );
+                          },
+                          noItemsFoundBuilder: (context) => Text(""),
+                          onSuggestionSelected: (Medium suggesstion) {
+                            // final skill = suggesstion;
+                            mediumSearchCont.text = suggesstion.schoolmediumName;
+                            mediumId = suggesstion.schoolmediumId;
+                          },
+                        ),
+                      ),
+                    ),
+                    Visibility(
+                      visible: isVisible2,
+                      child: const SizedBox(
+                        height: 10,
+                      ),
                     ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Text(
-                            "Course",
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "ProximaNova"),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: TypeAheadField(
-                            textFieldConfiguration: TextFieldConfiguration(
-                                controller: this. courseSearchCont,
-                                decoration: InputDecoration(
-                                    hintText: 'Course'
-                                )
+                        Visibility(
+                          visible: isVisible2,
+                          child: Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Text(
+                              "Course",
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: "ProximaNova"),
                             ),
-                            debounceDuration: Duration(milliseconds: 500),
-                            suggestionsCallback: ApiServices.getCourse ,
-                            itemBuilder: (context, Qualification suggestions){
-                              final skill = suggestions;
-                              return ListTile(
-                                title: Text(skill.courseName) ,
-                              );
-                            },
-                            noItemsFoundBuilder: (context)=>Text(""),
-
-                            onSuggestionSelected: (Qualification suggesstion){
-                              // final skill = suggesstion;
-                              courseSearchCont.text  = suggesstion.courseName;
-                              courseId = suggesstion.courseId;
-
-                            },
-                          ),
-                          // FindDropdown(
-                          //   searchBoxDecoration: InputDecoration(
-                          //     border: UnderlineInputBorder(
-                          //       borderSide: BorderSide(
-                          //         color: Colors.grey,
-                          //       ),
-                          //     ),
-                          //   ),
-                          //   items: getCourses(),
-                          //   searchHint: "Course",
-                          //   onFind: (val) async {
-                          //     setState(() {
-                          //       querys = val;
-                          //     });
-                          //     await fetchCourses(query: querys);
-                          //     getCourses();
-                          //     return [""];
-                          //   },
-                          //   onChanged: (item) {
-                          //     setState(() {
-                          //       Courses = item;
-                          //     });
-                          //   },
-                          // ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Text(
-                            "Stream",
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "ProximaNova"),
                           ),
                         ),
-                        const SizedBox(
-                          height: 10,
+                        Visibility(
+                          visible: isVisible2,
+                          child: const SizedBox(
+                            height: 10,
+                          ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: TypeAheadField(
-                            textFieldConfiguration: TextFieldConfiguration(
-                                controller: this. streamSearchCont,
-                                decoration: InputDecoration(
-                                    hintText: 'Stream'
-                                )
+                        Visibility(
+                          visible: isVisible2,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: TypeAheadFormField(
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Select Course';
+                                }
+                              },
+                              textFieldConfiguration: TextFieldConfiguration(
+                                  controller: this.courseSearchCont,
+                                  decoration:
+                                      InputDecoration(hintText: 'Select Course')),
+                              debounceDuration: Duration(milliseconds: 500),
+                              suggestionsCallback: ApiServices.getCourse,
+                              itemBuilder: (context, Qualification suggestions) {
+                                final skill = suggestions;
+                                return ListTile(
+                                  title: Text(skill.courseName),
+                                );
+                              },
+                              noItemsFoundBuilder: (context) => Text(""),
+                              onSuggestionSelected: (Qualification suggesstion) {
+                                // final skill = suggesstion;
+                                courseSearchCont.text = suggesstion.courseName;
+                                courseId = suggesstion.courseId;
+                              },
                             ),
-                            debounceDuration: Duration(milliseconds: 500),
-                            suggestionsCallback: ApiServices.getStream ,
-                            itemBuilder: (context, Streams suggestions){
-                              final skill = suggestions;
-                              return ListTile(
-                                title: Text(skill.streamName) ,
-                              );
-                            },
-                            noItemsFoundBuilder: (context)=>Text(""),
-
-                            onSuggestionSelected: (Streams suggesstion){
-                              // final skill = suggesstion;
-                              streamSearchCont.text  = suggesstion.streamName;
-                              streamId = suggesstion.streamId;
-
-                            },
                           ),
-                          // FindDropdown(
-                          //   searchBoxDecoration: InputDecoration(
-                          //     border: UnderlineInputBorder(
-                          //       borderSide: BorderSide(
-                          //         color: Colors.grey,
-                          //       ),
-                          //     ),
-                          //   ),
-                          //   items: getStream(),
-                          //   searchHint: "Streams",
-                          //   onFind: (val) async {
-                          //     setState(() {
-                          //       queryss = val;
-                          //     });
-                          //     await fetchStream(query: queryss);
-                          //
-                          //     getStream();
-                          //     return [""];
-                          //   },
-                          //   onChanged: (item) {
-                          //     setState(() {
-                          //       Stream = item;
-                          //     });
-                          //   },
-                          // ),
+                        ),
+                        Visibility(
+                          visible: isVisible2,
+                          child: const SizedBox(
+                            height: 10,
+                          ),
+                        ),
+                        Visibility(
+                          visible: isVisible2,
+                          child: Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Text(
+                              "Stream",
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: "ProximaNova"),
+                            ),
+                          ),
+                        ),
+                        Visibility(
+                          visible: isVisible2,
+                          child: const SizedBox(
+                            height: 10,
+                          ),
+                        ),
+                        Visibility(
+                          visible: isVisible2,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: TypeAheadFormField(
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Select Stream';
+                                }
+                              },
+                              textFieldConfiguration: TextFieldConfiguration(
+                                  controller: this.streamSearchCont,
+                                  decoration:
+                                      InputDecoration(hintText: ' Select Stream')),
+                              debounceDuration: Duration(milliseconds: 500),
+                              suggestionsCallback: ApiServices.getStream,
+                              itemBuilder: (context, Streams suggestions) {
+                                final skill = suggestions;
+                                return ListTile(
+                                  title: Text(skill.streamName),
+                                );
+                              },
+                              noItemsFoundBuilder: (context) => Text(""),
+                              onSuggestionSelected: (Streams suggesstion) {
+                                // final skill = suggesstion;
+                                streamSearchCont.text = suggesstion.streamName;
+                                streamId = suggesstion.streamId;
+                              },
+                            ),
+                          ),
                         ),
                         const SizedBox(
                           height: 10,
@@ -562,130 +604,6 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               _radioButtons(context),
-                              // Row(
-                              //   children: [
-                              //     Radio(
-                              //
-                              //       // size: 20,
-                              //       // activeBorderColor: Color(0xff2972ff),
-                              //       value: 1,
-                              //       groupValue: courseTypeGroupValue,
-                              //       onChanged: (value) {
-                              //         setState(() {
-                              //           courseTypeGroupValue = value;
-                              //         });
-                              //       },
-                              //       // inactiveIcon: null,
-                              //       // radioColor: Color(0xff2972ff),
-                              //     ),
-                              //     const SizedBox(
-                              //       width: 7,
-                              //     ),
-                              //     const Text(
-                              //       "Full Time",
-                              //       style: TextStyle(
-                              //           fontSize: 15,
-                              //           fontWeight: FontWeight.bold,
-                              //           fontFamily: "ProximaNova"),
-                              //     ),
-                              //   ],
-                              // ),
-                              // const SizedBox(
-                              //   height: 7,
-                              // ),
-                              // Row(
-                              //   children: [
-                              //     GFRadio(
-                              //       size: 20,
-                              //       value: 2,
-                              //       groupValue: courseTypeGroupValue,
-                              //       onChanged: (value) {
-                              //         setState(() {
-                              //           courseTypeGroupValue = value;
-                              //         });
-                              //       },
-                              //       inactiveIcon: null,
-                              //       activeBorderColor: Color(0xff2972ff),
-                              //       radioColor: Color(0xff2972ff),
-                              //     ),
-                              //     const SizedBox(
-                              //       width: 7,
-                              //     ),
-                              //     const Text(
-                              //       "Correspondance",
-                              //       style: TextStyle(
-                              //         fontFamily: "ProximaNova",
-                              //         fontWeight: FontWeight.bold,
-                              //         letterSpacing: 1.5,
-                              //         fontSize: 15,
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
-                              // const SizedBox(
-                              //   height: 7,
-                              // ),
-                              // Row(
-                              //   children: [
-                              //     GFRadio(
-                              //       size: 20,
-                              //       activeBorderColor: Color(0xff2972ff),
-                              //       value: 3,
-                              //       groupValue: courseTypeGroupValue,
-                              //       onChanged: (value) {
-                              //         setState(() {
-                              //           courseTypeGroupValue = value;
-                              //         });
-                              //       },
-                              //       inactiveIcon: null,
-                              //       radioColor: Color(0xff2972ff),
-                              //     ),
-                              //     const SizedBox(
-                              //       width: 7,
-                              //     ),
-                              //     const Text(
-                              //       "Distance",
-                              //       style: TextStyle(
-                              //         fontFamily: "ProximaNova",
-                              //         fontWeight: FontWeight.bold,
-                              //         letterSpacing: 1.5,
-                              //         fontSize: 15,
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
-                              // const SizedBox(
-                              //   height: 7,
-                              // ),
-                              // Row(
-                              //   children: [
-                              //     GFRadio(
-                              //       size: 20,
-                              //       activeBorderColor: Color(0xff2972ff),
-                              //       value: 4,
-                              //       groupValue: courseTypeGroupValue,
-                              //       onChanged: (value) {
-                              //         setState(() {
-                              //           courseTypeGroupValue = value;
-                              //         });
-                              //       },
-                              //       inactiveIcon: null,
-                              //       radioColor: Color(0xff2972ff),
-                              //     ),
-                              //     const SizedBox(
-                              //       width: 7,
-                              //     ),
-                              //     const Text(
-                              //       "Online",
-                              //       style: TextStyle(
-                              //         fontFamily: "ProximaNova",
-                              //         fontWeight: FontWeight.bold,
-                              //         letterSpacing: 1.5,
-                              //         fontSize: 15,
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
                             ],
                           ),
                         ),
@@ -707,53 +625,33 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                          child: TypeAheadField(
+                          child: TypeAheadFormField(
+
                             textFieldConfiguration: TextFieldConfiguration(
-                                controller: this. instituteSearchCont,
-                                decoration: InputDecoration(
-                                    labelText: 'Institute'
-                                )
-                            ),
+                                controller: this.instituteSearchCont,
+                                decoration:
+                                    InputDecoration(hintText: 'Select Institute Qualified From')),
                             debounceDuration: Duration(milliseconds: 500),
-                            suggestionsCallback: ApiServices.getInstitute ,
-                            itemBuilder: (context, Institute suggestions){
+                            suggestionsCallback: ApiServices.getInstitute,
+                            itemBuilder: (context, Institute suggestions) {
+
                               final skill = suggestions;
                               return ListTile(
-                                title: Text(skill.instituteName) ,
+                                title: Text(skill.instituteName),
                               );
                             },
-                            noItemsFoundBuilder: (context)=>Text(""),
-
-                            onSuggestionSelected: (Institute suggesstion){
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Select Institute Qualified From';
+                              }
+                            },
+                            noItemsFoundBuilder: (context) => Text(""),
+                            onSuggestionSelected: (Institute suggesstion) {
                               // final skill = suggesstion;
-                              instituteSearchCont.text  = suggesstion.instituteName;
-
+                              instituteSearchCont.text =
+                                  suggesstion.instituteName;
                             },
                           ),
-                          // FindDropdown(
-                          //   searchBoxDecoration: const InputDecoration(
-                          //     border: UnderlineInputBorder(
-                          //       borderSide: BorderSide(
-                          //         color: Colors.grey,
-                          //       ),
-                          //     ),
-                          //   ),
-                          //   items: parseInstitute(),
-                          //   searchHint: "Institute Name",
-                          //   onFind: (val) async {
-                          //     setState(() {
-                          //       queries = val;
-                          //     });
-                          //     await fetchInstitute(query: queries);
-                          //     parseInstitute();
-                          //     return [""];
-                          //   },
-                          //   onChanged: (item) {
-                          //     setState(() {
-                          //       myInstitute = item;
-                          //     });
-                          //   },
-                          // ),
                         ),
                         const SizedBox(
                           height: 10,
@@ -774,10 +672,13 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 6),
                           child: DropdownButtonFormField<PassingYear>(
-                            hint: Text("Select Year",style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "ProximaNova"),),
+                            hint: Text(
+                              " Select Passing Year",
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: "ProximaNova"),
+                            ),
                             value: myPassingYear,
                             onChanged: (PassingYear newValue) {
                               setState(() {
@@ -785,7 +686,7 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                               });
                             },
                             validator: (value) =>
-                            value == null ? 'Seelct Year' : null,
+                                value == null ? 'Select Passing Year' : null,
                             items: _apiResponse2.data.map((PassingYear user) {
                               return DropdownMenuItem<PassingYear>(
                                 value: user,
@@ -816,19 +717,22 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 6),
                           child: DropdownButtonFormField<GradingSystem>(
-
-                            hint: Text("Grading Value",style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "ProximaNova"),),
+                            hint: Text(
+                              " Select Grading Value",
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: "ProximaNova"),
+                            ),
                             value: myGradingSystem,
                             onChanged: (GradingSystem newValue) {
                               setState(() {
                                 myGradingSystem = newValue;
+
                               });
                             },
                             validator: (value) =>
-                            value == null ? 'Enter Grade Value' : null,
+                                value == null ? 'Select Grading System' : null,
                             items: _apiResponse.data.map((GradingSystem user) {
                               return DropdownMenuItem<GradingSystem>(
                                 value: user,
@@ -859,17 +763,20 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: TextFormField(
+                            maxLength: 4,
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
                             validator: (value) {
                               if (value.isEmpty) {
                                 return "Enter Grade Value";
                               } else {
                                 return null;
                               }
+
                             },
                             controller: gradeCont,
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
-                              hintText: "Grade Value",
+                              hintText: " Select Grade Value",
                               border: UnderlineInputBorder(
                                 borderSide: BorderSide(
                                   color: Colors.grey,
@@ -903,18 +810,23 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                           isLoading = true;
                         });
                         final insert = QualificationPost(
-                        candidatequalUuid: widget.uuid,
+                            candidatequalUuid: widget.uuid,
                             candidatequalQualificationId: highQualID,
                             candidatequalCourseId: courseId,
                             candidateHeadline: headline.text,
+                            candidatequalBoardId : board,
+                            candidatequalSchoolmediumId:mediumId,
                             candidatequalStreamId: streamId,
                             candidatequalCousetypeId: courseTypeGroupValue,
-                            candidatequalInstituteName: instituteSearchCont.text,
+                            candidatequalInstituteName:
+                                instituteSearchCont.text,
                             candidatequalCompletionYear: myPassingYear.yearId,
-                            candidatequalGradingsystemId: myGradingSystem.gradingsystemId,
+                            candidatequalGradingsystemId:
+                                myGradingSystem.gradingsystemId,
                             candidatequalMarks: gradeCont.text);
-                        final result =
-                            await apiServices.PostQualification(qualifi: insert,);
+                        final result = await apiServices.PostQualification(
+                          qualifi: insert,
+                        );
                         setState(() {
                           isLoading = false;
                         });
@@ -922,6 +834,15 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                         final text = result.error
                             ? (result.errorMessage ?? "An Error Occurred")
                             : "Successfully Created";
+                        if (result.data) {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => KeySkillsPage(
+                                        uuid: widget.uuid,
+                                      )),
+                              (route) => false);
+                        } else {}
                         // showDialog(
                         //   context: context,
                         //   builder: (_) => AlertDialog(
@@ -948,12 +869,9 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
                       // Navigator.of(context).push( MaterialPageRoute(
                       //                  builder: (context) => KeySkillsPage(uuid: widget.uuid,))) ;
 
-
-                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>KeySkillsPage(uuid: widget.uuid,)), (route) => false);
                       // : Navigator.of(context).push(
                       //     MaterialPageRoute(
                       //                  builder: (context) => WorkingProfession(uuid: widget.uuid,)));
-
                     },
                     text: "Next",
                     type: GFButtonType.solid,
@@ -964,148 +882,150 @@ class _QualificationBlueCollarState extends State<QualificationBlueCollar>
       ),
     );
   }
-  Widget _radioButtons (BuildContext context){
-  return FormField(builder: (state){
-    return Column(
-      children: [
-        Row(
-          children: [
-            GFRadio(
-              size: 20,
-              inactiveIcon: null,
-              activeBorderColor: Color(0xff2972ff),
-              radioColor: Color(0xff2972ff),
-              value: 1,
-              groupValue: courseTypeGroupValue,
-              onChanged: (value) {
-                setState(() {
-                  courseTypeGroupValue = value;
-                });
-              },
-            ),
-            const SizedBox(
-              width: 7,
-            ),
-            const Text(
-              "Full Time",
-              style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: "ProximaNova"),
-            ),
 
-          ],
-        ),
-        const SizedBox(
-          height: 7,
-        ),
-        Row(
-          children: [
-            GFRadio(
-              size: 20,
-              value: 2,
-              groupValue: courseTypeGroupValue,
-              onChanged: (value) {
-                setState(() {
-                  courseTypeGroupValue = value;
-                });
-              },
-              inactiveIcon: null,
-              activeBorderColor: Color(0xff2972ff),
-              radioColor: Color(0xff2972ff),
-            ),
-            const SizedBox(
-              width: 7,
-            ),
-            const Text(
-              "Correspondance",
-              style: TextStyle(
-                fontFamily: "ProximaNova",
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.5,
-                fontSize: 15,
+  Widget _radioButtons(BuildContext context) {
+    return FormField(builder: (state) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              GFRadio(
+                size: 20,
+                inactiveIcon: null,
+                activeBorderColor: Color(0xff2972ff),
+                radioColor: Color(0xff2972ff),
+                value: 1,
+                groupValue: courseTypeGroupValue,
+                onChanged: (value) {
+                  setState(() {
+                    courseTypeGroupValue = value;
+                  });
+                },
               ),
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: 7,
-        ),
-        Row(
-          children: [
-            GFRadio(
-              size: 20,
-              activeBorderColor: Color(0xff2972ff),
-              value: 3,
-              groupValue: courseTypeGroupValue,
-              onChanged: (value) {
-                setState(() {
-                  courseTypeGroupValue = value;
-                });
-              },
-              inactiveIcon: null,
-              radioColor: Color(0xff2972ff),
-            ),
-            const SizedBox(
-              width: 7,
-            ),
-            const Text(
-              "Distance",
-              style: TextStyle(
-                fontFamily: "ProximaNova",
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.5,
-                fontSize: 15,
+              const SizedBox(
+                width: 7,
               ),
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: 7,
-        ),
-        Row(
-          children: [
-            GFRadio(
-              size: 20,
-              activeBorderColor: Color(0xff2972ff),
-              value: 4,
-              groupValue: courseTypeGroupValue,
-              onChanged: (value) {
-                setState(() {
-                  courseTypeGroupValue = value;
-                });
-              },
-              radioColor: Color(0xff2972ff),
-            ),
-            const SizedBox(
-              width: 7,
-            ),
-            const Text(
-              "Online",
-              style: TextStyle(
-                fontFamily: "ProximaNova",
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.5,
-                fontSize: 15,
+              const Text(
+                "Full Time",
+                style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "ProximaNova"),
               ),
-            ),
-          ],
-        ),
-        Text(
-          state.errorText ?? "",
-          style: TextStyle(
-            color:Theme.of(context).errorColor,
+            ],
           ),
-        )
-      ],
-    );
-  },
-  validator: (value){
-    if(courseTypeGroupValue == 0) {
-      return "Choose one of the option";
-    }
-    return null;
-  }
-  );
+          const SizedBox(
+            height: 7,
+          ),
+          Row(
+            children: [
+              GFRadio(
+                size: 20,
+                value: 2,
+                groupValue: courseTypeGroupValue,
+                onChanged: (value) {
+                  setState(() {
+                    courseTypeGroupValue = value;
+                  });
+                },
+                inactiveIcon: null,
+                activeBorderColor: Color(0xff2972ff),
+                radioColor: Color(0xff2972ff),
+              ),
+              const SizedBox(
+                width: 7,
+              ),
+              const Text(
+                "Correspondance",
+                style: TextStyle(
+                  fontFamily: "ProximaNova",
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1.5,
+                  fontSize: 15,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 7,
+          ),
+          Row(
+            children: [
+              GFRadio(
+                size: 20,
+                activeBorderColor: Color(0xff2972ff),
+                value: 3,
+                groupValue: courseTypeGroupValue,
+                onChanged: (value) {
+                  setState(() {
+                    courseTypeGroupValue = value;
+                  });
+                },
+                inactiveIcon: null,
+                radioColor: Color(0xff2972ff),
+              ),
+              const SizedBox(
+                width: 7,
+              ),
+              const Text(
+                "Distance",
+                style: TextStyle(
+                  fontFamily: "ProximaNova",
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1.5,
+                  fontSize: 15,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 7,
+          ),
+          Row(
+            children: [
+              GFRadio(
+                size: 20,
+                activeBorderColor: Color(0xff2972ff),
+                value: 4,
+                groupValue: courseTypeGroupValue,
+                onChanged: (value) {
+                  setState(() {
+                    courseTypeGroupValue = value;
+                  });
+                },
+                radioColor: Color(0xff2972ff),
+              ),
+              const SizedBox(
+                width: 7,
+              ),
+              const Text(
+                "Online",
+                style: TextStyle(
+                  fontFamily: "ProximaNova",
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1.5,
+                  fontSize: 15,
+                ),
+              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: Text(
+              state.errorText ?? "",
+              style: TextStyle(
+                color: Theme.of(context).errorColor,
+              ),
+            ),
+          )
+        ],
+      );
+    }, validator: (value) {
+      if (courseTypeGroupValue == 0) {
+        return "Choose Course Type";
+      }
+      return null;
+    });
   }
 }

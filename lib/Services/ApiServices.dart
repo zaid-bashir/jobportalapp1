@@ -1,9 +1,8 @@
-// ignore_for_file: avoid_print, unnecessary_string_interpolations
-
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:job_portal/Models/Awards.dart';
 import 'package:job_portal/Models/BasicInfoPopulate.dart';
+import 'package:job_portal/Models/Boards.dart';
 import 'package:job_portal/Models/CareerPreferencePopulate.dart';
 import 'package:job_portal/Models/CareerPreferencePost.dart';
 import 'package:job_portal/Models/Certification-Add.dart';
@@ -46,6 +45,8 @@ import 'package:job_portal/Models/ProjectPopulate.dart';
 import 'package:job_portal/Models/QualificationDetails.dart';
 import 'package:job_portal/Models/QualificationPopulate.dart';
 import 'package:job_portal/Models/Researchpaper.dart';
+import 'package:job_portal/Models/SchoolMedium.dart';
+import 'package:job_portal/Models/ShowDataLogin.dart';
 import 'package:job_portal/Models/Stream.dart';
 import 'package:job_portal/Models/BasicDetailsPost.dart';
 import 'package:job_portal/Models/JobRole.dart';
@@ -64,56 +65,66 @@ import 'package:job_portal/Models/postkeyskills.dart';
 import 'package:job_portal/Models/qualification-post.dart';
 import 'package:job_portal/Utility/apiurls.dart';
 import 'package:logger/logger.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 
-String jwtToken = "";
-String jwtTokenLogin = "";
+// String jwtToken = "";
+// String jwtTokenLogin = "";
 String signOutToken = "";
+FlutterSecureStorage secureStorage =  FlutterSecureStorage();
 class ApiServices {
   var log = Logger();
-  // var token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxLHNhamlkQGdtYWlsLmNvbSwrOTEtODgyNTA2MTc1NiIsImlzcyI6IkpvYlBvcnRhbC5jb20iLCJpYXQiOjE2NDQyOTQ0MDcsImV4cCI6MTY0NDg5OTIwN30.8SxJ3QvHeNbj0GS4onY9MzP7IN5NZDeWQKPl1-CyUm9h1yT-5b6FcwgfNOkXCUmXBS8Iz8puL6t1c48WRYtnKw";
 
   String key = "";
-  void setToken(String token){
-    signOutToken = token;
-    jwtTokenLogin = "Bearer "+token;
-  }
+  // void setToken(String token){
+  //   signOutToken = token;
+  //   jwtTokenLogin = "Bearer "+token;
+  // }
 
-  Future<ApiResponse<int>> otpGet(GetOTP objGetOtp) async {
+  Future<ApiResponse<dynamic>> otpGet({GetOTP objGetOtp,String countryCode}) async {
     final url = Uri.parse(ApiUrls.kgetOTP);
     final headers = {
       "Content-Type": "application/json",
     };
     final jsonData = jsonEncode({"registerMobile": "+91-"+objGetOtp.registerMobile});
     final response = await http.post(url, headers: headers, body: jsonData);
-    if (response.statusCode == 200 || response.statusCode == 201) {
+    if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body);
-      final int data = jsonData;
+      final dynamic data = jsonData;
       print(data);
-      return ApiResponse<int>(data: data);
+      return ApiResponse<dynamic>(data: data,error: false,responseCode: response.statusCode);
     }
-    return ApiResponse<int>(
+    if (response.statusCode == 400) {
+      final jsonData = jsonDecode(response.body);
+      final dynamic data = jsonData;
+      print(data);
+      return ApiResponse<dynamic>(data: data,error: true,responseCode: response.statusCode);
+    }
+    return ApiResponse<dynamic>(
         error: true,
         errorMessage: "Failed to Receive the OTP, Please try Again");
   }
 
-  Future<ApiResponse<int>> otpVerifyGet(OTPVerify objOtpVerify) async {
+  Future<ApiResponse<String>> otpVerifyGet(OTPVerify objOtpVerify) async {
+    print("======"+objOtpVerify.otp+"======");
     final url =
-        Uri.parse(ApiUrls.kverifyOTP + "/" + objOtpVerify.otp.toString());
+        Uri.parse(ApiUrls.kverifyOTP + "/" +objOtpVerify.otp);
     final headers = {
       "Content-Type": "application/json",
     };
-    final jsonData = jsonEncode(OTPVerify.fromJson({
-      "registerMobile": "+91-${objOtpVerify.registerMobile}",
-      "otp": objOtpVerify.otp
-    }));
+    final jsonData = jsonEncode({"registerMobile": "+91-${objOtpVerify.registerMobile}"});
     final response = await http.post(url, headers: headers, body: jsonData);
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      final jsonData = jsonDecode(response.body);
-      final int data = jsonData;
-      return ApiResponse<int>(data: data);
+    if (response.statusCode == 200) {
+      print(response.body);
+      print("In Progress...");
+      return ApiResponse<String>(data: response.body,responseCode: response.statusCode,error: false);
     }
-    return ApiResponse<int>(error: true, errorMessage: "An Error Occurred");
+    if (response.statusCode == 400) {
+      print(response.body);
+      print("In Progress...");
+      return ApiResponse<String>(data: response.body,responseCode: response.statusCode,error: true);
+    }
+    return ApiResponse<String>(error: true, errorMessage: "An Error Occurred");
   }
 
   // industry in Professional details page
@@ -214,6 +225,52 @@ class ApiServices {
     }
     return ApiResponse<List<GetGender>>(
         error: true, errorMessage: "An error occurred");
+  }
+
+
+  static Future<List<Boards>> getBoards(String query) async {
+    final url = Uri.parse(ApiUrls.kBoardDrop + query);
+    print(ApiUrls.kItskill + "=" + query);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final List jsonData = jsonDecode(response.body);
+      return jsonData.map((json) => Boards.fromJson(json)).where((data) {
+        final nameLower = data.boardName.toLowerCase();
+        final queryLower = query.toLowerCase();
+        return nameLower.contains(queryLower);
+      }).toList();
+    } else {
+      throw Exception("ERRORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
+    }
+  }
+
+
+  static Future<List<Medium>> getMedium(String query) async {
+    final url = Uri.parse(ApiUrls.kSchoolMedium + query);
+    print(ApiUrls.kItskill + "=" + query);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final List jsonData = jsonDecode(response.body);
+      return jsonData.map((json) => Medium.fromJson(json)).where((data) {
+        final nameLower = data.schoolmediumName.toLowerCase();
+        final queryLower = query.toLowerCase();
+        return nameLower.contains(queryLower);
+      }).toList();
+    } else {
+      throw Exception("ERRORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
+    }
   }
 
   // PASSING YEAR DROPDOWN IN Qualification PAGE
@@ -539,10 +596,12 @@ class ApiServices {
 
   //  City Dropdown
   Future<ApiResponse<bool>> basicinfoUpdate(BasicDetialModel basicUpdate) async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kUpdateBasicInfo);
     final headers = {
       "Content-Type": "application/json",
-      'Authorization':  jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
     final jsonData = jsonEncode(basicUpdate);
 
@@ -555,11 +614,13 @@ class ApiServices {
     return ApiResponse<bool>(error: true, errorMessage: "An Error Occurred");
   }
   Future<ApiResponse<List<Map<String,String>>>> keySkillDeleteProfile({KeySkillDeleteProfile obj}) async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     log.i(obj.requestType);
     log.i(obj.candidatekeyskillUuid);
     final headers = {
       "Content-Type": "application/json",
-      "Authorization" : jwtTokenLogin == "" ? jwtToken : jwtTokenLogin
+      'Authorization': "Bearer $authToken",
     };
     final jsonData = jsonEncode([{"requestType" : "delete","candidatekeyskillUuid" : obj.candidatekeyskillUuid}]);
     var response = await http.post(
@@ -769,11 +830,13 @@ class ApiServices {
   }
 
   Future<ApiResponse<bool>> PostQualification({QualificationPost qualifi }) async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kQualify);
     
     final headers = {
       "Content-Type": "application/json",
-      'Authorization': jwtToken
+      'Authorization': "Bearer $authToken",
     };
     final jsonData = jsonEncode(qualifi);
 
@@ -787,10 +850,12 @@ class ApiServices {
   }
 
   Future<ApiResponse<bool>> ItSkillsPost(PostItSkills skill) async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kItSkill);
     final headers = {
       "Content-Type": "application/json",
-      "Authorization" : jwtToken,
+      'Authorization': "Bearer $authToken",
     };
     final jsonData = jsonEncode(skill);
 
@@ -803,7 +868,7 @@ class ApiServices {
     return ApiResponse<bool>(error: true, errorMessage: "An Error Occurred");
   }
 
-  //CURRENT LOCATION STARTS HERE
+  //CURRENT LOCATION STARTS HERE>.
   Future<ApiResponse<List<CurrentLocation>>> getCurrentLocation(
       {String query}) async {
     final url = Uri.parse(ApiUrls.kLocation + query);
@@ -829,6 +894,30 @@ class ApiServices {
         error: true, errorMessage: "An error occurred");
   }
 
+
+
+  static Future<List<CurrentLocation>> getCurrentLoc(String query) async {
+    final url = Uri.parse(ApiUrls.kLocation + query);
+    print(ApiUrls.kItskill + "=" + query);
+    final header = {
+      "Content-Type": "application/json",
+    };
+    final response = await http.get(
+      url,
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      final List jsonData = jsonDecode(response.body);
+      return jsonData.map((json) => CurrentLocation.fromJson(json)).where((data) {
+        final nameLower = data.cityName.toLowerCase();
+        final queryLower = query.toLowerCase();
+        return nameLower.contains(queryLower);
+      }).toList();
+    } else {
+      throw Exception("ERRORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
+    }
+  }
+
   Future<ApiResponse<Map<String, dynamic>>> postBasicDetials(BasicDetialModel obj) async {
     final url = Uri.parse(ApiUrls.kBasicDetial);
     final header = {
@@ -843,7 +932,7 @@ class ApiServices {
       "candidateEmail1": obj.candidateEmail1,
       "candidateGenderId": obj.candidateGenderId,
       "candidateTotalworkexp": obj.candidateTotalworkexp,
-      "candidateName": obj.candidateName,
+      // "candidateName": obj.candidateName,
       "candidatePreferredJobRoleList": obj.candidatePreferredJobRoleList,
       "candidateCurrentCityId": obj.candidateCurrentCityId,
     });
@@ -852,27 +941,44 @@ class ApiServices {
       headers: header,
       body: jsonData,
     );
-    if (response.statusCode == 201 || response.statusCode == 200) {
+    if(response.statusCode == 401){
+      log.i("Full Authentication is Required...");
+      return ApiResponse<Map<String, dynamic>>(data: {},responseCode: response.statusCode,error: true);
+    }
+    if(response.statusCode == 400){
+      log.i("Server didn't Process Request...");
+      return ApiResponse<Map<String, dynamic>>(data: jsonDecode(response.body),responseCode: response.statusCode,error: true);
+      //  RegisterError data = RegisterError.fromJson(jsonDecode(response.body));
+      // log.i(data);
+      // log.i(response.statusCode);
+      // return ApiResponse<Map<String, dynamic>>(data: data as Map<String,String>,responseCode: response.statusCode);
+    }
+    if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
+      Map<String, dynamic> jsondata = data["successResult"] ;
+      print(jsondata["candidateName"]);
+      print(jsondata["candidateName"]);
+      print(data["token"]);
+      // print(data["candidateName"]);
+      await  secureStorage.write(key: "candidateName", value: jsondata["candidateName"]);
+      await  secureStorage.write(key: "token", value: data["token"]);
       log.i(data);
       log.i(response.statusCode);
-      return ApiResponse<Map<String, dynamic>>(data: data);
+
+      return ApiResponse<Map<String, dynamic>>(data: data,responseCode: response.statusCode);
     }
     return ApiResponse<Map<String, dynamic>>(
-        error: true, errorMessage: "Something went wrong, please try again...");
+        error: false, errorMessage: "Something went wrong, please try again...",responseCode:response.statusCode);
   }
 
   // career preference POST
-  Future<ApiResponse<bool>> postPreference({CareerPreferencePost preference, String token}) async {
+  Future<ApiResponse<bool>> postPreference({CareerPreferencePost preference,}) async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kPreference);
-    jwtToken = "Bearer " + token;
-    print(jwtToken);
-    print(jwtToken);
-    print(jwtToken);
-    print(jwtToken);
     final headers = {
       "Content-Type": "application/json",
-      "Authorization": jwtToken
+      'Authorization': "Bearer $authToken",
     };
     final jsonData = jsonEncode({
       // "candidatequalUuid": preference.candidateUuid,
@@ -897,17 +1003,20 @@ class ApiServices {
 
   // personal details post
   Future<ApiResponse<bool>> PostPersonal(PersonalDetailsPost personal) async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kPersonal);
     final headers = {
       "Content-Type": "application/json",
-      "Authorization" : jwtToken,
+      'Authorization': "Bearer $authToken",
     };
     final jsonData = jsonEncode(personal);
 
     final response = await http.post(url, headers: headers, body: jsonData);
     log.i(response.body);
     log.i(response.statusCode);
-    if (response.statusCode == 200 || response.statusCode == 201) {
+    if (response.statusCode == 201) {
+
       return ApiResponse<bool>(data: true);
     }
     return ApiResponse<bool>(error: true, errorMessage: "An Error Occurred");
@@ -915,10 +1024,12 @@ class ApiServices {
 
   // PROFESSIONPAGE STARTS HERE
   Future<ApiResponse<bool>> ProfessionPost(PostProfessionRegistration profes) async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kProfession);
     final headers = {
       "Content-Type": "application/json",
-      "Authorization" : jwtToken,
+      'Authorization': "Bearer $authToken",
     };
     final jsonData = jsonEncode(profes);
 
@@ -936,10 +1047,12 @@ class ApiServices {
   //===============
 
   Future<ApiResponse<bool>> postSkills(List<PostKeySkills> lst) async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kpostSkill);
     final headers = {
       "Content-Type": "application/json",
-      "Authorization" : jwtToken,
+      'Authorization': "Bearer $authToken",
     };
     final jsonData = jsonEncode(lst);
     final response = await http.post(url, headers: headers, body: jsonData);
@@ -1003,10 +1116,12 @@ class ApiServices {
   //Populate Professional
   Future<ApiResponse<List<ProfessionalPopulate>>>
   ProfessionalDetailsPopulate() async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kGetProfessionalPop);
     final header = {
       "Content-Type": "application/json",
-      'Authorization': jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
     final response = await http.get(
       url,
@@ -1030,10 +1145,12 @@ class ApiServices {
   // populate Keyskills
   Future<ApiResponse<List<PopulateKeySkillsProfileModel>>>
   getKeySkillsProfile() async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kkeySkillsProfile);
     final header = {
       "Content-Type": "application/json",
-      "Authorization": jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
     final response = await http.get(
       url,
@@ -1056,10 +1173,12 @@ class ApiServices {
 
 
   Future<ApiResponse<CareerPreferencePopulate>> getCareerPreferencePopulate() async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kpopulatecareerpreferenceprofile);
     final header = {
       "Content-Type": "application/json",
-      "Authorization" : jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
     final response = await http.get(
       url,
@@ -1078,10 +1197,12 @@ class ApiServices {
 
 
   Future<ApiResponse<List<ItSkillProfile>>> PopulateItSkill() async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kGetItSkill);
     final header = {
       "Content-Type": "application/json",
-      'Authorization': jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
     final response = await http.get(
       url,
@@ -1103,10 +1224,11 @@ class ApiServices {
   }
 
   Future<ApiResponse<bool>> itSkillAdd(ItSkillAdd skillAdd) async {
+    dynamic authToken = await secureStorage.read(key: "token");
     final url = Uri.parse(ApiUrls.kItSkillAdd);
     final headers = {
       "Content-Type": "application/json",
-      'Authorization': jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
     final jsonData = jsonEncode(skillAdd);
 
@@ -1120,10 +1242,11 @@ class ApiServices {
   }
 
   Future<ApiResponse<bool>> itSkillUpdate(ItSkillAdd skillAdd) async {
+    dynamic authToken = await secureStorage.read(key: "token");
     final url = Uri.parse(ApiUrls.kItSkillUpdate);
     final headers = {
       "Content-Type": "application/json",
-      'Authorization': jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
     final jsonData = jsonEncode(skillAdd);
 
@@ -1137,13 +1260,14 @@ class ApiServices {
   }
 
   Future<ApiResponse<bool>> itSkillDelete(ItSkillAdd skillDelete) async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kItSkillDelete);
     final headers = {
       "Content-Type": "application/json",
-      'Authorization': jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
     final jsonData = jsonEncode(skillDelete);
-
     final response = await http.post(url, headers: headers, body: jsonData);
     log.i(response.body);
     log.i(response.statusCode);
@@ -1152,9 +1276,8 @@ class ApiServices {
     }
     return ApiResponse<bool>(error: true, errorMessage: "An Error Occurred");
   }
-
   // service for login through JWT
-  Future<ApiResponse<String>> login({Login obj}) async {
+  Future<ApiResponse<ShowDataLogin>> login({Login obj}) async {
     log.i(obj.candidateEmail1);
     log.i(obj.candidatePassword);
     final headers = {
@@ -1163,26 +1286,30 @@ class ApiServices {
     final jsonData = jsonEncode(obj);
     var response = await http.post(Uri.parse(ApiUrls.kLogin),
         headers: headers, body: jsonData);
-    log.i("Printing Response Here.....");
-    print(response.body);
-    print(response.statusCode);
-    String data = response.body;
+    ShowDataLogin data = ShowDataLogin.fromJson(jsonDecode(response.body));
     if (response.statusCode == 401) {
       print("Invalid User 401 Unauthorised...");
-      return ApiResponse<String>(data: "true");
+      return ApiResponse<ShowDataLogin>(responseCode: response.statusCode);
     }
     if (response.statusCode == 200) {
+      Map<String,dynamic> output = jsonDecode(response.body);
+      print(output["token"]);
+      print(output["candidateName"]);
+      await  secureStorage.write(key: "token", value: output["token"]);
+      await  secureStorage.write(key: "candidateName", value: output["candidateName"]);
       print("Successfully Logged In...");
-      return ApiResponse<String>(data: data,responseCode: response.statusCode);
+      return ApiResponse<ShowDataLogin>(data: data,responseCode: response.statusCode);
     }
-    return ApiResponse<String>(error: true, errorMessage: "An error occurred",responseCode: response.statusCode);
+    return ApiResponse<ShowDataLogin>(error: true, errorMessage: "An error occurred",responseCode: response.statusCode);
   }
   //basicinfo populate
   Future<ApiResponse<BasicInfoPopulate>> PopulateBasicInfo() async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kGetBasicInfoPop);
     final header = {
       "Content-Type": "application/json",
-      "Authorization" : jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
     final response = await http.get(
       url,
@@ -1201,10 +1328,12 @@ class ApiServices {
 
   Future<ApiResponse<List<QualificationPopulate>>>
       PopulateQualification() async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kGetQualificationPop);
     final header = {
       "Content-Type": "application/json",
-      'Authorization': jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
     final response = await http.get(
       url,
@@ -1226,10 +1355,12 @@ class ApiServices {
   }
 
   Future<ApiResponse<List<PersonalRetrive>>> PopulatePersonal() async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kGetPersonalPop);
     final header = {
       "Content-Type": "application/json",
-      'Authorization': jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
     final response = await http.get(
       url,
@@ -1252,11 +1383,13 @@ class ApiServices {
 
   // GET PARTICULAT STUDENT
   Future<ApiResponse<ItSkillProfile>> populateItSkillUpdate(String uuid) async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(
         "http://192.168.0.20:9030/jobportal-app/api/candidate/itskill-populate?request=$uuid");
     final header = {
       "Content-Type": "application/json",
-      'Authorization': jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
     final response = await http.get(url, headers: header);
     if (response.statusCode == 200) {
@@ -1269,13 +1402,24 @@ class ApiServices {
   }
 
   //update career preference
-  Future<ApiResponse<bool>> careerpreferenceUpdate(CareerProfileUpdate careerUpdate) async {
+  Future<ApiResponse<bool>> careerpreferenceUpdate(CareerProfileUpdate preference) async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kCareerUpdate);
     final headers = {
       "Content-Type": "application/json",
-      'Authorization': jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
-    final jsonData = jsonEncode(careerUpdate);
+    final jsonData = jsonEncode({
+        "candidateIndustryIdsList": preference.candidateIndustryIdsList,
+        "candidateJobtypeIdsList": preference.candidateJobtypeIdsList,
+        "candidateEmploymenttypeIdsList": preference.candidateEmploymenttypeIdsList,
+        "candidatePreferredCityIdsList": preference.candidatePreferredCityIdsList,
+        "candidateExpectedctc": preference.candidateExpectedctc,
+        "candidateShiftId": preference.candidateShiftId,
+
+
+    });
 
     final response = await http.post(url, headers: headers, body: jsonData);
     log.i(response.body);
@@ -1287,10 +1431,12 @@ class ApiServices {
   }
   // personal update
   Future<ApiResponse<bool>> personalUpdate(PersonalDetailsPost skillAdd) async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kPersonalUpdate);
     final headers = {
       "Content-Type": "application/json",
-      'Authorization': jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
     final jsonData = jsonEncode(skillAdd);
 
@@ -1304,10 +1450,12 @@ class ApiServices {
   }
 
   Future<ApiResponse<bool>> qualificationAdd(QualificationPost quall) async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kQualificationUpdate);
     final headers = {
       "Content-Type": "application/json",
-      'Authorization': jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
     final jsonData = jsonEncode(quall);
 
@@ -1322,11 +1470,13 @@ class ApiServices {
 
   Future<ApiResponse<QualificationPopulate>> populateQualificationUpdate(
       String uuid) async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(
         "http://192.168.0.20:9030/jobportal-app/api/candidate/qualification-populate?request=$uuid");
     final header = {
       "Content-Type": "application/json",
-      'Authorization': jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
     final response = await http.get(url, headers: header);
     if (response.statusCode == 200) {
@@ -1339,11 +1489,12 @@ class ApiServices {
   }
 // project populate
   Future<ApiResponse<List<ProjectPopulate>>> PopulateProject() async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kProjectPopulate);
     final header = {
-
       "Content-Type": "application/json",
-      'Authorization': jwtTokenLogin == "" ? jwtToken : jwtTokenLogin
+      'Authorization': "Bearer $authToken",
     };
     final response = await http.get(
       url,
@@ -1365,10 +1516,12 @@ class ApiServices {
   }
   // certification populate
   Future<ApiResponse<List<CertificationPopulate>>> PopulateCertification() async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kCertificationPopulate);
     final header = {
       "Content-Type": "application/json",
-      'Authorization': jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
     final response = await http.get(
       url,
@@ -1389,10 +1542,12 @@ class ApiServices {
         error: true, errorMessage: "An error occurred");
   }
   Future<ApiResponse<List<LanguagePopulate>>> PopulateLanguage() async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kPopulateLanguage);
     final header = {
       "Content-Type": "application/json",
-      'Authorization': jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
     final response = await http.get(
       url,
@@ -1414,10 +1569,12 @@ class ApiServices {
   }
 
   Future<ApiResponse<List<PatentPopulate>>> PopulatePatent() async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kPopulatePatent);
     final header = {
       "Content-Type": "application/json",
-      'Authorization': jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
     final response = await http.get(
       url,
@@ -1510,10 +1667,12 @@ class ApiServices {
 
 
   Future<ApiResponse<bool>> languagesAdd(LanguagesAddModel lang) async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kAddLanguage);
     final headers = {
       "Content-Type": "application/json",
-      'Authorization': jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
     final jsonData = jsonEncode(lang);
 
@@ -1532,10 +1691,12 @@ class ApiServices {
 
   Future<ApiResponse<LanguagePopulate>> populateLanguageUpdate(
       String uuid) async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kLanguageUpdPop + uuid);
     final header = {
       "Content-Type": "application/json",
-      'Authorization': jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
     final response = await http.get(url, headers: header);
     if (response.statusCode == 200) {
@@ -1548,10 +1709,12 @@ class ApiServices {
   }
   Future<ApiResponse<bool>> profileProfessionDelete(
       PostProfession professionDelete) async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kProfessionalDelete);
     final headers = {
       "Content-Type": "application/json",
-      'Authorization': jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
     final jsonData = jsonEncode(professionDelete);
 
@@ -1563,13 +1726,14 @@ class ApiServices {
     }
     return ApiResponse<bool>(error: true, errorMessage: "An Error Occurred");
   }
-  Future<ApiResponse<String>>
-  signOut() async {
+  Future<ApiResponse<String>> signOut() async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     var parsedUrl = Uri.parse(ApiUrls.kSignOut + signOutToken);
-    log.i(jwtTokenLogin);
+    // log.i(jwtTokenLogin);
     final header = {
       "Content-Type": "application/json",
-      "Authorization" : jwtTokenLogin ?? jwtToken,
+      'Authorization': "Bearer $authToken",
     };
     var response = await http.get(parsedUrl);
     if (response.statusCode == 200) {
@@ -1582,10 +1746,13 @@ class ApiServices {
   }
 
   Future<ApiResponse<bool>> patentsAdd(AddPatent patent) async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kPatentAdd);
     final headers = {
-      "Content-Type": "application/json",
-      'Authorization': jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+
+    "Content-Type": "application/json",
+      'Authorization': "Bearer $authToken",
     };
     final jsonData = jsonEncode(patent);
 
@@ -1599,10 +1766,12 @@ class ApiServices {
   }
 
   Future<ApiResponse<bool>> patentsDelete(AddPatent patent) async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kPatentAdd);
     final headers = {
       "Content-Type": "application/json",
-      'Authorization': jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
     final jsonData = jsonEncode({
       "requestType":patent.requestType,
@@ -1620,10 +1789,12 @@ class ApiServices {
   }
 
   Future<ApiResponse<PatentPopulate>> populatePatentUpdate(String uuid) async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kPatentUpdPOP + uuid);
     final header = {
       "Content-Type": "application/json",
-      'Authorization': jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
     final response = await http.get(url, headers: header);
     if (response.statusCode == 200) {
@@ -1636,10 +1807,12 @@ class ApiServices {
   }
 
   Future<ApiResponse<List<Awards>>> populateAwards() async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kPopulateAwards);
     final header = {
       "Content-Type": "application/json",
-      'Authorization': jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
     final response = await http.get(
       url,
@@ -1662,10 +1835,12 @@ class ApiServices {
 
 
   Future<ApiResponse<bool>> awardsAdd(Awards patent) async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kAddAwards);
     final headers = {
       "Content-Type": "application/json",
-      'Authorization': jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
     final jsonData = jsonEncode(patent);
 
@@ -1681,10 +1856,12 @@ class ApiServices {
 
 
   Future<ApiResponse<Awards>> populateAwardsUpdate(String uuid) async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kAwardsUpdPOP + uuid);
     final header = {
       "Content-Type": "application/json",
-      'Authorization': jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
     final response = await http.get(url, headers: header);
     if (response.statusCode == 200) {
@@ -1697,10 +1874,12 @@ class ApiServices {
   }
 
   Future<ApiResponse<bool>> projectAdd(ProjectPopulate quall) async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kProjectAdd);
     final headers = {
       "Content-Type": "application/json",
-      'Authorization': jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
     final jsonData = jsonEncode(quall);
 
@@ -1713,10 +1892,12 @@ class ApiServices {
     return ApiResponse<bool>(error: true, errorMessage: "An Error Occurred");
   }
   Future<ApiResponse<ProjectPopulate>> populateProjectUp(String uuid) async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kProjectUpdatePop + uuid);
     final header = {
       "Content-Type": "application/json",
-      'Authorization': jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
     final response = await http.get(url, headers: header);
     if (response.statusCode == 200) {
@@ -1728,10 +1909,12 @@ class ApiServices {
         error: true, errorMessage: "An Error Occurred");
   }
   Future<ApiResponse<bool>> certificationAdd(CertificationPopulate quall) async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kCertificationAdd);
     final headers = {
       "Content-Type": "application/json",
-      'Authorization':  jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
     final jsonData = jsonEncode(quall);
 
@@ -1745,10 +1928,12 @@ class ApiServices {
   }
 
   Future<ApiResponse<CertificationAdd>> populateCertificationUp(String uuid) async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kCertfUpdatePop + uuid);
     final header = {
       "Content-Type": "application/json",
-      'Authorization':  jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
     final response = await http.get(url, headers: header);
     if (response.statusCode == 200) {
@@ -1762,10 +1947,12 @@ class ApiServices {
   }
   //populate profile summary
   Future<ApiResponse<List<SummaryPopulate>>> PopulateSummary() async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kPopulateSummary);
     final header = {
       "Content-Type": "application/json",
-      'Authorization':  jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
     final response = await http.get(
       url,
@@ -1786,11 +1973,13 @@ class ApiServices {
         error: true, errorMessage: "An error occurred");
   }
   Future<ApiResponse<List<Map<String,String>>>> keySkillAddProfile({List<KeySkillAddProfile> lst}) async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     log.i(lst[0].requestType);
     log.i(lst[0].candidatekeyskillName);
     final headers = {
       "Content-Type": "application/json",
-      "Authorization" :  jwtTokenLogin == "" ? jwtToken : jwtTokenLogin
+      'Authorization': "Bearer $authToken",
     };
     final jsonData = jsonEncode(lst);
     var response = await http.post(
@@ -1810,10 +1999,12 @@ class ApiServices {
 
   //summary add and update
   Future<ApiResponse<bool>> summaryAdd(SummaryPopulate quall) async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kSummaryAdd);
     final headers = {
       "Content-Type": "application/json",
-      'Authorization':  jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
     final jsonData = jsonEncode(quall);
 
@@ -1836,11 +2027,13 @@ class ApiServices {
   // particular update for presenataion starts here
   Future<ApiResponse<PresentationPopulate>>
   populatePresentationParticularUpdate(String uuid) async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(
         "http://192.168.0.20:9030/jobportal-app/api/candidate/presentation-populate?request=$uuid");
     final header = {
       "Content-Type": "application/json",
-      'Authorization': jwtToken,
+      'Authorization': "Bearer $authToken",
     };
     final response = await http.get(url, headers: header);
     if (response.statusCode == 200) {
@@ -1859,10 +2052,12 @@ class ApiServices {
   // PRESENTAION ADD HERE
 
   Future<ApiResponse<bool>> presentationAddService(PresentationAddModel objpresentation) async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kPresentationAdd);
     final headers = {
       "Content-Type": "application/json",
-      'Authorization': jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
     final jsonData = jsonEncode(objpresentation);
     final response = await http.post(url, headers: headers, body: jsonData);
@@ -1879,10 +2074,12 @@ class ApiServices {
 
   // PROFESSIONAL PROFILE ADD STARTS HERE
   Future<ApiResponse<bool>> professionalProfileAdd(PostProfession prof) async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kProfessionalAdd);
     final headers = {
       "Content-Type": "application/json",
-      "Authorization": jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
     final jsonData = jsonEncode(prof);
 
@@ -1903,11 +2100,13 @@ class ApiServices {
   // get particular for profession profile UPDATE
   Future<ApiResponse<ProfessionalPopulate>> populateProfProfessionalUpdate(
       String uuid) async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(
         "http://192.168.0.20:9030/jobportal-app/api/candidate/professional-populate?request=$uuid");
     final header = {
       "Content-Type": "application/json",
-      'Authorization': jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
     final response = await http.get(url, headers: header);
     if (response.statusCode == 200) {
@@ -1922,10 +2121,12 @@ class ApiServices {
 
 
   Future<ApiResponse<List<PresentationPopulate>>> PopulatePresentation() async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kPresentationPopulate);
     final header = {
       "Content-Type": "application/json",
-      'Authorization': jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
     final response = await http.get(
       url,
@@ -1949,10 +2150,12 @@ class ApiServices {
 
   // RESEARCH  PEPER POLULATE
   Future<ApiResponse<List<ResearchpaperAdd>>> researchPopulate() async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kResearchPaperList);
     final header = {
       "Content-Type": "application/json",
-      'Authorization':  jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
     final response = await http.get(
       url,
@@ -1975,10 +2178,12 @@ class ApiServices {
 
   // RESEARCH PAPER ADD
   Future<ApiResponse<bool>>researchpaperAdd(ResearchpaperAdd objresearch) async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kResearchPaperAdd);
     final headers = {
       "Content-Type": "application/json",
-      'Authorization':  jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
     final jsonData = jsonEncode(objresearch);
     final response = await http.post(url, headers: headers, body: jsonData);
@@ -1994,10 +2199,12 @@ class ApiServices {
 
   Future<ApiResponse<ResearchpaperAdd>> populateResearchpaperUpdate(
       String uuid) async {
+    dynamic authToken = await secureStorage.read(key: "token");
+
     final url = Uri.parse(ApiUrls.kResearchPaperUpdPop + uuid);
     final header = {
       "Content-Type": "application/json",
-      'Authorization': jwtTokenLogin == "" ? jwtToken : jwtTokenLogin,
+      'Authorization': "Bearer $authToken",
     };
     final response = await http.get(url, headers: header);
     if (response.statusCode == 200) {

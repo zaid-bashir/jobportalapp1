@@ -1,12 +1,10 @@
-// ignore_for_file: avoid_print
-
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/GetOtp.dart';
 import 'package:job_portal/Services/ApiServices.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:job_portal/Utility/Connect.dart';
 import 'package:job_portal/Views/SignIn/Step1-VerifyOtp.dart';
 
@@ -17,18 +15,25 @@ class OTP extends StatefulWidget {
 }
 
 class _OTPState extends State<OTP> {
-
-
   bool isLoading = false;
   ApiServices apiServices = ApiServices();
-  ApiResponse<int> _apiResponse;
+  ApiResponse<dynamic> _apiResponse;
+  FocusNode textSecondFocusNode;
+  bool autoFocusToggle = true;
 
-  fetchOTP(String mobileNumber) async {
+  //CountryCode and Country Flag
+  //============================
+
+  String countryCode = "";
+  String flagUrl = "";
+
+  fetchOTP({String mobileNumber, String countryCode}) async {
     setState(() {
       isLoading = true;
     });
-    _apiResponse =
-    await apiServices.otpGet(GetOTP(registerMobile: mobileNumber));
+    _apiResponse = await apiServices.otpGet(
+        objGetOtp: GetOTP(registerMobile: mobileNumber),
+        countryCode: countryCode);
     setState(() {
       isLoading = false;
     });
@@ -37,7 +42,20 @@ class _OTPState extends State<OTP> {
   @override
   void initState() {
     super.initState();
+    textSecondFocusNode = FocusNode();
     Connect.checkInternetStatus();
+  }
+
+  void getValLength({int length}) {
+    if (length == 10) {
+      setState(() {
+        autoFocusToggle = false;
+      });
+    } else {
+      setState(() {
+        autoFocusToggle = true;
+      });
+    }
   }
 
   var formKey = GlobalKey<FormState>();
@@ -61,7 +79,7 @@ class _OTPState extends State<OTP> {
             child: Text(
               "Register with a Mobile Number",
               textAlign: TextAlign.center,
-              style:  TextStyle(
+              style: TextStyle(
                   fontSize: 20,
                   fontFamily: "ProximaNova",
                   fontWeight: FontWeight.w900),
@@ -72,8 +90,8 @@ class _OTPState extends State<OTP> {
           ),
           const Center(
             child: Text(
-              "Enter Your Mobile Number we will send you OTP to Verify",
-              style:  TextStyle(
+              "Register with us to get new opportunities and climb up the career lader",
+              style: TextStyle(
                   fontSize: 12,
                   fontFamily: "ProximaNova",
                   fontWeight: FontWeight.w600),
@@ -88,27 +106,37 @@ class _OTPState extends State<OTP> {
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Flexible(
-                      flex: 1,
+                      flex: 3,
                       child: Container(
                         height: 47,
-                        width: 50,
+                        width: 90,
                         margin: const EdgeInsets.fromLTRB(0, 10, 3, 30),
                         decoration: const BoxDecoration(
-                          border:  Border(
+                          border: Border(
                             bottom: BorderSide(color: Colors.grey),
                           ),
                         ),
-                        child: const Center(
-                          child: Text(
-                            "+91",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w900),
+                        child: Center(
+                          child: CountryCodePicker(
+                            onInit: (CountryCode obj) {
+                              countryCode = obj.dialCode;
+                              flagUrl = obj.flagUri;
+                            },
+                            enabled: true,
+                            showFlag: true,
+                            onChanged: (CountryCode obj) {
+                              countryCode = obj.dialCode;
+                              flagUrl = obj.flagUri;
+                            },
+                            initialSelection: 'IN',
+                            favorite: const ['+91', 'IN'],
+                            showCountryOnly: false,
+                            showOnlyCountryWhenClosed: false,
+                            alignLeft: false,
                           ),
                         ),
                       ),
@@ -121,14 +149,26 @@ class _OTPState extends State<OTP> {
                           controller: mobileController,
                           maxLines: 1,
                           maxLength: 10,
-
+                          autofocus: autoFocusToggle,
+                          focusNode: textSecondFocusNode,
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.allow(RegExp("[0-9]"))
+                          ],
                           decoration: const InputDecoration(
-                            contentPadding:  EdgeInsetsDirectional.all(10),
+                            contentPadding: EdgeInsetsDirectional.all(10),
                             hintText: "Enter Your Mobile Number",
                           ),
                           keyboardType: TextInputType.number,
                           autocorrect: true,
                           validator: (value) {
+                            getValLength(length: value.length);
+                            value.length == 10
+                                ? setState(() {
+                                    autoFocusToggle = false;
+                                  })
+                                : setState(() {
+                                    autoFocusToggle = true;
+                                  });
                             if (value.isEmpty) {
                               return "Mobile Number can not be empty";
                             }
@@ -153,94 +193,42 @@ class _OTPState extends State<OTP> {
             padding: const EdgeInsets.all(10.0),
             child: GFButton(
               onPressed: () async {
-                // ignore: avoid_print
-                if (formKey.currentState.validate()) {
-                  await fetchOTP(mobileController.text);
-                  if (_apiResponse.data == 1) {
-                    AwesomeDialog(
-                      context: context,
-                      animType: AnimType.SCALE,
-                      dialogType: DialogType.INFO,
-                      title: 'JobPortalApp',
-                      desc: "Mobile Number Not Received, enter your Mobile Number",
-                      // btnOkOnPress: () {
-                      //   Navigator.of(context).pop();
-                      // },
-                    ).show();
-                  }
-                  if (_apiResponse.data == 2) {
-                    AwesomeDialog(
-                      context: context,
-                      animType: AnimType.SCALE,
-                      dialogType: DialogType.INFO,
-                      title: 'JobPortalApp',
-                      desc: " enter your Mobile Number",
-                      // btnOkOnPress: () {
-                      //   Navigator.of(context).pop();
-                      // },
-                    ).show();
-                  }
-                  if (_apiResponse.data == 3) {
-                    AwesomeDialog(
-                      context: context,
-                      animType: AnimType.SCALE,
-                      dialogType: DialogType.ERROR,
-                      title: 'JobPortalApp',
-                      desc: "Invalid Mobile Number",
-                      // btnOkOnPress: () {
-                      //   Navigator.of(context).pop();
-                      // },
-                    ).show();
-                  }
-                  if (_apiResponse.data == 4) {
-                    AwesomeDialog(
-                      context: context,
-                      animType: AnimType.SCALE,
-                      dialogType: DialogType.INFO,
-                      title: 'JobPortalApp',
-                      desc: "Number Already Present",
-                      // btnOkOnPress: () {
-                      //   Navigator.of(context).pop();
-                      // },
-                    ).show();
-                  }
-                  if(_apiResponse.data.toString().length == 6){
-                    AwesomeDialog(
-                      context: context,
-                      animType: AnimType.SCALE,
-                      dialogType: DialogType.SUCCES,
-                      title: 'JobPortalApp',
-                      desc:
-                      'OTP Successfully Sent to Mobile Number +91-${mobileController.text}',
-                      btnOkOnPress: () {
-                        print(mobileController.text);
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => VerifyOTP(
-                              registerMobile: mobileController.text,
-                              otp: _apiResponse.data,
-                            ),
-                          ),
-                        );
-                      },
-                    ).show();
-                  }
-                 } else {
-                   Fluttertoast.showToast(
-                       msg: "Phone Number Not Valid",
-                       toastLength: Toast.LENGTH_LONG,
-                       gravity: ToastGravity.BOTTOM,
-                       timeInSecForIosWeb: 2,
-                       backgroundColor: Colors.red,
-                       textColor: Colors.white,
-                       fontSize: 16.0);
-                 }
+                // if (formKey.currentState.validate()) {
+                await fetchOTP(
+                    mobileNumber: mobileController.text,
+                    countryCode: countryCode);
+                if (_apiResponse.responseCode == 200) {
+                  await Future.delayed(const Duration(seconds: 1),(){});
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => VerifyOTP(
+                          countryCode: countryCode,
+                          registerMobile: mobileController.text,
+                          otp: _apiResponse.data,
+                        ),
+                      ),
+                    );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Row(children: [
+                      const Icon(
+                        Icons.error_outline,
+                        color: Colors.white,
+                      ),
+                      const SizedBox(width: 7),
+                      Expanded(child: Text("${_apiResponse.data['message']}")),
+                    ]),
+                    backgroundColor: Colors.red,
+                    duration: const Duration(milliseconds: 2500),
+                  ));
+                }
               },
-              text: "Get OTP",
+              text: "Send OTP",
               type: GFButtonType.solid,
               blockButton: true,
             ),
           ),
+
         ],
       ),
     );

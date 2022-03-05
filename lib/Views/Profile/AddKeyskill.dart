@@ -10,7 +10,7 @@ import 'package:job_portal/Models/KeySkillProfilePopulate.dart';
 import 'package:job_portal/Models/keyskill.dart';
 import 'package:job_portal/Models/postkeyskills.dart';
 import 'package:job_portal/Services/ApiServices.dart';
-import 'package:job_portal/Views/Profile/Profile.dart';
+
 
 class AddSkillsPage extends StatefulWidget {
   AddSkillsPage({Key key, this.uuid}) : super(key: key);
@@ -88,100 +88,27 @@ class _AddSkillsPageState extends State<AddSkillsPage> {
             padding:
             const EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  // ignore: prefer_const_literals_to_create_immutables
-                  children: [
-                    IconButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        icon: Icon(Icons.arrow_back)),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      'Edit Key Skills',
-                      style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "ProximaNova"),
-                    ),
-                  ],
-                ),
-                // Padding(
-                //   padding: const EdgeInsets.only(top: 30),
-                //   child: Column(
-                //     mainAxisAlignment: MainAxisAlignment.start,
-                //     // ignore: prefer_const_literals_to_create_immutables
-                //     children: [
-                //       Padding(
-                //         padding: const EdgeInsets.all(8.0),
-                //         child: Align(
-                //             alignment: Alignment.centerLeft,
-                //             child: Text("Skills you have")),
-                //       ),
-                //       Padding(
-                //         padding: EdgeInsets.all(8.0),
-                //         child: Align(
-                //           alignment: Alignment.centerLeft,
-                //           child: Wrap(
-                //             children:
-                //             _apiResponseKeySkillPopulate.data.map((e) {
-                //               return Padding(
-                //                 padding: const EdgeInsets.only(
-                //                     right: 10.0, bottom: 8.0, top: 8.0),
-                //                 child: Container(
-                //                   decoration: BoxDecoration(
-                //                     borderRadius: BorderRadius.circular(4),
-                //                     color: Colors.white,
-                //                     border: Border.all(color: Colors.black45),
-                //                   ),
-                //                   child: Padding(
-                //                     padding: EdgeInsets.all(3.0),
-                //                     child: Wrap(children: [
-                //                       Text(e.keyskillName),
-                //                       SizedBox(
-                //                         width: 5,
-                //                       ),
-                //                       IconButton(
-                //                         onPressed: () {
 
-                //                         },
-                //                         icon: Icon(Icons.close),
-                //                       ),
-                //                     ]),
-                //                   ),
-                //                 ),
-                //               );
-                //             }).toList(),
-                //           ),
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                // Padding(
-                //   padding: const EdgeInsets.all(8.0),
-                //   child: Divider(
-                //     thickness: 2,
-                //     color: Colors.black45,
-                //   ),
-                // ),
-                // Padding(
-                //   padding: const EdgeInsets.all(8.0),
-                //   child: Align(
-                //     alignment: Alignment.centerLeft,
-                //     child: Wrap(
-                //       // ignore: prefer_const_literals_to_create_immutables
-                //       children: [
-                //         Text(
-                //             "Type and search for skills and then tap skills to add..."),
-                //       ],
-                //     ),
-                //   ),
-                // ),
+                Text(
+                  'Edit Key Skills',
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "ProximaNova"),
+                ),
+                Text(
+                  "Add skills for recruiters to find you easily in keywords search.",
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontFamily: "ProximaNova",
+                    color: Colors.grey,
+                  ),
+                ),
+
 
                 Padding(
                     padding: const EdgeInsets.only(
@@ -289,9 +216,20 @@ class _AddSkillsPageState extends State<AddSkillsPage> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: Align(
-                      alignment: Alignment.centerRight,
-                      child: GFButton(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      GFButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        text: "Cancel",
+                        type: GFButtonType.solid,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      GFButton(
                         onPressed: () {
                           if (formKey.currentState.validate()) {
                             setState(() {
@@ -311,7 +249,9 @@ class _AddSkillsPageState extends State<AddSkillsPage> {
                         },
                         text: "Save",
                         type: GFButtonType.solid,
-                      )),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

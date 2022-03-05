@@ -1,60 +1,86 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
 import 'package:job_portal/Controllers/menucontroller.dart';
 import 'package:job_portal/Views/Profile/Profile.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'Home.dart';
 import 'Job.dart';
 import 'Notification.dart';
-class Navbar extends StatelessWidget {
-  Navbar({Key key,this.keyjwt,this.prefLogin}) : super(key: key);
-  String keyjwt;
-  SharedPreferences prefLogin;
+
+class Navbar extends StatefulWidget {
+  Navbar({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  State<Navbar> createState() => _NavbarState();
+}
+
+class _NavbarState extends State<Navbar> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return
-      MultiProvider(
-        providers: [
-          ChangeNotifierProvider(
-            create: (context) => MenuController(),
-          ),
-        ],
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Job Portal',
-          theme: ThemeData(
-            // primaryColor: Color(0xFFC41A3B),
-            // primaryColorDark:  Color(0xFFC41A3B),
-            primaryColorLight: const Color(0xFFFBE0E6),
-            // accentColor: const Color(0xFFC41A3B),
-            accentColor:const Color(0xff3e61ed),
-          ),
-          home: Navlist(keyjwt: keyjwt,),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => MenuController(),
         ),
-      );
-
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Job Portal',
+        theme: ThemeData(
+          // primaryColor: Color(0xFFC41A3B),
+          // primaryColorDark:  Color(0xFFC41A3B),
+          primaryColorLight: const Color(0xFFFBE0E6),
+          // accentColor: const Color(0xFFC41A3B),
+          accentColor: const Color(0xff3e61ed),
+        ),
+        home: Navlist(),
+      ),
+    );
   }
 }
 
 class Navlist extends StatefulWidget {
-  Navlist({Key key,this.keyjwt}) : super(key: key);
-  String keyjwt;
+  Navlist({
+    Key key,
+  }) : super(key: key);
+
   @override
   _NavlistState createState() => _NavlistState();
 }
 
-class _NavlistState extends State<Navlist>
-    with SingleTickerProviderStateMixin {
+class _NavlistState extends State<Navlist> with SingleTickerProviderStateMixin {
   String title = 'BottomNavigationBar';
-
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   TabController _tabController;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Row(children: const [
+            Icon(
+              Icons.verified_outlined,
+              color: Colors.white,
+            ),
+            SizedBox(width: 7),
+            Text("Successfully Logged In..."),
+          ]),
+          backgroundColor: Colors.green,
+          duration: const Duration(milliseconds: 1500),
+        ),
+      ),
+    );
   }
 
   @override
@@ -66,15 +92,11 @@ class _NavlistState extends State<Navlist>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text(title),
-      //   centerTitle: true,
-      // ),
+      key: _scaffoldKey,
       body: TabBarView(
         children: <Widget>[
-          HomePage(keyjwt: widget.keyjwt,),
+          HomePage(),
           Notify(),
-          // UploadPost(),
           JobsList(),
           ProfilePage(),
         ],
@@ -88,9 +110,8 @@ class _NavlistState extends State<Navlist>
         child: Card(
           elevation: 5,
           child: ClipRRect(
-
             child: TabBar(
-              labelColor:Theme.of(context).accentColor,
+              labelColor: Theme.of(context).accentColor,
               unselectedLabelColor: Colors.grey,
               labelStyle: const TextStyle(fontSize: 10.0),
               // indicator: const UnderlineTabIndicator(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 import 'package:getwidget/getwidget.dart';
@@ -47,6 +48,10 @@ class _ItSkillAddsState extends State<ItSkillAdds> {
   ITSkill skillName;
   ItSkillProfile itSkillProfile;
   String errorMessage;
+
+  String mySelectionYear;
+  String mySelectionMonth;
+
 
   getItSkills() {
     if (isEditing) {
@@ -145,24 +150,25 @@ class _ItSkillAddsState extends State<ItSkillAdds> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: const Icon(Icons.arrow_back)),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    const Text(
-                      "IT Skills",
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "ProximaNova"),
-                    ),
-                  ],
+
+                const Text(
+                  "IT Skills",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "ProximaNova"),
+                ),
+                Text(
+                  "Add skills and attributes for recruiters to find you easily in keyword search."
+                  ,
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontFamily: "ProximaNova",
+                    color: Colors.grey,
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
                 ),
                 Card(
                   child: Padding(
@@ -183,12 +189,13 @@ class _ItSkillAddsState extends State<ItSkillAdds> {
                         Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: isEditing
-                              ? TextField(
+                              ? TextFormField(
                                   controller: itSkillName,
                                 )
                               :        TypeAheadField(
                             textFieldConfiguration: TextFieldConfiguration(
                                 controller: this.myController,
+
                                 decoration: InputDecoration(
                                     labelText: 'Skill'
                                 )
@@ -212,16 +219,7 @@ class _ItSkillAddsState extends State<ItSkillAdds> {
                         ),
 
 
-                        // TextFieldSearch(
-                        //     label: 'My Label',
-                        //     controller: myController,
-                        //     future: () {
-                        //       return fetchITSkill(query: myController.text);
-                        //     },
-                        //     getSelectedValue: (value) {
-                        //       print(
-                        //           value); // this prints the selected option which could be an object
-                        //     }),
+
 
                         const SizedBox(
                           height: 15,
@@ -232,13 +230,17 @@ class _ItSkillAddsState extends State<ItSkillAdds> {
                                 fontWeight: FontWeight.bold,
                                 fontFamily: "ProximaNova")),
                         TextFormField(
-                          // validator: (value) {
-                          //   if (value.isEmpty) {
-                          //     return "Please Enter Version";
-                          //   } else {
-                          //     return null;
-                          //   }
-                          // },
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.allow(RegExp("[0-9]"))
+                          ],
+                          keyboardType: TextInputType.number,
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return " Enter Version";
+                            } else {
+                              return null;
+                            }
+                          },
                           controller: versionCont,
                           decoration: InputDecoration(
                             hintText: "Version",
@@ -262,48 +264,103 @@ class _ItSkillAddsState extends State<ItSkillAdds> {
                         Row(
                           children: [
                             Expanded(
-                              child: TextFormField(
-                                // validator: (value) {
-                                //   if (value.isEmpty) {
-                                //     return "Please Enter Year";
-                                //   } else {
-                                //     return null;
-                                //   }
-                                // },
-                                controller: yearsCont,
-                                decoration: InputDecoration(
-                                  hintText: "Enter Year",
-                                  hintStyle: TextStyle(
-                                    color: Colors.blueGrey,
-                                    fontFamily: "ProximaNova",
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: 1.5,
-                                    fontSize: 14.5,
+                              flex: 1,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  child: DropdownButtonFormField<String>(
+
+
+                                    hint: Text("Years"),
+                                    value: mySelectionYear,
+                                    onChanged: (newValue) {
+                                      setState(() {
+                                        mySelectionYear = newValue;
+                                      });
+                                    },
+                                    validator: (value) => value == null
+                                        ? 'Select Year'
+                                        : null,
+                                    items: [
+                                      "0",
+                                      "1",
+                                      "2",
+                                      "3",
+                                      "4",
+                                      "5",
+                                      "6",
+                                      "7",
+                                      "8",
+                                      "9",
+                                      "10",
+                                      "11",
+                                      "12"
+                                    ]
+                                        .map(
+                                          (value) => DropdownMenuItem(
+                                          value: value,
+                                          child: Text(
+                                            value,
+                                            style: const TextStyle(
+                                                fontSize: 15,
+                                                fontWeight:
+                                                FontWeight.bold,
+                                                fontFamily:
+                                                "ProximaNova"),
+                                          )),
+                                    )
+                                        .toList(),
                                   ),
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              width: 10,
-                            ),
                             Expanded(
-                              child: TextFormField(
-                                // validator: (value) {
-                                //   if (value.isEmpty) {
-                                //     return "Please Enter Month";
-                                //   } else {
-                                //     return null;
-                                //   }
-                                // },
-                                controller: monthCont,
-                                decoration: InputDecoration(
-                                  hintText: "Enter Month",
-                                  hintStyle: TextStyle(
-                                    color: Colors.blueGrey,
-                                    fontFamily: "ProximaNova",
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: 1.5,
-                                    fontSize: 14.5,
+                              flex: 1,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  child: DropdownButtonFormField<String>(
+
+
+                                    hint: Text("Months"),
+                                    value: mySelectionMonth,
+                                    onChanged: (newValue) {
+                                      setState(() {
+                                        mySelectionMonth = newValue;
+                                      });
+                                    },
+                                    validator: (value) => value == null
+                                        ? 'Select Month'
+                                        : null,
+                                    items: [
+                                      "0",
+                                      "1",
+                                      "2",
+                                      "3",
+                                      "4",
+                                      "5",
+                                      "6",
+                                      "7",
+                                      "8",
+                                      "9",
+                                      "10",
+                                      "11",
+                                      "12"
+                                    ]
+                                        .map(
+                                          (value) => DropdownMenuItem(
+                                          value: value,
+                                          child: Text(
+                                            value,
+                                            style: const TextStyle(
+                                                fontSize: 15,
+                                                fontWeight:
+                                                FontWeight.bold,
+                                                fontFamily:
+                                                "ProximaNova"),
+                                          )),
+                                    )
+                                        .toList(),
                                   ),
                                 ),
                               ),
@@ -336,8 +393,8 @@ class _ItSkillAddsState extends State<ItSkillAdds> {
                               myYear = newValue;
                             });
                           },
-                          // validator: (value) =>
-                          // value == null ? 'Please fill Last Year' : null,
+                          validator: (value) =>
+                          value == null ? 'Select Last Year' : null,
                           items: _apiResponse.data.map((PassingYear user) {
                             return DropdownMenuItem<PassingYear>(
                               value: user,
@@ -348,47 +405,7 @@ class _ItSkillAddsState extends State<ItSkillAdds> {
                             );
                           }).toList(),
                         ),
-                        // DropdownButtonFormField(
-                        //     validator: (value) =>
-                        //     value == null ? 'Please fill year' : null,
-                        //   decoration: const InputDecoration(
-                        //       border: UnderlineInputBorder()),
-                        //   hint: Text("Select year"),
-                        //   value: myYear,
-                        //   onChanged: (newValue) {
-                        //     setState(() {
-                        //       myYear = newValue;
-                        //     });
-                        //   },
-                        //   items: isLoading
-                        //       ? ["Please Wait"]
-                        //           .map(
-                        //             (value) => DropdownMenuItem(
-                        //                 value: value,
-                        //                 child: Text(
-                        //                   value,
-                        //                   style: TextStyle(
-                        //                       fontSize: 15,
-                        //                       fontWeight: FontWeight.normal,
-                        //                       fontFamily: "ProximaNova"),
-                        //                 )),
-                        //           )
-                        //           .toList()
-                        //       : _apiResponse.data
-                        //           .map(
-                        //             (data) => DropdownMenuItem(
-                        //               value: data.yearId,
-                        //               child: Text(
-                        //                 "${data.yearName}",
-                        //                 style: TextStyle(
-                        //                     fontSize: 15,
-                        //                     fontWeight: FontWeight.normal,
-                        //                     fontFamily: "ProximaNova"),
-                        //               ),
-                        //             ),
-                        //           )
-                        //           .toList(),
-                        // ),
+
                       ],
                     ),
                   ),
@@ -450,17 +467,11 @@ class _ItSkillAddsState extends State<ItSkillAdds> {
                       width: 10,
                     ),
                     GFButton(
-                      // onPressed: () {
-                      //   Navigator.push(
-                      //       context,
-                      //       MaterialPageRoute(
-                      //           builder: (context) => CareerPreference()));
-                      // },
+
                       onPressed: () async {
                         if (formKey.currentState.validate()) {
                           print(myController.text);
-                          int totalworkexp = (int.parse(yearsCont.text) * 12) +
-                              int.parse(monthCont.text);
+                          int totalworkexp = (int.parse(mySelectionYear) * 12) + int.parse(mySelectionMonth);
                           print(totalworkexp);
                           print(itSkillId);
                           print(itSkillId);
@@ -477,9 +488,8 @@ class _ItSkillAddsState extends State<ItSkillAdds> {
                               candidateitskillName:  itSkillName.text,
                               candidateitskillUuid: widget.uuid,
 
-                              // candidateitskillCandidateId: 1,
                               candidateitskillVersion:
-                                  int.parse(versionCont.text),
+                                  double.parse(versionCont.text),
                               candidateitskillLastused:
                                   int.parse(myYear.yearId),
                               candidateitskillExperience: totalworkexp,
@@ -506,7 +516,7 @@ class _ItSkillAddsState extends State<ItSkillAdds> {
                               // candidateitskillItskillId: int.parse(itSkillId),
                               candidateitskillCandidateId: 1,
                               candidateitskillVersion:
-                                  int.parse(versionCont.text),
+                                  double.parse(versionCont.text),
                               candidateitskillLastused:
                                   int.parse(myYear.yearId),
                               candidateitskillExperience: totalworkexp,
@@ -523,36 +533,9 @@ class _ItSkillAddsState extends State<ItSkillAdds> {
                             }
                           }
 
-                          // const title = "Done";
-                          // final text = result.error
-                          //     ? (result.errorMessage ?? "An Error Occurred")
-                          //     : "Successfully Created";
-                          // showDialog(
-                          //   context: context,
-                          //   builder: (_) => AlertDialog(
-                          //     title: const Text(title),
-                          //     content: Text(text),
-                          //     actions: [
-                          //       ElevatedButton(
-                          //           onPressed: () {
-                          //             Navigator.pop(context);
-                          //           },
-                          //           child: const Text("OK"))
-                          //     ],
-                          //   ),
-                          // ).then((data) {
-                          //   if (result.data) {
-                          //     Navigator.of(context).pop();
-                          //
-                          //   }
-                          // });
+
                         }
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) =>
-                        //             CareerPreference(uuid: widget.uuid,)));
-                        // Navigator.of(context).pop();
+
                       },
                       text: isEditing ? "Update" : "Save",
                       type: GFButtonType.solid,

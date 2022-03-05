@@ -69,33 +69,26 @@ class _KeySkillsPageState extends State<KeySkillsPage> {
             padding:
             const EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: Row(
-                        children: [
-                          // IconButton(
-                          //     onPressed: () {
-                          //       Navigator.pop(context);
-                          //     },
-                          //     icon: const Icon(Icons.arrow_back)),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      'Key Skills',
-                      style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "ProximaNova"),
-                    ),
-                  ],
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  'Key Skills',
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "ProximaNova"),
+                ),
+                Text(
+                  "Add the key skills that will help recruiters to see you apart from crowd",
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontFamily: "ProximaNova",
+                    color: Colors.grey,
+                  ),
                 ),
                 Padding(
                     padding: const EdgeInsets.only(
@@ -189,12 +182,10 @@ class _KeySkillsPageState extends State<KeySkillsPage> {
                                                 const EdgeInsets.all(8.0),
                                                 child: DropdownSearch<
                                                     KeySkills>.multiSelection(
-                                                  autoValidateMode:
-                                                  AutovalidateMode
-                                                      .onUserInteraction,
+
                                                   validator: (value) {
                                                     if (value.isEmpty) {
-                                                      return " Select Key Skill/Skills";
+                                                      return "Select Key Skill/Skills";
                                                     }
                                                     return null;
                                                   },
@@ -251,34 +242,52 @@ class _KeySkillsPageState extends State<KeySkillsPage> {
                 const SizedBox(
                   height: 20,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Align(
-                      alignment: Alignment.centerRight,
-                      child: GFButton(
-                        onPressed: () {
-                          bool check = false;
-                          if (formKey.currentState.validate()) {
-                            apiServices.postSkills(createPostList()).then((value){
-                              check = value.data;
-                            });
-                            if (!check) {
-                              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>ItSkills(uuid: widget.uuid,),), (route) => false);
-                              // Navigator.of(context).push(
-                              //   MaterialPageRoute(
-                              //     builder: (context) =>  ItSkills(uuid: widget.uuid,),
-                              //   ),
-                              // );
-                            } else {
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Align(
+                        alignment: Alignment.centerRight,
+                        child: GFButton(
+                          onPressed: () {
+                            // bool check = false;
+                                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>ItSkills(uuid: widget.uuid,),), (route) => false);
+                          },
+                          text: "Skip",
+                          type: GFButtonType.solid,
+                        )),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Align(
+                        alignment: Alignment.centerRight,
+                        child: GFButton(
+                          onPressed: () {
+                            bool check = false;
+                            if (formKey.currentState.validate()) {
+                              apiServices.postSkills(createPostList()).then((value){
+                                check = value.data;
+                              });
+                              if (!check) {
+                                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>ItSkills(uuid: widget.uuid,),), (route) => false);
+                                // Navigator.of(context).push(
+                                //   MaterialPageRoute(
+                                //     builder: (context) =>  ItSkills(uuid: widget.uuid,),
+                                //   ),
+                                // );
+                              } else {
 
-                            }
-                          
-                          } else {}
-                        },
-                        text: "Next",
-                        type: GFButtonType.solid,
-                      )),
-                ),
+                              }
+
+                            } else {}
+                          },
+                          text: "Next",
+                          type: GFButtonType.solid,
+                        )),
+                  ),
+                ],),
+
               ],
             ),
           ),

@@ -1,23 +1,24 @@
-import 'dart:io';
-import 'package:dropdown_search/dropdown_search.dart';
-import 'package:file_picker/file_picker.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
+import 'package:job_portal/Models/Boards.dart';
 import 'package:job_portal/Models/GradingSystem.dart';
 import 'package:job_portal/Models/InstituteQualified.dart';
 import 'package:job_portal/Models/PassingYear.dart';
 import 'package:job_portal/Models/QualificationDetails.dart';
 import 'package:job_portal/Models/QualificationPopulate.dart';
+import 'package:job_portal/Models/SchoolMedium.dart';
 import 'package:job_portal/Models/Stream.dart';
 import 'package:job_portal/Models/qualification-post.dart';
 import 'package:job_portal/Services/ApiServices.dart';
-import 'package:job_portal/Views/SignIn/Step4-ProfessionalDetails.dart';
 
 class QualificationAdd extends StatefulWidget {
   QualificationAdd({Key key, this.uuid}) : super(key: key);
-   String uuid;
+  String uuid;
+
   @override
   _QualificationAddState createState() => _QualificationAddState();
 }
@@ -27,10 +28,6 @@ class _QualificationAddState extends State<QualificationAdd>
   AnimationController loadingController;
 
   bool get isEditing => widget.uuid != null;
-
-
-
-
 
   TextEditingController qualificationSearchCon = TextEditingController();
   var formKey = GlobalKey<FormState>();
@@ -49,6 +46,11 @@ class _QualificationAddState extends State<QualificationAdd>
   String streamId = "";
   String instituteId = "";
   String yearID = "";
+  String board = "";
+  String mediumId = "";
+
+  bool isVisible = false;
+  bool isVisible2 = true;
 
   int courseTypeGroupValue = 0;
 
@@ -57,6 +59,7 @@ class _QualificationAddState extends State<QualificationAdd>
   PassingYear myPassingYear;
 
   bool isLoading = false;
+  bool isLoadingQualificationProfile = false;
   ApiServices apiServices = ApiServices();
   ApiResponse<List<Institute>> _apiResponseInstitute;
 
@@ -72,27 +75,45 @@ class _QualificationAddState extends State<QualificationAdd>
   TextEditingController streamSearchCont = TextEditingController();
   TextEditingController instituteSearchCont = TextEditingController();
   TextEditingController yearSearchCont = TextEditingController();
+  TextEditingController boardsSearchCont = TextEditingController();
+  TextEditingController mediumSearchCont = TextEditingController();
 
   @override
   void initState() {
-    // fetchInstitute(query: "");
+    check();
     getQualfy();
-    // fetchHighestQualification(query: "");
-    // fetchCourses(query: "");
-    // fetchStream(query: "");
+    print(highQualID);
+    print(highQualID);
+    print(highQualID);
+    print(highQualID);
+    print("-----------------");
+    getQualfy();
+
     fetchPassingYear();
     fetchGradingSystem();
     loadingController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 10),
     )..addListener(() {
-      setState(() {});
-    });
+        setState(() {});
+      });
 
     super.initState();
   }
+
+  check() {
+    if (highQualID == "3" || highQualID == "2" || highQualID == "1") {
+      isVisible = true;
+      isVisible2 = false;
+    } else {
+      isVisible = false;
+      isVisible2 = true;
+    }
+  }
+
   String errorMessage;
   QualificationPopulate qualificationPopulate;
+
   getQualfy() {
     if (isEditing) {
       setState(() {
@@ -112,6 +133,18 @@ class _QualificationAddState extends State<QualificationAdd>
         courseSearchCont.text = qualificationPopulate.CourseName;
         streamSearchCont.text = qualificationPopulate.StreamName;
         courseTypeGroupValue = qualificationPopulate.candidatequalCousetypeId;
+        highQualID =
+            qualificationPopulate.candidatequalQualificationId.toString();
+        print(highQualID);
+        print(highQualID);
+        print(highQualID);
+        print(highQualID);
+        print(highQualID);
+        print(highQualID);
+        print(highQualID);
+        print(highQualID);
+        print(highQualID);
+        print(highQualID);
 
         // isActive = student.studentActive == '1' ? true : false;
       });
@@ -121,84 +154,6 @@ class _QualificationAddState extends State<QualificationAdd>
       // print(versionCont.text);
       // print(versionCont.text);
     }
-  }
-
-  // fetchStream({String query}) async {
-  //   setState(() {
-  //     isLoading = true;
-  //   });
-  //   _apiResponsestream = await apiServices.getStream(query: query);
-  //   setState(() {
-  //     isLoading = false;
-  //   });
-  // }
-
-  // fetchCourses({String query}) async {
-  //   setState(() {
-  //     isLoading = true;
-  //   });
-  //   _apiResponsecourse = await apiServices.getCourse(query: query);
-  //   setState(() {
-  //     isLoading = false;
-  //   });
-  // }
-
-  // fetchHighestQualification({String query}) async {
-  //   setState(() {
-  //     isLoading = true;
-  //   });
-  //   _apiResponsequalification =
-  //   await apiServices.getQualification(query: query);
-  //   setState(() {
-  //     isLoading = false;
-  //   });
-  // }
-
-  List<String> getStream() {
-    List<Streams> stream = _apiResponsestream.data;
-    List<String> streamItems = [];
-    for (int i = 0; i < stream.length; i++) {
-      streamItems.add(stream[i].streamName);
-    }
-    return streamItems;
-  }
-
-  List<String> getData() {
-    List<Qualification> data = _apiResponsequalification.data;
-    List<String> dataItems = [];
-    for (int i = 0; i < data.length; i++) {
-      dataItems.add(data[i].qualName);
-    }
-    return dataItems;
-  }
-
-  List<String> getCourses() {
-    List<Qualification> Courses = _apiResponsecourse.data;
-    List<String> courseItems = [];
-    for (int i = 0; i < Courses.length; i++) {
-      courseItems.add(Courses[i].courseName);
-    }
-    return courseItems;
-  }
-
-  // // institute qualified
-  // fetchInstitute({String query}) async {
-  //   setState(() {
-  //     isLoading = true;
-  //   });
-  //   _apiResponseInstitute = await apiServices.getInstitute(query: query);
-  //   setState(() {
-  //     isLoading = false;
-  //   });
-  // }
-
-  List<String> parseInstitute() {
-    List<Institute> institute = _apiResponseInstitute.data;
-    List<String> dataItems = [];
-    for (int i = 0; i < institute.length; i++) {
-      dataItems.add(institute[i].instituteName);
-    }
-    return dataItems;
   }
 
   String query;
@@ -239,18 +194,10 @@ class _QualificationAddState extends State<QualificationAdd>
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                // ignore: prefer_const_literals_to_create_immutables
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  IconButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    icon: Icon(Icons.arrow_back),
-                  ),
-                  const SizedBox(
-                    width: 30,
-                  ),
                   Text(
                     "Qualification Details",
                     style: TextStyle(
@@ -258,13 +205,20 @@ class _QualificationAddState extends State<QualificationAdd>
                         fontFamily: "ProximaNova",
                         fontWeight: FontWeight.bold),
                   ),
+                  Text(
+                    "Add your Qualification for recruiters to check on you for potential jobs.",
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontFamily: "ProximaNova",
+                      color: Colors.grey,
+                    ),
+                  ),
                 ],
               ),
             ),
             const SizedBox(
               height: 10,
             ),
-
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: Card(
@@ -272,33 +226,6 @@ class _QualificationAddState extends State<QualificationAdd>
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(10),
-                      child: Text(
-                        "Profile Headline",
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "ProximaNova"),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: TextFormField(
-                        maxLines: 2,
-                        decoration: InputDecoration(
-                          labelText: "Profile Headline",
-                          border: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
                     const SizedBox(
                       height: 10,
                     ),
@@ -317,168 +244,262 @@ class _QualificationAddState extends State<QualificationAdd>
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: TypeAheadField(
+                      child: TypeAheadFormField(
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Select Qualification';
+                          }
+                        },
                         textFieldConfiguration: TextFieldConfiguration(
-                            controller: this. qualificationSearchCon,
-                            decoration: InputDecoration(
-                                hintText: 'Qualification'
-                            )
-                        ),
+                            controller: this.qualificationSearchCon,
+                            decoration:
+                                InputDecoration(hintText: 'Qualification')),
                         debounceDuration: Duration(milliseconds: 500),
                         suggestionsCallback: ApiServices.getQualification,
-                        itemBuilder: (context, Qualification suggestions){
+                        itemBuilder: (context, Qualification suggestions) {
                           final quall = suggestions;
                           return ListTile(
-                            title: Text(quall.qualName) ,
+                            title: Text(quall.qualName),
                           );
                         },
-                        noItemsFoundBuilder: (context)=>Text(""),
-
-                        onSuggestionSelected: (Qualification suggesstion){
+                        noItemsFoundBuilder: (context) => Text(""),
+                        onSuggestionSelected: (Qualification suggesstion) {
                           // final skill = suggesstion;
-                          qualificationSearchCon.text  = suggesstion.qualName;
+                          qualificationSearchCon.text = suggesstion.qualName;
                           highQualID = suggesstion.qualId;
 
+                          setState(() {
+                            if (highQualID == "3" ||
+                                highQualID == "2" ||
+                                highQualID == "1") {
+                              isVisible = true;
+                              isVisible2 = false;
+                            } else {
+                              isVisible = false;
+                              isVisible2 = true;
+                            }
+                          });
                         },
                       ),
-                      // DropdownSearch<Qualification>(
-                      //   dropdownSearchDecoration: InputDecoration(
-                      //       border: UnderlineInputBorder(
-                      //       )
-                      //   ),
-                      //   validator: (value) {
-                      //     if (value == null) {
-                      //       return "Please Select Qualification";
-                      //     }
-                      //     return null;
-                      //   },
-                      //   mode: Mode.DIALOG,
-                      //   items: isLoading
-                      //       ? Qualification()
-                      //       : _apiResponsequalification.data,
-                      //   itemAsString: (Qualification obj) {
-                      //     return obj.qualName;
-                      //   },
-                      //   onFind: (val) async {
-                      //     setState(() {
-                      //       query = val;
-                      //     });
-                      //     return _apiResponsequalification.data;
-                      //   },
-                      //   hint: "Select Highest Qualification",
-                      //   onChanged: (value) {
-                      //     qualificationSearchCon.text = value.qualId.toString();
-                      //     highQualID = value.qualId;
-                      //     print(value.qualId);
-                      //   },
-                      //   showSearchBox: true,
-                      //   popupItemBuilder:
-                      //       (context, Qualification item, bool isSelected) {
-                      //     return Container(
-                      //       margin: EdgeInsets.symmetric(horizontal: 8),
-                      //       child: Card(
-                      //         child: Padding(
-                      //           padding: EdgeInsets.all(8.0),
-                      //           child: Text(item.qualName),
-                      //         ),
-                      //       ),
-                      //     );
-                      //   },
-                      // ),
-
                     ),
-                    const SizedBox(
+                    SizedBox(
                       height: 10,
+                    ),
+                    Visibility(
+                      visible: isVisible,
+                      child: Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Text(
+                          "Select Board",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "ProximaNova"),
+                        ),
+                      ),
+                    ),
+                    Visibility(
+                      visible: isVisible,
+                      child: const SizedBox(
+                        height: 10,
+                      ),
+                    ),
+                    Visibility(
+                      visible: isVisible,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                        child: TypeAheadFormField(
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Select Board';
+                            }
+                          },
+                          textFieldConfiguration: TextFieldConfiguration(
+                              controller: this.boardsSearchCont,
+                              decoration: InputDecoration(hintText: 'boards')),
+                          debounceDuration: Duration(milliseconds: 500),
+                          suggestionsCallback: ApiServices.getBoards,
+                          itemBuilder: (context, Boards suggestions) {
+                            final skill = suggestions;
+                            return ListTile(
+                              title: Text(skill.boardName),
+                            );
+                          },
+                          noItemsFoundBuilder: (context) => Text(""),
+                          onSuggestionSelected: (Boards suggesstion) {
+                            // final skill = suggesstion;
+                            boardsSearchCont.text = suggesstion.boardName;
+                            board = suggesstion.boardId;
+                          },
+                        ),
+                      ),
+                    ),
+                    Visibility(
+                      visible: isVisible,
+                      child: Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Text(
+                          "Select Medium",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "ProximaNova"),
+                        ),
+                      ),
+                    ),
+                    Visibility(
+                      visible: isVisible,
+                      child: const SizedBox(
+                        height: 10,
+                      ),
+                    ),
+                    Visibility(
+                      visible: isVisible,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                        child: TypeAheadFormField(
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Select Medium';
+                            }
+                          },
+                          textFieldConfiguration: TextFieldConfiguration(
+                              controller: mediumSearchCont,
+                              decoration:
+                                  const InputDecoration(hintText: 'boards')),
+                          debounceDuration: const Duration(milliseconds: 500),
+                          suggestionsCallback: ApiServices.getMedium,
+                          itemBuilder: (context, Medium suggestions) {
+                            final skill = suggestions;
+                            return ListTile(
+                              title: Text(skill.schoolmediumName),
+                            );
+                          },
+                          noItemsFoundBuilder: (context) => Text(""),
+                          onSuggestionSelected: (Medium suggesstion) {
+                            // final skill = suggesstion;
+                            mediumSearchCont.text =
+                                suggesstion.schoolmediumName;
+                            mediumId = suggesstion.schoolmediumId;
+                          },
+                        ),
+                      ),
+                    ),
+                    Visibility(
+                      visible: isVisible2,
+                      child: const SizedBox(
+                        height: 10,
+                      ),
                     ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Text(
-                            "Course",
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "ProximaNova"),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: TypeAheadField(
-                            textFieldConfiguration: TextFieldConfiguration(
-                                controller: this. courseSearchCont,
-                                decoration: InputDecoration(
-                                 hintText: 'Course'
-                                )
+                        Visibility(
+                          visible: isVisible2,
+                          child: Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Text(
+                              "Course",
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: "ProximaNova"),
                             ),
-                            debounceDuration: Duration(milliseconds: 500),
-                            suggestionsCallback: ApiServices.getCourse ,
-                            itemBuilder: (context, Qualification suggestions){
-                              final skill = suggestions;
-                              return ListTile(
-                                title: Text(skill.courseName) ,
-                              );
-                            },
-                            noItemsFoundBuilder: (context)=>Text(""),
-
-                            onSuggestionSelected: (Qualification suggesstion){
-                              // final skill = suggesstion;
-                              courseSearchCont.text  = suggesstion.courseName;
-                              courseId = suggesstion.courseId;
-
-                            },
-                          ),
-
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Text(
-                            "Stream",
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "ProximaNova"),
                           ),
                         ),
-                        const SizedBox(
-                          height: 10,
+                        Visibility(
+                          visible: isVisible2,
+                          child: const SizedBox(
+                            height: 10,
+                          ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: TypeAheadField(
-                            textFieldConfiguration: TextFieldConfiguration(
-                                controller: this. streamSearchCont,
-                                decoration: InputDecoration(
-                                    hintText: 'Stream'
-                                )
+                        Visibility(
+                          visible: isVisible2,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: TypeAheadFormField(
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Select Course';
+                                }
+                              },
+                              textFieldConfiguration: TextFieldConfiguration(
+                                  controller: this.courseSearchCont,
+                                  decoration:
+                                      InputDecoration(hintText: 'Course')),
+                              debounceDuration: Duration(milliseconds: 500),
+                              suggestionsCallback: ApiServices.getCourse,
+                              itemBuilder:
+                                  (context, Qualification suggestions) {
+                                final skill = suggestions;
+                                return ListTile(
+                                  title: Text(skill.courseName),
+                                );
+                              },
+                              noItemsFoundBuilder: (context) => Text(""),
+                              onSuggestionSelected:
+                                  (Qualification suggesstion) {
+                                // final skill = suggesstion;
+                                courseSearchCont.text = suggesstion.courseName;
+                                courseId = suggesstion.courseId;
+                              },
                             ),
-                            debounceDuration: Duration(milliseconds: 500),
-                            suggestionsCallback: ApiServices.getStream ,
-                            itemBuilder: (context, Streams suggestions){
-                              final skill = suggestions;
-                              return ListTile(
-                                title: Text(skill.streamName) ,
-                              );
-                            },
-                            noItemsFoundBuilder: (context)=>Text(""),
-
-                            onSuggestionSelected: (Streams suggesstion){
-                              // final skill = suggesstion;
-                              streamSearchCont.text  = suggesstion.streamName;
-                              streamId = suggesstion.streamId;
-
-                            },
                           ),
-
-
+                        ),
+                        Visibility(
+                          visible: isVisible2,
+                          child: const SizedBox(
+                            height: 10,
+                          ),
+                        ),
+                        Visibility(
+                          visible: isVisible2,
+                          child: Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Text(
+                              "Stream",
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: "ProximaNova"),
+                            ),
+                          ),
+                        ),
+                        Visibility(
+                          visible: isVisible2,
+                          child: const SizedBox(
+                            height: 10,
+                          ),
+                        ),
+                        Visibility(
+                          visible: isVisible2,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: TypeAheadFormField(
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Select Stream';
+                                }
+                              },
+                              textFieldConfiguration: TextFieldConfiguration(
+                                  controller: this.streamSearchCont,
+                                  decoration:
+                                      InputDecoration(hintText: 'Stream')),
+                              debounceDuration: Duration(milliseconds: 500),
+                              suggestionsCallback: ApiServices.getStream,
+                              itemBuilder: (context, Streams suggestions) {
+                                final skill = suggestions;
+                                return ListTile(
+                                  title: Text(skill.streamName),
+                                );
+                              },
+                              noItemsFoundBuilder: (context) => Text(""),
+                              onSuggestionSelected: (Streams suggesstion) {
+                                // final skill = suggesstion;
+                                streamSearchCont.text = suggesstion.streamName;
+                                streamId = suggesstion.streamId;
+                              },
+                            ),
+                          ),
                         ),
                         const SizedBox(
                           height: 10,
@@ -502,130 +523,6 @@ class _QualificationAddState extends State<QualificationAdd>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               _radioButtons(context),
-                              // Row(
-                              //   children: [
-                              //     Radio(
-                              //
-                              //        size: 20,
-                              //       // activeBorderColor: Color(0xff2972ff),
-                              //       value: 1,
-                              //       groupValue: courseTypeGroupValue,
-                              //       onChanged: (value) {
-                              //         setState(() {
-                              //           courseTypeGroupValue = value;
-                              //         });
-                              //       },
-                              //       // inactiveIcon: null,
-                              //       // radioColor: Color(0xff2972ff),
-                              //     ),
-                              //     const SizedBox(
-                              //       width: 7,
-                              //     ),
-                              //     const Text(
-                              //       "Full Time",
-                              //       style: TextStyle(
-                              //           fontSize: 15,
-                              //           fontWeight: FontWeight.bold,
-                              //           fontFamily: "ProximaNova"),
-                              //     ),
-                              //   ],
-                              // ),
-                              // const SizedBox(
-                              //   height: 7,
-                              // ),
-                              // Row(
-                              //   children: [
-                              //     GFRadio(
-                              //       size: 20,
-                              //       value: 2,
-                              //       groupValue: courseTypeGroupValue,
-                              //       onChanged: (value) {
-                              //         setState(() {
-                              //           courseTypeGroupValue = value;
-                              //         });
-                              //       },
-                              //       inactiveIcon: null,
-                              //       activeBorderColor: Color(0xff2972ff),
-                              //       radioColor: Color(0xff2972ff),
-                              //     ),
-                              //     const SizedBox(
-                              //       width: 7,
-                              //     ),
-                              //     const Text(
-                              //       "Correspondance",
-                              //       style: TextStyle(
-                              //         fontFamily: "ProximaNova",
-                              //         fontWeight: FontWeight.bold,
-                              //         letterSpacing: 1.5,
-                              //         fontSize: 15,
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
-                              // const SizedBox(
-                              //   height: 7,
-                              // ),
-                              // Row(
-                              //   children: [
-                              //     GFRadio(
-                              //       size: 20,
-                              //       activeBorderColor: Color(0xff2972ff),
-                              //       value: 3,
-                              //       groupValue: courseTypeGroupValue,
-                              //       onChanged: (value) {
-                              //         setState(() {
-                              //           courseTypeGroupValue = value;
-                              //         });
-                              //       },
-                              //       inactiveIcon: null,
-                              //       radioColor: Color(0xff2972ff),
-                              //     ),
-                              //     const SizedBox(
-                              //       width: 7,
-                              //     ),
-                              //     const Text(
-                              //       "Distance",
-                              //       style: TextStyle(
-                              //         fontFamily: "ProximaNova",
-                              //         fontWeight: FontWeight.bold,
-                              //         letterSpacing: 1.5,
-                              //         fontSize: 15,
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
-                              // const SizedBox(
-                              //   height: 7,
-                              // ),
-                              // Row(
-                              //   children: [
-                              //     GFRadio(
-                              //       size: 20,
-                              //       activeBorderColor: Color(0xff2972ff),
-                              //       value: 4,
-                              //       groupValue: courseTypeGroupValue,
-                              //       onChanged: (value) {
-                              //         setState(() {
-                              //           courseTypeGroupValue = value;
-                              //         });
-                              //       },
-                              //       inactiveIcon: null,
-                              //       radioColor: Color(0xff2972ff),
-                              //     ),
-                              //     const SizedBox(
-                              //       width: 7,
-                              //     ),
-                              //     const Text(
-                              //       "Online",
-                              //       style: TextStyle(
-                              //         fontFamily: "ProximaNova",
-                              //         fontWeight: FontWeight.bold,
-                              //         letterSpacing: 1.5,
-                              //         fontSize: 15,
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
                             ],
                           ),
                         ),
@@ -647,27 +544,29 @@ class _QualificationAddState extends State<QualificationAdd>
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                          child: TypeAheadField(
+                          child: TypeAheadFormField(
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Select Institute';
+                              }
+                            },
                             textFieldConfiguration: TextFieldConfiguration(
-                                controller: this. instituteSearchCont,
-                                decoration: InputDecoration(
-                                    labelText: 'Institute'
-                                )
-                            ),
+                                controller: this.instituteSearchCont,
+                                decoration:
+                                    InputDecoration(labelText: 'Institute')),
                             debounceDuration: Duration(milliseconds: 500),
-                            suggestionsCallback: ApiServices.getInstitute ,
-                            itemBuilder: (context, Institute suggestions){
+                            suggestionsCallback: ApiServices.getInstitute,
+                            itemBuilder: (context, Institute suggestions) {
                               final skill = suggestions;
                               return ListTile(
-                                title: Text(skill.instituteName) ,
+                                title: Text(skill.instituteName),
                               );
                             },
-                            noItemsFoundBuilder: (context)=>Text(""),
-
-                            onSuggestionSelected: (Institute suggesstion){
+                            noItemsFoundBuilder: (context) => Text(""),
+                            onSuggestionSelected: (Institute suggesstion) {
                               // final skill = suggesstion;
-                              instituteSearchCont.text  = suggesstion.instituteName;
-
+                              instituteSearchCont.text =
+                                  suggesstion.instituteName;
                             },
                           ),
                           // FindDropdown(
@@ -713,12 +612,14 @@ class _QualificationAddState extends State<QualificationAdd>
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 6),
-                          child:
-                          DropdownButtonFormField<PassingYear>(
-                            hint: Text("Select Year",style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "ProximaNova"),),
+                          child: DropdownButtonFormField<PassingYear>(
+                            hint: Text(
+                              "Select Year",
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: "ProximaNova"),
+                            ),
                             value: myPassingYear,
                             onChanged: (PassingYear newValue) {
                               setState(() {
@@ -726,7 +627,7 @@ class _QualificationAddState extends State<QualificationAdd>
                               });
                             },
                             validator: (value) =>
-                            value == null ? 'Select Year' : null,
+                                value == null ? 'Select Year' : null,
                             items: _apiResponse2.data.map((PassingYear user) {
                               return DropdownMenuItem<PassingYear>(
                                 value: user,
@@ -757,11 +658,13 @@ class _QualificationAddState extends State<QualificationAdd>
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 6),
                           child: DropdownButtonFormField<GradingSystem>(
-
-                            hint: Text("Grading Value",style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "ProximaNova"),),
+                            hint: Text(
+                              "Grading Value",
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: "ProximaNova"),
+                            ),
                             value: myGradingSystem,
                             onChanged: (GradingSystem newValue) {
                               setState(() {
@@ -769,7 +672,7 @@ class _QualificationAddState extends State<QualificationAdd>
                               });
                             },
                             validator: (value) =>
-                            value == null ? 'Enter Grading Value' : null,
+                                value == null ? 'Enter Grading Value' : null,
                             items: _apiResponse.data.map((GradingSystem user) {
                               return DropdownMenuItem<GradingSystem>(
                                 value: user,
@@ -800,7 +703,9 @@ class _QualificationAddState extends State<QualificationAdd>
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: TextFormField(
-
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.allow(RegExp("[0-9]"))
+                            ],
                             validator: (value) {
                               if (value.isEmpty) {
                                 return " Enter Grade Value";
@@ -808,6 +713,8 @@ class _QualificationAddState extends State<QualificationAdd>
                                 return null;
                               }
                             },
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             controller: gradeCont,
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
@@ -831,104 +738,147 @@ class _QualificationAddState extends State<QualificationAdd>
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
-              child: Align(
-                  alignment: Alignment.centerRight,
-                  child: GFButton(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GFButton(
                     onPressed: () async {
-                      print("#############");
-                      print("#############");
-       if(isEditing){
-         if (formKey.currentState.validate()) {
-           print(highQualID);
-           print(myGradingSystem.gradingsystemId);
-           setState(() {
-             isLoading = true;
-           });
-           final insert = QualificationPost(
-               requestType: "update",
-               candidatequalUuid: widget.uuid,
-               candidatequalQualificationId: highQualID,
-               candidatequalCourseId: courseId,
-               candidatequalStreamId: streamId,
-               candidatequalCousetypeId: courseTypeGroupValue,
-               candidatequalInstituteName: instituteSearchCont.text,
-               candidatequalCompletionYear: myPassingYear.yearId,
-               candidatequalGradingsystemId: myGradingSystem.gradingsystemId,
-               candidatequalMarks: gradeCont.text);
-           final result = await apiServices.qualificationAdd(insert);
-           setState(() {
-             isLoading = false;
-           });
-           if(result.data){
-             Navigator.pop(context);
-           }
+                      setState(() {
+                        isLoadingQualificationProfile = true;
+                      });
+                      final insert = QualificationPost(
+                          requestType: "delete",
+                          candidatequalUuid: widget.uuid);
 
-         }
-    }
-       else{
-         if (formKey.currentState.validate()) {
-           print(highQualID);
-           print(myGradingSystem.gradingsystemId);
-           setState(() {
-             isLoading = true;
-           });
-           final insert = QualificationPost(
-               requestType: "add",
-               candidatequalQualificationId: highQualID,
-               candidatequalCourseId: courseId,
-               candidatequalStreamId: streamId,
-               candidatequalCousetypeId: courseTypeGroupValue,
-               candidatequalInstituteName: instituteSearchCont.text,
-               candidatequalCompletionYear: myPassingYear.yearId,
-               candidatequalGradingsystemId: myGradingSystem.gradingsystemId,
-               candidatequalMarks: gradeCont.text);
-           final result = await apiServices.qualificationAdd(insert);
-           setState(() {
-             isLoading = false;
-           });
-           if(result.data){
-             Navigator.pop(context);
-           }
-
-         }
-                        // showDialog(
-                        //   context: context,
-                        //   builder: (_) => AlertDialog(
-                        //     title: const Text(title),
-                        //     content: Text(text),
-                        //     actions: [
-                        //       ElevatedButton(
-                        //           onPressed: () {
-                        //             Navigator.pop(context);
-                        //           },
-                        //           child: const Text("OK"))
-                        //     ],
-                        //   ),
-                        // ).then((data) {
-                        //   if (result.data) {
-                        //     Navigator.push(
-                        //         context,
-                        //         MaterialPageRoute(
-                        //             builder: (context) => KeySkillsPage(uuid: widget.uuid,)));
-                        //   }
-                        // });
+                      final result = await apiServices.qualificationAdd(insert);
+                      setState(() {
+                        isLoadingQualificationProfile = false;
+                      });
+                      if (result.data) {
+                        print("-----------SUCCESS------------");
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Row(children: const [
+                            Icon(
+                              Icons.done_outlined,
+                            ),
+                            SizedBox(width: 7),
+                            Text("Successfully Deleted"),
+                          ]),
+                          backgroundColor: Colors.green,
+                          duration: const Duration(milliseconds: 2500),
+                        ));
+                      } else {
+                        print("-----------ERROR------------");
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Row(
+                            children: const [
+                              Icon(Icons.error),
+                              SizedBox(width: 7),
+                              Text("An Error Occured"),
+                            ],
+                          ),
+                          backgroundColor: Colors.red,
+                          duration: const Duration(milliseconds: 2500),
+                        ));
                       }
-                      // Navigator.of(context).push(
-                      //     MaterialPageRoute(
-                      //         builder: (context) => WorkingProfession(uuid: widget.uuid,)));
 
+                      Navigator.of(context).pop();
                     },
-                    text: isEditing?"Update":"Add",
+                    text: "Delete",
                     type: GFButtonType.solid,
-                  )),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: GFButton(
+                      onPressed: () async {
+                        print("#############");
+                        print("#############");
+                        if (isEditing) {
+                          if (formKey.currentState.validate()) {
+                            print(highQualID);
+                            print(myGradingSystem.gradingsystemId);
+                            setState(() {
+                              isLoading = true;
+                            });
+                            final insert = QualificationPost(
+                                requestType: "update",
+                                candidatequalUuid: widget.uuid,
+                                candidatequalQualificationId: highQualID,
+                                candidatequalCourseId: courseId,
+                                candidatequalBoardId: board,
+                                candidatequalSchoolmediumId: mediumId,
+                                candidatequalStreamId: streamId,
+                                candidatequalCousetypeId: courseTypeGroupValue,
+                                candidatequalInstituteName:
+                                    instituteSearchCont.text,
+                                candidatequalCompletionYear:
+                                    myPassingYear.yearId,
+                                candidatequalGradingsystemId:
+                                    myGradingSystem.gradingsystemId,
+                                candidatequalMarks: gradeCont.text);
+                            final result =
+                                await apiServices.qualificationAdd(insert);
+                            setState(() {
+                              isLoading = false;
+                            });
+                            if (result.data) {
+                              Navigator.pop(context);
+                            }
+                          }
+                        } else {
+                          if (formKey.currentState.validate()) {
+                            print(highQualID);
+                            print(myGradingSystem.gradingsystemId);
+                            setState(() {
+                              isLoading = true;
+                            });
+                            final insert = QualificationPost(
+                                requestType: "add",
+                                candidatequalQualificationId: highQualID,
+                                candidatequalCourseId: courseId,
+                                candidatequalSchoolmediumId: mediumId,
+                                candidatequalBoardId: board,
+                                candidatequalStreamId: streamId,
+                                candidatequalCousetypeId: courseTypeGroupValue,
+                                candidatequalInstituteName:
+                                    instituteSearchCont.text,
+                                candidatequalCompletionYear:
+                                    myPassingYear.yearId,
+                                candidatequalGradingsystemId:
+                                    myGradingSystem.gradingsystemId,
+                                candidatequalMarks: gradeCont.text);
+                            final result =
+                                await apiServices.qualificationAdd(insert);
+                            setState(() {
+                              isLoading = false;
+                            });
+                            if (result.data) {
+                              Navigator.pop(context);
+                            }
+                          }
+                        }
+                        // Navigator.of(context).push(
+                        //     MaterialPageRoute(
+                        //         builder: (context) => WorkingProfession(uuid: widget.uuid,)));
+                      },
+                      text: isEditing ? "Update" : "Add",
+                      type: GFButtonType.solid,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
       ),
     );
   }
-  Widget _radioButtons (BuildContext context){
-    return FormField(builder: (state){
+
+  Widget _radioButtons(BuildContext context) {
+    return FormField(builder: (state) {
       return Column(
         children: [
           Row(
@@ -956,7 +906,6 @@ class _QualificationAddState extends State<QualificationAdd>
                     fontWeight: FontWeight.bold,
                     fontFamily: "ProximaNova"),
               ),
-
             ],
           ),
           const SizedBox(
@@ -1057,18 +1006,16 @@ class _QualificationAddState extends State<QualificationAdd>
           Text(
             state.errorText ?? "",
             style: TextStyle(
-              color:Theme.of(context).errorColor,
+              color: Theme.of(context).errorColor,
             ),
           )
         ],
       );
-    },
-        validator: (value){
-          if(courseTypeGroupValue == 0) {
-            return "Choose one of the option";
-          }
-          return null;
-        }
-    );
+    }, validator: (value) {
+      if (courseTypeGroupValue == 0) {
+        return "Choose one of the option";
+      }
+      return null;
+    });
   }
 }

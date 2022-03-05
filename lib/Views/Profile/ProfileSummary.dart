@@ -7,8 +7,8 @@ import 'package:job_portal/Services/ApiServices.dart';
 
 
 class SummaryAdd extends StatefulWidget {
-  SummaryAdd({Key key,this.textfield }) : super(key: key);
-
+  SummaryAdd({Key key,this.textfield,this.headline }) : super(key: key);
+String headline;
   String textfield;
   String uuid;
 
@@ -21,6 +21,7 @@ class _SummaryAddState extends State<SummaryAdd>
 
   var formKey = GlobalKey<FormState>();
   TextEditingController textFieldController = TextEditingController();
+  TextEditingController headlineController = TextEditingController();
   bool isLoading = false;
   ApiServices apiServices = ApiServices();
 
@@ -29,6 +30,7 @@ class _SummaryAddState extends State<SummaryAdd>
       isLoading = true;
     });
     textFieldController.text = widget.textfield;
+    headlineController.text=widget.headline;
 
     // button.value= 1;
 // jobCategorySearchCon = widget.onChanged(value);
@@ -58,18 +60,11 @@ class _SummaryAddState extends State<SummaryAdd>
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                // ignore: prefer_const_literals_to_create_immutables
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  IconButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    icon: Icon(Icons.arrow_back),
-                  ),
-                  const SizedBox(
-                    width: 30,
-                  ),
+
                   Text(
                     "Profile Summary",
                     style: TextStyle(
@@ -77,6 +72,16 @@ class _SummaryAddState extends State<SummaryAdd>
                         fontFamily: "ProximaNova",
                         fontWeight: FontWeight.bold),
                   ),
+                  Text(
+                    "Add a brief about your career,education,skills,interests and experiences for recruiters to get better understanding of your personality."
+                    ,
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontFamily: "ProximaNova",
+                      color: Colors.grey,
+                    ),
+                  ),
+
                 ],
               ),
             ),
@@ -97,14 +102,38 @@ class _SummaryAddState extends State<SummaryAdd>
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Add Summmary:',
-                              style: TextStyle(
-                                fontFamily: "ProximaNova",
-                                color: Colors.grey.shade600,
-                                fontWeight: FontWeight.w500,
-                                letterSpacing: 1.5,
-                                fontSize: 14.0,
+                            Text("Profile Headline:",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+
+
+                                    fontFamily: "ProximaNova")),
+                            TextField(
+                              controller: headlineController,
+                              textCapitalization: TextCapitalization.characters,
+                              decoration: InputDecoration(
+                                hintText: "Add headline",
+                                hintStyle: TextStyle(
+                                  color: Colors.blueGrey,
+                                  fontFamily: "ProximaNova",
+                                  fontWeight: FontWeight.w500,
+                                  letterSpacing: 1.5,
+                                  fontSize: 13.5,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 15),
+                              child: Text(
+                                'Profile Summmary:',
+                                style: TextStyle(
+                                  fontFamily: "ProximaNova",
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+
+
+                                ),
                               ),
                             ),
                             Padding(
@@ -127,9 +156,12 @@ class _SummaryAddState extends State<SummaryAdd>
                                     BorderSide(color: Colors.grey[500]),
                                   ),
                                   contentPadding: EdgeInsets.all(15),
-                                  hintText: "Enter profile summary",
+                                  hintText: "Add profile summary",
                                   hintStyle: TextStyle(
-                                      fontSize: 12, color: Colors.black45),
+                                      fontSize: 13.5,
+                                    fontWeight: FontWeight.w500,
+                                    letterSpacing: 1.5,
+                                    color: Colors.blueGrey,),
                                 ),
                               ),
                             )
@@ -143,9 +175,20 @@ class _SummaryAddState extends State<SummaryAdd>
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
-              child: Align(
-                  alignment: Alignment.centerRight,
-                  child: Padding(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GFButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    text: "Cancel",
+                    type: GFButtonType.solid,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Padding(
                     padding: const EdgeInsets.only(right: 10),
                     child: GFButton(
                       onPressed: () async {
@@ -154,6 +197,7 @@ class _SummaryAddState extends State<SummaryAdd>
                           isLoading = true;
                         });
                         final insert = SummaryPopulate(
+                          candidateHeadline:headlineController.text,
                           candidateProfilesummary: textFieldController.text,
                         );
                         final result =  await apiServices.summaryAdd(insert);
@@ -166,10 +210,12 @@ class _SummaryAddState extends State<SummaryAdd>
                         }
 
                       },
-                      text: "Save",
+                      text: "Update",
                       type: GFButtonType.solid,
                     ),
-                  )),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

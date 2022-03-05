@@ -1,6 +1,6 @@
-import 'package:date_field/date_field.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:job_portal/Models/CareerPreferencePost.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
@@ -11,16 +11,16 @@ import 'package:job_portal/Models/JobType.dart';
 import 'package:job_portal/Models/location.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:job_portal/Views/SignIn/Step8-PersonalDetails.dart';
 
-import 'ListView-Job-Type.dart';
+import 'Step3-QualificationDetails.dart';
 import 'Step4-ProfessionalDetails.dart';
-import 'listView-EmploymentType.dart';
 
 class CareerPreference extends StatefulWidget {
-  CareerPreference({Key key, this.uuid, this.token}) : super(key: key);
+  CareerPreference({Key key, this.uuid,  this.experienceId})
+      : super(key: key);
   String uuid;
-  String token;
+  // String token;
+  int experienceId;
 
   @override
   _CareerPreferenceState createState() => _CareerPreferenceState();
@@ -131,7 +131,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
-          physics: ScrollPhysics(),
+          physics: const ScrollPhysics(),
           child: Form(
             key: formKey,
             child: Padding(
@@ -140,31 +140,24 @@ class _CareerPreferenceState extends State<CareerPreference> {
               child: Stack(
                 children: [
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10),
-                            child: Row(
-                              children: [
-                                // IconButton(
-                                //     onPressed: () {
-                                //       Navigator.pop(context);
-                                //     },
-                                //     icon: const Icon(Icons.arrow_back)),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          const Text('Career Preferences',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: "ProximaNova")),
-                        ],
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      const Text('Career Preferences',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "ProximaNova")),
+                      const Text(
+                        "Add the details of your ideal Career and we help you to find your perfect job",
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontFamily: "ProximaNova",
+                          color: Colors.grey,
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(
@@ -198,21 +191,19 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                         ),
                                       ],
                                     )),
-                                Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 10.0, right: 10.0, top: 2.0),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: <Widget>[
-                                        Flexible(
-                                            child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 8.0),
-                                          child: Industries(context),
-
-                                        )),
-                                      ],
+                                Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    Flexible(
+                                        child: Padding(
+                                      padding: const EdgeInsets.only(
+                                        left: 20.0,
+                                        right: 20.0,
+                                      ),
+                                      child: Industries(context),
                                     )),
+                                  ],
+                                ),
                                 Padding(
                                     padding: const EdgeInsets.only(
                                         left: 20.0, right: 25.0, top: 20.0),
@@ -237,39 +228,12 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                     )),
                                 Padding(
                                   padding: const EdgeInsets.only(
-                                      left: 20.0, right: 25.0, top: 20.0),
+                                    left: 20.0,
+                                    right: 20.0,
+                                  ),
                                   child: Job(context),
                                 ),
-                                // Padding(
-                                //     padding: const EdgeInsets.only(
-                                //         left: 10.0, right: 10.0, top: 2.0),
-                                //     child: Row(
-                                //       mainAxisSize: MainAxisSize.max,
-                                //       children: <Widget>[
-                                //         Padding(
-                                //           padding: const EdgeInsets.all(8.0),
-                                //           child: DropdownButtonHideUnderline(
-                                //             child: GFDropdown(
-                                //               hint: const Text("Job Type"),
-                                //               value: jobType,
-                                //               onChanged: (newValue) {
-                                //                 setState(() {
-                                //                   jobType = newValue;
-                                //                 });
-                                //               },
-                                //               items: _apiResponse2.data
-                                //                   .map(
-                                //                     (data) => DropdownMenuItem(
-                                //                         value: data.jobtypeId,
-                                //                         child: Text(
-                                //                             data.jobtypeName)),
-                                //                   )
-                                //                   .toList(),
-                                //             ),
-                                //           ),
-                                //         ),
-                                //       ],
-                                //     )),
+
                                 Padding(
                                     padding: const EdgeInsets.only(
                                         left: 20.0, right: 25.0, top: 20.0),
@@ -294,7 +258,9 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                     )),
                                 Padding(
                                   padding: const EdgeInsets.only(
-                                      left: 20.0, right: 25.0, top: 20.0),
+                                    left: 20.0,
+                                    right: 20.0,
+                                  ),
                                   child: Employe(context),
                                 ),
 
@@ -320,20 +286,20 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                         ),
                                       ],
                                     )),
-                                Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 10.0, right: 10.0, top: 2.0),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: <Widget>[
-                                        Flexible(
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Location(context),
-                                          ),
+                                Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    Flexible(
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                          left: 20.0,
+                                          right: 20.0,
                                         ),
-                                      ],
-                                    )),
+                                        child: Location(context),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                                 Padding(
                                     padding: const EdgeInsets.only(
                                         left: 22.0, right: 25.0, top: 20.0),
@@ -346,7 +312,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                           mainAxisSize: MainAxisSize.min,
                                           children: const <Widget>[
                                             Text(
-                                              'Salary Expectation',
+                                              'Expected Annual Salary',
                                               style: TextStyle(
                                                   fontSize: 15.0,
                                                   fontFamily: "ProximaNova",
@@ -363,25 +329,38 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                     mainAxisSize: MainAxisSize.max,
                                     // ignore: prefer_const_literals_to_create_immutables
                                     children: <Widget>[
-                                      Icon(FontAwesomeIcons.rupeeSign),
-                                      SizedBox(
+                                      const Icon(FontAwesomeIcons.rupeeSign),
+                                      const SizedBox(
                                         width: 10,
                                       ),
                                       Expanded(
-                                        child: TextField(
+                                        child: TextFormField(
+                                          keyboardType: TextInputType.number,
+                                          autovalidateMode: AutovalidateMode
+                                              .onUserInteraction,
+                                          inputFormatters: <TextInputFormatter>[
+                                            FilteringTextInputFormatter.allow(
+                                                RegExp("[0-9]"))
+                                          ],
+                                          validator: (String input) {
+                                            if (input.isEmpty) {
+                                              return "Enter Expected Annual Salary";
+                                            }
+                                            if (input.startsWith("0")) {
+                                              return "Salary should not be Start with Zero";
+                                            }
+                                            if (input.length < 6) {
+                                              return "Salary should be more than 5 digits";
+                                            }
+                                            if (input.length > 7) {
+                                              return "Salary should be less than 7 digits";
+                                            } else {
+                                              return null;
+                                            }
+                                          },
                                           controller: lakh,
-                                          decoration:
-                                              InputDecoration(hintText: "Lakh"),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Expanded(
-                                        child: TextField(
-                                          controller: thou,
-                                          decoration: InputDecoration(
-                                              hintText: "Thousand"),
+                                          decoration: const InputDecoration(
+                                              hintText: "Salary"),
                                         ),
                                       ),
                                     ],
@@ -419,11 +398,13 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: DropdownButtonFormField(
+                                                validator: (value) =>
+                                                value == null ? 'Select Preferred Shift' : null,
                                               // disabledHint: ,
                                               decoration: const InputDecoration(
                                                   border:
                                                       UnderlineInputBorder()),
-                                              hint: Text("Select shift"),
+                                              hint: const Text("Select Preferred Shift"),
                                               value: myShift,
                                               onChanged: (newValue) {
                                                 setState(() {
@@ -438,14 +419,10 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                                                 value: value,
                                                                 child: Text(
                                                                   value,
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          15,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .normal,
-                                                                      fontFamily:
-                                                                          "ProximaNova"),
+                                                                  style: const TextStyle(
+                                                                      fontSize: 15,
+                                                                      fontWeight: FontWeight.normal,
+                                                                      fontFamily: "ProximaNova"),
                                                                 )),
                                                       )
                                                       .toList()
@@ -456,7 +433,7 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                                           value: data.shiftId,
                                                           child: Text(
                                                             data.shiftName,
-                                                            style: TextStyle(
+                                                            style: const TextStyle(
                                                                 fontSize: 15,
                                                                 fontWeight:
                                                                     FontWeight
@@ -472,120 +449,6 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                         ),
                                       ],
                                     )),
-                                Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 20.0, right: 25.0, top: 20.0),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: <Widget>[
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: const <Widget>[
-                                            Text(
-                                              'Availability to Join',
-                                              style: TextStyle(
-                                                  fontSize: 15.0,
-                                                  fontFamily: "ProximaNova",
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    )),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 10.0, right: 10.0, top: 2.0),
-                                  child: Row(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: GFRadio(
-                                          size: 20,
-                                          activeBorderColor:
-                                              const Color(0xff3e61ed),
-                                          value: 0,
-                                          groupValue: groupValue2,
-                                          onChanged: (value) {
-                                            setState(() {
-                                              groupValue2 = value;
-                                            });
-                                          },
-                                          inactiveIcon: null,
-                                          radioColor: const Color(0xff3e61ed),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 7,
-                                      ),
-                                      const Text(
-                                        "Immediate",
-                                        style: TextStyle(
-                                            fontSize: 16.0,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: GFRadio(
-                                          size: 20,
-                                          value: 1,
-                                          groupValue: groupValue2,
-                                          onChanged: (value) {
-                                            setState(() {
-                                              groupValue2 = value;
-                                            });
-                                          },
-                                          inactiveIcon: null,
-                                          activeBorderColor:
-                                              const Color(0xff3e61ed),
-                                          radioColor: const Color(0xff3e61ed),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 7,
-                                      ),
-                                      const Text(
-                                        "No",
-                                        style: TextStyle(
-                                            fontSize: 16.0,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                groupValue2 == 1
-                                    ? Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 22.0, right: 25.0, top: 20.0),
-                                        child: DateTimeFormField(
-                                          decoration: const InputDecoration(
-                                            border: const UnderlineInputBorder(
-                                              borderSide: const BorderSide(
-                                                color: Colors.grey,
-                                              ),
-                                            ),
-                                            hintText: 'Joining Date',
-                                            // hintStyle: heading6.copyWith(color: textGrey),
-                                            // errorStyle: TextStyle(color: Colors.redAccent),
-                                            suffixIcon: Icon(Icons.event_note),
-                                          ),
-                                          // initialValue: date,
-                                          mode: DateTimeFieldPickerMode.date,
-                                          autovalidateMode:
-                                              AutovalidateMode.always,
-                                          validator: (e) => (e?.day ?? 0) == 1
-                                              ? ' not the first day'
-                                              : null,
-
-                                          onDateSelected: (date) {
-                                            setState(() {
-                                              selectedDate = date;
-                                            });
-                                          },
-                                        ),
-                                      )
-                                    : Container(),
                               ],
                             ),
                           ),
@@ -602,32 +465,31 @@ class _CareerPreferenceState extends State<CareerPreference> {
                               onPressed: () async {
                                 print(
                                     "----------------------------------------------------------------");
-                                print(widget.token);
+                                // print(widget.token);
                                 print(selectedSkillsemp);
                                 print(selectedSkillsJob);
                                 print(
                                     "----------------------------------------------------------------");
                                 if (formKey.currentState.validate()) {
-                                  int totalworkexp = (int.parse(lakh.text)) +
-                                      (int.parse(thou.text));
                                   setState(() {
                                     isLoading = true;
                                   });
                                   final insert = CareerPreferencePost(
                                     // candidateUuid: widget.uuid,
-                                    candidateIndustryIdsList: selectedIndustries,
+                                    candidateIndustryIdsList:
+                                        selectedIndustries,
                                     candidateJobtypeIdsList: selectedSkillsJob,
                                     candidateEmploymenttypeIdsList:
                                         selectedSkillsemp,
                                     candidatePreferredCityIdsList: locationList,
-                                    candidateExpectedctc: totalworkexp,
+                                    candidateExpectedctc: int.parse(lakh.text),
                                     candidateShiftId: int.parse(myShift),
                                     // candidateJoinimmediate: '1',
                                   );
                                   final result =
                                       await apiServices.postPreference(
                                           preference: insert,
-                                          token: widget.token);
+                                       );
                                   setState(() {
                                     isLoading = false;
                                   });
@@ -636,14 +498,18 @@ class _CareerPreferenceState extends State<CareerPreference> {
                                       ? (result.errorMessage ??
                                           "An Error Occurred")
                                       : "Successfully Created";
+                                  if (result.data) {
+                                    Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                widget.experienceId == 2 ? QualificationBlueCollar(uuid: widget.uuid,)
+                                                    : WorkingProfession(
+                                                        uuid: widget.uuid,
+                                                      )),
+                                        (route) => false);
+                                  } else {}
                                 }
-                                Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => WorkingProfession(
-                                              uuid: widget.uuid,
-                                            )),
-                                    (route) => false);
 
                                 // Navigator.of(context).push(
                                 //   MaterialPageRoute(
@@ -670,49 +536,48 @@ class _CareerPreferenceState extends State<CareerPreference> {
 
   Widget Location(BuildContext context) {
     return Column(children: [
-      Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: DropdownSearch<Cities>.multiSelection(
-          autoValidateMode: AutovalidateMode.onUserInteraction,
-          validator: (value) {
-            if (value.isEmpty) {
-              return "Select Preferred City";
-            }
-            return null;
-          },
-          mode: Mode.DIALOG,
-          items: isLoading ? [Cities()] : _apiResponseLocation.data,
-          itemAsString: (Cities obj) {
-            return obj.cityName;
-          },
-          onChanged: (val) {
-            setState(() {
-              locationList = val.map((e) {
-                return e.cityId;
-              }).toList();
-              print(locationList);
-            });
-          },
-          // onFind: (val) async {
-          //   setState(() {
-          //     query = val;
-          //   });
-          //   fetchCompany(query: query);
-          //   return _apiResponse.data;
-          // },
-          // ignore: deprecated_member_use
-          hint: "Select Preferred City",
-          showSearchBox: true,
-          popupItemBuilder: (context, Cities item, bool isSelected) {
-            return Container(
-              margin: EdgeInsets.symmetric(horizontal: 8),
-              child: Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text(item.cityName),
-              ),
-            );
-          },
+      DropdownSearch<Cities>.multiSelection(
+        dropdownSearchDecoration: const InputDecoration(
+          border: const UnderlineInputBorder(),
         ),
+        validator: (value) {
+          if (value.isEmpty) {
+            return "Select Preferred Job Location";
+          }
+          return null;
+        },
+        mode: Mode.DIALOG,
+        items: isLoading ? [Cities()] : _apiResponseLocation.data,
+        itemAsString: (Cities obj) {
+          return obj.cityName;
+        },
+        onChanged: (val) {
+          setState(() {
+            locationList = val.map((e) {
+              return e.cityId;
+            }).toList();
+            print(locationList);
+          });
+        },
+        // onFind: (val) async {
+        //   setState(() {
+        //     query = val;
+        //   });
+        //   fetchCompany(query: query);
+        //   return _apiResponse.data;
+        // },
+        // ignore: deprecated_member_use
+        hint: "Select Preferred City",
+        showSearchBox: true,
+        popupItemBuilder: (context, Cities item, bool isSelected) {
+          return Container(
+            margin: const EdgeInsets.symmetric(horizontal: 8),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(item.cityName),
+            ),
+          );
+        },
       ),
     ]);
   }
@@ -720,10 +585,12 @@ class _CareerPreferenceState extends State<CareerPreference> {
   Widget Industries(BuildContext context) {
     return Column(children: [
       DropdownSearch<Industry>.multiSelection(
-        autoValidateMode: AutovalidateMode.onUserInteraction,
+        dropdownSearchDecoration: const InputDecoration(
+          border: UnderlineInputBorder(),
+        ),
         validator: (value) {
           if (value.isEmpty) {
-            return " Select Industries Type";
+            return " Select Preferred Industries";
           }
           return null;
         },
@@ -740,13 +607,13 @@ class _CareerPreferenceState extends State<CareerPreference> {
             print(selectedSkillsJob);
           });
         },
-        hint: "Select Industries Type",
+        hint: "Select Preferred Industries",
         showSearchBox: true,
         popupItemBuilder: (context, Industry item, bool isSelected) {
           return Container(
-            margin: EdgeInsets.symmetric(horizontal: 8),
+            margin: const EdgeInsets.symmetric(horizontal: 8),
             child: Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               child: Text(item.industryName),
             ),
           );
@@ -755,16 +622,15 @@ class _CareerPreferenceState extends State<CareerPreference> {
     ]);
   }
 
-
-
-
   Widget Job(BuildContext context) {
     return Column(children: [
       DropdownSearch<JobType>.multiSelection(
-        autoValidateMode: AutovalidateMode.onUserInteraction,
+        dropdownSearchDecoration: const InputDecoration(
+          border: UnderlineInputBorder(),
+        ),
         validator: (value) {
           if (value.isEmpty) {
-            return " Select Job Type";
+            return "Select Preferred Job Type";
           }
           return null;
         },
@@ -781,13 +647,13 @@ class _CareerPreferenceState extends State<CareerPreference> {
             print(selectedSkillsJob);
           });
         },
-        hint: "Select Job Type",
+        hint: "Select Preferred Job Type",
         showSearchBox: true,
         popupItemBuilder: (context, JobType item, bool isSelected) {
           return Container(
-            margin: EdgeInsets.symmetric(horizontal: 8),
+            margin: const EdgeInsets.symmetric(horizontal: 8),
             child: Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               child: Text(item.jobtypeName),
             ),
           );
@@ -798,41 +664,40 @@ class _CareerPreferenceState extends State<CareerPreference> {
 
   Widget Employe(BuildContext context) {
     return Column(children: [
-      Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: DropdownSearch<EmploymentType>.multiSelection(
-          autoValidateMode: AutovalidateMode.onUserInteraction,
-          validator: (value) {
-            if (value.isEmpty) {
-              return " Select Employment Type";
-            }
-            return null;
-          },
-          mode: Mode.DIALOG,
-          items: isLoading ? [EmploymentType()] : _apiResponse3.data,
-          itemAsString: (EmploymentType obj) {
-            return obj.employmenttypeName;
-          },
-          onChanged: (val) {
-            setState(() {
-              selectedSkillsemp = val.map((e) {
-                return e.employmenttypeId;
-              }).toList();
-              print(selectedSkillsemp);
-            });
-          },
-          hint: "Select Employment type",
-          showSearchBox: true,
-          popupItemBuilder: (context, EmploymentType item, bool isSelected) {
-            return Container(
-              margin: EdgeInsets.symmetric(horizontal: 8),
-              child: Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text(item.employmenttypeName),
-              ),
-            );
-          },
+      DropdownSearch<EmploymentType>.multiSelection(
+        dropdownSearchDecoration: const InputDecoration(
+          border: const UnderlineInputBorder(),
         ),
+        validator: (value) {
+          if (value.isEmpty) {
+            return "Select Preferred Employment Type";
+          }
+          return null;
+        },
+        mode: Mode.DIALOG,
+        items: isLoading ? [EmploymentType()] : _apiResponse3.data,
+        itemAsString: (EmploymentType obj) {
+          return obj.employmenttypeName;
+        },
+        onChanged: (val) {
+          setState(() {
+            selectedSkillsemp = val.map((e) {
+              return e.employmenttypeId;
+            }).toList();
+            print(selectedSkillsemp);
+          });
+        },
+        hint: "Select Preferred Employment Type",
+        showSearchBox: true,
+        popupItemBuilder: (context, EmploymentType item, bool isSelected) {
+          return Container(
+            margin: const EdgeInsets.symmetric(horizontal: 8),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(item.employmenttypeName),
+            ),
+          );
+        },
       ),
     ]);
   }

@@ -53,6 +53,7 @@ class _LanguagesAddState extends State<LanguagesAdd> {
   }
 
   bool isLoading = false;
+  bool isLoadingLanguages = false;
   bool read = false;
   bool write = false;
   bool speak = false;
@@ -102,24 +103,25 @@ class _LanguagesAddState extends State<LanguagesAdd> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: const Icon(Icons.arrow_back)),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    const Text(
-                      "Languages",
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "ProximaNova"),
-                    ),
-                  ],
+
+                const Text(
+                  "Languages",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "ProximaNova"),
+                ),
+                Text(
+                  "Add the languages you can speak and understand."
+                  ,
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontFamily: "ProximaNova",
+                    color: Colors.grey,
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
                 ),
                 Card(
                   child: Padding(
@@ -160,16 +162,7 @@ class _LanguagesAddState extends State<LanguagesAdd> {
                           ),
                         ),
 
-                        // TextFieldSearch(
-                        //     label: 'My Label',
-                        //     controller: myController,
-                        //     future: () {
-                        //       return fetchITSkill(query: myController.text);
-                        //     },
-                        //     getSelectedValue: (value) {
-                        //       print(
-                        //           value); // this prints the selected option which could be an object
-                        //     }),
+
 
                         const SizedBox(
                           height: 15,
@@ -260,145 +253,148 @@ class _LanguagesAddState extends State<LanguagesAdd> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    // GFButton(
-                    //   onPressed: ()  async {
-                    //     setState(() {
-                    //       isLoading = true;
-                    //     });
-                    //     final insert = ItSkillAdd(
-                    //       requestType: "delete",
-                    //       candidateitskillUuid: widget.uuid,
-                    //     );
-                    //     print(itSkillId);
-                    //     print(itSkillId);
-                    //     final result =
-                    //     await apiServices.itSkillDelete(insert);
-                    //     setState(() {
-                    //       isLoading = false;
-                    //     });
-                    //     if (result.data) {
-                    //       Navigator.pop(context);
-                    //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    //         content: Row(children: const [
-                    //           Icon(
-                    //             Icons.done_outlined,
-                    //           ),
-                    //           SizedBox(width: 7),
-                    //           Text("Successfully Deleted"),
-                    //         ]),
-                    //         backgroundColor: Colors.green,
-                    //         duration: const Duration(milliseconds: 2500),
-                    //       ));
-                    //
-                    //     } else {
-                    //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    //         content: Row(
-                    //           children: const [
-                    //             Icon(Icons.error),
-                    //             SizedBox(width: 7),
-                    //             Text("An Error Occured"),
-                    //           ],
-                    //         ),
-                    //         backgroundColor: Colors.red,
-                    //         duration: const Duration(milliseconds: 2500),
-                    //       ));
-                    //     }
-                    //   },
-                    //   text: isEditing?"Delete":"Cancel",
-                    //   type: GFButtonType.solid,
-                    // ),
+                    GFButton(
+                      onPressed: () async{
+
+                        setState(() {
+                          isLoadingLanguages = true;
+                        });
+                        final insert = LanguagesAddModel(
+                          requestType: "delete",
+                          candidatelangUuid:
+                          widget.uuid,
+                        );
+
+                        final result = await apiServices.languagesAdd(insert);
+                        setState(() {
+                          isLoadingLanguages = false;
+                        });
+                        if (result.data) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Row(children: const [
+                              Icon(
+                                Icons.done_outlined,
+                              ),
+                              SizedBox(width: 7),
+                              Text("Successfully Deleted"),
+                            ]),
+                            backgroundColor: Colors.green,
+                            duration: const Duration(milliseconds: 2500),
+                          ));
+
+                        }
+
+                        else {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Row(
+                              children: const [
+                                Icon(Icons.error),
+                                SizedBox(width: 7),
+                                Text("An Error Occured"),
+                              ],
+                            ),
+                            backgroundColor: Colors.red,
+                            duration: const Duration(milliseconds: 2500),
+                          ));
+                        }
+
+
+                        Navigator.of(context).pop();
+                      },
+                      text: "Delete",
+                      type: GFButtonType.solid,
+                    ),
                     SizedBox(
                       width: 10,
                     ),
-                    GFButton(
-                      // onPressed: () {
-                      //   Navigator.push(
-                      //       context,
-                      //       MaterialPageRoute(
-                      //           builder: (context) => CareerPreference()));
-                      // },
-                      onPressed: () async {
-                        if (formKey.currentState.validate()) {
-                          if (isEditing) {
-                            setState(() {
-                              isLoading = true;
-                            });
-                            final insert = LanguagesAddModel(
-                                requestType: "update",
-                                candidatelangUuid: widget.uuid,
-                                candidatelangLanguagename: myController.text,
-                                candidatelangProficiencyId: profId,
-                                candidatelangRead: read == true ? 1 : 0,
-                                candidatelangWrite: write == true ? 1 : 0,
-                                candidatelangSpeak: speak == true ? 1 : 0);
 
-                            final result =
-                                await apiServices.languagesAdd(insert);
-                            setState(() {
-                              isLoading = false;
-                            });
-                            if (result.data) {
-                              Navigator.pop(context);
-                            } else {
-                              print("error");
-                            }
-                          } else {
-                            setState(() {
-                              isLoading = true;
-                            });
-                            final insert = LanguagesAddModel(
-                                requestType: "add",
-                                candidatelangLanguagename: myController.text,
-                                candidatelangProficiencyId: profId,
-                                candidatelangRead: read == true ? 1 : 0,
-                                candidatelangWrite: write == true ? 1 : 0,
-                                candidatelangSpeak: speak == true ? 1 : 0);
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: GFButton(
 
-                            final result =
-                                await apiServices.languagesAdd(insert);
-                            setState(() {
-                              isLoading = false;
-                            });
-                            if (result.data) {
-                              Navigator.pop(context);
+                        onPressed: () async {
+                          if (formKey.currentState.validate()) {
+                            if (isEditing) {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              final insert = LanguagesAddModel(
+                                  requestType: "update",
+                                  candidatelangUuid: widget.uuid,
+                                  candidatelangLanguagename: myController.text,
+                                  candidatelangProficiencyId: profId,
+                                  candidatelangRead: read == true ? 1 : 0,
+                                  candidatelangWrite: write == true ? 1 : 0,
+                                  candidatelangSpeak: speak == true ? 1 : 0);
+
+                              final result =
+                                  await apiServices.languagesAdd(insert);
+                              setState(() {
+                                isLoading = false;
+                              });
+                              if (result.data) {
+                                Navigator.pop(context);
+                              } else {
+                                print("error");
+                              }
                             } else {
-                              print("error");
+                              setState(() {
+                                isLoading = true;
+                              });
+                              final insert = LanguagesAddModel(
+                                  requestType: "add",
+                                  candidatelangLanguagename: myController.text,
+                                  candidatelangProficiencyId: profId,
+                                  candidatelangRead: read == true ? 1 : 0,
+                                  candidatelangWrite: write == true ? 1 : 0,
+                                  candidatelangSpeak: speak == true ? 1 : 0);
+
+                              final result =
+                                  await apiServices.languagesAdd(insert);
+                              setState(() {
+                                isLoading = false;
+                              });
+                              if (result.data) {
+                                Navigator.pop(context);
+                              } else {
+                                print("error");
+                              }
                             }
+
+                            // const title = "Done";
+                            // final text = result.error
+                            //     ? (result.errorMessage ?? "An Error Occurred")
+                            //     : "Successfully Created";
+                            // showDialog(
+                            //   context: context,
+                            //   builder: (_) => AlertDialog(
+                            //     title: const Text(title),
+                            //     content: Text(text),
+                            //     actions: [
+                            //       ElevatedButton(
+                            //           onPressed: () {
+                            //             Navigator.pop(context);
+                            //           },
+                            //           child: const Text("OK"))
+                            //     ],
+                            //   ),
+                            // ).then((data) {
+                            //   if (result.data) {
+                            //     Navigator.of(context).pop();
+                            //
+                            //   }
+                            // });
                           }
-
-                          // const title = "Done";
-                          // final text = result.error
-                          //     ? (result.errorMessage ?? "An Error Occurred")
-                          //     : "Successfully Created";
-                          // showDialog(
-                          //   context: context,
-                          //   builder: (_) => AlertDialog(
-                          //     title: const Text(title),
-                          //     content: Text(text),
-                          //     actions: [
-                          //       ElevatedButton(
-                          //           onPressed: () {
-                          //             Navigator.pop(context);
-                          //           },
-                          //           child: const Text("OK"))
-                          //     ],
-                          //   ),
-                          // ).then((data) {
-                          //   if (result.data) {
-                          //     Navigator.of(context).pop();
-                          //
-                          //   }
-                          // });
-                        }
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) =>
-                        //             CareerPreference(uuid: widget.uuid,)));
-                        // Navigator.of(context).pop();
-                      },
-                      text: isEditing ? "Update" : "Save",
-                      type: GFButtonType.solid,
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) =>
+                          //             CareerPreference(uuid: widget.uuid,)));
+                          // Navigator.of(context).pop();
+                        },
+                        text: isEditing ? "Update" : "Save",
+                        type: GFButtonType.solid,
+                      ),
                     ),
                   ],
                 ),

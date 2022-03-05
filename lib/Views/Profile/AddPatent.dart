@@ -1,5 +1,7 @@
 import 'package:date_field/date_field.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:getwidget/getwidget.dart';
 
@@ -21,11 +23,12 @@ class _AddPatentsState extends State<AddPatents> {
 
 // Global formKey
   var formKey = GlobalKey<FormState>();
-
+DateTime lastDate = DateTime.now();
   DateTime selectedDate;
   DateTime initialDate;
   int val = 0;
   bool isLoading = false;
+  bool isLoadingPatents = false;
 
   TextEditingController title = TextEditingController();
   TextEditingController office = TextEditingController();
@@ -78,24 +81,25 @@ class _AddPatentsState extends State<AddPatents> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: const Icon(Icons.arrow_back)),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  const Text(
-                    "Patent",
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: "ProximaNova"),
-                  ),
-                ],
+
+              const Text(
+                "Patent",
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "ProximaNova"),
+              ),
+              Text(
+                "Add details and links of patents filled by you."
+                ,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontFamily: "ProximaNova",
+                  color: Colors.grey,
+                ),
+              ),
+              SizedBox(
+                height: 10,
               ),
               Card(
                 child: Padding(
@@ -116,6 +120,9 @@ class _AddPatentsState extends State<AddPatents> {
                             fontFamily: "ProximaNova"),
                       ),
                       TextFormField(
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]"))
+                        ],
                         controller: title,
                         decoration: InputDecoration(
                           hintText: " Patent Title",
@@ -139,6 +146,9 @@ class _AddPatentsState extends State<AddPatents> {
                             fontFamily: "ProximaNova"),
                       ),
                       TextFormField(
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]"))
+                        ],
                         controller: office,
                         decoration: InputDecoration(
                           hintText: " Patent Office",
@@ -230,6 +240,7 @@ class _AddPatentsState extends State<AddPatents> {
                             fontFamily: "ProximaNova"),
                       ),
                       TextFormField(
+
                         controller: number,
                         decoration: InputDecoration(
                           hintText: "Application Number",
@@ -262,6 +273,7 @@ class _AddPatentsState extends State<AddPatents> {
                           // errorStyle: TextStyle(color: Colors.redAccent),
                           suffixIcon: Icon(Icons.event_note),
                         ),
+                        lastDate:lastDate,
                         initialValue: initialDate,
                         mode: DateTimeFieldPickerMode.date,
                         autovalidateMode: AutovalidateMode.always,
@@ -305,9 +317,67 @@ class _AddPatentsState extends State<AddPatents> {
               ),
               Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: Align(
-                    alignment: Alignment.centerRight,
-                    child: GFButton(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    GFButton(
+                      onPressed: () async{
+                        setState(() {
+                          isLoadingPatents = true;
+                        });
+                        final insert = AddPatent(
+                          requestType: "delete",
+                          candidatepatentUuid:widget.uuid,
+                        );
+
+                        final result =
+                            await apiServices.patentsDelete(insert);
+                        setState(() {
+                          isLoadingPatents = false;
+                        });
+                        if (result.data) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Row(children: const [
+                              Icon(
+                                Icons.done_outlined,
+                              ),
+                              SizedBox(width: 7),
+                              Text("Successfully Deleted"),
+                            ]),
+                            backgroundColor: Colors.green,
+                            duration: const Duration(milliseconds: 2500),
+                          ));
+                          setState(() {
+                            getPatent();
+                          });
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Row(
+                              children: const [
+                                Icon(Icons.error),
+                                SizedBox(width: 7),
+                                Text("An Error Occured"),
+                              ],
+                            ),
+                            backgroundColor: Colors.red,
+                            duration: const Duration(milliseconds: 2500),
+                          ));
+                        }
+
+
+
+
+
+
+                        Navigator.of(context).pop();
+                      },
+                      text: "Delete",
+                      type: GFButtonType.solid,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    GFButton(
                       onPressed: () async {
                      if(isEditing){
                        setState(() {
@@ -362,7 +432,9 @@ class _AddPatentsState extends State<AddPatents> {
                       },
                       text: isEditing?"Update":"Add",
                       type: GFButtonType.solid,
-                    )),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

@@ -2,18 +2,18 @@
 
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:getwidget/components/button/gf_button.dart';
 import 'package:job_portal/Data_Controller/apiresponse.dart';
 import 'package:job_portal/Models/Login.dart';
+import 'package:job_portal/Models/ShowDataLogin.dart';
 import 'package:job_portal/Services/ApiServices.dart';
 import 'package:job_portal/Utility/Connect.dart';
+import 'package:job_portal/Utility/apiurls.dart';
 import 'package:job_portal/Views/Candidate/BottomNavbar.dart';
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:job_portal/Views/SignIn/Step1-Otp.dart';
-import 'package:job_portal/Views/SignIn/Step4-ProfessionalDetails.dart';
+import 'package:flutter_otp_timer/flutter_otp_timer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'Step7-CareerPreference.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key key}) : super(key: key);
@@ -24,7 +24,8 @@ class LoginPage extends StatefulWidget {
 class LoginPageState extends State<LoginPage> {
   bool isLoading = false;
   ApiServices apiServices = ApiServices();
-  ApiResponse<String> apiResponse;
+  ApiResponse<ShowDataLogin> apiResponse;
+  ApiResponse<String> apiGetResponseFromServer;
 
   //Get SharedPreference Bucket
   //===========================
@@ -40,12 +41,16 @@ class LoginPageState extends State<LoginPage> {
   //======================
 
   String keyJwt = "keyJwt";
+  String keyEmail = "keyEmail";
+  String keyUsername = "keyUsername";
+  bool changeColor = false;
 
   var formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
+    getResponseFromServer();
     Connect.checkInternetStatus();
     initSharedPreference();
   }
@@ -70,10 +75,11 @@ class LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    getResponseFromServer();
     return SafeArea(
       child: Scaffold(
           resizeToAvoidBottomInset: false,
-          backgroundColor: Colors.white,
+          backgroundColor: changeColor ? Colors.white :Colors.cyan,
           body: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(20.0),
@@ -187,10 +193,7 @@ class LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextButton(
-                        onPressed: () {
-                          
-                          
-                        },
+                        onPressed: () {},
                         child: const Text(
                           'Forgot Password?',
                           style: TextStyle(
@@ -213,38 +216,31 @@ class LoginPageState extends State<LoginPage> {
                           await fetchAuth(
                               username: usernameCont.text,
                               password: passwordCont.text);
-                          print("Response Data : ${apiResponse.data}");
+                          print(
+                              "Response Data : ${apiResponse.data.toString()}");
                           if (apiResponse.responseCode == 200) {
-                            apiServices.setToken(apiResponse.data);
-                            storeLoginDataToSharedPref();
-                            AwesomeDialog(
-                              context: context,
-                              animType: AnimType.SCALE,
-                              dialogType: DialogType.SUCCES,
-                              btnOkOnPress: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => Navbar(
-                                      keyjwt: prefLogin.getString(keyJwt),
-                                      prefLogin: prefLogin,
-                                    ),
-                                  ),
-                                );
-                              },
-                              title: 'JobPortalApp',
-                              desc:
-                                  'User Successfully Verified...',
-                            ).show();
-                          }
-                          else {
-                            AwesomeDialog(
-                              context: context,
-                              animType: AnimType.SCALE,
-                              dialogType: DialogType.ERROR,
-                              title: 'JobPortalApp',
-                              desc:
-                                  'Invalid User,  enter your correct credentials',
-                            ).show();
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Navbar(),
+                                ),
+                                (route) => false);
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Row(children: const [
+                                Icon(
+                                  Icons.error_outline,
+                                  color: Colors.white,
+                                ),
+                                SizedBox(width: 7),
+                                Expanded(
+                                  child: Text(
+                                      "Invalid User, Enter Your Correct Credentials..."),
+                                ),
+                              ]),
+                              backgroundColor: Colors.red,
+                              duration: const Duration(milliseconds: 2500),
+                            ));
                           }
                         }
                       },
@@ -274,18 +270,18 @@ class LoginPageState extends State<LoginPage> {
                             fontSize: 14.0,
                             fontWeight: FontWeight.w400),
                       ),
+                      OtpTimer(
+                        duration:
+                            60, // time till which the timer should animate
+                        radius: 10, // size of the circle
+                        timeTextSize: 16, // time text inside the circle
+                      ),
                       TextButton(
                         onPressed: () {
                           Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => const OTP()));
-                          //  Navigator.of(context).push(
-                          //         MaterialPageRoute(
-                          //           builder: (context) => CareerPreference(
-                          //
-                          //           ),
-                          //         ),
-                          //       );
+                              MaterialPageRoute(
+                                  builder: (context) => const OTP()));
                         },
                         child: const Text(
                           'Register',
@@ -298,15 +294,37 @@ class LoginPageState extends State<LoginPage> {
                     ],
                   ),
                 ],
-                // Navigator.push(context, MaterialPageRoute(builder: (context)=>PersonalDetails()));
-                // Navigator.push(context, MaterialPageRoute(builder: (context)=>WorkingProfession()));
               ),
             ),
           )),
     );
   }
 
+  Future<ApiResponse<String>> getResponseFromServer() async {
+    // var parsedUrl = Uri.parse(ApiUrls.kgetResponseFromServer);
+    // var response = await http.get(parsedUrl);
+    // if(response.statusCode == 200){
+    //    return ApiResponse<String>(
+    //       data: response.body,responseCode: response.statusCode,error: false,errorMessage: "SuccessfullyConnected with our Backend Services");
+    // }else{
+    //    return ApiResponse<String>(
+    //       data: response.body,responseCode: response.statusCode,error: false,errorMessage: "Currently Server is Busy, try again Later");
+    // }
+    await http.get(Uri.parse(ApiUrls.kgetResponseFromServer)).timeout(
+      const Duration(seconds: 1),
+      // ignore: missing_return
+      onTimeout: (){
+        setState(() {
+          changeColor = true;
+        });
+        print("Clusttech Innovations Srinagar");
+      },
+    );
+  }
+
   void storeLoginDataToSharedPref() async {
-    await prefLogin.setString(keyJwt, apiResponse.data);
+    await prefLogin.setString(keyJwt, apiResponse.data.token);
+    await prefLogin.setString(keyEmail, apiResponse.data.candidateEmail);
+    await prefLogin.setString(keyUsername, apiResponse.data.candidateName);
   }
 }

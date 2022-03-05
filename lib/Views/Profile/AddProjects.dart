@@ -2,6 +2,7 @@ import 'package:date_field/date_field.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:getwidget/components/button/gf_button.dart';
@@ -12,7 +13,7 @@ import 'package:job_portal/Models/CurerntLocation.dart';
 import 'package:job_portal/Models/GetCompany.dart';
 import 'package:job_portal/Models/ProjectPopulate.dart';
 import 'package:job_portal/Services/ApiServices.dart';
-import 'package:job_portal/Views/SignIn/listView-EmploymentType.dart';
+
 
 class Projects extends StatefulWidget {
   String uuid;
@@ -32,6 +33,7 @@ class _ProjectsState extends State<Projects> {
   int groupValue1 = 0;
   int groupValue2 = 0;
   int groupValue3 = 0;
+  DateTime lastDate = DateTime.now();
   DateTime selectedDate = DateTime.now();
   DateTime selectedDate2;
   DateTime selectedDate3;
@@ -55,6 +57,7 @@ class _ProjectsState extends State<Projects> {
   bool isLoadingCompany = false;
   bool isLoadingCurrentCopmpany = false;
   bool isLoadingCurrentLocation = false;
+  bool isLoadingProjects = false;
 
   bool isLoading = false;
   ApiServices apiServices = ApiServices();
@@ -127,24 +130,29 @@ class _ProjectsState extends State<Projects> {
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 20, top: 10),
-            child: Row(
-              children: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  icon: const Icon(Icons.arrow_back),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                const Text(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+
+                Text(
                   "Add Projects",
                   style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       fontFamily: "ProximaNova"),
                 ),
+                Text(
+                  "Add details and links for academic and professional projects that you have worked on. "
+                  ,
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontFamily: "ProximaNova",
+                    color: Colors.grey,
+                  ),
+                ),
+
+
               ],
             ),
           ),
@@ -236,6 +244,9 @@ class _ProjectsState extends State<Projects> {
                                 fontFamily: "ProximaNova")),
                       ),
                       TextField(
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]"))
+                        ],
                         controller: titleController,
                         textCapitalization: TextCapitalization.characters,
                         decoration: InputDecoration(
@@ -268,7 +279,7 @@ class _ProjectsState extends State<Projects> {
                           textFieldConfiguration: TextFieldConfiguration(
                               controller: this.currentCompanySearchCo,
                               decoration:
-                                  InputDecoration(labelText: 'Enter Client')),
+                                  InputDecoration(hintText: 'Select Client')),
                           debounceDuration: Duration(milliseconds: 500),
                           suggestionsCallback: ApiServices.getCompany,
                           itemBuilder: (context, Company suggestions) {
@@ -373,6 +384,7 @@ class _ProjectsState extends State<Projects> {
                                         suffixIcon: Icon(Icons.event_note),
                                       ),
                                       // initialValue: date,
+                                      lastDate:lastDate,
                                       mode: DateTimeFieldPickerMode.date,
                                       autovalidateMode: AutovalidateMode.always,
                                       validator: (e) => (e?.day ?? 0) == 1
@@ -403,6 +415,7 @@ class _ProjectsState extends State<Projects> {
                                         suffixIcon: Icon(Icons.event_note),
                                       ),
                                       // initialValue: date,
+                                      lastDate:lastDate,
                                       mode: DateTimeFieldPickerMode.date,
                                       autovalidateMode: AutovalidateMode.always,
                                       validator: (e) => (e?.day ?? 0) == 1
@@ -767,6 +780,10 @@ class _ProjectsState extends State<Projects> {
                                       fontFamily: "ProximaNova")),
                             ),
                             TextFormField(
+                              inputFormatters: <TextInputFormatter>[
+                                FilteringTextInputFormatter.allow(RegExp("[0-9]"))
+                              ],
+                              keyboardType: TextInputType.number,
                               controller: teamController,
                               decoration: InputDecoration(
                                 hintText: "Enter Size",
@@ -842,10 +859,58 @@ class _ProjectsState extends State<Projects> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               GFButton(
-                onPressed: () {
+                onPressed: () async{
+                  setState(() {
+                    isLoadingProjects = true;
+                  });
+                  final insert = ProjectPopulate(
+                      requestType: "delete",
+                      candidateprojectUuid:
+                     widget.uuid);
+
+                  final result =
+                      await apiServices.projectAdd(insert);
+                  setState(() {
+                    isLoadingProjects = false;
+                  });
+                  if (result.data) {
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(SnackBar(
+                      content: Row(children: const [
+                        Icon(
+                          Icons.done_outlined,
+                        ),
+                        SizedBox(width: 7),
+                        Text("Successfully Deleted"),
+                      ]),
+                      backgroundColor: Colors.green,
+                      duration: const Duration(
+                          milliseconds: 2500),
+                    ));
+
+                  }
+                  else {
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(SnackBar(
+                      content: Row(
+                        children: const [
+                          Icon(Icons.error),
+                          SizedBox(width: 7),
+                          Text("An Error Occured"),
+                        ],
+                      ),
+                      backgroundColor: Colors.red,
+                      duration: const Duration(
+                          milliseconds: 2500),
+                    ));
+                  }
+
+
+
+
                   Navigator.of(context).pop();
                 },
-                text: "Cancel",
+                text: "Delete",
                 type: GFButtonType.solid,
               ),
               SizedBox(

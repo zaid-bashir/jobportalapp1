@@ -67,7 +67,8 @@ class _SliderLayoutViewState extends State<SliderLayoutView> {
                         padding: EdgeInsets.only(right: 15.0, bottom: 15.0),
                         child: GestureDetector(
                           onTap:(){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+                            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>LoginPage()), (route) => false);
+                            // Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
                           },
                           child: const Text(
                             Constants.NEXT,
@@ -80,20 +81,20 @@ class _SliderLayoutViewState extends State<SliderLayoutView> {
                         ),
                       ),
                     ),
-                    const Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 15.0, bottom: 15.0),
-                        child: Text(
-                          Constants.SKIP,
-                          style: TextStyle(
-                            fontFamily: Constants.OPEN_SANS,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14.0,
-                          ),
-                        ),
-                      ),
-                    ),
+                    // const Align(
+                    //   alignment: Alignment.bottomLeft,
+                    //   child: Padding(
+                    //     padding: EdgeInsets.only(left: 15.0, bottom: 15.0),
+                    //     child: Text(
+                    //       Constants.SKIP,
+                    //       style: TextStyle(
+                    //         fontFamily: Constants.OPEN_SANS,
+                    //         fontWeight: FontWeight.w600,
+                    //         fontSize: 14.0,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                     Container(
                       alignment: AlignmentDirectional.bottomCenter,
                       margin: const EdgeInsets.only(bottom: 20.0),

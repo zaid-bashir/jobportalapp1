@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:getwidget/components/button/gf_button.dart';
 import 'package:getwidget/types/gf_button_type.dart';
@@ -18,6 +19,7 @@ class Presentation extends StatefulWidget {
 class _PresentationState extends State<Presentation> {
   bool get isEditing => widget.uuid != null;
   bool isLoading = false;
+  bool isLoadingPresentation = false;
   var formKey = GlobalKey<FormState>();
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   ApiServices apiServices = ApiServices();
@@ -62,23 +64,26 @@ class _PresentationState extends State<Presentation> {
         body: ListView(children: [
       Padding(
         padding: const EdgeInsets.only(left: 20, top: 10),
-        child: Row(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            IconButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              icon: const Icon(Icons.arrow_back),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
+
             const Text(
               "Add Presentation",
               style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   fontFamily: "ProximaNova"),
+            ),
+            Text(
+              "Add web-links for online presentation."
+              ,
+              style: TextStyle(
+                fontSize: 12,
+                fontFamily: "ProximaNova",
+                color: Colors.grey,
+              ),
             ),
           ],
         ),
@@ -105,6 +110,9 @@ class _PresentationState extends State<Presentation> {
                             fontFamily: "ProximaNova")),
                   ),
                   TextFormField(
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]"))
+                    ],
                     controller: title,
                     textCapitalization: TextCapitalization.characters,
                     decoration: InputDecoration(
@@ -177,55 +185,90 @@ class _PresentationState extends State<Presentation> {
 
       Padding(
         padding: const EdgeInsets.all(40.0),
-        child: Align(
-          alignment: Alignment.centerRight,
-          child: GFButton(
-            onPressed: () async {
-              if (isEditing) {
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            GFButton(
+              onPressed: () async{
                 setState(() {
-                  isLoading = true;
+                  isLoadingPresentation = true;
                 });
                 final insert = PresentationAddModel(
-                    requestType: "update",
-                    candidatepresentationUuid: widget.uuid,
-                    candidatepresentationTitle: title.text,
-                    candidatepresentationWeblink: weblink.text,
-                    candidatepresentationDesc: desclink.text);
-                final result = await apiServices.presentationAddService(insert);
+                  requestType: "delete",
+                  candidatepresentationUuid:
+                 widget.uuid,
+                );
+
+                final result = await apiServices
+                    .presentationAddService(insert);
                 setState(() {
-                  isLoading = false;
+                  getPresentation();
+                  isLoadingPresentation = false;
                 });
                 if (result.data) {
-                  Navigator.pop(context);
+                  print("-----------SUCCESS------------");
                 } else {
-                  print("error");
+                  print("-----------ERROR------------");
                 }
-              } else {
-                // if (formKey.currentState.validate()) {
-                setState(() {
-                  isLoading = true;
-                });
 
-                final insert = PresentationAddModel(
-                    requestType: "add",
-                    candidatepresentationTitle: title.text,
-                    candidatepresentationWeblink: weblink.text,
-                    candidatepresentationDesc: desclink.text);
 
-                final result = await apiServices.presentationAddService(insert);
-                setState(() {
-                  isLoading = false;
-                });
-                if (result.data) {
-                  Navigator.pop(context);
+
+                Navigator.of(context).pop();
+              },
+              text: "Delete",
+              type: GFButtonType.solid,
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            GFButton(
+              onPressed: () async {
+                if (isEditing) {
+                  setState(() {
+                    isLoading = true;
+                  });
+                  final insert = PresentationAddModel(
+                      requestType: "update",
+                      candidatepresentationUuid: widget.uuid,
+                      candidatepresentationTitle: title.text,
+                      candidatepresentationWeblink: weblink.text,
+                      candidatepresentationDesc: desclink.text);
+                  final result = await apiServices.presentationAddService(insert);
+                  setState(() {
+                    isLoading = false;
+                  });
+                  if (result.data) {
+                    Navigator.pop(context);
+                  } else {
+                    print("error");
+                  }
                 } else {
-                  print("error occured");
+                  // if (formKey.currentState.validate()) {
+                  setState(() {
+                    isLoading = true;
+                  });
+
+                  final insert = PresentationAddModel(
+                      requestType: "add",
+                      candidatepresentationTitle: title.text,
+                      candidatepresentationWeblink: weblink.text,
+                      candidatepresentationDesc: desclink.text);
+
+                  final result = await apiServices.presentationAddService(insert);
+                  setState(() {
+                    isLoading = false;
+                  });
+                  if (result.data) {
+                    Navigator.pop(context);
+                  } else {
+                    print("error occured");
+                  }
                 }
-              }
-            },
-            text: isEditing ? "Update" : "Add",
-            type: GFButtonType.solid,
-          ),
+              },
+              text: isEditing ? "Update" : "Add",
+              type: GFButtonType.solid,
+            ),
+          ],
         ),
       ),
       // SizedBox(

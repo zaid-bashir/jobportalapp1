@@ -1,5 +1,6 @@
 import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:getwidget/getwidget.dart';
 import 'package:job_portal/Models/Awards.dart';
@@ -22,8 +23,10 @@ class _AddAwardsState extends State<AddAwards> {
   var formKey = GlobalKey<FormState>();
 
   DateTime selectedDate;
+  DateTime lastDate = DateTime.now();
   DateTime initialDate;
   bool isLoading = false;
+  bool isLoadingAwards = false;
 
   TextEditingController title = TextEditingController();
   TextEditingController url = TextEditingController();
@@ -72,24 +75,25 @@ class _AddAwardsState extends State<AddAwards> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: const Icon(Icons.arrow_back)),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  const Text(
-                    "Awards",
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: "ProximaNova"),
-                  ),
-                ],
+
+              const Text(
+                "Awards",
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "ProximaNova"),
+              ),
+              Text(
+                "Showcase the awards earned by you."
+                ,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontFamily: "ProximaNova",
+                  color: Colors.grey,
+                ),
+              ),
+              SizedBox(
+                height: 10,
               ),
               Card(
                 child: Padding(
@@ -110,6 +114,9 @@ class _AddAwardsState extends State<AddAwards> {
                             fontFamily: "ProximaNova"),
                       ),
                       TextFormField(
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]"))
+                        ],
                         controller: title,
                         decoration: InputDecoration(
                           hintText: " Awards Title",
@@ -167,6 +174,7 @@ class _AddAwardsState extends State<AddAwards> {
                           suffixIcon: Icon(Icons.event_note),
                         ),
                         initialValue: initialDate,
+                        lastDate:lastDate,
                         mode: DateTimeFieldPickerMode.date,
                         autovalidateMode: AutovalidateMode.always,
                         // validator: (e) => (e?.day ?? 0) == 1
@@ -209,9 +217,63 @@ class _AddAwardsState extends State<AddAwards> {
               ),
               Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: Align(
-                    alignment: Alignment.centerRight,
-                    child: GFButton(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    GFButton(
+                      onPressed: () async{
+                        setState(() {
+                          isLoadingAwards = true;
+                        });
+                        final insert = Awards(
+                          requestType: "delete",
+                          candidateawardUuid:widget.uuid,
+                        );
+
+                        final result = await apiServices.awardsAdd(insert);
+                        setState(() {
+                          isLoadingAwards = false;
+                        });
+                        if (result.data) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Row(children: const [
+                              Icon(
+                                Icons.done_outlined,
+                              ),
+                              SizedBox(width: 7),
+                              Text("Successfully Deleted"),
+                            ]),
+                            backgroundColor: Colors.green,
+                            duration: const Duration(milliseconds: 2500),
+                          ));
+                          setState(() {
+                            getAwards();
+                          });
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Row(
+                              children: const [
+                                Icon(Icons.error),
+                                SizedBox(width: 7),
+                                Text("An Error Occured"),
+                              ],
+                            ),
+                            backgroundColor: Colors.red,
+                            duration: const Duration(milliseconds: 2500),
+                          ));
+                        }
+
+
+
+                        Navigator.of(context).pop();
+                      },
+                      text: "Delete",
+                      type: GFButtonType.solid,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    GFButton(
                       onPressed: () async {
                         if (isEditing) {
                           setState(() {
@@ -242,7 +304,7 @@ class _AddAwardsState extends State<AddAwards> {
                           final insert = Awards(
                             requestType: "add",
                             candidateawardTitle: title.text,
-                            candidateawardDate: selectedDate.toString(),
+                            candidateawardDate: selectedDate.toString().split(" ")[0],
                             candidateawardDesc: discription.text,
                             candidateawardWeblink: url.text,
                           );
@@ -262,7 +324,9 @@ class _AddAwardsState extends State<AddAwards> {
                       },
                       text: isEditing ? "Update" : "Add",
                       type: GFButtonType.solid,
-                    )),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

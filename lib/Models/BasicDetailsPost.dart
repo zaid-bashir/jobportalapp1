@@ -1,13 +1,12 @@
 class BasicDetialModel {
   String requestType;
-  int candidateTitleId;
+  String candidateTitleId;
   String candidateMobile1;
   String candidateFirstName;
   String candidateMiddleName;
   String candidateLastName;
   String candidateEmail1;
   int candidateGenderId;
-  String candidateName;
   int candidateTotalworkexp;
   List candidatePreferredJobRoleList;
   int candidateCurrentCityId;
@@ -21,7 +20,6 @@ class BasicDetialModel {
     this.candidateLastName,
     this.candidateEmail1,
     this.candidateGenderId,
-    this.candidateName,
     this.candidateTotalworkexp,
     this.candidatePreferredJobRoleList,
     this.candidateCurrentCityId,
@@ -38,7 +36,6 @@ class BasicDetialModel {
       candidateLastName: json["candidateLastName"],
       candidateEmail1 : json["candiadateEmail1"],
       candidateGenderId: json["candidateGenderId"],
-      candidateName: json["candidateName"],
       candidateTotalworkexp: json["candidateTotalworkexp"],
       candidatePreferredJobRoleList: json["candidatePreferredJobRoleList"],
       candidateCurrentCityId: json["candidateCurrentCityId"],
@@ -57,7 +54,6 @@ class BasicDetialModel {
     data['candidateLastName'] = candidateLastName;
     data["candiadateEmail1"] = candidateEmail1;
     data['candidateGenderId'] = candidateGenderId;
-    data['candidateName'] = candidateName;
     data["candidateTotalworkexp"] = candidateTotalworkexp;
     data['candidatePreferredJobRoleList'] = candidatePreferredJobRoleList;
     data['candidateCurrentCityId'] = candidateCurrentCityId;

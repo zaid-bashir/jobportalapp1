@@ -1,6 +1,6 @@
 class PostItSkills {
   String candidateitskillName;
-  int candidateitskillVersion;
+  double candidateitskillVersion;
   int candidateitskillLastused;
   int candidateitskillExperience;
 
